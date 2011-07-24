@@ -27,7 +27,7 @@ namespace ProtocolBuffers
 		}
 		
 		int offset;
-
+		
 		private string GetChar ()
 		{
 			if (offset >= text.Length)
@@ -56,10 +56,19 @@ namespace ProtocolBuffers
 		
 			//Follow token
 			string token = c;
+			bool parseString = false;
+			
+			if (token == "\"") {
+				parseString = true;
+				token = "";
+			}
 			
 			while (true) {
 				c = GetChar ();
-				if (whitespace.Contains (c) || singletoken.Contains (c)) {
+				if (parseString) {
+					if (c == "\"")
+						return token;
+				} else if (whitespace.Contains (c) || singletoken.Contains (c)) {
 					offset -= 1;
 					return token;
 				}

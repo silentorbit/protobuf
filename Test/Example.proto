@@ -1,6 +1,10 @@
 ﻿
+option file_option = "dobado";
+
 message my_message_v1
 {
+	option message_option = "dobado";
+
 	required int32 field_a = 1;
 }
 
@@ -25,6 +29,7 @@ message my_message_v2
 
 	enum my_enum
 	{
+		option enum_option = "dobado";
 		ETest1 = 0;
 		ETest2 = 3;
 		ETest3 = 2;
