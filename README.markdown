@@ -65,6 +65,6 @@ Public issues can also be submitted to the GitHub project page.
 
 # Licence
 
-All source code and generated code is licensed under AGPLv3, see COPYING.AGPLv3 for details.
-(Note that much of the generated code is a copy of the AGPLv3 licenced code)
+All source code and generated code is licensed under GPLv3, see COPYING.GPLv3 for details.
+(Note that much of the generated code is a copy of the GPLv3 licenced code)
 
