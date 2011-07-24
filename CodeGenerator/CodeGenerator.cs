@@ -27,9 +27,8 @@ using ProtocolBuffers;
 
 namespace " + nameSpace + "\n{\n");
 				
-				foreach (var m in p.Messages) {
-					SaveMessage (p, m.Value, codeWriter);
-				}
+				foreach (Message m in p.Messages)
+					SaveMessage (p, m, codeWriter);
 				
 				codeWriter.WriteLine ("}");
 				
@@ -59,18 +58,7 @@ namespace " + nameSpace + "\n{\n");
 		
 		private static void SaveMessage (Proto p, Message m, TextWriter codeWriter)
 		{
-			m.Name = ProtoPrepare.GetCamelCase (m.Name);
-			//Prepare fields
-			foreach (Field f in m.Fields) {
-				ProtoPrepare.PrepareProtoType (m, f);
-			}	
-			foreach (var e in m.Enums) {
-				e.Value.Name = ProtoPrepare.GetCamelCase (e.Value.Name);
-			}
-			
-			codeWriter.WriteLine (Indent (1, GenerateInterface (m)));
 			codeWriter.WriteLine (Indent (1, GenerateClass (m)));
-			
 		}
 
 		static string GenerateInterface (Message m)
@@ -79,10 +67,7 @@ namespace " + nameSpace + "\n{\n");
 			foreach (Field f in m.Fields) {
 				if (f.Deprecated)
 					prop += "[Obsolete]\n";
-				if (f.ProtoType == ProtoTypes.Message)
-					prop += "I" + f.CSType + " " + f.Name + " { get; set; }\n";
-				else
-					prop += f.CSType + " " + f.Name + " { get; set; }\n";
+				prop += f.CSType + " " + f.Name + " { get; set; }\n";
 			}
 			string code = "";
 			code += "public interface I" + m.Name + "\n";
@@ -96,10 +81,10 @@ namespace " + nameSpace + "\n{\n");
 		{
 			//Enums
 			string enums = "";
-			foreach (var mepair in m.Enums) {
-				enums += "public enum " + mepair.Value.Name + "\n";
+			foreach (MessageEnum me in m.Enums) {
+				enums += "public enum " + me.Name + "\n";
 				enums += "{\n";
-				foreach (var epair in mepair.Value.Enums)
+				foreach (var epair in me.Enums)
 					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
 				enums += "}\n";
 			}
@@ -107,10 +92,7 @@ namespace " + nameSpace + "\n{\n");
 			//Properties
 			string properties = "";
 			foreach (Field f in m.Fields) {
-				if (f.ProtoType == ProtoTypes.Message)
-					properties += "public I" + f.CSType + " " + f.Name + " { get; set; }\n";
-				else
-					properties += "public " + f.CSType + " " + f.Name + " { get; set; }\n";
+				properties += "public " + f.CSType + " " + f.Name + " { get; set; }\n";
 			}
 			
 			//Constructor with default values
@@ -120,18 +102,24 @@ namespace " + nameSpace + "\n{\n");
 				if (f.Rule == Rules.Repeated)
 					constructor += "	this." + f.Name + " = new " + f.CSType + "();\n";
 				if (f.Default != null)
-					constructor += "	this." + f.Name + " = " + ProtoPrepare.GetCSDefaultValue (f) + ";\n";
+					constructor += "	this." + f.Name + " = " + f.Default + ";\n";
 			}
 			constructor += "}\n";
 
 			//Default class
 			string code = "";
+			code += GenerateInterface (m);
+			code += "\n";
 			code += "public class " + m.Name + " : I" + m.Name + "\n";
 			code += "{\n";
 			code += Indent (enums);
 			code += "\n";
 			code += Indent (properties);
 			code += "\n";
+			foreach (Message sub in m.Messages) {
+				code += Indent (GenerateClass (sub));
+				code += "\n";
+			}
 			code += Indent (constructor);
 			code += "\n";
 			code += Indent (GenerateReader (m));
@@ -218,7 +206,7 @@ namespace " + nameSpace + "\n{\n");
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
 					code += "if(instance." + f.Name + " == null)\n";
-					code += "	instance." + f.Name + " = new " + f.CSType + "();\n";
+					code += "	instance." + f.Name + " = new " + f.CSClass + "();\n";
 				}
 				code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 			}
@@ -262,9 +250,9 @@ namespace " + nameSpace + "\n{\n");
 				return "(" + f.CSItemType + ")ProtocolParser.ReadUInt32(" + stream + ")";
 			case ProtoTypes.Message:				
 				if (f.Rule == Rules.Repeated)
-					return f.CSItemType + ".Read(ProtocolParser.ReadBytes(" + stream + "))";
+					return f.CSClass + ".Read(ProtocolParser.ReadBytes(" + stream + "))";
 				else
-					return f.CSItemType + ".Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+					return f.CSClass + ".Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
 			default:
 				throw new NotImplementedException ();
 			}
@@ -409,7 +397,7 @@ namespace " + nameSpace + "\n{\n");
 				string code = "";
 				code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
 				code += "{\n";
-				code += "	" + f.CSItemType + ".Write(ms" + f.ID + ", " + instance + ");\n";
+				code += "	" + f.CSClass + ".Write(ms" + f.ID + ", " + instance + ");\n";
 				code += "	ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());\n";
 				code += "}\n";
 				return code;

@@ -12,11 +12,183 @@ using ProtocolBuffers;
 namespace ExampleNamespace
 {
 
+	public interface IPerson
+	{
+		string Name { get; set; }
+		int Id { get; set; }
+		string Email { get; set; }
+		List<Person.IPhoneNumber> Phone { get; set; }
+	}
+	
+	public class Person : IPerson
+	{
+		public enum PhoneType
+		{
+			MOBILE = 0,
+			HOME = 1,
+			WORK = 2,
+		}
+	
+		public string Name { get; set; }
+		public int Id { get; set; }
+		public string Email { get; set; }
+		public List<Person.IPhoneNumber> Phone { get; set; }
+	
+		public interface IPhoneNumber
+		{
+			string Number { get; set; }
+			Person.PhoneType Type { get; set; }
+		}
+		
+		public class PhoneNumber : IPhoneNumber
+		{
+		
+			public string Number { get; set; }
+			public Person.PhoneType Type { get; set; }
+		
+			public PhoneNumber()
+			{
+				this.Type = Person.PhoneType.HOME;
+			}
+		
+			public static PhoneNumber Read(Stream stream)
+			{
+				PhoneNumber instance = new PhoneNumber();
+				Read(stream, instance);
+				return instance;
+			}
+			
+			public static PhoneNumber Read(byte[] buffer)
+			{
+				using(MemoryStream ms = new MemoryStream(buffer))
+					return Read(ms);
+			}
+			
+			public static IPhoneNumber Read(byte[] buffer, IPhoneNumber instance)
+			{
+				using(MemoryStream ms = new MemoryStream(buffer))
+					return Read(ms, instance);
+			}
+			
+			public static IPhoneNumber Read (Stream stream, IPhoneNumber instance)
+			{
+				while (true)
+				{
+					Key key = null;
+					try {
+						key = ProtocolParser.ReadKey (stream);
+					} catch (InvalidDataException) {
+						break;
+					}
+			
+					switch (key.Field) {
+					case 1:
+						instance.Number = ProtocolParser.ReadString(stream);
+						break;
+					case 2:
+						instance.Type = (Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+						break;
+					default:
+						ProtocolParser.SkipKey(stream, key);
+						break;
+					}
+				}
+				return instance;
+			}
+		
+				public static void Write(Stream stream, IPhoneNumber instance)
+			{
+				if(instance.Number == null)
+					throw new ArgumentNullException("Number", "Required by proto specification.");
+				ProtocolParser.WriteKey(stream, new Key(1, Wire.LengthDelimited));
+				ProtocolParser.WriteString(stream, instance.Number);	ProtocolParser.WriteKey(stream, new Key(2, Wire.Varint));
+				ProtocolParser.WriteUInt32(stream, (uint)instance.Type);}
+		}
+	
+		public Person()
+		{
+			this.Phone = new List<Person.IPhoneNumber>();
+		}
+	
+		public static Person Read(Stream stream)
+		{
+			Person instance = new Person();
+			Read(stream, instance);
+			return instance;
+		}
+		
+		public static Person Read(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Read(ms);
+		}
+		
+		public static IPerson Read(byte[] buffer, IPerson instance)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Read(ms, instance);
+		}
+		
+		public static IPerson Read (Stream stream, IPerson instance)
+		{
+			while (true)
+			{
+				Key key = null;
+				try {
+					key = ProtocolParser.ReadKey (stream);
+				} catch (InvalidDataException) {
+					break;
+				}
+		
+				switch (key.Field) {
+				case 1:
+					instance.Name = ProtocolParser.ReadString(stream);
+					break;
+				case 2:
+					instance.Id = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				case 3:
+					instance.Email = ProtocolParser.ReadString(stream);
+					break;
+				case 4:
+					instance.Phone.Add(Person.PhoneNumber.Read(ProtocolParser.ReadBytes(stream)));
+					break;
+				default:
+					ProtocolParser.SkipKey(stream, key);
+					break;
+				}
+			}
+			return instance;
+		}
+	
+			public static void Write(Stream stream, IPerson instance)
+		{
+			if(instance.Name == null)
+				throw new ArgumentNullException("Name", "Required by proto specification.");
+			ProtocolParser.WriteKey(stream, new Key(1, Wire.LengthDelimited));
+			ProtocolParser.WriteString(stream, instance.Name);	ProtocolParser.WriteKey(stream, new Key(2, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.Id);	if(instance.Email != null)
+			{
+				ProtocolParser.WriteKey(stream, new Key(3, Wire.LengthDelimited));
+				ProtocolParser.WriteString(stream, instance.Email);}
+			foreach (Person.IPhoneNumber i4 in instance.Phone)
+			{
+				ProtocolParser.WriteKey(stream, new Key(4, Wire.LengthDelimited));
+				using(MemoryStream ms4 = new MemoryStream())
+				{
+					Person.PhoneNumber.Write(ms4, i4);
+					ProtocolParser.WriteBytes(stream, ms4.ToArray());
+				}
+			
+			}
+		}
+	}
+
 	public interface IMyMessageV1
 	{
 		int FieldA { get; set; }
 	}
-
+	
 	public class MyMessageV1 : IMyMessageV1
 	{
 	
@@ -99,9 +271,9 @@ namespace ExampleNamespace
 		List<uint> FieldS { get; set; }
 		List<uint> FieldT { get; set; }
 		ITheirMessage FieldU { get; set; }
-		IList<ITheirMessage> FieldV { get; set; }
+		List<ITheirMessage> FieldV { get; set; }
 	}
-
+	
 	public class MyMessageV2 : IMyMessageV2
 	{
 		public enum MyEnum
@@ -133,7 +305,7 @@ namespace ExampleNamespace
 		public List<uint> FieldS { get; set; }
 		public List<uint> FieldT { get; set; }
 		public ITheirMessage FieldU { get; set; }
-		public IList<ITheirMessage> FieldV { get; set; }
+		public List<ITheirMessage> FieldV { get; set; }
 	
 		public MyMessageV2()
 		{
@@ -314,7 +486,7 @@ namespace ExampleNamespace
 					ProtocolParser.WriteBytes(stream, ms22.ToArray());
 				}
 			}
-			foreach (TheirMessage i23 in instance.FieldV)
+			foreach (ITheirMessage i23 in instance.FieldV)
 			{
 				ProtocolParser.WriteKey(stream, new Key(23, Wire.LengthDelimited));
 				using(MemoryStream ms23 = new MemoryStream())
@@ -331,7 +503,7 @@ namespace ExampleNamespace
 	{
 		int FieldA { get; set; }
 	}
-
+	
 	public class TheirMessage : ITheirMessage
 	{
 	

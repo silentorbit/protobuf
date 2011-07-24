@@ -3,39 +3,48 @@ using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
+	
 	/// <summary>
 	/// Representation of a .proto file
 	/// </summary>
-	public class Proto
+	public class Proto : Message
 	{
-		public Dictionary<string, Message> Messages { get; set; }
-		
-		public Proto ()
-		{
-			this.Messages = new Dictionary<string, Message> ();
+		public Proto () : base(null)
+		{			
 		}
 		
 		public override string ToString ()
 		{
 			string t = "Proto: ";
-			foreach (var kvp in Messages)
-				t += "\n\t" + kvp.Value;
+			foreach (Message m in Messages)
+				t += "\n\t" + m;
 			return t;
 		}
 	}
 	
-	public class Message
+	public interface IProtoType
 	{
+		Message Parent { get; set; }
+	}
+	
+	public class Message : IProtoType
+	{
+		public Message Parent { get; set; }
+
 		public string Name { get; set; }
 
 		public List<Field> Fields { get; set; }
 
-		public Dictionary<string, MessageEnum> Enums { get; set; }
-		
-		public Message ()
+		public List<Message> Messages { get; set; }
+
+		public List<MessageEnum> Enums { get; set; }
+	
+		public Message (Message parent)
 		{
+			this.Parent = parent;
 			this.Fields = new List<Field> ();
-			this.Enums = new Dictionary<string, MessageEnum> ();
+			this.Messages = new List<Message> ();
+			this.Enums = new List<MessageEnum> ();
 		}
 		
 		public override string ToString ()
@@ -71,6 +80,8 @@ namespace ProtocolBuffers
 		public Wire WireType { get; set; }
 		
 		public string CSType { get; set; }
+
+		public string CSClass { get; set; }
 
 		public string CSItemType { get; set; }
 
@@ -117,14 +128,17 @@ namespace ProtocolBuffers
 		Enum,
 	}
 	
-	public class MessageEnum
+	public class MessageEnum : IProtoType
 	{
+		public Message Parent { get; set; }
+	
 		public string Name { get; set; }
 
 		public Dictionary<string,int> Enums { get; set; }
 		
-		public MessageEnum ()
+		public MessageEnum (Message parent)
 		{
+			this.Parent = parent;
 			this.Enums = new Dictionary<string, int> ();
 		}
 	}

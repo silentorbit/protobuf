@@ -1,19 +1,40 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
 	public static class ProtoPrepare
 	{
+		public static void Prepare (Proto proto)
+		{
+			foreach (Message m in proto.Messages)
+				PrepareMessage (m);
+		}
+		
+		static void PrepareMessage (Message m)
+		{
+			m.Name = ProtoPrepare.GetCamelCase (m.Name);
+			//Prepare fields
+			foreach (Field f in m.Fields) {
+				PrepareProtoType (m, f);
+				if (f.Default != null)
+					f.Default = GetCSDefaultValue (f);
+			}	
+			foreach (MessageEnum e in m.Enums) {
+				e.Name = GetCamelCase (e.Name);
+			}
+			foreach (Message sub in m.Messages)
+				PrepareMessage (sub);
+		}
+		
 		/// <summary>
 		/// Prepare: ProtoType, WireType and CSType
 		/// </summary>
-		public static void PrepareProtoType (Message m, Field f)
+		static void PrepareProtoType (Message m, Field f)
 		{
 			//Change property name to C# style, CamelCase.
 			f.Name = GetCSPropertyName (m, f.Name);
-			
-			string name = null;
 			
 			f.ProtoType = GetScalarProtoType (f.ProtoTypeName);
 						
@@ -43,23 +64,40 @@ namespace ProtocolBuffers
 				f.WireType = Wire.LengthDelimited;
 				break;
 			default:
-				if (f.ProtoTypeName.Contains (".")) {
+				IProtoType pt = GetProtoType (m, f.ProtoTypeName);
+
+				if (pt == null)
+					throw new InvalidDataException ("Name not found: " + f.ProtoTypeName);
+				if (pt is MessageEnum) {
 					f.ProtoType = ProtoTypes.Enum;
-					string[] parts = f.ProtoTypeName.Split ('.');
-					name = GetCamelCase (parts [0]) + "." + GetCamelCase (parts [1]);
-					f.WireType = Wire.Varint; //enum
-					break;
+					f.WireType = Wire.Varint;
 				}
-				if (m.Enums.ContainsKey (f.ProtoTypeName)) {
-					f.ProtoType = ProtoTypes.Enum;
-					name = m.Name + "." + GetCamelCase (f.ProtoTypeName);
-					f.WireType = Wire.Varint; //enum
-					break;
+				if (pt is Message) {
+					f.ProtoType = ProtoTypes.Message;
+					f.WireType = Wire.LengthDelimited;
 				}
-			
-				f.ProtoType = ProtoTypes.Message;
-				name = f.ProtoTypeName;
-				f.WireType = Wire.LengthDelimited; //message
+				if (pt.Parent is Proto)
+					f.CSType = "";
+				else
+					f.CSType = pt.Parent.Name + ".";
+
+				string[] parts = f.ProtoTypeName.Split ('.');
+				int n = 0;
+				while (true) {
+					string cc = GetCamelCase (parts [n]);
+					if (n >= parts.Length - 2 && pt is Message) {
+						f.CSClass = f.CSType + cc;
+						f.CSType += "I" + cc;
+						break;
+					}
+					f.CSType += cc;
+					n += 1;
+					if (n >= parts.Length)
+						break;
+					else
+						f.CSType += ".";
+				}
+
 				break;
 			}
 			
@@ -68,17 +106,72 @@ namespace ProtocolBuffers
 					throw new InvalidDataException ("Packed field not allowed for length delimited types");
 				f.WireType = Wire.LengthDelimited;
 			}
-			
-			f.CSType = GetCSType (f.ProtoType, name);
+
+			if (f.CSType == null)
+			{
+				f.CSType = GetCSType (f.ProtoType);
+				f.CSClass = f.CSType;
+			}
 			f.CSItemType = f.CSType;
 			if (f.Rule == Rules.Repeated) {
-				if (f.ProtoType == ProtoTypes.Message)
-					f.CSType = "List<I" + f.CSType + ">";
-				else
-					f.CSType = "List<" + f.CSType + ">";
+				f.CSType = "List<" + f.CSType + ">";
 			}
 			
 		}
+		
+		//Search for name.
+		static IProtoType GetProtoType (Message m, string path)
+		{
+			string[] parts = path.Split ('.');
+			return SearchMessageUp (m, parts);			
+		}
+		
+		static IProtoType SearchMessageUp (Message p, string[] name)
+		{
+			if (p is Proto)
+				return SearchMessageDown (p, name);
+			
+			Message m = p as Message;
+			if (m.Name == name [0]) {
+				if (name.Length == 1)
+					return m;
+				
+				string[] subName = new string[name.Length - 1];
+				Array.Copy (name, 1, subName, 0, subName.Length);
+				
+				return SearchMessageDown (m, subName);
+			}
+			
+			IProtoType down = SearchMessageDown (p, name);
+			if (down != null)
+				return down;
+			
+			return SearchMessageUp (m.Parent, name);
+		}
+
+		static IProtoType SearchMessageDown (Message p, string[] name)
+		{
+			if (name.Length == 1) {
+				foreach (MessageEnum me in p.Enums) {
+					if (me.Name == name [0])
+						return me;
+				}
+			}
+			
+			foreach (Message sub in p.Messages) {
+				if (sub.Name == name [0]) {
+					if (name.Length == 1)
+						return sub;
+					string[] subName = new string[name.Length - 1];
+					Array.Copy (name, 1, subName, 0, subName.Length);
+					
+					return SearchMessageDown (sub, subName);
+				}
+			}
+			
+			return null;
+		}
+		
 		
 		/// <summary>
 		/// Return the type given the name from a .proto file.
@@ -128,7 +221,7 @@ namespace ProtocolBuffers
 		/// <param name='name'>
 		/// Name of message or enum, null otherwise
 		/// </param>
-		private static string GetCSType (ProtoTypes type, string name)
+		static string GetCSType (ProtoTypes type)
 		{
 			switch (type) {
 			case ProtoTypes.Double:
@@ -156,10 +249,6 @@ namespace ProtocolBuffers
 			case ProtoTypes.Bytes:
 				return "byte[]";
 				
-			case ProtoTypes.Enum:
-			case ProtoTypes.Message:
-				return GetCamelCase (name);
-				
 			default:
 				throw new NotImplementedException ();
 			}
@@ -168,7 +257,7 @@ namespace ProtocolBuffers
 		/// <summary>
 		/// Get the default value in c# form
 		/// </summary>
-		public static string GetCSDefaultValue (Field f)
+		static string GetCSDefaultValue (Field f)
 		{
 			switch (f.ProtoType) {
 			case ProtoTypes.Double:
@@ -207,12 +296,13 @@ namespace ProtocolBuffers
 		/// Gets the C# CamelCase version of a given name.
 		/// Name collisions with enums are avoided.
 		/// </summary>
-		private static string GetCSPropertyName (Message m, string name)
+		static string GetCSPropertyName (Message m, string name)
 		{
 			string csname = GetCamelCase (name);	
 			
-			if (m.Enums.ContainsKey (csname))
-				return name;
+			foreach (MessageEnum me in m.Enums)
+				if (me.Name == csname)
+					return name;
 			
 			return csname;			
 		}
@@ -220,7 +310,7 @@ namespace ProtocolBuffers
 		/// <summary>
 		/// Gets the CamelCase version of a given name.
 		/// </summary>
-		public static string GetCamelCase (string name)
+		static string GetCamelCase (string name)
 		{
 			string csname = "";
 			

@@ -55,7 +55,7 @@ namespace ProtocolBuffers
 				}
 				switch (token) {
 				case "message":
-					ParseMessage (tr, p);
+					p.Messages.Add (ParseMessage (tr, p));
 					break;
 				case "option":
 					//Ignore options
@@ -67,9 +67,9 @@ namespace ProtocolBuffers
 			}
 		}
 
-		static void ParseMessage (TokenReader tr, Proto p)
+		static Message ParseMessage (TokenReader tr, Message parent)
 		{
-			Message msg = new Message ();
+			Message msg = new Message (parent);
 			msg.Name = tr.ReadNext ();
 			
 			//Expect "{"
@@ -79,7 +79,7 @@ namespace ProtocolBuffers
 			while (ParseField (tr, msg))
 				continue;
 			
-			p.Messages.Add (msg.Name, msg);
+			return msg;			
 		}
 
 		static bool ParseField (TokenReader tr, Message m)
@@ -89,27 +89,34 @@ namespace ProtocolBuffers
 				return false;
 			
 			if (rule == "enum") {
-				MessageEnum me = ParseEnum (tr);
-				m.Enums.Add (me.Name, me);
+				MessageEnum me = ParseEnum (tr, m);
+				m.Enums.Add (me);
 				return true;
 			}
 
 			Field f = new Field ();
 			
 			//Rule
-			if (rule == "required")
+			switch (rule) {
+			case "required":
 				f.Rule = Rules.Required;
-			else if (rule == "optional")
+				break;
+			case "optional":
 				f.Rule = Rules.Optional;
-			else if (rule == "repeated")
+				break;
+			case "repeated":
 				f.Rule = Rules.Repeated;
-			else if (rule == "option") {
+				break;
+			case "option":
 				//Ignore options
 				ParseOption (tr);
 				return true;
-			} else
+			case "message":
+				m.Messages.Add (ParseMessage (tr, m));
+				return true;
+			default:
 				throw new InvalidDataException ("unknown rule: " + rule);
-
+			}
 			m.Fields.Add (f);
 
 			//Type
@@ -181,9 +188,9 @@ namespace ProtocolBuffers
 				throw new InvalidDataException ("Expected: ;");			
 		}
 
-		static MessageEnum ParseEnum (TokenReader tr)
+		static MessageEnum ParseEnum (TokenReader tr, Message parent)
 		{
-			MessageEnum me = new MessageEnum ();
+			MessageEnum me = new MessageEnum (parent);
 			me.Name = tr.ReadNext ();
 			
 			if (tr.ReadNext () != "{")

@@ -22,12 +22,17 @@ namespace ProtocolBuffers
 				return;						
 			}
 			
+			//Parse proto
 			Console.WriteLine ("Parsing " + protoPath);
 			Proto proto = ProtoParser.Parse (protoPath);
 			if (proto == null)
 				return;
 			Console.WriteLine (proto);
 			
+			//Interpret and reformat
+			ProtoPrepare.Prepare (proto);
+				
+			//Generate code
 			Console.WriteLine ("Generating code");
 			CodeGenerator.Save (proto, codeNamespace, codePath);
 			Console.WriteLine ("Saved: " + codePath);
