@@ -19,27 +19,32 @@ namespace ExampleNamespace
 
 	public class MyMessageV1 : IMyMessageV1
 	{
+	
 		public int FieldA { get; set; }
-
+	
 		public MyMessageV1()
 		{
 		}
-		public static IMyMessageV1 Read(Stream stream)
+	
+		public static MyMessageV1 Read(Stream stream)
 		{
-			return Read(stream, new MyMessageV1());
+			MyMessageV1 instance = new MyMessageV1();
+			Read(stream, instance);
+			return instance;
 		}
-		public static IMyMessageV1 Read(byte[] buffer)
+		
+		public static MyMessageV1 Read(byte[] buffer)
 		{
 			using(MemoryStream ms = new MemoryStream(buffer))
-				return Read(ms, new MyMessageV1());
+				return Read(ms);
 		}
+		
 		public static IMyMessageV1 Read(byte[] buffer, IMyMessageV1 instance)
 		{
-			if(instance == null)
-				instance = new MyMessageV1();
 			using(MemoryStream ms = new MemoryStream(buffer))
 				return Read(ms, instance);
 		}
+		
 		public static IMyMessageV1 Read (Stream stream, IMyMessageV1 instance)
 		{
 			while (true)
@@ -50,7 +55,7 @@ namespace ExampleNamespace
 				} catch (InvalidDataException) {
 					break;
 				}
-				
+		
 				switch (key.Field) {
 				case 1:
 					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
@@ -62,12 +67,11 @@ namespace ExampleNamespace
 			}
 			return instance;
 		}
-		public static void Write(Stream stream, IMyMessageV1 instance)
+	
+			public static void Write(Stream stream, IMyMessageV1 instance)
 		{
 			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
-		}
-
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);}
 	}
 
 	public interface IMyMessageV2
@@ -106,7 +110,7 @@ namespace ExampleNamespace
 			ETest2 = 3,
 			ETest3 = 2,
 		}
-
+	
 		public int FieldA { get; set; }
 		public double FieldB { get; set; }
 		public float FieldC { get; set; }
@@ -130,7 +134,7 @@ namespace ExampleNamespace
 		public List<uint> FieldT { get; set; }
 		public ITheirMessage FieldU { get; set; }
 		public IList<ITheirMessage> FieldV { get; set; }
-
+	
 		public MyMessageV2()
 		{
 			this.FieldR = MyMessageV2.MyEnum.ETest2;
@@ -138,26 +142,29 @@ namespace ExampleNamespace
 			this.FieldT = new List<uint>();
 			this.FieldV = new List<ITheirMessage>();
 		}
-		public static IMyMessageV2 Read(Stream stream)
+	
+		public static MyMessageV2 Read(Stream stream)
 		{
-			return Read(stream, new MyMessageV2());
+			MyMessageV2 instance = new MyMessageV2();
+			Read(stream, instance);
+			return instance;
 		}
-		public static IMyMessageV2 Read(byte[] buffer)
+		
+		public static MyMessageV2 Read(byte[] buffer)
 		{
 			using(MemoryStream ms = new MemoryStream(buffer))
-				return Read(ms, new MyMessageV2());
+				return Read(ms);
 		}
+		
 		public static IMyMessageV2 Read(byte[] buffer, IMyMessageV2 instance)
 		{
-			if(instance == null)
-				instance = new MyMessageV2();
 			using(MemoryStream ms = new MemoryStream(buffer))
 				return Read(ms, instance);
 		}
+		
 		public static IMyMessageV2 Read (Stream stream, IMyMessageV2 instance)
 		{
-			BinaryReader br = new BinaryReader (stream);
-			while (true)
+			BinaryReader br = new BinaryReader (stream);	while (true)
 			{
 				Key key = null;
 				try {
@@ -165,7 +172,7 @@ namespace ExampleNamespace
 				} catch (InvalidDataException) {
 					break;
 				}
-				
+		
 				switch (key.Field) {
 				case 1:
 					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
@@ -237,8 +244,11 @@ namespace ExampleNamespace
 							instance.FieldT.Add(ProtocolParser.ReadUInt32(ms21));
 						}
 					}
+		
 					break;
 				case 22:
+					if(instance.FieldU == null)
+						instance.FieldU = new TheirMessage();
 					instance.FieldU = TheirMessage.Read(ProtocolParser.ReadBytes(stream), instance.FieldU);
 					break;
 				case 23:
@@ -251,54 +261,36 @@ namespace ExampleNamespace
 			}
 			return instance;
 		}
-		public static void Write(Stream stream, IMyMessageV2 instance)
+	
+			public static void Write(Stream stream, IMyMessageV2 instance)
 		{
 			BinaryWriter bw = new BinaryWriter(stream);
 			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
-			ProtocolParser.WriteKey(stream, new Key(2, Wire.Fixed64));
-			bw.Write(instance.FieldB);
-			ProtocolParser.WriteKey(stream, new Key(3, Wire.Fixed32));
-			bw.Write(instance.FieldC);
-			ProtocolParser.WriteKey(stream, new Key(4, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldD);
-			ProtocolParser.WriteKey(stream, new Key(5, Wire.Varint));
-			ProtocolParser.WriteUInt64(stream, (ulong)instance.FieldE);
-			ProtocolParser.WriteKey(stream, new Key(6, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, instance.FieldF);
-			ProtocolParser.WriteKey(stream, new Key(7, Wire.Varint));
-			ProtocolParser.WriteUInt64(stream, instance.FieldG);
-			ProtocolParser.WriteKey(stream, new Key(8, Wire.Varint));
-			ProtocolParser.WriteSInt32(stream, instance.FieldH);
-			ProtocolParser.WriteKey(stream, new Key(9, Wire.Varint));
-			ProtocolParser.WriteSInt64(stream, instance.FieldI);
-			ProtocolParser.WriteKey(stream, new Key(10, Wire.Fixed32));
-			bw.Write(instance.FieldJ);
-			ProtocolParser.WriteKey(stream, new Key(11, Wire.Fixed64));
-			bw.Write(instance.FieldK);
-			ProtocolParser.WriteKey(stream, new Key(12, Wire.Fixed32));
-			bw.Write(instance.FieldL);
-			ProtocolParser.WriteKey(stream, new Key(13, Wire.Fixed64));
-			bw.Write(instance.FieldM);
-			ProtocolParser.WriteKey(stream, new Key(14, Wire.Varint));
-			ProtocolParser.WriteBool(stream, instance.FieldN);
-			if(instance.FieldO == null)
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);	ProtocolParser.WriteKey(stream, new Key(2, Wire.Fixed64));
+			bw.Write(instance.FieldB);	ProtocolParser.WriteKey(stream, new Key(3, Wire.Fixed32));
+			bw.Write(instance.FieldC);	ProtocolParser.WriteKey(stream, new Key(4, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldD);	ProtocolParser.WriteKey(stream, new Key(5, Wire.Varint));
+			ProtocolParser.WriteUInt64(stream, (ulong)instance.FieldE);	ProtocolParser.WriteKey(stream, new Key(6, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, instance.FieldF);	ProtocolParser.WriteKey(stream, new Key(7, Wire.Varint));
+			ProtocolParser.WriteUInt64(stream, instance.FieldG);	ProtocolParser.WriteKey(stream, new Key(8, Wire.Varint));
+			ProtocolParser.WriteSInt32(stream, instance.FieldH);	ProtocolParser.WriteKey(stream, new Key(9, Wire.Varint));
+			ProtocolParser.WriteSInt64(stream, instance.FieldI);	ProtocolParser.WriteKey(stream, new Key(10, Wire.Fixed32));
+			bw.Write(instance.FieldJ);	ProtocolParser.WriteKey(stream, new Key(11, Wire.Fixed64));
+			bw.Write(instance.FieldK);	ProtocolParser.WriteKey(stream, new Key(12, Wire.Fixed32));
+			bw.Write(instance.FieldL);	ProtocolParser.WriteKey(stream, new Key(13, Wire.Fixed64));
+			bw.Write(instance.FieldM);	ProtocolParser.WriteKey(stream, new Key(14, Wire.Varint));
+			ProtocolParser.WriteBool(stream, instance.FieldN);	if(instance.FieldO == null)
 				throw new ArgumentNullException("FieldO", "Required by proto specification.");
 			ProtocolParser.WriteKey(stream, new Key(15, Wire.LengthDelimited));
-			ProtocolParser.WriteString(stream, instance.FieldO);
-			if(instance.FieldP == null)
+			ProtocolParser.WriteString(stream, instance.FieldO);	if(instance.FieldP == null)
 				throw new ArgumentNullException("FieldP", "Required by proto specification.");
 			ProtocolParser.WriteKey(stream, new Key(16, Wire.LengthDelimited));
-			ProtocolParser.WriteBytes(stream, instance.FieldP);
-			ProtocolParser.WriteKey(stream, new Key(17, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldQ);
-			ProtocolParser.WriteKey(stream, new Key(18, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldR);
-			if(instance.Dummy != null)
+			ProtocolParser.WriteBytes(stream, instance.FieldP);	ProtocolParser.WriteKey(stream, new Key(17, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldQ);	ProtocolParser.WriteKey(stream, new Key(18, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldR);	if(instance.Dummy != null)
 			{
 				ProtocolParser.WriteKey(stream, new Key(19, Wire.LengthDelimited));
-				ProtocolParser.WriteString(stream, instance.Dummy);
-			}
+				ProtocolParser.WriteString(stream, instance.Dummy);}
 			foreach (uint i20 in instance.FieldS)
 			{
 				ProtocolParser.WriteKey(stream, new Key(20, Wire.Varint));
@@ -306,7 +298,7 @@ namespace ExampleNamespace
 			}
 			ProtocolParser.WriteKey(stream, new Key(21, Wire.LengthDelimited));
 			using(MemoryStream ms21 = new MemoryStream())
-			{
+			{	
 				foreach (uint i21 in instance.FieldT)
 				{
 					ProtocolParser.WriteUInt32(ms21, i21);
@@ -330,9 +322,9 @@ namespace ExampleNamespace
 					TheirMessage.Write(ms23, i23);
 					ProtocolParser.WriteBytes(stream, ms23.ToArray());
 				}
+			
 			}
 		}
-
 	}
 
 	public interface ITheirMessage
@@ -342,27 +334,32 @@ namespace ExampleNamespace
 
 	public class TheirMessage : ITheirMessage
 	{
+	
 		public int FieldA { get; set; }
-
+	
 		public TheirMessage()
 		{
 		}
-		public static ITheirMessage Read(Stream stream)
+	
+		public static TheirMessage Read(Stream stream)
 		{
-			return Read(stream, new TheirMessage());
+			TheirMessage instance = new TheirMessage();
+			Read(stream, instance);
+			return instance;
 		}
-		public static ITheirMessage Read(byte[] buffer)
+		
+		public static TheirMessage Read(byte[] buffer)
 		{
 			using(MemoryStream ms = new MemoryStream(buffer))
-				return Read(ms, new TheirMessage());
+				return Read(ms);
 		}
+		
 		public static ITheirMessage Read(byte[] buffer, ITheirMessage instance)
 		{
-			if(instance == null)
-				instance = new TheirMessage();
 			using(MemoryStream ms = new MemoryStream(buffer))
 				return Read(ms, instance);
 		}
+		
 		public static ITheirMessage Read (Stream stream, ITheirMessage instance)
 		{
 			while (true)
@@ -373,7 +370,7 @@ namespace ExampleNamespace
 				} catch (InvalidDataException) {
 					break;
 				}
-				
+		
 				switch (key.Field) {
 				case 1:
 					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
@@ -385,12 +382,11 @@ namespace ExampleNamespace
 			}
 			return instance;
 		}
-		public static void Write(Stream stream, ITheirMessage instance)
+	
+			public static void Write(Stream stream, ITheirMessage instance)
 		{
 			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
-		}
-
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);}
 	}
 
 }

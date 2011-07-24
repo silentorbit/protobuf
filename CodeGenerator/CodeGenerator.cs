@@ -68,133 +68,161 @@ namespace " + nameSpace + "\n{\n");
 				e.Value.Name = ProtoPrepare.GetCamelCase (e.Value.Name);
 			}
 			
-			//Interface
-			codeWriter.WriteLine ("	public interface I" + m.Name + "\n	{");
+			codeWriter.WriteLine (Indent (1, GenerateInterface (m)));
+			codeWriter.WriteLine (Indent (1, GenerateClass (m)));
+			
+		}
+
+		static string GenerateInterface (Message m)
+		{
+			string prop = "";
 			foreach (Field f in m.Fields) {
 				if (f.Deprecated)
-					codeWriter.WriteLine ("		[Obsolete]");
+					prop += "[Obsolete]\n";
 				if (f.ProtoType == ProtoTypes.Message)
-					codeWriter.WriteLine ("		I" + f.CSType + " " + f.Name + " { get; set; }");
+					prop += "I" + f.CSType + " " + f.Name + " { get; set; }\n";
 				else
-					codeWriter.WriteLine ("		" + f.CSType + " " + f.Name + " { get; set; }");
+					prop += f.CSType + " " + f.Name + " { get; set; }\n";
 			}
-			codeWriter.WriteLine ("	}\n");
-			
-			//Default class
-			codeWriter.WriteLine (@"	public class " + m.Name + @" : I" + m.Name + "\n\t{");
-			
+			string code = "";
+			code += "public interface I" + m.Name + "\n";
+			code += "{\n";
+			code += Indent (prop);
+			code += "}\n";
+			return code;
+		}
+
+		static string GenerateClass (Message m)
+		{
 			//Enums
+			string enums = "";
 			foreach (var mepair in m.Enums) {
-				codeWriter.WriteLine ("		public enum " + mepair.Value.Name + "\n		{");
+				enums += "public enum " + mepair.Value.Name + "\n";
+				enums += "{\n";
 				foreach (var epair in mepair.Value.Enums)
-					codeWriter.WriteLine ("			" + epair.Key + " = " + epair.Value + ",");
-				codeWriter.WriteLine ("		}\n");
+					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
+				enums += "}\n";
 			}
 			
 			//Properties
+			string properties = "";
 			foreach (Field f in m.Fields) {
 				if (f.ProtoType == ProtoTypes.Message)
-					codeWriter.WriteLine ("		public I" + f.CSType + " " + f.Name + " { get; set; }");
+					properties += "public I" + f.CSType + " " + f.Name + " { get; set; }\n";
 				else
-					codeWriter.WriteLine ("		public " + f.CSType + " " + f.Name + " { get; set; }");
+					properties += "public " + f.CSType + " " + f.Name + " { get; set; }\n";
 			}
 			
 			//Constructor with default values
-			codeWriter.WriteLine ("\n		public " + m.Name + "()\n		{");
+			string constructor = "public " + m.Name + "()\n";
+			constructor += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
-					codeWriter.WriteLine ("			this." + f.Name + " = new " + f.CSType + "();");
+					constructor += "	this." + f.Name + " = new " + f.CSType + "();\n";
 				if (f.Default != null)
-					codeWriter.WriteLine ("			this." + f.Name + " = " + ProtoPrepare.GetCSDefaultValue (f) + ";");
+					constructor += "	this." + f.Name + " = " + ProtoPrepare.GetCSDefaultValue (f) + ";\n";
 			}
-			codeWriter.WriteLine ("		}");
-			
-			//Read
-			GenerateReader (codeWriter, m);
-			
-			//Write
-			GenerateWriter (codeWriter, m);
-			
-			//End of default class
-			codeWriter.WriteLine ("\n	}\n");
-			
+			constructor += "}\n";
+
+			//Default class
+			string code = "";
+			code += "public class " + m.Name + " : I" + m.Name + "\n";
+			code += "{\n";
+			code += Indent (enums);
+			code += "\n";
+			code += Indent (properties);
+			code += "\n";
+			code += Indent (constructor);
+			code += "\n";
+			code += Indent (GenerateReader (m));
+			code += "\n";
+			code += Indent (GenerateWriter (m));
+			code += "}\n";
+			return code;
 		}
 		
 		#region Protocol Reader
 		
-		static void GenerateReader (TextWriter codeWriter, Message m)
+		static string GenerateReader (Message m)
 		{
-			codeWriter.WriteLine ("		public static I" + m.Name + " Read(Stream stream)");
-			codeWriter.WriteLine ("		{");
-			codeWriter.WriteLine ("			return Read(stream, new " + m.Name + "());");
-			codeWriter.WriteLine ("		}");
-
-			codeWriter.WriteLine ("		public static I" + m.Name + " Read(byte[] buffer)");
-			codeWriter.WriteLine ("		{");
-			codeWriter.WriteLine ("			using(MemoryStream ms = new MemoryStream(buffer))");
-			codeWriter.WriteLine ("				return Read(ms, new " + m.Name + "());");
-			codeWriter.WriteLine ("		}");
-
-			codeWriter.WriteLine ("		public static I" + m.Name + " Read(byte[] buffer, I" + m.Name + " instance)");
-			codeWriter.WriteLine ("		{");
-			codeWriter.WriteLine ("			if(instance == null)");
-			codeWriter.WriteLine ("				instance = new " + m.Name + "();");
-			codeWriter.WriteLine ("			using(MemoryStream ms = new MemoryStream(buffer))");
-			codeWriter.WriteLine ("				return Read(ms, instance);");
-			codeWriter.WriteLine ("		}");
-
-			
-			codeWriter.WriteLine ("		public static I" + m.Name + " Read (Stream stream, I" + m.Name + " instance)\n		{");
+			string code = "";
+			code += "public static " + m.Name + " Read(Stream stream)\n";
+			code += "{\n";
+			code += "	" + m.Name + " instance = new " + m.Name + "();\n";
+			code += "	Read(stream, instance);\n";
+			code += "	return instance;\n";
+			code += "}\n";
+			code += "\n";
+			code += "public static " + m.Name + " Read(byte[] buffer)\n";
+			code += "{\n";
+			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
+			code += "		return Read(ms);\n";
+			code += "}\n";
+			code += "\n";
+			code += "public static I" + m.Name + " Read(byte[] buffer, I" + m.Name + " instance)\n";
+			code += "{\n";
+			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
+			code += "		return Read(ms, instance);\n";
+			code += "}\n";
+			code += "\n";
+			code += "public static I" + m.Name + " Read (Stream stream, I" + m.Name + " instance)\n";
+			code += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {
-					codeWriter.WriteLine ("			BinaryReader br = new BinaryReader (stream);");
+					code += "	BinaryReader br = new BinaryReader (stream);";
 					break;
 				}
 			}
-			
-			codeWriter.WriteLine ("			while (true)");
-			codeWriter.WriteLine ("			{");
-			codeWriter.WriteLine ("				Key key = null;");
-			codeWriter.WriteLine ("				try {");
-			codeWriter.WriteLine ("					key = ProtocolParser.ReadKey (stream);");
-			codeWriter.WriteLine ("				} catch (InvalidDataException) {");
-			codeWriter.WriteLine ("					break;");
-			codeWriter.WriteLine ("				}");
-			codeWriter.WriteLine ("				");
-			codeWriter.WriteLine ("				switch (key.Field) {");
+			code += "	while (true)\n";
+			code += "	{\n";
+			code += "		Key key = null;\n";
+			code += "		try {\n";
+			code += "			key = ProtocolParser.ReadKey (stream);\n";
+			code += "		} catch (InvalidDataException) {\n";
+			code += "			break;\n";
+			code += "		}\n";
+			code += "\n";
+			code += "		switch (key.Field) {\n";
 			foreach (Field f in m.Fields) {
-				codeWriter.WriteLine ("				case " + f.ID + ":");
-				GenerateFieldReader (codeWriter, "\t\t\t\t\t", f);
-				codeWriter.WriteLine ("					break;");
+				code += "		case " + f.ID + ":\n";
+				code += Indent (3, GenerateFieldReader (f)) + "\n";
+				code += "			break;\n";
 			}
-			codeWriter.WriteLine ("				default:");
-			codeWriter.WriteLine ("					ProtocolParser.SkipKey(stream, key);");
-			codeWriter.WriteLine ("					break;");
-			codeWriter.WriteLine ("				}");
-			codeWriter.WriteLine ("			}");
-			codeWriter.WriteLine ("			return instance;");
-			codeWriter.WriteLine ("		}");
+			code += "		default:\n";
+			code += "			ProtocolParser.SkipKey(stream, key);\n";
+			code += "			break;\n";
+			code += "		}\n";
+			code += "	}\n";
+			code += "	return instance;\n";
+			code += "}\n";
+			return code;
 		}
 
-		static void GenerateFieldReader (TextWriter codeWriter, string indent, Field f)
+		static string GenerateFieldReader (Field f)
 		{
+			string code = "";
 			if (f.Rule == Rules.Repeated) {
 				if (f.Packed == true) {
-					codeWriter.WriteLine (indent + "using(MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream)))");
-					codeWriter.WriteLine (indent + "{");
-					codeWriter.WriteLine (indent + "	while(true)");
-					codeWriter.WriteLine (indent + "	{");
-					codeWriter.WriteLine (indent + "		if(ms" + f.ID + ".Position == ms" + f.ID + ".Length)");
-					codeWriter.WriteLine (indent + "			break;");
-					codeWriter.WriteLine (indent + "		instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "ms" + f.ID, "br", null) + ");");
-					codeWriter.WriteLine (indent + "	}");
-					codeWriter.WriteLine (indent + "}");
+					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream)))\n";
+					code += "{\n";
+					code += "	while(true)\n";
+					code += "	{\n";
+					code += "		if(ms" + f.ID + ".Position == ms" + f.ID + ".Length)\n";
+					code += "			break;\n";
+					code += "		instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "ms" + f.ID, "br", null) + ");\n";
+					code += "	}\n";
+					code += "}\n";
 				} else {
-					codeWriter.WriteLine (indent + "instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "stream", "br", null) + ");");
+					code += "instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "stream", "br", null) + ");";
 				}
 			} else {			
-				codeWriter.WriteLine (indent + "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";");
+				if (f.ProtoType == ProtoTypes.Message) {
+					code += "if(instance." + f.Name + " == null)\n";
+					code += "	instance." + f.Name + " = new " + f.CSType + "();\n";
+				}
+				code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 			}
+			return code;
 		}
 
 		static string GenerateFieldTypeReader (Field f, string stream, string binaryReader, string instance)
@@ -249,45 +277,43 @@ namespace " + nameSpace + "\n{\n");
 		/// <summary>
 		/// Generates code for writing a class/message
 		/// </summary>
-		static void GenerateWriter (TextWriter codeWriter, Message m)
+		static string GenerateWriter (Message m)
 		{
-			codeWriter.WriteLine ("		public static void Write(Stream stream, I" + m.Name + " instance)\n		{");
-			GenerateBinaryWriter (codeWriter, m);
+			string code = "	public static void Write(Stream stream, I" + m.Name + " instance)\n";
+			code += "{\n";
+			if (GenerateBinaryWriter (m))
+				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";
 			
 			foreach (Field f in m.Fields) {
-				GenerateFieldWriter (codeWriter, m, f);
+				code += Indent (GenerateFieldWriter (m, f));
 			}
-			
-			codeWriter.WriteLine ("		}");
+			code += "}\n";
+			return code;
 		}
 		
 		/// <summary>
 		/// Adds BinaryWriter only if it will be used
 		/// </summary>
-		static void GenerateBinaryWriter (TextWriter codeWriter, Message m)
+		static bool GenerateBinaryWriter (Message m)
 		{
 			foreach (Field f in m.Fields) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {
-					codeWriter.WriteLine ("			BinaryWriter bw = new BinaryWriter(stream);");
-					return;
+					return true;
 				}
 			}
+			return false;
 		}
 		
 		/// <summary>
 		/// Generates code for writing one field
 		/// </summary>
-		static void GenerateFieldWriter (TextWriter codeWriter, Message m, Field f)
+		static string GenerateFieldWriter (Message m, Field f)
 		{
-			string indent = "			";
-
-
+			string code = "";
 			if (f.Rule == Rules.Repeated) {
 				if (f.Packed == true) {
-					codeWriter.WriteLine (indent + "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));");
-					codeWriter.WriteLine (indent + "using(MemoryStream ms" + f.ID + " = new MemoryStream())");
-					codeWriter.WriteLine (indent + "{");
-					indent += "	";
+					
+					string binaryWriter = "";
 					switch (f.ProtoType) {
 					case ProtoTypes.Double:
 					case ProtoTypes.Float:
@@ -295,55 +321,61 @@ namespace " + nameSpace + "\n{\n");
 					case ProtoTypes.Fixed64:
 					case ProtoTypes.Sfixed32:
 					case ProtoTypes.Sfixed64:
-						codeWriter.WriteLine (indent + "BinaryWriter bw" + f.ID + " = new BinaryWriter(ms" + f.ID + ");");
+						binaryWriter = "\nBinaryWriter bw" + f.ID + " = new BinaryWriter(ms" + f.ID + ");";
 						break;
 					}
-					codeWriter.WriteLine (indent + "foreach (" + f.CSItemType + " i" + f.ID + " in instance." + f.Name + ")");
-					codeWriter.WriteLine (indent + "{");
-					GenerateFieldTypeWriter (codeWriter, f, indent + "	", "ms" + f.ID, "bw" + f.ID, "i" + f.ID);		
-					codeWriter.WriteLine (indent + "}");
-					codeWriter.WriteLine (indent + "ProtocolParser.WriteBytes(stream, ms" + f.ID + ".ToArray());");
-					indent = indent.Substring (1);
-					codeWriter.WriteLine (indent + "}");
+					
+					code += "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
+					code += "{	" + binaryWriter + "\n";
+					code += "	foreach (" + f.CSItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "	{\n";
+					code += "" + Indent (2, GenerateFieldTypeWriter (f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID)) + "\n";
+					code += "	}\n";
+					code += "	ProtocolParser.WriteBytes(stream, ms" + f.ID + ".ToArray());\n";
+					code += "}\n";
+					return code;
 				} else {
-					codeWriter.WriteLine (indent + "foreach (" + f.CSItemType + " i" + f.ID + " in instance." + f.Name + ")");
-					codeWriter.WriteLine (indent + "{");
-					codeWriter.WriteLine (indent + "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));");
-					GenerateFieldTypeWriter (codeWriter, f, indent + "	", "stream", "bw", "i" + f.ID);		
-					codeWriter.WriteLine (indent + "}");
+					code += "foreach (" + f.CSItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "{\n";
+					code += "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "" + Indent (1, GenerateFieldTypeWriter (f, "stream", "bw", "i" + f.ID)) + "\n";
+					code += "}\n";
+					return code;
 				}
 			} else if (f.Rule == Rules.Optional) {			
 				switch (f.ProtoType) {
 				case ProtoTypes.String:
 				case ProtoTypes.Message:
 				case ProtoTypes.Bytes:
-					codeWriter.WriteLine (indent + "if(instance." + f.Name + " != null)");
-					codeWriter.WriteLine (indent + "{");
-					codeWriter.WriteLine (indent + "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));");
-					GenerateFieldTypeWriter (codeWriter, f, indent + "	", "stream", "bw", "instance." + f.Name);
-					codeWriter.WriteLine (indent + "}");
-					break;
+					code += "if(instance." + f.Name + " != null)\n";
+					code += "{\n";
+					code += "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += Indent (GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name));
+					code += "}\n";
+					return code;
 				default:
-					codeWriter.WriteLine (indent + "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));");
-					GenerateFieldTypeWriter (codeWriter, f, indent, "stream", "bw", "instance." + f.Name);
-					break;					
+					code += "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name);
+					return code;
 				}
 			} else if (f.Rule == Rules.Required) {			
 				switch (f.ProtoType) {
 				case ProtoTypes.String:
 				case ProtoTypes.Message:
 				case ProtoTypes.Bytes:
-					codeWriter.WriteLine (indent + "if(instance." + f.Name + " == null)");
-					codeWriter.WriteLine (indent + "	throw new ArgumentNullException(\"" + f.Name + "\", \"Required by proto specification.\");");
+					code += "if(instance." + f.Name + " == null)\n";
+					code += "	throw new ArgumentNullException(\"" + f.Name + "\", \"Required by proto specification.\");\n";
 					break;
 				}
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));");
-				GenerateFieldTypeWriter (codeWriter, f, indent, "stream", "bw", "instance." + f.Name);
-			}
-			
+				code += "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+				code += GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name);
+				return code;
+			}			
+			throw new NotImplementedException ("Unknown rule: " + f.Rule);
 		}
-
-		static void GenerateFieldTypeWriter (TextWriter codeWriter, Field f, string indent, string stream, string binaryWriter, string instance)
+					
+		static string GenerateFieldTypeWriter (Field f, string stream, string binaryWriter, string instance)
 		{
 			switch (f.ProtoType) {
 			case ProtoTypes.Double:
@@ -352,51 +384,61 @@ namespace " + nameSpace + "\n{\n");
 			case ProtoTypes.Fixed64:
 			case ProtoTypes.Sfixed32:
 			case ProtoTypes.Sfixed64:
-				codeWriter.WriteLine (indent + binaryWriter + ".Write(" + instance + ");");
-				break;
+				return binaryWriter + ".Write(" + instance + ");";
 			case ProtoTypes.Int32:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteUInt32(" + stream + ", (uint)" + instance + ");");
-				break;
+				return "ProtocolParser.WriteUInt32(" + stream + ", (uint)" + instance + ");";
 			case ProtoTypes.Int64:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteUInt64(" + stream + ", (ulong)" + instance + ");");
-				break;
+				return "ProtocolParser.WriteUInt64(" + stream + ", (ulong)" + instance + ");";
 			case ProtoTypes.Uint32:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteUInt32(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteUInt32(" + stream + ", " + instance + ");";
 			case ProtoTypes.Uint64:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteUInt64(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteUInt64(" + stream + ", " + instance + ");";
 			case ProtoTypes.Sint32:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteSInt32(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteSInt32(" + stream + ", " + instance + ");";
 			case ProtoTypes.Sint64:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteSInt64(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteSInt64(" + stream + ", " + instance + ");";
 			case ProtoTypes.Bool:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteBool(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteBool(" + stream + ", " + instance + ");";
 			case ProtoTypes.String:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteString(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteString(" + stream + ", " + instance + ");";
 			case ProtoTypes.Bytes:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteBytes(" + stream + ", " + instance + ");");
-				break;
+				return "ProtocolParser.WriteBytes(" + stream + ", " + instance + ");";
 			case ProtoTypes.Enum:
-				codeWriter.WriteLine (indent + "ProtocolParser.WriteUInt32(" + stream + ", (uint)" + instance + ");");
-				break;
+				return "ProtocolParser.WriteUInt32(" + stream + ", (uint)" + instance + ");";
 			case ProtoTypes.Message:				
-				codeWriter.WriteLine (indent + "using(MemoryStream ms" + f.ID + " = new MemoryStream())");
-				codeWriter.WriteLine (indent + "{");
-				codeWriter.WriteLine (indent + "	" + f.CSItemType + ".Write(ms" + f.ID + ", " + instance + ");");
-				codeWriter.WriteLine (indent + "	ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());");
-				codeWriter.WriteLine (indent + "}");
-				break;
+				string code = "";
+				code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
+				code += "{\n";
+				code += "	" + f.CSItemType + ".Write(ms" + f.ID + ", " + instance + ");\n";
+				code += "	ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());\n";
+				code += "}\n";
+				return code;
 			default:
 				throw new NotImplementedException ();
 			}
 		}
 		
 		#endregion
+	
+		/// <summary>
+		/// Indent all lines in the code string with one tab
+		/// </summary>
+		private static string Indent (string code)
+		{
+			return Indent (1, code);
+		}
+		
+		/// <summary>
+		/// Indent all lines in the code string with given number of tabs
+		/// </summary>
+		private static string Indent (int tabs, string code)
+		{
+			string sep = "\n";
+			for (int n = 0; n < tabs; n++)
+				sep += "\t";
+			code = sep + string.Join (sep, code.Split ('\n'));
+			return code.Substring (1).TrimEnd ('\t');			
+		}
 		
 	}
 }
