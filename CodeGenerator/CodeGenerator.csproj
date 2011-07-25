@@ -42,19 +42,21 @@
     <Compile Include="Proto.cs" />
     <Compile Include="TokenReader.cs" />
     <Compile Include="CodeGenerator.cs" />
-    <Compile Include="ProtocolParserFixed.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="ProtocolParserKey.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="ProtocolParserVarInt.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="ProtocolParser.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="ProtoPrepare.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="ProtocolParserVarInt.cs">
+      <LogicalName>ProtocolParserVarInt</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParserKey.cs">
+      <LogicalName>ProtocolParserKey</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParserFixed.cs">
+      <LogicalName>ProtocolParserFixed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser.cs">
+      <LogicalName>ProtocolParser</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

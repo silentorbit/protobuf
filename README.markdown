@@ -78,11 +78,13 @@ Check Test/Example.proto for the currently implemented features.
 
     CodeGenerator.exe Example.proto ExampleNamespace Example.cs
 
-Example.proto is the path to the .proto file.
+The output is tree files.
 
-ExampleNamespace is the namespace of the generated classes.
+ * Example.cs - Basic class declaration(based on .proto).
+ * Example.Backend.cs - Enum and interface declarations. Code for reading/writing the message 
+ * ProtocolParser.cs - Helper functions for the backend, constant, not related to the .proto specification.
 
-Example.cs is the path to where we write the generated C# code.
+If you generate code from multiple .proto files you only need to include one ProtocolParser.cs.
 
 ## Direct Contact, FeedBack, Bugs
 
