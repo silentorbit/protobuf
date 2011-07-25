@@ -14,18 +14,22 @@ namespace ProtocolBuffers
 		
 		static void PrepareMessage (Message m)
 		{
-			m.Name = ProtoPrepare.GetCamelCase (m.Name);
+			//Name of message and enums
+			m.CSName = ProtoPrepare.GetCamelCase (m.ProtoName);
+			foreach (MessageEnum e in m.Enums) {
+				e.CSName = GetCamelCase (e.ProtoName);
+			}
+			
+			foreach (Message sub in m.Messages)
+				PrepareMessage (sub);
+			
 			//Prepare fields
 			foreach (Field f in m.Fields) {
 				PrepareProtoType (m, f);
 				if (f.Default != null)
 					f.Default = GetCSDefaultValue (f);
 			}	
-			foreach (MessageEnum e in m.Enums) {
-				e.Name = GetCamelCase (e.Name);
-			}
-			foreach (Message sub in m.Messages)
-				PrepareMessage (sub);
+
 		}
 		
 		/// <summary>
@@ -81,8 +85,8 @@ namespace ProtocolBuffers
 				if (pt.Parent is Proto)
 					f.CSType = "";
 				else
-					f.CSType = pt.Parent.Name + ".";
-
+					f.CSType = pt.Parent.CSName + ".";
+				
 				string[] parts = f.ProtoTypeName.Split ('.');
 				int n = 0;
 				while (true) {
@@ -109,8 +113,7 @@ namespace ProtocolBuffers
 				f.WireType = Wire.LengthDelimited;
 			}
 
-			if (f.CSType == null)
-			{
+			if (f.CSType == null) {
 				f.CSType = GetCSType (f.ProtoType);
 				f.CSClass = f.CSType;
 			}
@@ -127,14 +130,20 @@ namespace ProtocolBuffers
 			string[] parts = path.Split ('.');
 			return SearchMessageUp (m, parts);			
 		}
-		
+
+		/// <summary>
+		/// Searchs the message for matchink classes
+		/// </summary>
+		/// <param name='name'>
+		/// name from .proto
+		/// </param>
 		static IProtoType SearchMessageUp (Message p, string[] name)
 		{
 			if (p is Proto)
 				return SearchMessageDown (p, name);
 			
 			Message m = p as Message;
-			if (m.Name == name [0]) {
+			if (m.ProtoName == name [0]) {
 				if (name.Length == 1)
 					return m;
 				
@@ -150,18 +159,24 @@ namespace ProtocolBuffers
 			
 			return SearchMessageUp (m.Parent, name);
 		}
-
+		
+		/// <summary>
+		/// Search down for matching name
+		/// </summary>
+		/// <param name='name'>
+		/// Split .proto type name
+		/// </param>
 		static IProtoType SearchMessageDown (Message p, string[] name)
 		{
 			if (name.Length == 1) {
 				foreach (MessageEnum me in p.Enums) {
-					if (me.Name == name [0])
+					if (me.ProtoName == name [0])
 						return me;
 				}
 			}
 			
 			foreach (Message sub in p.Messages) {
-				if (sub.Name == name [0]) {
+				if (sub.ProtoName == name [0]) {
 					if (name.Length == 1)
 						return sub;
 					string[] subName = new string[name.Length - 1];
@@ -303,7 +318,7 @@ namespace ProtocolBuffers
 			string csname = GetCamelCase (name);	
 			
 			foreach (MessageEnum me in m.Enums)
-				if (me.Name == csname)
+				if (me.CSName == csname)
 					return name;
 			
 			return csname;			

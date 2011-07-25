@@ -102,7 +102,7 @@ namespace " + nameSpace + "\n{\n");
 				prop += f.CSType + " " + f.Name + " { get; set; }\n";
 			}
 			string code = "";
-			code += "public interface I" + m.Name + "\n";
+			code += "public interface I" + m.CSName + "\n";
 			code += "{\n";
 			code += Indent (prop);
 			code += "}\n";
@@ -114,7 +114,7 @@ namespace " + nameSpace + "\n{\n");
 			//Enums
 			string enums = "";
 			foreach (MessageEnum me in m.Enums) {
-				enums += "public enum " + me.Name + "\n";
+				enums += "public enum " + me.CSName + "\n";
 				enums += "{\n";
 				foreach (var epair in me.Enums)
 					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
@@ -128,7 +128,7 @@ namespace " + nameSpace + "\n{\n");
 			}
 			
 			//Constructor with default values
-			string constructor = "public " + m.Name + "()\n";
+			string constructor = "public " + m.CSName + "()\n";
 			constructor += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
@@ -152,13 +152,12 @@ namespace " + nameSpace + "\n{\n");
 
 			//Default class
 			string code = "";
-			code += "public partial class " + m.Name + " : I" + m.Name + "\n";
+			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
 			code += "{\n";
 			code += Indent (properties);
-			code += "\n";
 			foreach (Message sub in m.Messages) {
-				code += Indent (GenerateClass (sub));
 				code += "\n";
+				code += Indent (GenerateClass (sub));
 			}
 			code += "}\n";
 			return code;
@@ -169,7 +168,7 @@ namespace " + nameSpace + "\n{\n");
 			//Enums
 			string enums = "";
 			foreach (MessageEnum me in m.Enums) {
-				enums += "public enum " + me.Name + "\n";
+				enums += "public enum " + me.CSName + "\n";
 				enums += "{\n";
 				foreach (var epair in me.Enums)
 					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
@@ -177,7 +176,7 @@ namespace " + nameSpace + "\n{\n");
 			}
 			
 			//Constructor with default values
-			string constructor = "public " + m.Name + "()\n";
+			string constructor = "public " + m.CSName + "()\n";
 			constructor += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
@@ -203,7 +202,7 @@ namespace " + nameSpace + "\n{\n");
 			string code = "";
 			code += GenerateInterface (m);
 			code += "\n";
-			code += "public partial class " + m.Name + " : I" + m.Name + "\n";
+			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
 			code += "{\n";
 			code += Indent (enums);
 			code += "\n";
@@ -225,26 +224,26 @@ namespace " + nameSpace + "\n{\n");
 		static string GenerateReader (Message m)
 		{
 			string code = "";
-			code += "public static " + m.Name + " Read(Stream stream)\n";
+			code += "public static " + m.CSName + " Read(Stream stream)\n";
 			code += "{\n";
-			code += "	" + m.Name + " instance = new " + m.Name + "();\n";
+			code += "	" + m.CSName + " instance = new " + m.CSName + "();\n";
 			code += "	Read(stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static " + m.Name + " Read(byte[] buffer)\n";
+			code += "public static " + m.CSName + " Read(byte[] buffer)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		return Read(ms);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static I" + m.Name + " Read(byte[] buffer, I" + m.Name + " instance)\n";
+			code += "public static I" + m.CSName + " Read(byte[] buffer, I" + m.CSName + " instance)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		return Read(ms, instance);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static I" + m.Name + " Read (Stream stream, I" + m.Name + " instance)\n";
+			code += "public static I" + m.CSName + " Read (Stream stream, I" + m.CSName + " instance)\n";
 			code += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {
@@ -358,7 +357,7 @@ namespace " + nameSpace + "\n{\n");
 		/// </summary>
 		static string GenerateWriter (Message m)
 		{
-			string code = "public static void Write(Stream stream, I" + m.Name + " instance)\n";
+			string code = "public static void Write(Stream stream, I" + m.CSName + " instance)\n";
 			code += "{\n";
 			if (GenerateBinaryWriter (m))
 				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";

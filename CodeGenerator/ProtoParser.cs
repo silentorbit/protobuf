@@ -70,7 +70,7 @@ namespace ProtocolBuffers
 		static Message ParseMessage (TokenReader tr, Message parent)
 		{
 			Message msg = new Message (parent);
-			msg.Name = tr.ReadNext ();
+			msg.ProtoName = tr.ReadNext ();
 			
 			//Expect "{"
 			if (tr.ReadNext () != "{")
@@ -191,7 +191,7 @@ namespace ProtocolBuffers
 		static MessageEnum ParseEnum (TokenReader tr, Message parent)
 		{
 			MessageEnum me = new MessageEnum (parent);
-			me.Name = tr.ReadNext ();
+			me.ProtoName = tr.ReadNext ();
 			
 			if (tr.ReadNext () != "{")
 				throw new InvalidDataException ("Expected: {");

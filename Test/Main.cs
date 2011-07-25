@@ -90,7 +90,7 @@ namespace Test
 		class NetPerson
 		{
 			[ProtoMember(1)]
-			public string Name { get; set; }
+			public string Name;
 
 			[ProtoMember(2)]
 			public int Id { get; set; }

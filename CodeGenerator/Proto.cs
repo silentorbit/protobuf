@@ -31,7 +31,9 @@ namespace ProtocolBuffers
 	{
 		public Message Parent { get; set; }
 
-		public string Name { get; set; }
+		public string ProtoName { get; set; }
+
+		public string CSName { get; set; }
 
 		public List<Field> Fields { get; set; }
 
@@ -49,7 +51,7 @@ namespace ProtocolBuffers
 		
 		public override string ToString ()
 		{
-			return string.Format ("[Message: Name={0}, Fields={1}, Enums={2}]", Name, Fields.Count, Enums.Count);
+			return string.Format ("[Message: Name={0}, Fields={1}, Enums={2}]", ProtoName, Fields.Count, Enums.Count);
 		}
 	}
 			
@@ -176,7 +178,9 @@ namespace ProtocolBuffers
 	{
 		public Message Parent { get; set; }
 	
-		public string Name { get; set; }
+		public string ProtoName { get; set; }
+		
+		public string CSName { get; set; }
 
 		public Dictionary<string,int> Enums { get; set; }
 		
