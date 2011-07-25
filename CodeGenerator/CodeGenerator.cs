@@ -101,8 +101,20 @@ namespace " + nameSpace + "\n{\n");
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
 					constructor += "	this." + f.Name + " = new " + f.CSType + "();\n";
-				if (f.Default != null)
+				else if (f.Default != null)
 					constructor += "	this." + f.Name + " = " + f.Default + ";\n";
+				else if (f.Rule == Rules.Optional) {
+					if (f.ProtoType == ProtoTypes.Enum) {
+						//the default value is the first value listed in the enum's type definition
+						foreach (var kvp in f.ProtoTypeEnum.Enums) {
+							constructor += "	this." + f.Name + " = " + kvp.Key + ";\n";
+							break;
+						}
+					}
+					if (f.ProtoType == ProtoTypes.String) {
+						constructor += "	this." + f.Name + " = \"\";\n";
+					}
+				}
 			}
 			constructor += "}\n";
 

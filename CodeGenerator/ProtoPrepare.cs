@@ -71,10 +71,12 @@ namespace ProtocolBuffers
 				if (pt is MessageEnum) {
 					f.ProtoType = ProtoTypes.Enum;
 					f.WireType = Wire.Varint;
+					f.ProtoTypeEnum = (MessageEnum)pt;
 				}
 				if (pt is Message) {
 					f.ProtoType = ProtoTypes.Message;
 					f.WireType = Wire.LengthDelimited;
+					f.ProtoTypeMessage = (Message)pt;
 				}
 				if (pt.Parent is Proto)
 					f.CSType = "";

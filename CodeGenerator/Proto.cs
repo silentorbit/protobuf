@@ -55,6 +55,8 @@ namespace ProtocolBuffers
 	
 	public class Field
 	{
+		#region .proto data
+		
 		public Rules Rule { get; set; }
 		
 		/// <summary>
@@ -73,18 +75,50 @@ namespace ProtocolBuffers
 		
 		public string Default { get; set; }
 		
-		///Used later in CodeGeneration
+		#endregion
 		
+		#region Code Generation Properties
+		
+		//These are generated as a second stage parsing of the .proto file.
+		//They are used in the code generation.
+		
+		/// <summary>
+		/// .proto type includng enum and message.
+		/// </summary>
 		public ProtoTypes ProtoType { get; set; }
 		
+		/// <summary>
+		/// If a message type this point to the Message class, for use in code generation
+		/// </summary>
+		public Message ProtoTypeMessage { get; set; }
+		
+		/// <summary>
+		/// If an enum type this point to the MessageEnum class, for use in code generation
+		/// </summary>
+		public MessageEnum ProtoTypeEnum { get; set; }
+		
+		/// <summary>
+		/// Based on Prototype and Rule according to the protocol buffers specification
+		/// </summary>
 		public Wire WireType { get; set; }
 		
+		/// <summary>
+		/// C# type, interface, including List<> if a repeated field
+		/// </summary>
 		public string CSType { get; set; }
-
+		
+		/// <summary>
+		/// C# class of the default class, useful with new Class() expressions.
+		/// </summary>
 		public string CSClass { get; set; }
 
+		/// <summary>
+		/// C# type, interface, of the item in the list if a repeated field
+		/// </summary>		
 		public string CSItemType { get; set; }
-
+		
+		#endregion
+		
 		public override string ToString ()
 		{
 			return string.Format ("{0} {1} {2} = {3}", Rule, ProtoTypeName, Name, ID);
