@@ -107,6 +107,7 @@ namespace ExampleNamespace
 	
 		public Person()
 		{
+			this.Email = "";
 			this.Phone = new List<Person.IPhoneNumber>();
 		}
 	
@@ -310,6 +311,7 @@ namespace ExampleNamespace
 		public MyMessageV2()
 		{
 			this.FieldR = MyMessageV2.MyEnum.ETest2;
+			this.Dummy = "";
 			this.FieldS = new List<uint>();
 			this.FieldT = new List<uint>();
 			this.FieldV = new List<ITheirMessage>();
