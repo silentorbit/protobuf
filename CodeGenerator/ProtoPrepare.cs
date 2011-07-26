@@ -8,6 +8,10 @@ namespace ProtocolBuffers
 	{
 		public static void Prepare (Proto proto)
 		{
+			//Check namespace, default to "Example"
+			if(proto.Options.ContainsKey("namespace") == false)
+				proto.Options.Add("namespace", "Example");
+
 			foreach (Message m in proto.Messages)
 				PrepareMessage (m);
 		}

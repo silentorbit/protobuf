@@ -8,12 +8,16 @@ namespace ProtocolBuffers
 {
 	public class CodeGenerator
 	{
+		readonly Proto proto;
 		readonly string ns;
 		
-		public CodeGenerator (string nameSpace)
+		public CodeGenerator (Proto proto)
 		{
-			this.ns = nameSpace;
+			this.proto = proto;
+			this.ns = proto.Options["namespace"];
 		}
+		
+		#region Path and Namespace generators
 		
 		/// <summary>
 		/// Prepend namespace to class name
@@ -99,10 +103,12 @@ namespace ProtocolBuffers
 			}
 		}
 		
+		#endregion
+		
 		/// <summary>
 		/// Generate code for reading and writing protocol buffer messages
 		/// </summary>
-		public void Save (Proto p, string csPath)
+		public void Save (string csPath)
 		{
 			using (TextWriter codeWriter = new StreamWriter(csPath, false, Encoding.UTF8)) {
 				codeWriter.WriteLine (@"//
@@ -123,7 +129,7 @@ namespace " + ns + @"
 {
 ");
 				
-				foreach (Message m in p.Messages)
+				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (1, GenerateClass (m)));
 				
 				codeWriter.WriteLine ("}");
@@ -153,10 +159,10 @@ namespace ProtocolBuffers
 	{
 ");
 				
-				foreach (Message m in p.Messages)
+				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (2, GenerateClassSerializer (m)));
 
-				foreach (Message m in p.Messages)
+				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (2, GenerateGenericClassSerializer (m)));
 					
 				codeWriter.WriteLine (@"

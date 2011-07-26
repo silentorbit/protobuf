@@ -43,12 +43,15 @@ namespace ProtocolBuffers
 
 		public List<MessageEnum> Enums { get; set; }
 	
+		public Dictionary<string,string> Options { get; set; }
+			
 		public Message (Message parent)
 		{
 			this.Parent = parent;
 			this.Fields = new List<Field> ();
 			this.Messages = new List<Message> ();
 			this.Enums = new List<MessageEnum> ();
+			this.Options = new Dictionary<string, string> ();
 		}
 		
 		public override string ToString ()

@@ -21,7 +21,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <Commandlineparameters>../../../Test/Example.proto ExampleNamespace ../../../Test/Example.cs</Commandlineparameters>
+    <Commandlineparameters>../../../Test/Example.proto</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>

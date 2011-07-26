@@ -1,6 +1,6 @@
 # Protocol Buffers C# Code Generator BETA
 
-http://silentorbit.com/protobuf-csharpgen/
+https://silentorbit.com/protobuf-csharpgen/
 
 Implementation of [Googles Protocol Buffers](http://code.google.com/apis/protocolbuffers/docs/overview.html) in C#.
 
@@ -11,6 +11,8 @@ reading and writing them to the Protocol Buffers binary format.
 ## Example
 
 This is a part of the Test/Example.proto:
+
+	option namespace = "ExampleNamespace";
 
 	message Person {
 	  required string name = 1;
@@ -62,7 +64,8 @@ Writing this to a stream:
 
 	Serializer.Write(stream, person1);
 
-Person can be either of class Person or your own class implementing the interface IPerson.
+Person can be either of class Person
+ or your own class implementing the interface IPerson.
 
 Reading from a stream:
 
@@ -72,15 +75,18 @@ Reading from a stream:
 
 This is ALPHA, untested code.
 
-Correctness of the written binary data or handling of messages has not been tested yet.
+Correctness of the written binary data or handling of messages has not been tested.
 
 Check Test/Example.proto for the currently implemented features.
 
 ## Usage
 
-    CodeGenerator.exe Example.proto ExampleNamespace Example.cs
+    CodeGenerator.exe Example.proto [output.cs]
 
-The output is tree files.
+If the optional output.cs parameter is omitted it will default to the basename of the .proto file.
+In this example it would be Example.cs
+
+The output is three files.
 
  * Example.cs - Basic class declaration(based on .proto).
  * Example.Serializer.cs - Code for reading/writing the message.

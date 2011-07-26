@@ -58,8 +58,8 @@ namespace ProtocolBuffers
 					p.Messages.Add (ParseMessage (tr, p));
 					break;
 				case "option":
-					//Ignore options
-					ParseOption (tr);
+					//Save options
+					ParseOption (tr, p);
 					break;
 				default:
 					throw new InvalidDataException ("Expected: message or option");
@@ -108,8 +108,8 @@ namespace ProtocolBuffers
 				f.Rule = Rules.Repeated;
 				break;
 			case "option":
-				//Ignore options
-				ParseOption (tr);
+				//Save options
+				ParseOption (tr, m);
 				return true;
 			case "message":
 				m.Messages.Add (ParseMessage (tr, m));
@@ -176,16 +176,19 @@ namespace ProtocolBuffers
 			return true;
 		}
 
-		static void ParseOption (TokenReader tr)
+		static void ParseOption (TokenReader tr, Message m)
 		{
 			//Read name
-			tr.ReadNext ();
+			string key = tr.ReadNext ();
 			if (tr.ReadNext () != "=")
 				throw new InvalidDataException ("Expected: =");
 			//Read value
-			tr.ReadNext ();
+			string value = tr.ReadNext ();
 			if (tr.ReadNext () != ";")
-				throw new InvalidDataException ("Expected: ;");			
+				throw new InvalidDataException ("Expected: ;");
+			
+			if (m != null)
+				m.Options.Add (key, value);
 		}
 
 		static MessageEnum ParseEnum (TokenReader tr, Message parent)
@@ -204,7 +207,7 @@ namespace ProtocolBuffers
 				
 				//Ignore options
 				if (name == "option") {
-					ParseOption (tr);
+					ParseOption (tr, null);
 					continue;
 				}
 				

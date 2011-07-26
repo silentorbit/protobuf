@@ -8,34 +8,39 @@ namespace ProtocolBuffers
 	{
 		public static void Main (string[] args)
 		{
-			if (args.Length != 3) {
-				Console.Error.WriteLine ("Usage:\n\tCodeGenerator.exe <path-to.proto> <namespace> <output.cs>");
+			if (args.Length < 1) {
+				Console.Error.WriteLine ("Usage:\n\tCodeGenerator.exe path-to.proto [output.cs]");
 				return;						
 			}
 			
 			string protoPath = Path.GetFullPath (args [0]);
-			string codeNamespace = args [1];
-			string codePath = Path.GetFullPath (args [2]);
 			
 			if (File.Exists (protoPath) == false) {
 				Console.Error.WriteLine ("File not found: " + protoPath);
 				return;						
 			}
-			
+
 			//Parse proto
 			Console.WriteLine ("Parsing " + protoPath);
 			Proto proto = ProtoParser.Parse (protoPath);
 			if (proto == null)
 				return;
 			Console.WriteLine (proto);
-			
+
 			//Interpret and reformat
 			ProtoPrepare.Prepare (proto);
-				
+			
+			string codePath;
+			if (args.Length < 2) {
+				string ext = Path.GetExtension (protoPath);
+				codePath = protoPath.Substring (0, protoPath.Length - ext.Length) + ".cs";
+			} else
+				codePath = Path.GetFullPath (args [1]);
+
 			//Generate code
 			Console.WriteLine ("Generating code");
-			CodeGenerator cg = new CodeGenerator(codeNamespace);
-			cg.Save (proto, codePath);
+			CodeGenerator cg = new CodeGenerator (proto);
+			cg.Save (codePath);
 			Console.WriteLine ("Saved: " + codePath);
 		}
 	}
