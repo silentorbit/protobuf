@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 using ProtocolBuffers;
+using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
@@ -150,17 +151,14 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;");
-				bool gotDefaultNS = false;
+				List<string > usedNS = new List<string> ();
 				foreach (Message m in proto.Messages) {
 					string mns = GetNamespace (m);
-					if (mns == ns) {
-						gotDefaultNS = true;
+					if (usedNS.Contains (mns))
 						continue;
-					}
 					codeWriter.WriteLine ("using " + mns + ";");
+					usedNS.Add (mns);
 				}
-				if (gotDefaultNS)
-					codeWriter.WriteLine ("using " + ns + ";");
 
 				codeWriter.WriteLine (@"
 namespace ProtocolBuffers
@@ -170,7 +168,7 @@ namespace ProtocolBuffers
 				
 				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (2, GenerateClassSerializer (m)));
-
+				
 				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (2, GenerateGenericClassSerializer (m)));
 					
@@ -486,6 +484,11 @@ namespace ProtocolBuffers
 			code += "{\n";
 			code += "	Serializer.Write(stream, instance);\n";
 			code += "}\n";
+			code += "\n";
+			code += "public static byte[] Write(" + PropertyType (m) + " instance)\n";
+			code += "{\n";
+			code += "	return Serializer.Write(instance);\n";
+			code += "}\n";
 			return code;
 		}
 		
@@ -494,7 +497,8 @@ namespace ProtocolBuffers
 		/// </summary>
 		string GenerateGenericWriter (Message m)
 		{
-			string code = "public static void Write(Stream stream, " + PropertyType (m) + " instance)\n";
+			string code = "";
+			code += "public static void Write(Stream stream, " + PropertyType (m) + " instance)\n";
 			code += "{\n";
 			if (GenerateBinaryWriter (m))
 				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";
