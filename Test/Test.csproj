@@ -43,7 +43,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="ProtocolParser.cs" />
-    <Compile Include="Example.Backend.cs" />
+    <Compile Include="Example.Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

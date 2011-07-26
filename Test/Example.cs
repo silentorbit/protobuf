@@ -17,28 +17,75 @@ namespace ExampleNamespace
 
 	public partial class Person : IPerson
 	{
+		public enum PhoneType
+		{
+			MOBILE = 0,
+			HOME = 1,
+			WORK = 2,
+		}
+	
 		public string Name { get; set; }
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public List<Person.IPhoneNumber> Phone { get; set; }
+		public List<ExampleNamespace.Person.IPhoneNumber> Phone { get; set; }
+	
+		public Person()
+		{
+			this.Email = "";
+			this.Phone = new List<IPhoneNumber>();
+		}
 	
 		public partial class PhoneNumber : IPhoneNumber
 		{
-			public string Number { get; set; }
-			public Person.PhoneType Type { get; set; }
 		
+			public string Number { get; set; }
+			public ExampleNamespace.Person.PhoneType Type { get; set; }
+		
+			public PhoneNumber()
+			{
+				this.Type = Person.PhoneType.HOME;
+			}
 		}
+		
+		public interface IPhoneNumber
+		{
+			string Number { get; set; }
+			ExampleNamespace.Person.PhoneType Type { get; set; }
+		}
+	}
 	
+	public interface IPerson
+	{
+		string Name { get; set; }
+		int Id { get; set; }
+		string Email { get; set; }
+		List<ExampleNamespace.Person.IPhoneNumber> Phone { get; set; }
 	}
 
 	public partial class MyMessageV1 : IMyMessageV1
 	{
+	
 		public int FieldA { get; set; }
 	
+		public MyMessageV1()
+		{
+		}
+	}
+	
+	public interface IMyMessageV1
+	{
+		int FieldA { get; set; }
 	}
 
 	public partial class MyMessageV2 : IMyMessageV2
 	{
+		public enum MyEnum
+		{
+			ETest1 = 0,
+			ETest2 = 3,
+			ETest3 = 2,
+		}
+	
 		public int FieldA { get; set; }
 		public double FieldB { get; set; }
 		public float FieldC { get; set; }
@@ -55,20 +102,65 @@ namespace ExampleNamespace
 		public bool FieldN { get; set; }
 		public string FieldO { get; set; }
 		public byte[] FieldP { get; set; }
-		public MyMessageV2.MyEnum FieldQ { get; set; }
-		public MyMessageV2.MyEnum FieldR { get; set; }
+		public ExampleNamespace.MyMessageV2.MyEnum FieldQ { get; set; }
+		public ExampleNamespace.MyMessageV2.MyEnum FieldR { get; set; }
 		public string Dummy { get; set; }
 		public List<uint> FieldS { get; set; }
 		public List<uint> FieldT { get; set; }
-		public ITheirMessage FieldU { get; set; }
-		public List<ITheirMessage> FieldV { get; set; }
+		public ExampleNamespace.ITheirMessage FieldU { get; set; }
+		public List<ExampleNamespace.ITheirMessage> FieldV { get; set; }
 	
+		public MyMessageV2()
+		{
+			this.FieldR = MyMessageV2.MyEnum.ETest2;
+			this.Dummy = "";
+			this.FieldS = new List<uint>();
+			this.FieldT = new List<uint>();
+			this.FieldV = new List<ITheirMessage>();
+		}
+	}
+	
+	public interface IMyMessageV2
+	{
+		int FieldA { get; set; }
+		double FieldB { get; set; }
+		float FieldC { get; set; }
+		int FieldD { get; set; }
+		long FieldE { get; set; }
+		uint FieldF { get; set; }
+		ulong FieldG { get; set; }
+		int FieldH { get; set; }
+		long FieldI { get; set; }
+		uint FieldJ { get; set; }
+		ulong FieldK { get; set; }
+		int FieldL { get; set; }
+		long FieldM { get; set; }
+		bool FieldN { get; set; }
+		string FieldO { get; set; }
+		byte[] FieldP { get; set; }
+		ExampleNamespace.MyMessageV2.MyEnum FieldQ { get; set; }
+		ExampleNamespace.MyMessageV2.MyEnum FieldR { get; set; }
+		[Obsolete]
+		string Dummy { get; set; }
+		List<uint> FieldS { get; set; }
+		List<uint> FieldT { get; set; }
+		ExampleNamespace.ITheirMessage FieldU { get; set; }
+		List<ExampleNamespace.ITheirMessage> FieldV { get; set; }
 	}
 
 	public partial class TheirMessage : ITheirMessage
 	{
+	
 		public int FieldA { get; set; }
 	
+		public TheirMessage()
+		{
+		}
+	}
+	
+	public interface ITheirMessage
+	{
+		int FieldA { get; set; }
 	}
 
 }

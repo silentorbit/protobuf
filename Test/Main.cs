@@ -36,7 +36,7 @@ namespace Test
 			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.MOBILE, Number = "+46 11111111111"});
 			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.HOME, Number = "+46 777777777"});
 			MemoryStream ms1 = new MemoryStream ();
-			Person.Write (ms1, p1);
+			ProtocolBuffers.Serializer.Write (ms1, p1);
 			
 			MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
 			NetPerson p2 = Serializer.Deserialize<NetPerson> (ms2);
@@ -73,7 +73,7 @@ namespace Test
 			}
 			
 			MemoryStream ms4 = new MemoryStream (ms3.ToArray ());
-			Person p4 = Person.Read (ms4);
+			Person p4 = ProtocolBuffers.Serializer.Person.Read (ms4);
 			
 			//Test			
 			Test ("14 Name", p1.Name == p4.Name);
@@ -151,13 +151,13 @@ namespace Test
 			
 			//Write
 			MemoryStream ms = new MemoryStream ();
-			MyMessageV2.Write (ms, mm);
+			ProtocolBuffers.Serializer.MyMessageV2.Write (ms, mm);
 			
 			Console.WriteLine ("Wire bytes: " + ms.Length);
 			
 			//Read
 			MemoryStream msread = new MemoryStream (ms.ToArray ());
-			IMyMessageV2 mo = MyMessageV2.Read (msread);
+			IMyMessageV2 mo = ProtocolBuffers.Serializer.MyMessageV2.Read (msread);
 			
 			//Verify
 			Test ("FieldA", mm.FieldA == mo.FieldA);
@@ -196,7 +196,7 @@ namespace Test
 			
 			//Read by older version
 			MemoryStream msread1 = new MemoryStream (ms.ToArray ());
-			IMyMessageV1 m1 = MyMessageV1.Read (msread1);
+			IMyMessageV1 m1 = ProtocolBuffers.Serializer.MyMessageV1.Read (msread1);
 			
 			Console.WriteLine ("Version 1");
 			Test ("FieldA", mm.FieldA == m1.FieldA);

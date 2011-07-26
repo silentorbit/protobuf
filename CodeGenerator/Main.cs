@@ -34,7 +34,8 @@ namespace ProtocolBuffers
 				
 			//Generate code
 			Console.WriteLine ("Generating code");
-			CodeGenerator.Save (proto, codeNamespace, codePath);
+			CodeGenerator cg = new CodeGenerator(codeNamespace);
+			cg.Save (proto, codePath);
 			Console.WriteLine ("Saved: " + codePath);
 		}
 	}

@@ -82,27 +82,16 @@ namespace ProtocolBuffers
 					f.WireType = Wire.LengthDelimited;
 					f.ProtoTypeMessage = (Message)pt;
 				}
-				if (pt.Parent is Proto)
-					f.CSType = "";
-				else
-					f.CSType = pt.Parent.CSName + ".";
 				
 				string[] parts = f.ProtoTypeName.Split ('.');
-				int n = 0;
-				while (true) {
-					string cc = GetCamelCase (parts [n]);
-					if (n >= parts.Length - 2 && pt is Message) {
-						f.CSClass = f.CSType + cc;
-						f.CSType += "I" + cc;
-						break;
-					}
-					f.CSType += cc;
-					n += 1;
-					if (n >= parts.Length)
-						break;
-					else
-						f.CSType += ".";
+				string cc = GetCamelCase (parts [parts.Length-1]);
+				if (pt is Message) {
+					f.CSClass = cc;
+					f.CSType += "I" + cc;
+					break;
 				}
+				else
+					f.CSType = cc;
 
 				break;
 			}
@@ -117,11 +106,6 @@ namespace ProtocolBuffers
 				f.CSType = GetCSType (f.ProtoType);
 				f.CSClass = f.CSType;
 			}
-			f.CSItemType = f.CSType;
-			if (f.Rule == Rules.Repeated) {
-				f.CSType = "List<" + f.CSType + ">";
-			}
-			
 		}
 		
 		//Search for name.
@@ -299,7 +283,7 @@ namespace ProtocolBuffers
 				throw new NotImplementedException ();
 				
 			case ProtoTypes.Enum:	
-				return f.CSType + "." + f.Default;
+				return f.Default;
 				
 			case ProtoTypes.Message:
 				throw new InvalidDataException ("Don't think there can be a default for messages");

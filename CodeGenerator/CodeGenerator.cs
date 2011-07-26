@@ -6,14 +6,104 @@ using ProtocolBuffers;
 
 namespace ProtocolBuffers
 {
-	public static class CodeGenerator
+	public class CodeGenerator
 	{
+		readonly string ns;
+		
+		public CodeGenerator (string nameSpace)
+		{
+			this.ns = nameSpace;
+		}
+		
+		/// <summary>
+		/// Prepend namespace to class name
+		/// </summary>
+		private string FullNS (Message message)
+		{
+			string path = message.CSName;
+			while (message.Parent != null && !(message.Parent is Proto)) {
+				message = message.Parent;
+				path = message.CSName + "." + path;
+			}
+			return ns + "." + path;
+		}
+		
+		/// <summary>
+		/// Generate full Interface path
+		/// </summary>
+		private string PropertyType (Message message)
+		{
+			string path = "I" + message.CSName;
+			while (message.Parent != null && !(message.Parent is Proto)) {
+				message = message.Parent;
+				path = message.CSName + "." + path;
+			}
+			return ns + "." + path;
+		}
+		
+		/// <summary>
+		/// Generate full Interface path, without namespace
+		/// </summary>
+		private string PropertyItemType (Field field)
+		{
+			Message message;
+			switch (field.ProtoType) {
+			case ProtoTypes.Message:
+				message = field.ProtoTypeMessage.Parent;
+				break;
+			case ProtoTypes.Enum:
+				message = field.ProtoTypeEnum.Parent;
+				break;
+			default:	
+				return field.CSType;
+			}
+			
+			string path = field.CSType;
+			if (message is Proto == false)
+				path = message.CSName + "." + path;
+			
+			while (message.Parent != null && !(message.Parent is Proto)) {
+				message = message.Parent;
+				path = message.CSName + "." + path;
+			}
+			return ns + "." + path;
+		}
+		
+		/// <summary>
+		/// Generate full Interface path, without namespace
+		/// </summary>
+		private string PropertyType (Field field)
+		{
+			if (field.Rule == Rules.Repeated)
+				return "List<" + PropertyItemType (field) + ">";
+			else
+				return PropertyItemType (field);
+		}
+		
+		private static string FullClass (Field f)
+		{
+			IProtoType pt;
+			if (f.ProtoType == ProtoTypes.Message)
+				pt = f.ProtoTypeMessage;
+			else if (f.ProtoType == ProtoTypes.Enum)
+				pt = f.ProtoTypeEnum;
+			else
+				throw new InvalidOperationException ();
+			
+			string path = pt.CSName;
+			while (true) {
+				pt = pt.Parent;
+				if (pt is Proto)
+					return path;
+				path = pt.CSName + "." + path;
+			}
+		}
+		
 		/// <summary>
 		/// Generate code for reading and writing protocol buffer messages
 		/// </summary>
-		public static void Save (Proto p, string nameSpace, string csPath)
+		public void Save (Proto p, string csPath)
 		{
-			
 			using (TextWriter codeWriter = new StreamWriter(csPath, false, Encoding.UTF8)) {
 				codeWriter.WriteLine (@"//
 //	You may customize this code as you like
@@ -29,7 +119,9 @@ using System.Text;
 using System.Collections.Generic;
 using ProtocolBuffers;
 
-namespace " + nameSpace + "\n{\n");
+namespace " + ns + @"
+{
+");
 				
 				foreach (Message m in p.Messages)
 					codeWriter.WriteLine (Indent (1, GenerateClass (m)));
@@ -37,10 +129,10 @@ namespace " + nameSpace + "\n{\n");
 				codeWriter.WriteLine ("}");
 			}
 			
-			string ext = Path.GetExtension(csPath);
-			string backendPath = csPath.Substring(0, csPath.Length - ext.Length) + ".Backend" + ext;
+			string ext = Path.GetExtension (csPath);
+			string serializerPath = csPath.Substring (0, csPath.Length - ext.Length) + ".Serializer" + ext;
 			
-			using (TextWriter codeWriter = new StreamWriter(backendPath, false, Encoding.UTF8)) {
+			using (TextWriter codeWriter = new StreamWriter(serializerPath, false, Encoding.UTF8)) {
 				codeWriter.WriteLine (@"//
 //	This is the backend code for reading and writing
 //	Report bugs to: https://silentorbit.com/protobuf-csharpgen/
@@ -53,14 +145,23 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using ProtocolBuffers;
+using " + ns + @";
 
-namespace " + nameSpace + "\n{\n");
+namespace ProtocolBuffers
+{
+	public static partial class Serializer
+	{
+");
 				
 				foreach (Message m in p.Messages)
-					codeWriter.WriteLine (Indent (1, GenerateClassBackend (m)));
-				
-				codeWriter.WriteLine ("}");
+					codeWriter.WriteLine (Indent (2, GenerateClassSerializer (m)));
+
+				foreach (Message m in p.Messages)
+					codeWriter.WriteLine (Indent (2, GenerateGenericClassSerializer (m)));
+					
+				codeWriter.WriteLine (@"
+	}
+}");
 			}
 				
 			string libPath = Path.Combine (Path.GetDirectoryName (csPath), "ProtocolParser.cs");
@@ -93,23 +194,24 @@ namespace " + nameSpace + "\n{\n");
 			code.WriteLine ("#endregion");
 		}
 		
-		static string GenerateInterface (Message m)
+		string GenerateInterface (Message m)
 		{
-			string prop = "";
+			string properties = "";
 			foreach (Field f in m.Fields) {
 				if (f.Deprecated)
-					prop += "[Obsolete]\n";
-				prop += f.CSType + " " + f.Name + " { get; set; }\n";
+					properties += "[Obsolete]\n";
+				properties += PropertyType (f) + " " + f.Name + " { get; set; }\n";
 			}
+			
 			string code = "";
 			code += "public interface I" + m.CSName + "\n";
 			code += "{\n";
-			code += Indent (prop);
+			code += Indent (properties);
 			code += "}\n";
 			return code;
 		}
 
-		static string GenerateClass (Message m)
+		string GenerateClass (Message m)
 		{
 			//Enums
 			string enums = "";
@@ -124,7 +226,7 @@ namespace " + nameSpace + "\n{\n");
 			//Properties
 			string properties = "";
 			foreach (Field f in m.Fields) {
-				properties += "public " + f.CSType + " " + f.Name + " { get; set; }\n";
+				properties += "public " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
 			}
 			
 			//Constructor with default values
@@ -132,10 +234,13 @@ namespace " + nameSpace + "\n{\n");
 			constructor += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
-					constructor += "	this." + f.Name + " = new " + f.CSType + "();\n";
-				else if (f.Default != null)
-					constructor += "	this." + f.Name + " = " + f.Default + ";\n";
-				else if (f.Rule == Rules.Optional) {
+					constructor += "	this." + f.Name + " = new List<" + f.CSType + ">();\n";
+				else if (f.Default != null) {
+					if (f.ProtoType == ProtoTypes.Enum)
+						constructor += "	this." + f.Name + " = " + FullClass (f) + "." + f.Default + ";\n";
+					else
+						constructor += "	this." + f.Name + " = " + f.Default + ";\n";
+				} else if (f.Rule == Rules.Optional) {
 					if (f.ProtoType == ProtoTypes.Enum) {
 						//the default value is the first value listed in the enum's type definition
 						foreach (var kvp in f.ProtoTypeEnum.Enums) {
@@ -154,96 +259,93 @@ namespace " + nameSpace + "\n{\n");
 			string code = "";
 			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
 			code += "{\n";
+			code += Indent (enums);
+			code += "\n";
 			code += Indent (properties);
+			code += "\n";
+			code += Indent (constructor);
 			foreach (Message sub in m.Messages) {
 				code += "\n";
 				code += Indent (GenerateClass (sub));
 			}
 			code += "}\n";
+			code += "\n";
+			code += GenerateInterface (m);
 			return code;
 		}
 		
-		static string GenerateClassBackend (Message m)
+		string GenerateClassSerializer (Message m)
 		{
-			//Enums
-			string enums = "";
-			foreach (MessageEnum me in m.Enums) {
-				enums += "public enum " + me.CSName + "\n";
-				enums += "{\n";
-				foreach (var epair in me.Enums)
-					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
-				enums += "}\n";
-			}
-			
-			//Constructor with default values
-			string constructor = "public " + m.CSName + "()\n";
-			constructor += "{\n";
-			foreach (Field f in m.Fields) {
-				if (f.Rule == Rules.Repeated)
-					constructor += "	this." + f.Name + " = new " + f.CSType + "();\n";
-				else if (f.Default != null)
-					constructor += "	this." + f.Name + " = " + f.Default + ";\n";
-				else if (f.Rule == Rules.Optional) {
-					if (f.ProtoType == ProtoTypes.Enum) {
-						//the default value is the first value listed in the enum's type definition
-						foreach (var kvp in f.ProtoTypeEnum.Enums) {
-							constructor += "	this." + f.Name + " = " + kvp.Key + ";\n";
-							break;
-						}
-					}
-					if (f.ProtoType == ProtoTypes.String) {
-						constructor += "	this." + f.Name + " = \"\";\n";
-					}
-				}
-			}
-			constructor += "}\n";
-
-			//Default class
 			string code = "";
-			code += GenerateInterface (m);
-			code += "\n";
-			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
+			code += "public static class " + m.CSName + "\n";
 			code += "{\n";
-			code += Indent (enums);
-			code += "\n";
-			foreach (Message sub in m.Messages) {
-				code += Indent (GenerateClassBackend (sub));
-				code += "\n";
-			}
-			code += Indent (constructor);
-			code += "\n";
 			code += Indent (GenerateReader (m));
 			code += "\n";
 			code += Indent (GenerateWriter (m));
+			foreach (Message sub in m.Messages) {
+				code += "\n";
+				code += Indent (GenerateClassSerializer (sub));
+			}
 			code += "}\n";
+			code += "\n";
+			return code;
+		}
+		
+		string GenerateGenericClassSerializer (Message m)
+		{
+			string code = "";
+			code += "\n";
+			code += GenerateGenericReader (m);
+			code += "\n";
+			code += GenerateGenericWriter (m);
+			code += "\n";
+			foreach (Message sub in m.Messages) {
+				code += "\n";
+				code += GenerateGenericClassSerializer (sub);
+			}
 			return code;
 		}
 		
 		#region Protocol Reader
 		
-		static string GenerateReader (Message m)
+		string GenerateReader (Message m)
 		{
 			string code = "";
-			code += "public static " + m.CSName + " Read(Stream stream)\n";
+			code += "public static " + FullNS (m) + " Read(Stream stream)\n";
 			code += "{\n";
-			code += "	" + m.CSName + " instance = new " + m.CSName + "();\n";
-			code += "	Read(stream, instance);\n";
+			code += "	" + FullNS (m) + " instance = new " + FullNS (m) + "();\n";
+			code += "	Serializer.Read(stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static " + m.CSName + " Read(byte[] buffer)\n";
+			code += "public static " + FullNS (m) + " Read(byte[] buffer)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		return Read(ms);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static I" + m.CSName + " Read(byte[] buffer, I" + m.CSName + " instance)\n";
+			code += "public static T Read<T> (Stream stream) where T : " + PropertyType (m) + ", new()\n";
 			code += "{\n";
-			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
-			code += "		return Read(ms, instance);\n";
+			code += "	T instance = new T ();\n";
+			code += "	Serializer.Read (stream, instance);\n";
+			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static I" + m.CSName + " Read (Stream stream, I" + m.CSName + " instance)\n";
+			code += "public static T Read<T> (byte[] buffer) where T : " + PropertyType (m) + ", new()\n";
+			code += "{\n";
+			code += "	T instance = new T ();\n";
+			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
+			code += "		Serializer.Read (ms, instance);\n";
+			code += "	return instance;\n";
+			code += "}\n";
+			
+			return code;
+		}
+
+		string GenerateGenericReader (Message m)
+		{
+			string code = "";
+			code += "public static " + PropertyType (m) + " Read (Stream stream, " + PropertyType (m) + " instance)\n";
 			code += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {
@@ -273,10 +375,17 @@ namespace " + nameSpace + "\n{\n");
 			code += "	}\n";
 			code += "	return instance;\n";
 			code += "}\n";
+			code += "\n";
+			code += "public static " + PropertyType (m) + " Read(byte[] buffer, " + PropertyType (m) + " instance)\n";
+			code += "{\n";
+			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
+			code += "		Read (ms, instance);\n";
+			code += "	return instance;\n";
+			code += "}\n";
 			return code;
 		}
 
-		static string GenerateFieldReader (Field f)
+		string GenerateFieldReader (Field f)
 		{
 			string code = "";
 			if (f.Rule == Rules.Repeated) {
@@ -296,14 +405,14 @@ namespace " + nameSpace + "\n{\n");
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
 					code += "if(instance." + f.Name + " == null)\n";
-					code += "	instance." + f.Name + " = new " + f.CSClass + "();\n";
+					code += "	instance." + f.Name + " = new " + ns + "." + FullClass (f) + "();\n";
 				}
 				code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 			}
 			return code;
 		}
 
-		static string GenerateFieldTypeReader (Field f, string stream, string binaryReader, string instance)
+		string GenerateFieldTypeReader (Field f, string stream, string binaryReader, string instance)
 		{
 			switch (f.ProtoType) {
 			case ProtoTypes.Double:
@@ -337,12 +446,12 @@ namespace " + nameSpace + "\n{\n");
 			case ProtoTypes.Bytes:
 				return "ProtocolParser.ReadBytes(" + stream + ")";
 			case ProtoTypes.Enum:
-				return "(" + f.CSItemType + ")ProtocolParser.ReadUInt32(" + stream + ")";
+				return "(" + ns + "." + FullClass (f) + ")ProtocolParser.ReadUInt32(" + stream + ")";
 			case ProtoTypes.Message:				
 				if (f.Rule == Rules.Repeated)
-					return f.CSClass + ".Read(ProtocolParser.ReadBytes(" + stream + "))";
+					return FullClass (f) + ".Read(ProtocolParser.ReadBytes(" + stream + "))";
 				else
-					return f.CSClass + ".Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+					return "Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
 			default:
 				throw new NotImplementedException ();
 			}
@@ -352,12 +461,25 @@ namespace " + nameSpace + "\n{\n");
 		
 		#region Protocol Writer
 		
+		
 		/// <summary>
 		/// Generates code for writing a class/message
 		/// </summary>
-		static string GenerateWriter (Message m)
+		string GenerateWriter (Message m)
 		{
-			string code = "public static void Write(Stream stream, I" + m.CSName + " instance)\n";
+			string code = "public static void Write(Stream stream, " + PropertyType (m) + " instance)\n";
+			code += "{\n";
+			code += "	Serializer.Write(stream, instance);\n";
+			code += "}\n";
+			return code;
+		}
+		
+		/// <summary>
+		/// Generates code for writing a class/message
+		/// </summary>
+		string GenerateGenericWriter (Message m)
+		{
+			string code = "public static void Write(Stream stream, " + PropertyType (m) + " instance)\n";
 			code += "{\n";
 			if (GenerateBinaryWriter (m))
 				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";
@@ -385,7 +507,7 @@ namespace " + nameSpace + "\n{\n");
 		/// <summary>
 		/// Generates code for writing one field
 		/// </summary>
-		static string GenerateFieldWriter (Message m, Field f)
+		string GenerateFieldWriter (Message m, Field f)
 		{
 			string code = "";
 			if (f.Rule == Rules.Repeated) {
@@ -406,7 +528,7 @@ namespace " + nameSpace + "\n{\n");
 					code += "ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
 					code += "{	" + binaryWriter + "\n";
-					code += "	foreach (" + f.CSItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "	foreach (" + PropertyItemType (f) + " i" + f.ID + " in instance." + f.Name + ")\n";
 					code += "	{\n";
 					code += "" + Indent (2, GenerateFieldTypeWriter (f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID)) + "\n";
 					code += "	}\n";
@@ -414,7 +536,7 @@ namespace " + nameSpace + "\n{\n");
 					code += "}\n";
 					return code;
 				} else {
-					code += "foreach (" + f.CSItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "foreach (" + PropertyItemType (f) + " i" + f.ID + " in instance." + f.Name + ")\n";
 					code += "{\n";
 					code += "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += "" + Indent (1, GenerateFieldTypeWriter (f, "stream", "bw", "i" + f.ID)) + "\n";
@@ -433,7 +555,7 @@ namespace " + nameSpace + "\n{\n");
 					code += "}\n";
 					return code;
 				case ProtoTypes.Enum:
-					code += "if(instance." + f.Name + " != " + f.Default + ")\n";
+					code += "if(instance." + f.Name + " != " + ns + "." + FullClass (f) + "." + f.Default + ")\n";
 					code += "{\n";
 					code += "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += Indent (GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name));
@@ -494,7 +616,7 @@ namespace " + nameSpace + "\n{\n");
 				string code = "";
 				code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
 				code += "{\n";
-				code += "	" + f.CSClass + ".Write(ms" + f.ID + ", " + instance + ");\n";
+				code += "	Write(ms" + f.ID + ", " + instance + ");\n";
 				code += "	ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());\n";
 				code += "}\n";
 				return code;

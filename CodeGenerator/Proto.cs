@@ -25,6 +25,8 @@ namespace ProtocolBuffers
 	public interface IProtoType
 	{
 		Message Parent { get; set; }
+
+		string CSName { get; set; }
 	}
 	
 	public class Message : IProtoType
@@ -115,7 +117,7 @@ namespace ProtocolBuffers
 		public Wire WireType { get; set; }
 		
 		/// <summary>
-		/// C# type, interface, including List<> if a repeated field
+		/// C# type, interface
 		/// </summary>
 		public string CSType { get; set; }
 		
@@ -124,11 +126,6 @@ namespace ProtocolBuffers
 		/// </summary>
 		public string CSClass { get; set; }
 
-		/// <summary>
-		/// C# type, interface, of the item in the list if a repeated field
-		/// </summary>		
-		public string CSItemType { get; set; }
-		
 		#endregion
 		
 		public override string ToString ()

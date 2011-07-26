@@ -58,13 +58,15 @@ When compiled it you will have the following class to work with.
 
 Writing this to a stream:
 
-	Person.Write(stream, person1);
+	using ProtocolBuffers;
+
+	Serializer.Write(stream, person1);
 
 Person can be either of class Person or your own class implementing the interface IPerson.
 
 Reading from a stream:
 
-	IPerson person2 = Person.Read(stream);
+	Person person2 = Serializer.Person.Read(stream);
 
 ## ALPHA
 
@@ -81,8 +83,8 @@ Check Test/Example.proto for the currently implemented features.
 The output is tree files.
 
  * Example.cs - Basic class declaration(based on .proto).
- * Example.Backend.cs - Enum and interface declarations. Code for reading/writing the message 
- * ProtocolParser.cs - Helper functions for the backend, constant, not related to the .proto specification.
+ * Example.Serializer.cs - Code for reading/writing the message.
+ * ProtocolParser.cs - Helper functions for the backend, not related to the .proto specification.
 
 If you generate code from multiple .proto files you only need to include one ProtocolParser.cs.
 
