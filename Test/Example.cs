@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Personal
 {
-	public partial class Person : IPerson
+	public partial class Person
 	{
 		public enum PhoneType
 		{
@@ -23,17 +23,16 @@ namespace Personal
 		public string Name { get; set; }
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public List<Personal.Person.IPhoneNumber> Phone { get; set; }
+		public List<Personal.Person.PhoneNumber> Phone { get; set; }
 	
 		public Person()
 		{
 			this.Email = "";
-			this.Phone = new List<Personal.Person.IPhoneNumber>();
+			this.Phone = new List<Personal.Person.PhoneNumber>();
 		}
 	
-		public partial class PhoneNumber : IPhoneNumber
+		public partial class PhoneNumber
 		{
-		
 			public string Number { get; set; }
 			public Personal.Person.PhoneType Type { get; set; }
 		
@@ -42,44 +41,24 @@ namespace Personal
 				this.Type = Person.PhoneType.HOME;
 			}
 		}
-		
-		public interface IPhoneNumber
-		{
-			string Number { get; set; }
-			Personal.Person.PhoneType Type { get; set; }
-		}
-	}
-	
-	public interface IPerson
-	{
-		string Name { get; set; }
-		int Id { get; set; }
-		string Email { get; set; }
-		List<Personal.Person.IPhoneNumber> Phone { get; set; }
 	}
 
 }
 namespace Mine
 {
-	public partial class MyMessageV1 : IMyMessageV1
+	public partial class MyMessageV1
 	{
-	
 		public int FieldA { get; set; }
 	
 		public MyMessageV1()
 		{
 		}
 	}
-	
-	public interface IMyMessageV1
-	{
-		int FieldA { get; set; }
-	}
 
 }
 namespace Yours
 {
-	public partial class MyMessageV2 : IMyMessageV2
+	public partial class MyMessageV2
 	{
 		public enum MyEnum
 		{
@@ -109,8 +88,8 @@ namespace Yours
 		public string Dummy { get; set; }
 		public List<uint> FieldS { get; set; }
 		public List<uint> FieldT { get; set; }
-		public Theirs.ITheirMessage FieldU { get; set; }
-		public List<Theirs.ITheirMessage> FieldV { get; set; }
+		public Theirs.TheirMessage FieldU { get; set; }
+		public List<Theirs.TheirMessage> FieldV { get; set; }
 	
 		public MyMessageV2()
 		{
@@ -118,54 +97,20 @@ namespace Yours
 			this.Dummy = "";
 			this.FieldS = new List<uint>();
 			this.FieldT = new List<uint>();
-			this.FieldV = new List<Theirs.ITheirMessage>();
+			this.FieldV = new List<Theirs.TheirMessage>();
 		}
-	}
-	
-	public interface IMyMessageV2
-	{
-		int FieldA { get; set; }
-		double FieldB { get; set; }
-		float FieldC { get; set; }
-		int FieldD { get; set; }
-		long FieldE { get; set; }
-		uint FieldF { get; set; }
-		ulong FieldG { get; set; }
-		int FieldH { get; set; }
-		long FieldI { get; set; }
-		uint FieldJ { get; set; }
-		ulong FieldK { get; set; }
-		int FieldL { get; set; }
-		long FieldM { get; set; }
-		bool FieldN { get; set; }
-		string FieldO { get; set; }
-		byte[] FieldP { get; set; }
-		Yours.MyMessageV2.MyEnum FieldQ { get; set; }
-		Yours.MyMessageV2.MyEnum FieldR { get; set; }
-		[Obsolete]
-		string Dummy { get; set; }
-		List<uint> FieldS { get; set; }
-		List<uint> FieldT { get; set; }
-		Theirs.ITheirMessage FieldU { get; set; }
-		List<Theirs.ITheirMessage> FieldV { get; set; }
 	}
 
 }
 namespace Theirs
 {
-	public partial class TheirMessage : ITheirMessage
+	public partial class TheirMessage
 	{
-	
 		public int FieldA { get; set; }
 	
 		public TheirMessage()
 		{
 		}
-	}
-	
-	public interface ITheirMessage
-	{
-		int FieldA { get; set; }
 	}
 
 }

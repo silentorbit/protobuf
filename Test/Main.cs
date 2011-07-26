@@ -105,7 +105,7 @@ namespace Test
 			public List<NetPhoneNumber> Phone { get; set; }
 		
 			[ProtoContract]
-			public class NetPhoneNumber : Person.IPhoneNumber
+			public class NetPhoneNumber
 			{
 				[ProtoMember(1)]
 				public string Number { get; set; }
@@ -122,7 +122,7 @@ namespace Test
 		/// </summary>
 		static void TestFeatures ()
 		{
-			IMyMessageV2 mm = new MyMessageV2 ();
+			MyMessageV2 mm = new MyMessageV2 ();
 			mm.FieldA = 1;
 			mm.FieldB = 2.2;
 			mm.FieldC = 3.3f;
@@ -160,7 +160,7 @@ namespace Test
 			
 			//Read
 			MemoryStream msread = new MemoryStream (ms.ToArray ());
-			IMyMessageV2 mo = ProtocolBuffers.Serializer.MyMessageV2.Read (msread);
+			MyMessageV2 mo = ProtocolBuffers.Serializer.MyMessageV2.Read (msread);
 			
 			//Verify
 			Test ("FieldA", mm.FieldA == mo.FieldA);
@@ -199,7 +199,7 @@ namespace Test
 			
 			//Read by older version
 			MemoryStream msread1 = new MemoryStream (ms.ToArray ());
-			IMyMessageV1 m1 = ProtocolBuffers.Serializer.MyMessageV1.Read (msread1);
+			MyMessageV1 m1 = ProtocolBuffers.Serializer.MyMessageV1.Read (msread1);
 			
 			Console.WriteLine ("Version 1");
 			Test ("FieldA", mm.FieldA == m1.FieldA);

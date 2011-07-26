@@ -45,7 +45,11 @@ namespace ProtocolBuffers
 		/// </summary>
 		private string PropertyType (Message message)
 		{
+#if GENERATE_INTERFACE
 			string path = "I" + message.CSName;
+#else
+			string path = message.CSName;
+#endif
 			return FullPath (message, path);
 		}
 		
@@ -207,6 +211,7 @@ namespace ProtocolBuffers
 			code.WriteLine ("#endregion");
 		}
 		
+#if GENERATE_INTERFACE
 		string GenerateInterface (Message m)
 		{
 			string properties = "";
@@ -223,7 +228,8 @@ namespace ProtocolBuffers
 			code += "}\n";
 			return code;
 		}
-
+#endif
+		
 		string GenerateClass (Message m)
 		{
 			//Enums
@@ -270,10 +276,16 @@ namespace ProtocolBuffers
 
 			//Default class
 			string code = "";
+#if GENERATE_INTERFACE
 			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
+#else
+			code += "public partial class " + m.CSName + "\n";
+#endif
 			code += "{\n";
-			code += Indent (enums);
-			code += "\n";
+			if (enums.Length > 0) {
+				code += Indent (enums);
+				code += "\n";
+			}
 			code += Indent (properties);
 			code += "\n";
 			code += Indent (constructor);
@@ -282,8 +294,10 @@ namespace ProtocolBuffers
 				code += Indent (GenerateClass (sub));
 			}
 			code += "}\n";
+#if GENERATE_INTERFACE
 			code += "\n";
 			code += GenerateInterface (m);
+#endif
 			return code;
 		}
 		
@@ -485,9 +499,13 @@ namespace ProtocolBuffers
 			code += "	Serializer.Write(stream, instance);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static byte[] Write(" + PropertyType (m) + " instance)\n";
+			code += "public static byte[] GetBytes(" + PropertyType (m) + " instance)\n";
 			code += "{\n";
-			code += "	return Serializer.Write(instance);\n";
+			code += "	using(MemoryStream ms = new MemoryStream())\n";
+			code += "	{\n";
+			code += "		Write(ms, instance);\n";
+			code += "		return ms.ToArray();\n";
+			code += "	}\n";
 			code += "}\n";
 			return code;
 		}

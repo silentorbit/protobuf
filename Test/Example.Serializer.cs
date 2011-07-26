@@ -34,14 +34,14 @@ namespace ProtocolBuffers
 					return Read(ms);
 			}
 			
-			public static T Read<T> (Stream stream) where T : Personal.IPerson, new()
+			public static T Read<T> (Stream stream) where T : Personal.Person, new()
 			{
 				T instance = new T ();
 				Serializer.Read (stream, instance);
 				return instance;
 			}
 			
-			public static T Read<T> (byte[] buffer) where T : Personal.IPerson, new()
+			public static T Read<T> (byte[] buffer) where T : Personal.Person, new()
 			{
 				T instance = new T ();
 				using (MemoryStream ms = new MemoryStream(buffer))
@@ -49,9 +49,18 @@ namespace ProtocolBuffers
 				return instance;
 			}
 		
-			public static void Write(Stream stream, Personal.IPerson instance)
+			public static void Write(Stream stream, Personal.Person instance)
 			{
 				Serializer.Write(stream, instance);
+			}
+			
+			public static byte[] GetBytes(Personal.Person instance)
+			{
+				using(MemoryStream ms = new MemoryStream())
+				{
+					Write(ms, instance);
+					return ms.ToArray();
+				}
 			}
 		
 			public static class PhoneNumber
@@ -69,14 +78,14 @@ namespace ProtocolBuffers
 						return Read(ms);
 				}
 				
-				public static T Read<T> (Stream stream) where T : Personal.Person.IPhoneNumber, new()
+				public static T Read<T> (Stream stream) where T : Personal.Person.PhoneNumber, new()
 				{
 					T instance = new T ();
 					Serializer.Read (stream, instance);
 					return instance;
 				}
 				
-				public static T Read<T> (byte[] buffer) where T : Personal.Person.IPhoneNumber, new()
+				public static T Read<T> (byte[] buffer) where T : Personal.Person.PhoneNumber, new()
 				{
 					T instance = new T ();
 					using (MemoryStream ms = new MemoryStream(buffer))
@@ -84,9 +93,18 @@ namespace ProtocolBuffers
 					return instance;
 				}
 			
-				public static void Write(Stream stream, Personal.Person.IPhoneNumber instance)
+				public static void Write(Stream stream, Personal.Person.PhoneNumber instance)
 				{
 					Serializer.Write(stream, instance);
+				}
+				
+				public static byte[] GetBytes(Personal.Person.PhoneNumber instance)
+				{
+					using(MemoryStream ms = new MemoryStream())
+					{
+						Write(ms, instance);
+						return ms.ToArray();
+					}
 				}
 			}
 			
@@ -108,14 +126,14 @@ namespace ProtocolBuffers
 					return Read(ms);
 			}
 			
-			public static T Read<T> (Stream stream) where T : Mine.IMyMessageV1, new()
+			public static T Read<T> (Stream stream) where T : Mine.MyMessageV1, new()
 			{
 				T instance = new T ();
 				Serializer.Read (stream, instance);
 				return instance;
 			}
 			
-			public static T Read<T> (byte[] buffer) where T : Mine.IMyMessageV1, new()
+			public static T Read<T> (byte[] buffer) where T : Mine.MyMessageV1, new()
 			{
 				T instance = new T ();
 				using (MemoryStream ms = new MemoryStream(buffer))
@@ -123,9 +141,18 @@ namespace ProtocolBuffers
 				return instance;
 			}
 		
-			public static void Write(Stream stream, Mine.IMyMessageV1 instance)
+			public static void Write(Stream stream, Mine.MyMessageV1 instance)
 			{
 				Serializer.Write(stream, instance);
+			}
+			
+			public static byte[] GetBytes(Mine.MyMessageV1 instance)
+			{
+				using(MemoryStream ms = new MemoryStream())
+				{
+					Write(ms, instance);
+					return ms.ToArray();
+				}
 			}
 		}
 		
@@ -145,14 +172,14 @@ namespace ProtocolBuffers
 					return Read(ms);
 			}
 			
-			public static T Read<T> (Stream stream) where T : Yours.IMyMessageV2, new()
+			public static T Read<T> (Stream stream) where T : Yours.MyMessageV2, new()
 			{
 				T instance = new T ();
 				Serializer.Read (stream, instance);
 				return instance;
 			}
 			
-			public static T Read<T> (byte[] buffer) where T : Yours.IMyMessageV2, new()
+			public static T Read<T> (byte[] buffer) where T : Yours.MyMessageV2, new()
 			{
 				T instance = new T ();
 				using (MemoryStream ms = new MemoryStream(buffer))
@@ -160,9 +187,18 @@ namespace ProtocolBuffers
 				return instance;
 			}
 		
-			public static void Write(Stream stream, Yours.IMyMessageV2 instance)
+			public static void Write(Stream stream, Yours.MyMessageV2 instance)
 			{
 				Serializer.Write(stream, instance);
+			}
+			
+			public static byte[] GetBytes(Yours.MyMessageV2 instance)
+			{
+				using(MemoryStream ms = new MemoryStream())
+				{
+					Write(ms, instance);
+					return ms.ToArray();
+				}
 			}
 		}
 		
@@ -182,14 +218,14 @@ namespace ProtocolBuffers
 					return Read(ms);
 			}
 			
-			public static T Read<T> (Stream stream) where T : Theirs.ITheirMessage, new()
+			public static T Read<T> (Stream stream) where T : Theirs.TheirMessage, new()
 			{
 				T instance = new T ();
 				Serializer.Read (stream, instance);
 				return instance;
 			}
 			
-			public static T Read<T> (byte[] buffer) where T : Theirs.ITheirMessage, new()
+			public static T Read<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
 			{
 				T instance = new T ();
 				using (MemoryStream ms = new MemoryStream(buffer))
@@ -197,15 +233,24 @@ namespace ProtocolBuffers
 				return instance;
 			}
 		
-			public static void Write(Stream stream, Theirs.ITheirMessage instance)
+			public static void Write(Stream stream, Theirs.TheirMessage instance)
 			{
 				Serializer.Write(stream, instance);
+			}
+			
+			public static byte[] GetBytes(Theirs.TheirMessage instance)
+			{
+				using(MemoryStream ms = new MemoryStream())
+				{
+					Write(ms, instance);
+					return ms.ToArray();
+				}
 			}
 		}
 		
 
 		
-		public static Personal.IPerson Read (Stream stream, Personal.IPerson instance)
+		public static Personal.Person Read (Stream stream, Personal.Person instance)
 		{
 			while (true)
 			{
@@ -237,14 +282,14 @@ namespace ProtocolBuffers
 			return instance;
 		}
 		
-		public static Personal.IPerson Read(byte[] buffer, Personal.IPerson instance)
+		public static Personal.Person Read(byte[] buffer, Personal.Person instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Read (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, Personal.IPerson instance)
+		public static void Write(Stream stream, Personal.Person instance)
 		{
 			if(instance.Name == null)
 				throw new ArgumentNullException("Name", "Required by proto specification.");
@@ -257,7 +302,7 @@ namespace ProtocolBuffers
 				ProtocolParser.WriteKey(stream, new Key(3, Wire.LengthDelimited));
 				ProtocolParser.WriteString(stream, instance.Email);
 			}
-			foreach (Personal.Person.IPhoneNumber i4 in instance.Phone)
+			foreach (Personal.Person.PhoneNumber i4 in instance.Phone)
 			{
 				ProtocolParser.WriteKey(stream, new Key(4, Wire.LengthDelimited));
 				using(MemoryStream ms4 = new MemoryStream())
@@ -271,7 +316,7 @@ namespace ProtocolBuffers
 		
 		
 		
-		public static Personal.Person.IPhoneNumber Read (Stream stream, Personal.Person.IPhoneNumber instance)
+		public static Personal.Person.PhoneNumber Read (Stream stream, Personal.Person.PhoneNumber instance)
 		{
 			while (true)
 			{
@@ -297,14 +342,14 @@ namespace ProtocolBuffers
 			return instance;
 		}
 		
-		public static Personal.Person.IPhoneNumber Read(byte[] buffer, Personal.Person.IPhoneNumber instance)
+		public static Personal.Person.PhoneNumber Read(byte[] buffer, Personal.Person.PhoneNumber instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Read (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, Personal.Person.IPhoneNumber instance)
+		public static void Write(Stream stream, Personal.Person.PhoneNumber instance)
 		{
 			if(instance.Number == null)
 				throw new ArgumentNullException("Number", "Required by proto specification.");
@@ -319,7 +364,7 @@ namespace ProtocolBuffers
 		
 
 		
-		public static Mine.IMyMessageV1 Read (Stream stream, Mine.IMyMessageV1 instance)
+		public static Mine.MyMessageV1 Read (Stream stream, Mine.MyMessageV1 instance)
 		{
 			while (true)
 			{
@@ -342,14 +387,14 @@ namespace ProtocolBuffers
 			return instance;
 		}
 		
-		public static Mine.IMyMessageV1 Read(byte[] buffer, Mine.IMyMessageV1 instance)
+		public static Mine.MyMessageV1 Read(byte[] buffer, Mine.MyMessageV1 instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Read (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, Mine.IMyMessageV1 instance)
+		public static void Write(Stream stream, Mine.MyMessageV1 instance)
 		{
 			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
@@ -357,7 +402,7 @@ namespace ProtocolBuffers
 		
 
 		
-		public static Yours.IMyMessageV2 Read (Stream stream, Yours.IMyMessageV2 instance)
+		public static Yours.MyMessageV2 Read (Stream stream, Yours.MyMessageV2 instance)
 		{
 			BinaryReader br = new BinaryReader (stream);	while (true)
 			{
@@ -457,14 +502,14 @@ namespace ProtocolBuffers
 			return instance;
 		}
 		
-		public static Yours.IMyMessageV2 Read(byte[] buffer, Yours.IMyMessageV2 instance)
+		public static Yours.MyMessageV2 Read(byte[] buffer, Yours.MyMessageV2 instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Read (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, Yours.IMyMessageV2 instance)
+		public static void Write(Stream stream, Yours.MyMessageV2 instance)
 		{
 			BinaryWriter bw = new BinaryWriter(stream);
 			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
@@ -540,7 +585,7 @@ namespace ProtocolBuffers
 					ProtocolParser.WriteBytes(stream, ms22.ToArray());
 				}
 			}
-			foreach (Theirs.ITheirMessage i23 in instance.FieldV)
+			foreach (Theirs.TheirMessage i23 in instance.FieldV)
 			{
 				ProtocolParser.WriteKey(stream, new Key(23, Wire.LengthDelimited));
 				using(MemoryStream ms23 = new MemoryStream())
@@ -554,7 +599,7 @@ namespace ProtocolBuffers
 		
 
 		
-		public static Theirs.ITheirMessage Read (Stream stream, Theirs.ITheirMessage instance)
+		public static Theirs.TheirMessage Read (Stream stream, Theirs.TheirMessage instance)
 		{
 			while (true)
 			{
@@ -577,14 +622,14 @@ namespace ProtocolBuffers
 			return instance;
 		}
 		
-		public static Theirs.ITheirMessage Read(byte[] buffer, Theirs.ITheirMessage instance)
+		public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Read (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, Theirs.ITheirMessage instance)
+		public static void Write(Stream stream, Theirs.TheirMessage instance)
 		{
 			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);

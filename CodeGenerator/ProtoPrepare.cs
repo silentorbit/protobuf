@@ -91,7 +91,11 @@ namespace ProtocolBuffers
 				string cc = GetCamelCase (parts [parts.Length-1]);
 				if (pt is Message) {
 					f.CSClass = cc;
+#if GENERATE_INTERFACE
 					f.CSType += "I" + cc;
+#else
+					f.CSType += cc;
+#endif
 					break;
 				}
 				else
