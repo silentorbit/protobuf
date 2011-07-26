@@ -7,14 +7,10 @@
 //
 
 using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
-using ProtocolBuffers;
 
-namespace ExampleNamespace
+namespace Personal
 {
-
 	public partial class Person : IPerson
 	{
 		public enum PhoneType
@@ -27,19 +23,19 @@ namespace ExampleNamespace
 		public string Name { get; set; }
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public List<ExampleNamespace.Person.IPhoneNumber> Phone { get; set; }
+		public List<Personal.Person.IPhoneNumber> Phone { get; set; }
 	
 		public Person()
 		{
 			this.Email = "";
-			this.Phone = new List<IPhoneNumber>();
+			this.Phone = new List<Personal.Person.IPhoneNumber>();
 		}
 	
 		public partial class PhoneNumber : IPhoneNumber
 		{
 		
 			public string Number { get; set; }
-			public ExampleNamespace.Person.PhoneType Type { get; set; }
+			public Personal.Person.PhoneType Type { get; set; }
 		
 			public PhoneNumber()
 			{
@@ -50,7 +46,7 @@ namespace ExampleNamespace
 		public interface IPhoneNumber
 		{
 			string Number { get; set; }
-			ExampleNamespace.Person.PhoneType Type { get; set; }
+			Personal.Person.PhoneType Type { get; set; }
 		}
 	}
 	
@@ -59,9 +55,12 @@ namespace ExampleNamespace
 		string Name { get; set; }
 		int Id { get; set; }
 		string Email { get; set; }
-		List<ExampleNamespace.Person.IPhoneNumber> Phone { get; set; }
+		List<Personal.Person.IPhoneNumber> Phone { get; set; }
 	}
 
+}
+namespace Mine
+{
 	public partial class MyMessageV1 : IMyMessageV1
 	{
 	
@@ -77,6 +76,9 @@ namespace ExampleNamespace
 		int FieldA { get; set; }
 	}
 
+}
+namespace Yours
+{
 	public partial class MyMessageV2 : IMyMessageV2
 	{
 		public enum MyEnum
@@ -102,13 +104,13 @@ namespace ExampleNamespace
 		public bool FieldN { get; set; }
 		public string FieldO { get; set; }
 		public byte[] FieldP { get; set; }
-		public ExampleNamespace.MyMessageV2.MyEnum FieldQ { get; set; }
-		public ExampleNamespace.MyMessageV2.MyEnum FieldR { get; set; }
+		public Yours.MyMessageV2.MyEnum FieldQ { get; set; }
+		public Yours.MyMessageV2.MyEnum FieldR { get; set; }
 		public string Dummy { get; set; }
 		public List<uint> FieldS { get; set; }
 		public List<uint> FieldT { get; set; }
-		public ExampleNamespace.ITheirMessage FieldU { get; set; }
-		public List<ExampleNamespace.ITheirMessage> FieldV { get; set; }
+		public Theirs.ITheirMessage FieldU { get; set; }
+		public List<Theirs.ITheirMessage> FieldV { get; set; }
 	
 		public MyMessageV2()
 		{
@@ -116,7 +118,7 @@ namespace ExampleNamespace
 			this.Dummy = "";
 			this.FieldS = new List<uint>();
 			this.FieldT = new List<uint>();
-			this.FieldV = new List<ITheirMessage>();
+			this.FieldV = new List<Theirs.ITheirMessage>();
 		}
 	}
 	
@@ -138,16 +140,19 @@ namespace ExampleNamespace
 		bool FieldN { get; set; }
 		string FieldO { get; set; }
 		byte[] FieldP { get; set; }
-		ExampleNamespace.MyMessageV2.MyEnum FieldQ { get; set; }
-		ExampleNamespace.MyMessageV2.MyEnum FieldR { get; set; }
+		Yours.MyMessageV2.MyEnum FieldQ { get; set; }
+		Yours.MyMessageV2.MyEnum FieldR { get; set; }
 		[Obsolete]
 		string Dummy { get; set; }
 		List<uint> FieldS { get; set; }
 		List<uint> FieldT { get; set; }
-		ExampleNamespace.ITheirMessage FieldU { get; set; }
-		List<ExampleNamespace.ITheirMessage> FieldV { get; set; }
+		Theirs.ITheirMessage FieldU { get; set; }
+		List<Theirs.ITheirMessage> FieldV { get; set; }
 	}
 
+}
+namespace Theirs
+{
 	public partial class TheirMessage : ITheirMessage
 	{
 	

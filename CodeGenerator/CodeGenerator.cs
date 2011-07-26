@@ -14,10 +14,21 @@ namespace ProtocolBuffers
 		public CodeGenerator (Proto proto)
 		{
 			this.proto = proto;
-			this.ns = proto.Options["namespace"];
+			this.ns = proto.Options ["namespace"];
 		}
 		
 		#region Path and Namespace generators
+
+		private string FullPath (Message message, string path)
+		{
+			while (message.Parent != null && !(message.Parent is Proto)) {
+				message = message.Parent;
+				path = message.CSName + "." + path;
+			}
+			if (message.Options.ContainsKey ("namespace"))
+				return message.Options ["namespace"] + "." + path;
+			return ns + "." + path;
+		}
 		
 		/// <summary>
 		/// Prepend namespace to class name
@@ -25,11 +36,7 @@ namespace ProtocolBuffers
 		private string FullNS (Message message)
 		{
 			string path = message.CSName;
-			while (message.Parent != null && !(message.Parent is Proto)) {
-				message = message.Parent;
-				path = message.CSName + "." + path;
-			}
-			return ns + "." + path;
+			return FullPath (message, path);
 		}
 		
 		/// <summary>
@@ -38,43 +45,30 @@ namespace ProtocolBuffers
 		private string PropertyType (Message message)
 		{
 			string path = "I" + message.CSName;
-			while (message.Parent != null && !(message.Parent is Proto)) {
-				message = message.Parent;
-				path = message.CSName + "." + path;
-			}
-			return ns + "." + path;
+			return FullPath (message, path);
 		}
 		
 		/// <summary>
-		/// Generate full Interface path, without namespace
+		/// Generate full Interface path
 		/// </summary>
 		private string PropertyItemType (Field field)
 		{
-			Message message;
 			switch (field.ProtoType) {
 			case ProtoTypes.Message:
-				message = field.ProtoTypeMessage.Parent;
-				break;
+				return FullPath (field.ProtoTypeMessage, field.CSType);
 			case ProtoTypes.Enum:
-				message = field.ProtoTypeEnum.Parent;
-				break;
+				string path = field.CSType;
+				Message message = field.ProtoTypeEnum.Parent;
+				if (message is Proto == false)
+					path = message.CSName + "." + path;
+				return FullPath (message, path);
 			default:	
 				return field.CSType;
 			}
-			
-			string path = field.CSType;
-			if (message is Proto == false)
-				path = message.CSName + "." + path;
-			
-			while (message.Parent != null && !(message.Parent is Proto)) {
-				message = message.Parent;
-				path = message.CSName + "." + path;
-			}
-			return ns + "." + path;
 		}
 		
 		/// <summary>
-		/// Generate full Interface path, without namespace
+		/// Generate full Interface path
 		/// </summary>
 		private string PropertyType (Field field)
 		{
@@ -103,6 +97,13 @@ namespace ProtocolBuffers
 			}
 		}
 		
+		private string GetNamespace (Message m)
+		{
+			if (m.Options.ContainsKey ("namespace") == false)
+				return ns;
+			return m.Options ["namespace"];
+		}
+		
 		#endregion
 		
 		/// <summary>
@@ -110,6 +111,7 @@ namespace ProtocolBuffers
 		/// </summary>
 		public void Save (string csPath)
 		{
+			//Basic structures
 			using (TextWriter codeWriter = new StreamWriter(csPath, false, Encoding.UTF8)) {
 				codeWriter.WriteLine (@"//
 //	You may customize this code as you like
@@ -120,24 +122,21 @@ namespace ProtocolBuffers
 //
 
 using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
-using ProtocolBuffers;
-
-namespace " + ns + @"
-{
 ");
 				
-				foreach (Message m in proto.Messages)
+				foreach (Message m in proto.Messages) {
+					codeWriter.WriteLine ("namespace " + GetNamespace (m));
+					codeWriter.WriteLine ("{");
 					codeWriter.WriteLine (Indent (1, GenerateClass (m)));
-				
-				codeWriter.WriteLine ("}");
+					codeWriter.WriteLine ("}");
+				}
 			}
 			
 			string ext = Path.GetExtension (csPath);
 			string serializerPath = csPath.Substring (0, csPath.Length - ext.Length) + ".Serializer" + ext;
 			
+			//Code for Reading/Writing 
 			using (TextWriter codeWriter = new StreamWriter(serializerPath, false, Encoding.UTF8)) {
 				codeWriter.WriteLine (@"//
 //	This is the backend code for reading and writing
@@ -150,14 +149,24 @@ namespace " + ns + @"
 using System;
 using System.IO;
 using System.Text;
-using System.Collections.Generic;
-using " + ns + @";
+using System.Collections.Generic;");
+				bool gotDefaultNS = false;
+				foreach (Message m in proto.Messages) {
+					string mns = GetNamespace (m);
+					if (mns == ns) {
+						gotDefaultNS = true;
+						continue;
+					}
+					codeWriter.WriteLine ("using " + mns + ";");
+				}
+				if (gotDefaultNS)
+					codeWriter.WriteLine ("using " + ns + ";");
 
+				codeWriter.WriteLine (@"
 namespace ProtocolBuffers
 {
 	public static partial class Serializer
-	{
-");
+	{");
 				
 				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (2, GenerateClassSerializer (m)));
@@ -240,7 +249,7 @@ namespace ProtocolBuffers
 			constructor += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
-					constructor += "	this." + f.Name + " = new List<" + f.CSType + ">();\n";
+					constructor += "	this." + f.Name + " = new List<" + PropertyItemType (f) + ">();\n";
 				else if (f.Default != null) {
 					if (f.ProtoType == ProtoTypes.Enum)
 						constructor += "	this." + f.Name + " = " + FullClass (f) + "." + f.Default + ";\n";
@@ -411,7 +420,7 @@ namespace ProtocolBuffers
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
 					code += "if(instance." + f.Name + " == null)\n";
-					code += "	instance." + f.Name + " = new " + ns + "." + FullClass (f) + "();\n";
+					code += "	instance." + f.Name + " = new " + FullNS (f.ProtoTypeMessage) + "();\n";
 				}
 				code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 			}
@@ -452,7 +461,7 @@ namespace ProtocolBuffers
 			case ProtoTypes.Bytes:
 				return "ProtocolParser.ReadBytes(" + stream + ")";
 			case ProtoTypes.Enum:
-				return "(" + ns + "." + FullClass (f) + ")ProtocolParser.ReadUInt32(" + stream + ")";
+				return "(" + PropertyItemType (f) + ")ProtocolParser.ReadUInt32(" + stream + ")";
 			case ProtoTypes.Message:				
 				if (f.Rule == Rules.Repeated)
 					return FullClass (f) + ".Read(ProtocolParser.ReadBytes(" + stream + "))";
@@ -561,7 +570,7 @@ namespace ProtocolBuffers
 					code += "}\n";
 					return code;
 				case ProtoTypes.Enum:
-					code += "if(instance." + f.Name + " != " + ns + "." + FullClass (f) + "." + f.Default + ")\n";
+					code += "if(instance." + f.Name + " != " + PropertyItemType (f) + "." + f.Default + ")\n";
 					code += "{\n";
 					code += "	ProtocolParser.WriteKey(stream, new Key(" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += Indent (GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name));

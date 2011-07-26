@@ -1,10 +1,13 @@
 using System;
-using ExampleNamespace;
 using System.IO;
 using ProtoBuf;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Personal;
+using Yours;
+using Theirs;
+using Mine;
 
 namespace Test
 {
