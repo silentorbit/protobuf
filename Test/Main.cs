@@ -8,6 +8,7 @@ using Personal;
 using Yours;
 using Theirs;
 using Mine;
+using ProtocolBuffers;
 
 namespace Test
 {
@@ -17,6 +18,8 @@ namespace Test
 		{
 			Console.WriteLine ("Hello World!");
 			
+			TestZipZag ();
+			
 			TestFeatures ();
 			
 			TestPersonWire ();
@@ -25,6 +28,49 @@ namespace Test
 				Console.WriteLine ("All test succeeded");
 			else
 				Console.WriteLine ("Some or all tests failed");
+		}
+
+		public static void TestZipZag ()
+		{
+			int[] test32 = new int[]{int.MinValue, int.MinValue + 1, - 4, -3, -2, -1, 0, 1, 2, 3, 4, int.MaxValue-1, int.MaxValue};
+			
+			for (int n = 0; n < test32.Length; n++) {
+				MemoryStream ms1 = new MemoryStream ();
+				ProtocolParser.WriteSInt32 (ms1, test32 [n]);
+				
+				MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
+				if (ProtocolParser.ReadSInt32 (ms2) != test32 [n])
+					throw new InvalidDataException ("Test failed");
+				
+				MemoryStream ms3 = new MemoryStream (ms1.ToArray ());
+				uint wire = ProtocolParser.ReadUInt32 (ms3);
+				int testWire = (int)(wire >> 1);
+				if (wire % 2 == 1)
+					testWire = (testWire * -1) - 1;
+				
+				if (testWire != test32 [n])
+					throw new InvalidDataException ("Test failed");
+			}
+
+			long[] test64 = new long[]{long.MinValue, long.MinValue + 1, - 4, -3, -2, -1, 0, 1, 2, 3, 4, long.MaxValue-1, long.MaxValue};
+			
+			for (int n = 0; n < test32.Length; n++) {
+				MemoryStream ms1 = new MemoryStream ();
+				ProtocolParser.WriteSInt64 (ms1, test64 [n]);
+				
+				MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
+				if (ProtocolParser.ReadSInt64 (ms2) != test64 [n])
+					throw new InvalidDataException ("Test failed");
+				
+				MemoryStream ms3 = new MemoryStream (ms1.ToArray ());
+				ulong wire = ProtocolParser.ReadUInt64 (ms3);
+				long testWire64 = (long)(wire >> 1);
+				if (wire % 2 == 1)
+					testWire64 = (testWire64 * -1) - 1;
+				
+				if (testWire64 != test64 [n])
+					throw new InvalidDataException ("Test failed");
+			}
 		}
 		
 		/// <summary>
@@ -42,7 +88,7 @@ namespace Test
 			ProtocolBuffers.Serializer.Write (ms1, p1);
 			
 			MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
-			NetPerson p2 = Serializer.Deserialize<NetPerson> (ms2);
+			NetPerson p2 = ProtoBuf.Serializer.Deserialize<NetPerson> (ms2);
 
 			//Test
 			Test ("12 Name", p1.Name == p2.Name);
@@ -59,7 +105,7 @@ namespace Test
 			p2.Phone [1].Type = Person.PhoneType.HOME;
 			
 			MemoryStream ms3 = new MemoryStream ();
-			Serializer.Serialize (ms3, p2);
+			ProtoBuf.Serializer.Serialize (ms3, p2);
 
 			//Test wire data
 			byte[] b1 = ms1.ToArray ();

@@ -44,15 +44,13 @@ namespace ProtocolBuffers
 		
 		public static int ReadSInt32 (Stream stream)
 		{
-			uint uval = ReadUInt32 (stream);
-			return (int)((uval >> 1) | (uval << 31));
-			
+			uint val = ReadUInt32 (stream);
+			return (int)(val >> 1) ^ ((int)(val << 31) >> 31);
 		}
 		
 		public static void WriteSInt32 (Stream stream, int val)
 		{
-			uint uval = (uint)val;
-			WriteUInt32 (stream, (uval << 1) | (uval >> 31));
+			WriteUInt32 (stream, (uint)((val << 1) ^ (val >> 31)));
 		}
 
 		public static uint ReadUInt32 (Stream stream)
@@ -124,15 +122,13 @@ namespace ProtocolBuffers
 
 		public static long ReadSInt64 (Stream stream)
 		{
-			ulong uval = ReadUInt64 (stream);
-			return (long)((uval >> 1) | (uval << 63));
-			
+			ulong val = ReadUInt64 (stream);
+			return (long)(val >> 1) ^ ((long)(val << 63) >> 63);
 		}
 		
 		public static void WriteSInt64 (Stream stream, long val)
 		{
-			ulong uval = (ulong)val;
-			WriteUInt64 (stream, (uval << 1) | (uval >> 63));
+			WriteUInt64 (stream, (ulong)((val << 1) ^ (val >> 63)));
 		}
 
 		public static ulong ReadUInt64 (Stream stream)
