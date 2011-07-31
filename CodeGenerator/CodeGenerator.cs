@@ -251,12 +251,7 @@ namespace ProtocolBuffers
 			}
 			
 			//Constructor with default values
-			#if GENERATE_BASE
-			string constructor = "protected " + m.CSName + "Base()\n";
-			#else
-			string constructor = "public " + m.CSName + "()\n";
-			#endif
-			constructor += "{\n";
+			string constructor = "";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
 					constructor += "	this." + f.Name + " = new List<" + PropertyItemType (f) + ">();\n";
@@ -278,7 +273,14 @@ namespace ProtocolBuffers
 					}
 				}
 			}
-			constructor += "}\n";
+			if (constructor != "") {
+			#if GENERATE_BASE
+				constructor = "protected " + m.CSName + "Base()\n{\n" + constructor + "}\n";
+			#else
+				constructor = "public " + m.CSName + "()\n{\n" + constructor + "}\n";
+			#endif
+			
+			}
 			
 			string code = "";
 
@@ -289,7 +291,6 @@ namespace ProtocolBuffers
 			code += Indent (properties);
 			code += "\n";
 			code += Indent (constructor);
-			code += "\n";
 			code += "	protected virtual void BeforeSerialize()\n";
 			code += "	{\n";
 			code += "	}\n";
@@ -320,15 +321,18 @@ namespace ProtocolBuffers
 			code += Indent (properties);
 			code += "\n";
 			code += Indent (constructor);
-			code += "\n";
-			code += "	protected void BeforeSerialize()\n";
-			code += "	{\n";
-			code += "	}\n";
-			code += "\n";
-			code += "	protected void AfterDeserialize()\n";
-			code += "	{\n";
-			code += "	}\n";
-
+			
+			if (m.Options.ContainsKey ("triggers") == false) {
+				code += "\n";
+				code += "	protected void BeforeSerialize()\n";
+				code += "	{\n";
+				code += "	}\n";
+				code += "\n";
+				code += "	protected void AfterDeserialize()\n";
+				code += "	{\n";
+				code += "	}\n";
+			}
+			
 			#endif
 			foreach (Message sub in m.Messages) {
 				code += "\n";
@@ -439,7 +443,8 @@ namespace ProtocolBuffers
 			code += "		}\n";
 			code += "	}\n";
 			code += "	\n";
-			code += "	instance.AfterDeserialize();\n";
+			if (m.Options.ContainsKey ("triggers") && m.Options ["triggers"] != "off")
+				code += "	instance.AfterDeserialize();\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
@@ -490,9 +495,11 @@ namespace ProtocolBuffers
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
 					code += "if(instance." + f.Name + " == null)\n";
-					code += "	instance." + f.Name + " = new " + FullNS (f.ProtoTypeMessage) + "();\n";
-				}
-				code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
+					code += "	instance." + f.Name + " = " + FullClass (f) + ".Deserialize(ProtocolParser.ReadBytes(stream));\n";
+					code += "else\n";
+					code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
+				} else
+					code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 			}
 			return code;
 		}
@@ -554,8 +561,10 @@ namespace ProtocolBuffers
 		{
 			string code = "public static void Serialize(Stream stream, " + m.CSName + " instance)\n";
 			code += "{\n";
-			code += "	instance.BeforeSerialize();\n";
-			code += "\n";
+			if (m.Options.ContainsKey ("triggers") && m.Options ["triggers"] != "off") {
+				code += "	instance.BeforeSerialize();\n";
+				code += "\n";
+			}
 			if (GenerateBinaryWriter (m))
 				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";
 			
