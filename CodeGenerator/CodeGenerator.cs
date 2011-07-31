@@ -390,6 +390,8 @@ namespace ProtocolBuffers
 			code += "		}\n";
 			code += "\n";
 			code += "		switch (key.Field) {\n";
+			code += "		case 0:\n";
+			code += "			throw new InvalidDataException(\"Invalid field id: 0, something went wrong in the stream\");\n";
 			foreach (Field f in m.Fields) {
 				code += "		case " + f.ID + ":\n";
 				code += Indent (3, GenerateFieldReader (f)) + "\n";
