@@ -64,7 +64,7 @@ message my_message_v2
 	required my_enum field_q = 17;
 	optional my_enum field_r = 18 [default = ETest2];
 	
-	optional string dummy = 19 [deprecated=true];
+	optional string dummy = 19 [deprecated=true, access=private];
 	
 	repeated uint32 field_s = 20;
 	repeated uint32 field_t = 21 [packed=true];

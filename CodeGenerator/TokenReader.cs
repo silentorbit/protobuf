@@ -6,7 +6,7 @@ namespace ProtocolBuffers
 	public class TokenReader
 	{
 		readonly string whitespace = " \t\r\n";
-		readonly string singletoken = "{}=[];";
+		readonly string singletoken = "{}=[];,";
 		readonly string text;
 		
 		public TokenReader (string text)

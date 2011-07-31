@@ -11,10 +11,6 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using ProtocolBuffers;
-using Personal;
-using Mine;
-using Yours;
-using Theirs;
 namespace Personal
 {
 	public partial class Person
@@ -46,10 +42,71 @@ namespace Personal
 				Serializer.Read (ms, instance);
 			return instance;
 		}
+		
+		public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
+		{
+			while (true)
+			{
+				ProtocolBuffers.Key key = null;
+				try {
+					key = ProtocolParser.ReadKey (stream);
+				} catch (InvalidDataException) {
+					break;
+				}
+		
+				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+				case 1:
+					instance.Name = ProtocolParser.ReadString(stream);
+					break;
+				case 2:
+					instance.Id = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				case 3:
+					instance.Email = ProtocolParser.ReadString(stream);
+					break;
+				case 4:
+					instance.Phone.Add(Personal.Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
+					break;
+				default:
+					ProtocolParser.SkipKey(stream, key);
+					break;
+				}
+			}
+			return instance;
+		}
+		
+		public static Personal.Person Read(byte[] buffer, Personal.Person instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Deserialize (ms, instance);
+			return instance;
+		}
 	
 		public static void Serialize(Stream stream, Person instance)
 		{
-			Serializer.Write(stream, instance);
+			if(instance.Name == null)
+				throw new ArgumentNullException("Name", "Required by proto specification.");
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
+			ProtocolParser.WriteString(stream, instance.Name);
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.Id);
+			if(instance.Email != null)
+			{
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(3, Wire.LengthDelimited));
+				ProtocolParser.WriteString(stream, instance.Email);
+			}
+			foreach (Personal.Person.PhoneNumber i4 in instance.Phone)
+			{
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(4, Wire.LengthDelimited));
+				using(MemoryStream ms4 = new MemoryStream())
+				{
+					Personal.Person.PhoneNumber.Serialize(ms4, i4);
+					ProtocolParser.WriteBytes(stream, ms4.ToArray());
+				}
+			
+			}
 		}
 		
 		public static byte[] SerializeToBytes(Person instance)
@@ -90,10 +147,53 @@ namespace Personal
 					Serializer.Read (ms, instance);
 				return instance;
 			}
+			
+			public static Personal.Person.PhoneNumber Deserialize(Stream stream, Personal.Person.PhoneNumber instance)
+			{
+				while (true)
+				{
+					ProtocolBuffers.Key key = null;
+					try {
+						key = ProtocolParser.ReadKey (stream);
+					} catch (InvalidDataException) {
+						break;
+					}
+			
+					switch (key.Field) {
+					case 0:
+						throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+					case 1:
+						instance.Number = ProtocolParser.ReadString(stream);
+						break;
+					case 2:
+						instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+						break;
+					default:
+						ProtocolParser.SkipKey(stream, key);
+						break;
+					}
+				}
+				return instance;
+			}
+			
+			public static Personal.Person.PhoneNumber Read(byte[] buffer, Personal.Person.PhoneNumber instance)
+			{
+				using (MemoryStream ms = new MemoryStream(buffer))
+					Deserialize (ms, instance);
+				return instance;
+			}
 		
 			public static void Serialize(Stream stream, PhoneNumber instance)
 			{
-				Serializer.Write(stream, instance);
+				if(instance.Number == null)
+					throw new ArgumentNullException("Number", "Required by proto specification.");
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
+				ProtocolParser.WriteString(stream, instance.Number);
+				if(instance.Type != Personal.Person.PhoneType.HOME)
+				{
+					ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Varint));
+					ProtocolParser.WriteUInt32(stream, (uint)instance.Type);
+				}
 			}
 			
 			public static byte[] SerializeToBytes(PhoneNumber instance)
@@ -141,10 +241,43 @@ namespace Mine
 				Serializer.Read (ms, instance);
 			return instance;
 		}
+		
+		public static Mine.MyMessageV1 Deserialize(Stream stream, Mine.MyMessageV1 instance)
+		{
+			while (true)
+			{
+				ProtocolBuffers.Key key = null;
+				try {
+					key = ProtocolParser.ReadKey (stream);
+				} catch (InvalidDataException) {
+					break;
+				}
+		
+				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+				case 1:
+					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				default:
+					ProtocolParser.SkipKey(stream, key);
+					break;
+				}
+			}
+			return instance;
+		}
+		
+		public static Mine.MyMessageV1 Read(byte[] buffer, Mine.MyMessageV1 instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Deserialize (ms, instance);
+			return instance;
+		}
 	
 		public static void Serialize(Stream stream, MyMessageV1 instance)
 		{
-			Serializer.Write(stream, instance);
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
 		}
 		
 		public static byte[] SerializeToBytes(MyMessageV1 instance)
@@ -190,242 +323,12 @@ namespace Yours
 				Serializer.Read (ms, instance);
 			return instance;
 		}
-	
-		public static void Serialize(Stream stream, MyMessageV2 instance)
-		{
-			Serializer.Write(stream, instance);
-		}
 		
-		public static byte[] SerializeToBytes(MyMessageV2 instance)
-		{
-			using(MemoryStream ms = new MemoryStream())
-			{
-				Serialize(ms, instance);
-				return ms.ToArray();
-			}
-		}
-	}
-	
-
-}
-namespace Theirs
-{
-	public partial class TheirMessage
-	{
-		public static TheirMessage Deserialize(Stream stream)
-		{
-			TheirMessage instance = new TheirMessage();
-			Serializer.Read(stream, instance);
-			return instance;
-		}
-		
-		public static TheirMessage Deserialize(byte[] buffer)
-		{
-			using(MemoryStream ms = new MemoryStream(buffer))
-				return Deserialize(ms);
-		}
-		
-		public static T Deserialize<T> (Stream stream) where T : Theirs.TheirMessage, new()
-		{
-			T instance = new T ();
-			Serializer.Read (stream, instance);
-			return instance;
-		}
-		
-		public static T Deserialize<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
-		{
-			T instance = new T ();
-			using (MemoryStream ms = new MemoryStream(buffer))
-				Serializer.Read (ms, instance);
-			return instance;
-		}
-	
-		public static void Serialize(Stream stream, TheirMessage instance)
-		{
-			Serializer.Write(stream, instance);
-		}
-		
-		public static byte[] SerializeToBytes(TheirMessage instance)
-		{
-			using(MemoryStream ms = new MemoryStream())
-			{
-				Serialize(ms, instance);
-				return ms.ToArray();
-			}
-		}
-	}
-	
-
-}
-
-namespace ProtocolBuffers
-{
-	public static partial class Serializer
-	{
-		
-		public static Personal.Person Read (Stream stream, Personal.Person instance)
-		{
-			while (true)
-			{
-				Key key = null;
-				try {
-					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
-					break;
-				}
-		
-				switch (key.Field) {
-				case 0:
-					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.Name = ProtocolParser.ReadString(stream);
-					break;
-				case 2:
-					instance.Id = (int)ProtocolParser.ReadUInt32(stream);
-					break;
-				case 3:
-					instance.Email = ProtocolParser.ReadString(stream);
-					break;
-				case 4:
-					instance.Phone.Add(Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
-					break;
-				default:
-					ProtocolParser.SkipKey(stream, key);
-					break;
-				}
-			}
-			return instance;
-		}
-		
-		public static Personal.Person Read(byte[] buffer, Personal.Person instance)
-		{
-			using (MemoryStream ms = new MemoryStream(buffer))
-				Read (ms, instance);
-			return instance;
-		}
-		
-		public static void Write(Stream stream, Personal.Person instance)
-		{
-			if(instance.Name == null)
-				throw new ArgumentNullException("Name", "Required by proto specification.");
-			ProtocolParser.WriteKey(stream, new Key(1, Wire.LengthDelimited));
-			ProtocolParser.WriteString(stream, instance.Name);
-			ProtocolParser.WriteKey(stream, new Key(2, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.Id);
-			if(instance.Email != null)
-			{
-				ProtocolParser.WriteKey(stream, new Key(3, Wire.LengthDelimited));
-				ProtocolParser.WriteString(stream, instance.Email);
-			}
-			foreach (Personal.Person.PhoneNumber i4 in instance.Phone)
-			{
-				ProtocolParser.WriteKey(stream, new Key(4, Wire.LengthDelimited));
-				using(MemoryStream ms4 = new MemoryStream())
-				{
-					Write(ms4, i4);
-					ProtocolParser.WriteBytes(stream, ms4.ToArray());
-				}
-			
-			}
-		}
-		
-		
-		
-		public static Personal.Person.PhoneNumber Read (Stream stream, Personal.Person.PhoneNumber instance)
-		{
-			while (true)
-			{
-				Key key = null;
-				try {
-					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
-					break;
-				}
-		
-				switch (key.Field) {
-				case 0:
-					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.Number = ProtocolParser.ReadString(stream);
-					break;
-				case 2:
-					instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
-					break;
-				default:
-					ProtocolParser.SkipKey(stream, key);
-					break;
-				}
-			}
-			return instance;
-		}
-		
-		public static Personal.Person.PhoneNumber Read(byte[] buffer, Personal.Person.PhoneNumber instance)
-		{
-			using (MemoryStream ms = new MemoryStream(buffer))
-				Read (ms, instance);
-			return instance;
-		}
-		
-		public static void Write(Stream stream, Personal.Person.PhoneNumber instance)
-		{
-			if(instance.Number == null)
-				throw new ArgumentNullException("Number", "Required by proto specification.");
-			ProtocolParser.WriteKey(stream, new Key(1, Wire.LengthDelimited));
-			ProtocolParser.WriteString(stream, instance.Number);
-			if(instance.Type != Personal.Person.PhoneType.HOME)
-			{
-				ProtocolParser.WriteKey(stream, new Key(2, Wire.Varint));
-				ProtocolParser.WriteUInt32(stream, (uint)instance.Type);
-			}
-		}
-		
-
-		
-		public static Mine.MyMessageV1 Read (Stream stream, Mine.MyMessageV1 instance)
-		{
-			while (true)
-			{
-				Key key = null;
-				try {
-					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
-					break;
-				}
-		
-				switch (key.Field) {
-				case 0:
-					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-					break;
-				default:
-					ProtocolParser.SkipKey(stream, key);
-					break;
-				}
-			}
-			return instance;
-		}
-		
-		public static Mine.MyMessageV1 Read(byte[] buffer, Mine.MyMessageV1 instance)
-		{
-			using (MemoryStream ms = new MemoryStream(buffer))
-				Read (ms, instance);
-			return instance;
-		}
-		
-		public static void Write(Stream stream, Mine.MyMessageV1 instance)
-		{
-			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
-		}
-		
-
-		
-		public static Yours.MyMessageV2 Read (Stream stream, Yours.MyMessageV2 instance)
+		public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
 		{
 			BinaryReader br = new BinaryReader (stream);	while (true)
 			{
-				Key key = null;
+				ProtocolBuffers.Key key = null;
 				try {
 					key = ProtocolParser.ReadKey (stream);
 				} catch (InvalidDataException) {
@@ -510,10 +413,10 @@ namespace ProtocolBuffers
 				case 22:
 					if(instance.FieldU == null)
 						instance.FieldU = new Theirs.TheirMessage();
-					instance.FieldU = Read(ProtocolParser.ReadBytes(stream), instance.FieldU);
+					instance.FieldU = Serializer.Read(ProtocolParser.ReadBytes(stream), instance.FieldU);
 					break;
 				case 23:
-					instance.FieldV.Add(TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream)));
+					instance.FieldV.Add(Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream)));
 					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
@@ -526,68 +429,68 @@ namespace ProtocolBuffers
 		public static Yours.MyMessageV2 Read(byte[] buffer, Yours.MyMessageV2 instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Read (ms, instance);
+				Deserialize (ms, instance);
 			return instance;
 		}
-		
-		public static void Write(Stream stream, Yours.MyMessageV2 instance)
+	
+		public static void Serialize(Stream stream, MyMessageV2 instance)
 		{
 			BinaryWriter bw = new BinaryWriter(stream);
-			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
-			ProtocolParser.WriteKey(stream, new Key(2, Wire.Fixed64));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Fixed64));
 			bw.Write(instance.FieldB);
-			ProtocolParser.WriteKey(stream, new Key(3, Wire.Fixed32));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(3, Wire.Fixed32));
 			bw.Write(instance.FieldC);
-			ProtocolParser.WriteKey(stream, new Key(4, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(4, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldD);
-			ProtocolParser.WriteKey(stream, new Key(5, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(5, Wire.Varint));
 			ProtocolParser.WriteUInt64(stream, (ulong)instance.FieldE);
-			ProtocolParser.WriteKey(stream, new Key(6, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(6, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, instance.FieldF);
-			ProtocolParser.WriteKey(stream, new Key(7, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(7, Wire.Varint));
 			ProtocolParser.WriteUInt64(stream, instance.FieldG);
-			ProtocolParser.WriteKey(stream, new Key(8, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(8, Wire.Varint));
 			ProtocolParser.WriteSInt32(stream, instance.FieldH);
-			ProtocolParser.WriteKey(stream, new Key(9, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(9, Wire.Varint));
 			ProtocolParser.WriteSInt64(stream, instance.FieldI);
-			ProtocolParser.WriteKey(stream, new Key(10, Wire.Fixed32));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(10, Wire.Fixed32));
 			bw.Write(instance.FieldJ);
-			ProtocolParser.WriteKey(stream, new Key(11, Wire.Fixed64));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(11, Wire.Fixed64));
 			bw.Write(instance.FieldK);
-			ProtocolParser.WriteKey(stream, new Key(12, Wire.Fixed32));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(12, Wire.Fixed32));
 			bw.Write(instance.FieldL);
-			ProtocolParser.WriteKey(stream, new Key(13, Wire.Fixed64));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(13, Wire.Fixed64));
 			bw.Write(instance.FieldM);
-			ProtocolParser.WriteKey(stream, new Key(14, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(14, Wire.Varint));
 			ProtocolParser.WriteBool(stream, instance.FieldN);
 			if(instance.FieldO == null)
 				throw new ArgumentNullException("FieldO", "Required by proto specification.");
-			ProtocolParser.WriteKey(stream, new Key(15, Wire.LengthDelimited));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(15, Wire.LengthDelimited));
 			ProtocolParser.WriteString(stream, instance.FieldO);
 			if(instance.FieldP == null)
 				throw new ArgumentNullException("FieldP", "Required by proto specification.");
-			ProtocolParser.WriteKey(stream, new Key(16, Wire.LengthDelimited));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(16, Wire.LengthDelimited));
 			ProtocolParser.WriteBytes(stream, instance.FieldP);
-			ProtocolParser.WriteKey(stream, new Key(17, Wire.Varint));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(17, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldQ);
 			if(instance.FieldR != Yours.MyMessageV2.MyEnum.ETest2)
 			{
-				ProtocolParser.WriteKey(stream, new Key(18, Wire.Varint));
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(18, Wire.Varint));
 				ProtocolParser.WriteUInt32(stream, (uint)instance.FieldR);
 			}
 			if(instance.Dummy != null)
 			{
-				ProtocolParser.WriteKey(stream, new Key(19, Wire.LengthDelimited));
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(19, Wire.LengthDelimited));
 				ProtocolParser.WriteString(stream, instance.Dummy);
 			}
 			foreach (uint i20 in instance.FieldS)
 			{
-				ProtocolParser.WriteKey(stream, new Key(20, Wire.Varint));
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(20, Wire.Varint));
 				ProtocolParser.WriteUInt32(stream, i20);
 			
 			}
-			ProtocolParser.WriteKey(stream, new Key(21, Wire.LengthDelimited));
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(21, Wire.LengthDelimited));
 			using(MemoryStream ms21 = new MemoryStream())
 			{	
 				foreach (uint i21 in instance.FieldT)
@@ -599,32 +502,74 @@ namespace ProtocolBuffers
 			}
 			if(instance.FieldU != null)
 			{
-				ProtocolParser.WriteKey(stream, new Key(22, Wire.LengthDelimited));
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(22, Wire.LengthDelimited));
 				using(MemoryStream ms22 = new MemoryStream())
 				{
-					Write(ms22, instance.FieldU);
+					Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
 					ProtocolParser.WriteBytes(stream, ms22.ToArray());
 				}
 			}
 			foreach (Theirs.TheirMessage i23 in instance.FieldV)
 			{
-				ProtocolParser.WriteKey(stream, new Key(23, Wire.LengthDelimited));
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(23, Wire.LengthDelimited));
 				using(MemoryStream ms23 = new MemoryStream())
 				{
-					Write(ms23, i23);
+					Theirs.TheirMessage.Serialize(ms23, i23);
 					ProtocolParser.WriteBytes(stream, ms23.ToArray());
 				}
 			
 			}
 		}
 		
+		public static byte[] SerializeToBytes(MyMessageV2 instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	}
+	
 
+}
+namespace Theirs
+{
+	public partial class TheirMessage
+	{
+		public static TheirMessage Deserialize(Stream stream)
+		{
+			TheirMessage instance = new TheirMessage();
+			Serializer.Read(stream, instance);
+			return instance;
+		}
 		
-		public static Theirs.TheirMessage Read (Stream stream, Theirs.TheirMessage instance)
+		public static TheirMessage Deserialize(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Deserialize(ms);
+		}
+		
+		public static T Deserialize<T> (Stream stream) where T : Theirs.TheirMessage, new()
+		{
+			T instance = new T ();
+			Serializer.Read (stream, instance);
+			return instance;
+		}
+		
+		public static T Deserialize<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
+		{
+			T instance = new T ();
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Serializer.Read (ms, instance);
+			return instance;
+		}
+		
+		public static Theirs.TheirMessage Deserialize(Stream stream, Theirs.TheirMessage instance)
 		{
 			while (true)
 			{
-				Key key = null;
+				ProtocolBuffers.Key key = null;
 				try {
 					key = ProtocolParser.ReadKey (stream);
 				} catch (InvalidDataException) {
@@ -648,14 +593,125 @@ namespace ProtocolBuffers
 		public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Read (ms, instance);
+				Deserialize (ms, instance);
+			return instance;
+		}
+	
+		public static void Serialize(Stream stream, TheirMessage instance)
+		{
+			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
+			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
+		}
+		
+		public static byte[] SerializeToBytes(TheirMessage instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	}
+	
+
+}
+
+namespace ProtocolBuffers
+{
+	public static partial class Serializer
+	{
+		
+		public static Personal.Person Read (Stream stream, Personal.Person instance)
+		{
+			return Personal.Person.Deserialize(stream, instance);
+		}
+		
+		public static Personal.Person Read(byte[] buffer, Personal.Person instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Personal.Person.Deserialize (ms, instance);
+			return instance;
+		}
+		
+		public static void Write(Stream stream, Personal.Person instance)
+		{
+			Personal.Person.Serialize(stream, instance);
+		}
+		
+		
+		
+		public static Personal.Person.PhoneNumber Read (Stream stream, Personal.Person.PhoneNumber instance)
+		{
+			return Personal.Person.PhoneNumber.Deserialize(stream, instance);
+		}
+		
+		public static Personal.Person.PhoneNumber Read(byte[] buffer, Personal.Person.PhoneNumber instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Personal.Person.PhoneNumber.Deserialize (ms, instance);
+			return instance;
+		}
+		
+		public static void Write(Stream stream, Personal.Person.PhoneNumber instance)
+		{
+			Personal.Person.PhoneNumber.Serialize(stream, instance);
+		}
+		
+
+		
+		public static Mine.MyMessageV1 Read (Stream stream, Mine.MyMessageV1 instance)
+		{
+			return Mine.MyMessageV1.Deserialize(stream, instance);
+		}
+		
+		public static Mine.MyMessageV1 Read(byte[] buffer, Mine.MyMessageV1 instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Mine.MyMessageV1.Deserialize (ms, instance);
+			return instance;
+		}
+		
+		public static void Write(Stream stream, Mine.MyMessageV1 instance)
+		{
+			Mine.MyMessageV1.Serialize(stream, instance);
+		}
+		
+
+		
+		public static Yours.MyMessageV2 Read (Stream stream, Yours.MyMessageV2 instance)
+		{
+			return Yours.MyMessageV2.Deserialize(stream, instance);
+		}
+		
+		public static Yours.MyMessageV2 Read(byte[] buffer, Yours.MyMessageV2 instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Yours.MyMessageV2.Deserialize (ms, instance);
+			return instance;
+		}
+		
+		public static void Write(Stream stream, Yours.MyMessageV2 instance)
+		{
+			Yours.MyMessageV2.Serialize(stream, instance);
+		}
+		
+
+		
+		public static Theirs.TheirMessage Read (Stream stream, Theirs.TheirMessage instance)
+		{
+			return Theirs.TheirMessage.Deserialize(stream, instance);
+		}
+		
+		public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Theirs.TheirMessage.Deserialize (ms, instance);
 			return instance;
 		}
 		
 		public static void Write(Stream stream, Theirs.TheirMessage instance)
 		{
-			ProtocolParser.WriteKey(stream, new Key(1, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
+			Theirs.TheirMessage.Serialize(stream, instance);
 		}
 		
 

@@ -159,6 +159,9 @@ namespace ProtocolBuffers
 				case "deprecated":
 					f.Deprecated = Boolean.Parse (value);
 					break;
+				case "access":
+					f.Access = value;
+					break;
 				default:
 					//Ignore unknown options
 					break;

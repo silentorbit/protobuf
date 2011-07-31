@@ -38,7 +38,7 @@ namespace Personal
 		
 			public PhoneNumber()
 			{
-				this.Type = Person.PhoneType.HOME;
+				this.Type = Personal.Person.PhoneType.HOME;
 			}
 		}
 	}
@@ -85,7 +85,7 @@ namespace Yours
 		public byte[] FieldP { get; set; }
 		public Yours.MyMessageV2.MyEnum FieldQ { get; set; }
 		public Yours.MyMessageV2.MyEnum FieldR { get; set; }
-		public string Dummy { get; set; }
+		private string Dummy { get; set; }
 		public List<uint> FieldS { get; set; }
 		public List<uint> FieldT { get; set; }
 		public Theirs.TheirMessage FieldU { get; set; }
@@ -93,7 +93,7 @@ namespace Yours
 	
 		public MyMessageV2()
 		{
-			this.FieldR = MyMessageV2.MyEnum.ETest2;
+			this.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
 			this.Dummy = "";
 			this.FieldS = new List<uint>();
 			this.FieldT = new List<uint>();
