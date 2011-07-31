@@ -243,11 +243,19 @@ namespace ProtocolBuffers
 			//Properties
 			string properties = "";
 			foreach (Field f in m.Fields) {
+			#if GENERATE_BASE
+				properties += f.Access + " virtual " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
+				#else
 				properties += f.Access + " " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
+				#endif
 			}
 			
 			//Constructor with default values
+			#if GENERATE_BASE
+			string constructor = "protected " + m.CSName + "Base()\n";
+			#else
 			string constructor = "public " + m.CSName + "()\n";
+			#endif
 			constructor += "{\n";
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
@@ -271,22 +279,57 @@ namespace ProtocolBuffers
 				}
 			}
 			constructor += "}\n";
+			
+			string code = "";
+
+			#if GENERATE_BASE
+			//Base class
+			code += "public abstract class " + m.CSName + "Base\n";
+			code += "{\n";
+			code += Indent (properties);
+			code += "\n";
+			code += Indent (constructor);
+			code += "\n";
+			code += "	protected virtual void BeforeSerialize()\n";
+			code += "	{\n";
+			code += "	}\n";
+			code += "\n";
+			code += "	protected virtual void AfterDeserialize()\n";
+			code += "	{\n";
+			code += "	}\n";
+			code += "}\n\n";
+			#endif
 
 			//Default class
-			string code = "";
+			
 #if GENERATE_INTERFACE
 			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
 #else
+			#if GENERATE_BASE
+			code += "public partial class " + m.CSName + " : " + m.CSName + "Base\n";
+			#else
 			code += "public partial class " + m.CSName + "\n";
+			#endif
 #endif
 			code += "{\n";
 			if (enums.Length > 0) {
 				code += Indent (enums);
 				code += "\n";
 			}
+			#if !GENERATE_BASE
 			code += Indent (properties);
 			code += "\n";
 			code += Indent (constructor);
+			code += "\n";
+			code += "	protected void BeforeSerialize()\n";
+			code += "	{\n";
+			code += "	}\n";
+			code += "\n";
+			code += "	protected void AfterDeserialize()\n";
+			code += "	{\n";
+			code += "	}\n";
+
+			#endif
 			foreach (Message sub in m.Messages) {
 				code += "\n";
 				code += Indent (GenerateClass (sub));
@@ -339,7 +382,7 @@ namespace ProtocolBuffers
 			code += "public static " + m.CSName + " Deserialize(Stream stream)\n";
 			code += "{\n";
 			code += "	" + m.CSName + " instance = new " + m.CSName + "();\n";
-			code += "	Serializer.Read(stream, instance);\n";
+			code += "	Deserialize(stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
@@ -352,7 +395,7 @@ namespace ProtocolBuffers
 			code += "public static T Deserialize<T> (Stream stream) where T : " + PropertyType (m) + ", new()\n";
 			code += "{\n";
 			code += "	T instance = new T ();\n";
-			code += "	Serializer.Read (stream, instance);\n";
+			code += "	Deserialize (stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
@@ -360,7 +403,7 @@ namespace ProtocolBuffers
 			code += "{\n";
 			code += "	T instance = new T ();\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
-			code += "		Serializer.Read (ms, instance);\n";
+			code += "		Deserialize (ms, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
@@ -395,6 +438,8 @@ namespace ProtocolBuffers
 			code += "			break;\n";
 			code += "		}\n";
 			code += "	}\n";
+			code += "	\n";
+			code += "	instance.AfterDeserialize();\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
@@ -509,6 +554,8 @@ namespace ProtocolBuffers
 		{
 			string code = "public static void Serialize(Stream stream, " + m.CSName + " instance)\n";
 			code += "{\n";
+			code += "	instance.BeforeSerialize();\n";
+			code += "\n";
 			if (GenerateBinaryWriter (m))
 				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";
 			

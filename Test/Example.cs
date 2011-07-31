@@ -31,6 +31,14 @@ namespace Personal
 			this.Phone = new List<Personal.Person.PhoneNumber>();
 		}
 	
+		protected virtual void BeforeSerialize()
+		{
+		}
+	
+		protected virtual void AfterDeserialize()
+		{
+		}
+	
 		public partial class PhoneNumber
 		{
 			public string Number { get; set; }
@@ -39,6 +47,14 @@ namespace Personal
 			public PhoneNumber()
 			{
 				this.Type = Personal.Person.PhoneType.HOME;
+			}
+		
+			protected virtual void BeforeSerialize()
+			{
+			}
+		
+			protected virtual void AfterDeserialize()
+			{
 			}
 		}
 	}
@@ -51,6 +67,14 @@ namespace Mine
 		public int FieldA { get; set; }
 	
 		public MyMessageV1()
+		{
+		}
+	
+		protected virtual void BeforeSerialize()
+		{
+		}
+	
+		protected virtual void AfterDeserialize()
 		{
 		}
 	}
@@ -85,7 +109,7 @@ namespace Yours
 		public byte[] FieldP { get; set; }
 		public Yours.MyMessageV2.MyEnum FieldQ { get; set; }
 		public Yours.MyMessageV2.MyEnum FieldR { get; set; }
-		private string Dummy { get; set; }
+		protected string Dummy { get; set; }
 		public List<uint> FieldS { get; set; }
 		public List<uint> FieldT { get; set; }
 		public Theirs.TheirMessage FieldU { get; set; }
@@ -99,6 +123,14 @@ namespace Yours
 			this.FieldT = new List<uint>();
 			this.FieldV = new List<Theirs.TheirMessage>();
 		}
+	
+		protected virtual void BeforeSerialize()
+		{
+		}
+	
+		protected virtual void AfterDeserialize()
+		{
+		}
 	}
 
 }
@@ -109,6 +141,14 @@ namespace Theirs
 		public int FieldA { get; set; }
 	
 		public TheirMessage()
+		{
+		}
+	
+		protected virtual void BeforeSerialize()
+		{
+		}
+	
+		protected virtual void AfterDeserialize()
 		{
 		}
 	}

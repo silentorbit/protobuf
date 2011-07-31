@@ -18,7 +18,7 @@ namespace Personal
 		public static Person Deserialize(Stream stream)
 		{
 			Person instance = new Person();
-			Serializer.Read(stream, instance);
+			Deserialize(stream, instance);
 			return instance;
 		}
 		
@@ -31,7 +31,7 @@ namespace Personal
 		public static T Deserialize<T> (Stream stream) where T : Personal.Person, new()
 		{
 			T instance = new T ();
-			Serializer.Read (stream, instance);
+			Deserialize (stream, instance);
 			return instance;
 		}
 		
@@ -39,7 +39,7 @@ namespace Personal
 		{
 			T instance = new T ();
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Serializer.Read (ms, instance);
+				Deserialize (ms, instance);
 			return instance;
 		}
 		
@@ -74,6 +74,8 @@ namespace Personal
 					break;
 				}
 			}
+			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -86,6 +88,8 @@ namespace Personal
 	
 		public static void Serialize(Stream stream, Person instance)
 		{
+			instance.BeforeSerialize();
+		
 			if(instance.Name == null)
 				throw new ArgumentNullException("Name", "Required by proto specification.");
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
@@ -123,7 +127,7 @@ namespace Personal
 			public static PhoneNumber Deserialize(Stream stream)
 			{
 				PhoneNumber instance = new PhoneNumber();
-				Serializer.Read(stream, instance);
+				Deserialize(stream, instance);
 				return instance;
 			}
 			
@@ -136,7 +140,7 @@ namespace Personal
 			public static T Deserialize<T> (Stream stream) where T : Personal.Person.PhoneNumber, new()
 			{
 				T instance = new T ();
-				Serializer.Read (stream, instance);
+				Deserialize (stream, instance);
 				return instance;
 			}
 			
@@ -144,7 +148,7 @@ namespace Personal
 			{
 				T instance = new T ();
 				using (MemoryStream ms = new MemoryStream(buffer))
-					Serializer.Read (ms, instance);
+					Deserialize (ms, instance);
 				return instance;
 			}
 			
@@ -173,6 +177,8 @@ namespace Personal
 						break;
 					}
 				}
+				
+				instance.AfterDeserialize();
 				return instance;
 			}
 			
@@ -185,6 +191,8 @@ namespace Personal
 		
 			public static void Serialize(Stream stream, PhoneNumber instance)
 			{
+				instance.BeforeSerialize();
+			
 				if(instance.Number == null)
 					throw new ArgumentNullException("Number", "Required by proto specification.");
 				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
@@ -217,7 +225,7 @@ namespace Mine
 		public static MyMessageV1 Deserialize(Stream stream)
 		{
 			MyMessageV1 instance = new MyMessageV1();
-			Serializer.Read(stream, instance);
+			Deserialize(stream, instance);
 			return instance;
 		}
 		
@@ -230,7 +238,7 @@ namespace Mine
 		public static T Deserialize<T> (Stream stream) where T : Mine.MyMessageV1, new()
 		{
 			T instance = new T ();
-			Serializer.Read (stream, instance);
+			Deserialize (stream, instance);
 			return instance;
 		}
 		
@@ -238,7 +246,7 @@ namespace Mine
 		{
 			T instance = new T ();
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Serializer.Read (ms, instance);
+				Deserialize (ms, instance);
 			return instance;
 		}
 		
@@ -264,6 +272,8 @@ namespace Mine
 					break;
 				}
 			}
+			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -276,6 +286,8 @@ namespace Mine
 	
 		public static void Serialize(Stream stream, MyMessageV1 instance)
 		{
+			instance.BeforeSerialize();
+		
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
 		}
@@ -299,7 +311,7 @@ namespace Yours
 		public static MyMessageV2 Deserialize(Stream stream)
 		{
 			MyMessageV2 instance = new MyMessageV2();
-			Serializer.Read(stream, instance);
+			Deserialize(stream, instance);
 			return instance;
 		}
 		
@@ -312,7 +324,7 @@ namespace Yours
 		public static T Deserialize<T> (Stream stream) where T : Yours.MyMessageV2, new()
 		{
 			T instance = new T ();
-			Serializer.Read (stream, instance);
+			Deserialize (stream, instance);
 			return instance;
 		}
 		
@@ -320,7 +332,7 @@ namespace Yours
 		{
 			T instance = new T ();
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Serializer.Read (ms, instance);
+				Deserialize (ms, instance);
 			return instance;
 		}
 		
@@ -423,6 +435,8 @@ namespace Yours
 					break;
 				}
 			}
+			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -435,6 +449,8 @@ namespace Yours
 	
 		public static void Serialize(Stream stream, MyMessageV2 instance)
 		{
+			instance.BeforeSerialize();
+		
 			BinaryWriter bw = new BinaryWriter(stream);
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
@@ -540,7 +556,7 @@ namespace Theirs
 		public static TheirMessage Deserialize(Stream stream)
 		{
 			TheirMessage instance = new TheirMessage();
-			Serializer.Read(stream, instance);
+			Deserialize(stream, instance);
 			return instance;
 		}
 		
@@ -553,7 +569,7 @@ namespace Theirs
 		public static T Deserialize<T> (Stream stream) where T : Theirs.TheirMessage, new()
 		{
 			T instance = new T ();
-			Serializer.Read (stream, instance);
+			Deserialize (stream, instance);
 			return instance;
 		}
 		
@@ -561,7 +577,7 @@ namespace Theirs
 		{
 			T instance = new T ();
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Serializer.Read (ms, instance);
+				Deserialize (ms, instance);
 			return instance;
 		}
 		
@@ -587,6 +603,8 @@ namespace Theirs
 					break;
 				}
 			}
+			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -599,6 +617,8 @@ namespace Theirs
 	
 		public static void Serialize(Stream stream, TheirMessage instance)
 		{
+			instance.BeforeSerialize();
+		
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
 		}
