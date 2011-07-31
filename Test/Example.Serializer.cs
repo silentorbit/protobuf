@@ -10,245 +10,258 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using ProtocolBuffers;
 using Personal;
 using Mine;
 using Yours;
 using Theirs;
+namespace Personal
+{
+	public partial class Person
+	{
+		public static Person Deserialize(Stream stream)
+		{
+			Person instance = new Person();
+			Serializer.Read(stream, instance);
+			return instance;
+		}
+		
+		public static Person Deserialize(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Deserialize(ms);
+		}
+		
+		public static T Deserialize<T> (Stream stream) where T : Personal.Person, new()
+		{
+			T instance = new T ();
+			Serializer.Read (stream, instance);
+			return instance;
+		}
+		
+		public static T Deserialize<T> (byte[] buffer) where T : Personal.Person, new()
+		{
+			T instance = new T ();
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Serializer.Read (ms, instance);
+			return instance;
+		}
+	
+		public static void Serialize(Stream stream, Person instance)
+		{
+			Serializer.Write(stream, instance);
+		}
+		
+		public static byte[] SerializeToBytes(Person instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	
+		public partial class PhoneNumber
+		{
+			public static PhoneNumber Deserialize(Stream stream)
+			{
+				PhoneNumber instance = new PhoneNumber();
+				Serializer.Read(stream, instance);
+				return instance;
+			}
+			
+			public static PhoneNumber Deserialize(byte[] buffer)
+			{
+				using(MemoryStream ms = new MemoryStream(buffer))
+					return Deserialize(ms);
+			}
+			
+			public static T Deserialize<T> (Stream stream) where T : Personal.Person.PhoneNumber, new()
+			{
+				T instance = new T ();
+				Serializer.Read (stream, instance);
+				return instance;
+			}
+			
+			public static T Deserialize<T> (byte[] buffer) where T : Personal.Person.PhoneNumber, new()
+			{
+				T instance = new T ();
+				using (MemoryStream ms = new MemoryStream(buffer))
+					Serializer.Read (ms, instance);
+				return instance;
+			}
+		
+			public static void Serialize(Stream stream, PhoneNumber instance)
+			{
+				Serializer.Write(stream, instance);
+			}
+			
+			public static byte[] SerializeToBytes(PhoneNumber instance)
+			{
+				using(MemoryStream ms = new MemoryStream())
+				{
+					Serialize(ms, instance);
+					return ms.ToArray();
+				}
+			}
+		}
+		
+	}
+	
+
+}
+namespace Mine
+{
+	public partial class MyMessageV1
+	{
+		public static MyMessageV1 Deserialize(Stream stream)
+		{
+			MyMessageV1 instance = new MyMessageV1();
+			Serializer.Read(stream, instance);
+			return instance;
+		}
+		
+		public static MyMessageV1 Deserialize(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Deserialize(ms);
+		}
+		
+		public static T Deserialize<T> (Stream stream) where T : Mine.MyMessageV1, new()
+		{
+			T instance = new T ();
+			Serializer.Read (stream, instance);
+			return instance;
+		}
+		
+		public static T Deserialize<T> (byte[] buffer) where T : Mine.MyMessageV1, new()
+		{
+			T instance = new T ();
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Serializer.Read (ms, instance);
+			return instance;
+		}
+	
+		public static void Serialize(Stream stream, MyMessageV1 instance)
+		{
+			Serializer.Write(stream, instance);
+		}
+		
+		public static byte[] SerializeToBytes(MyMessageV1 instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	}
+	
+
+}
+namespace Yours
+{
+	public partial class MyMessageV2
+	{
+		public static MyMessageV2 Deserialize(Stream stream)
+		{
+			MyMessageV2 instance = new MyMessageV2();
+			Serializer.Read(stream, instance);
+			return instance;
+		}
+		
+		public static MyMessageV2 Deserialize(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Deserialize(ms);
+		}
+		
+		public static T Deserialize<T> (Stream stream) where T : Yours.MyMessageV2, new()
+		{
+			T instance = new T ();
+			Serializer.Read (stream, instance);
+			return instance;
+		}
+		
+		public static T Deserialize<T> (byte[] buffer) where T : Yours.MyMessageV2, new()
+		{
+			T instance = new T ();
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Serializer.Read (ms, instance);
+			return instance;
+		}
+	
+		public static void Serialize(Stream stream, MyMessageV2 instance)
+		{
+			Serializer.Write(stream, instance);
+		}
+		
+		public static byte[] SerializeToBytes(MyMessageV2 instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	}
+	
+
+}
+namespace Theirs
+{
+	public partial class TheirMessage
+	{
+		public static TheirMessage Deserialize(Stream stream)
+		{
+			TheirMessage instance = new TheirMessage();
+			Serializer.Read(stream, instance);
+			return instance;
+		}
+		
+		public static TheirMessage Deserialize(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Deserialize(ms);
+		}
+		
+		public static T Deserialize<T> (Stream stream) where T : Theirs.TheirMessage, new()
+		{
+			T instance = new T ();
+			Serializer.Read (stream, instance);
+			return instance;
+		}
+		
+		public static T Deserialize<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
+		{
+			T instance = new T ();
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Serializer.Read (ms, instance);
+			return instance;
+		}
+	
+		public static void Serialize(Stream stream, TheirMessage instance)
+		{
+			Serializer.Write(stream, instance);
+		}
+		
+		public static byte[] SerializeToBytes(TheirMessage instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	}
+	
+
+}
 
 namespace ProtocolBuffers
 {
 	public static partial class Serializer
 	{
-		public static class Person
-		{
-			public static Personal.Person Read(Stream stream)
-			{
-				Personal.Person instance = new Personal.Person();
-				Serializer.Read(stream, instance);
-				return instance;
-			}
-			
-			public static Personal.Person Read(byte[] buffer)
-			{
-				using(MemoryStream ms = new MemoryStream(buffer))
-					return Read(ms);
-			}
-			
-			public static T Read<T> (Stream stream) where T : Personal.Person, new()
-			{
-				T instance = new T ();
-				Serializer.Read (stream, instance);
-				return instance;
-			}
-			
-			public static T Read<T> (byte[] buffer) where T : Personal.Person, new()
-			{
-				T instance = new T ();
-				using (MemoryStream ms = new MemoryStream(buffer))
-					Serializer.Read (ms, instance);
-				return instance;
-			}
-		
-			public static void Write(Stream stream, Personal.Person instance)
-			{
-				Serializer.Write(stream, instance);
-			}
-			
-			public static byte[] GetBytes(Personal.Person instance)
-			{
-				using(MemoryStream ms = new MemoryStream())
-				{
-					Write(ms, instance);
-					return ms.ToArray();
-				}
-			}
-		
-			public static class PhoneNumber
-			{
-				public static Personal.Person.PhoneNumber Read(Stream stream)
-				{
-					Personal.Person.PhoneNumber instance = new Personal.Person.PhoneNumber();
-					Serializer.Read(stream, instance);
-					return instance;
-				}
-				
-				public static Personal.Person.PhoneNumber Read(byte[] buffer)
-				{
-					using(MemoryStream ms = new MemoryStream(buffer))
-						return Read(ms);
-				}
-				
-				public static T Read<T> (Stream stream) where T : Personal.Person.PhoneNumber, new()
-				{
-					T instance = new T ();
-					Serializer.Read (stream, instance);
-					return instance;
-				}
-				
-				public static T Read<T> (byte[] buffer) where T : Personal.Person.PhoneNumber, new()
-				{
-					T instance = new T ();
-					using (MemoryStream ms = new MemoryStream(buffer))
-						Serializer.Read (ms, instance);
-					return instance;
-				}
-			
-				public static void Write(Stream stream, Personal.Person.PhoneNumber instance)
-				{
-					Serializer.Write(stream, instance);
-				}
-				
-				public static byte[] GetBytes(Personal.Person.PhoneNumber instance)
-				{
-					using(MemoryStream ms = new MemoryStream())
-					{
-						Write(ms, instance);
-						return ms.ToArray();
-					}
-				}
-			}
-			
-		}
-		
-
-		public static class MyMessageV1
-		{
-			public static Mine.MyMessageV1 Read(Stream stream)
-			{
-				Mine.MyMessageV1 instance = new Mine.MyMessageV1();
-				Serializer.Read(stream, instance);
-				return instance;
-			}
-			
-			public static Mine.MyMessageV1 Read(byte[] buffer)
-			{
-				using(MemoryStream ms = new MemoryStream(buffer))
-					return Read(ms);
-			}
-			
-			public static T Read<T> (Stream stream) where T : Mine.MyMessageV1, new()
-			{
-				T instance = new T ();
-				Serializer.Read (stream, instance);
-				return instance;
-			}
-			
-			public static T Read<T> (byte[] buffer) where T : Mine.MyMessageV1, new()
-			{
-				T instance = new T ();
-				using (MemoryStream ms = new MemoryStream(buffer))
-					Serializer.Read (ms, instance);
-				return instance;
-			}
-		
-			public static void Write(Stream stream, Mine.MyMessageV1 instance)
-			{
-				Serializer.Write(stream, instance);
-			}
-			
-			public static byte[] GetBytes(Mine.MyMessageV1 instance)
-			{
-				using(MemoryStream ms = new MemoryStream())
-				{
-					Write(ms, instance);
-					return ms.ToArray();
-				}
-			}
-		}
-		
-
-		public static class MyMessageV2
-		{
-			public static Yours.MyMessageV2 Read(Stream stream)
-			{
-				Yours.MyMessageV2 instance = new Yours.MyMessageV2();
-				Serializer.Read(stream, instance);
-				return instance;
-			}
-			
-			public static Yours.MyMessageV2 Read(byte[] buffer)
-			{
-				using(MemoryStream ms = new MemoryStream(buffer))
-					return Read(ms);
-			}
-			
-			public static T Read<T> (Stream stream) where T : Yours.MyMessageV2, new()
-			{
-				T instance = new T ();
-				Serializer.Read (stream, instance);
-				return instance;
-			}
-			
-			public static T Read<T> (byte[] buffer) where T : Yours.MyMessageV2, new()
-			{
-				T instance = new T ();
-				using (MemoryStream ms = new MemoryStream(buffer))
-					Serializer.Read (ms, instance);
-				return instance;
-			}
-		
-			public static void Write(Stream stream, Yours.MyMessageV2 instance)
-			{
-				Serializer.Write(stream, instance);
-			}
-			
-			public static byte[] GetBytes(Yours.MyMessageV2 instance)
-			{
-				using(MemoryStream ms = new MemoryStream())
-				{
-					Write(ms, instance);
-					return ms.ToArray();
-				}
-			}
-		}
-		
-
-		public static class TheirMessage
-		{
-			public static Theirs.TheirMessage Read(Stream stream)
-			{
-				Theirs.TheirMessage instance = new Theirs.TheirMessage();
-				Serializer.Read(stream, instance);
-				return instance;
-			}
-			
-			public static Theirs.TheirMessage Read(byte[] buffer)
-			{
-				using(MemoryStream ms = new MemoryStream(buffer))
-					return Read(ms);
-			}
-			
-			public static T Read<T> (Stream stream) where T : Theirs.TheirMessage, new()
-			{
-				T instance = new T ();
-				Serializer.Read (stream, instance);
-				return instance;
-			}
-			
-			public static T Read<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
-			{
-				T instance = new T ();
-				using (MemoryStream ms = new MemoryStream(buffer))
-					Serializer.Read (ms, instance);
-				return instance;
-			}
-		
-			public static void Write(Stream stream, Theirs.TheirMessage instance)
-			{
-				Serializer.Write(stream, instance);
-			}
-			
-			public static byte[] GetBytes(Theirs.TheirMessage instance)
-			{
-				using(MemoryStream ms = new MemoryStream())
-				{
-					Write(ms, instance);
-					return ms.ToArray();
-				}
-			}
-		}
-		
-
 		
 		public static Personal.Person Read (Stream stream, Personal.Person instance)
 		{
@@ -262,6 +275,8 @@ namespace ProtocolBuffers
 				}
 		
 				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
 				case 1:
 					instance.Name = ProtocolParser.ReadString(stream);
 					break;
@@ -272,7 +287,7 @@ namespace ProtocolBuffers
 					instance.Email = ProtocolParser.ReadString(stream);
 					break;
 				case 4:
-					instance.Phone.Add(Person.PhoneNumber.Read(ProtocolParser.ReadBytes(stream)));
+					instance.Phone.Add(Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
 					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
@@ -328,6 +343,8 @@ namespace ProtocolBuffers
 				}
 		
 				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
 				case 1:
 					instance.Number = ProtocolParser.ReadString(stream);
 					break;
@@ -376,6 +393,8 @@ namespace ProtocolBuffers
 				}
 		
 				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
 				case 1:
 					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
 					break;
@@ -414,6 +433,8 @@ namespace ProtocolBuffers
 				}
 		
 				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
 				case 1:
 					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
 					break;
@@ -492,7 +513,7 @@ namespace ProtocolBuffers
 					instance.FieldU = Read(ProtocolParser.ReadBytes(stream), instance.FieldU);
 					break;
 				case 23:
-					instance.FieldV.Add(TheirMessage.Read(ProtocolParser.ReadBytes(stream)));
+					instance.FieldV.Add(TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream)));
 					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
@@ -611,6 +632,8 @@ namespace ProtocolBuffers
 				}
 		
 				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
 				case 1:
 					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
 					break;

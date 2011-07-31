@@ -122,7 +122,7 @@ namespace Test
 			}
 			
 			MemoryStream ms4 = new MemoryStream (ms3.ToArray ());
-			Person p4 = ProtocolBuffers.Serializer.Person.Read (ms4);
+			Person p4 = Person.Deserialize (ms4);
 			
 			//Test			
 			Test ("14 Name", p1.Name == p4.Name);
@@ -200,13 +200,13 @@ namespace Test
 			
 			//Write
 			MemoryStream ms = new MemoryStream ();
-			ProtocolBuffers.Serializer.MyMessageV2.Write (ms, mm);
+			MyMessageV2.Serialize (ms, mm);
 			
 			Console.WriteLine ("Wire bytes: " + ms.Length);
 			
 			//Read
 			MemoryStream msread = new MemoryStream (ms.ToArray ());
-			MyMessageV2 mo = ProtocolBuffers.Serializer.MyMessageV2.Read (msread);
+			MyMessageV2 mo = MyMessageV2.Deserialize (msread);
 			
 			//Verify
 			Test ("FieldA", mm.FieldA == mo.FieldA);
@@ -245,7 +245,7 @@ namespace Test
 			
 			//Read by older version
 			MemoryStream msread1 = new MemoryStream (ms.ToArray ());
-			MyMessageV1 m1 = ProtocolBuffers.Serializer.MyMessageV1.Read (msread1);
+			MyMessageV1 m1 = MyMessageV1.Deserialize (msread1);
 			
 			Console.WriteLine ("Version 1");
 			Test ("FieldA", mm.FieldA == m1.FieldA);

@@ -69,9 +69,14 @@ namespace ProtocolBuffers
 		//End = 4,		//	groups (deprecated)
 		Fixed32 = 5,	//32-bit	fixed32, sfixed32, float
 	}
-	
+		
 	public class Field
 	{
+		public Field ()
+		{
+			this.Access = "public";
+		}
+		
 		#region .proto data
 		
 		public Rules Rule { get; set; }
@@ -91,6 +96,12 @@ namespace ProtocolBuffers
 		public bool Deprecated { get; set; }
 		
 		public string Default { get; set; }
+		
+		/// <summary>
+		/// Local for this implementation.
+		/// define the access of the field: public(default), protected, private or internal
+		/// </summary>
+		public string Access { get; set; }
 		
 		#endregion
 		

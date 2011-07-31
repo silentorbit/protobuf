@@ -154,7 +154,8 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Text;
-using System.Collections.Generic;");
+using System.Collections.Generic;
+using ProtocolBuffers;");
 				List<string > usedNS = new List<string> ();
 				foreach (Message m in proto.Messages) {
 					string mns = GetNamespace (m);
@@ -164,15 +165,19 @@ using System.Collections.Generic;");
 					usedNS.Add (mns);
 				}
 
+				foreach (Message m in proto.Messages) {
+					codeWriter.WriteLine ("namespace " + GetNamespace (m));
+					codeWriter.WriteLine ("{");
+					codeWriter.WriteLine (Indent (1, GenerateClassSerializer (m)));
+					codeWriter.WriteLine ("}");
+				}
+
 				codeWriter.WriteLine (@"
 namespace ProtocolBuffers
 {
 	public static partial class Serializer
 	{");
-				
-				foreach (Message m in proto.Messages)
-					codeWriter.WriteLine (Indent (2, GenerateClassSerializer (m)));
-				
+
 				foreach (Message m in proto.Messages)
 					codeWriter.WriteLine (Indent (2, GenerateGenericClassSerializer (m)));
 					
@@ -245,7 +250,7 @@ namespace ProtocolBuffers
 			//Properties
 			string properties = "";
 			foreach (Field f in m.Fields) {
-				properties += "public " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
+				properties += f.Access + " " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
 			}
 			
 			//Constructor with default values
@@ -304,7 +309,7 @@ namespace ProtocolBuffers
 		string GenerateClassSerializer (Message m)
 		{
 			string code = "";
-			code += "public static class " + m.CSName + "\n";
+			code += "public partial class " + m.CSName + "\n";
 			code += "{\n";
 			code += Indent (GenerateReader (m));
 			code += "\n";
@@ -338,27 +343,27 @@ namespace ProtocolBuffers
 		string GenerateReader (Message m)
 		{
 			string code = "";
-			code += "public static " + FullNS (m) + " Read(Stream stream)\n";
+			code += "public static " + m.CSName + " Deserialize(Stream stream)\n";
 			code += "{\n";
-			code += "	" + FullNS (m) + " instance = new " + FullNS (m) + "();\n";
+			code += "	" + m.CSName + " instance = new " + m.CSName + "();\n";
 			code += "	Serializer.Read(stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static " + FullNS (m) + " Read(byte[] buffer)\n";
+			code += "public static " + m.CSName + " Deserialize(byte[] buffer)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
-			code += "		return Read(ms);\n";
+			code += "		return Deserialize(ms);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static T Read<T> (Stream stream) where T : " + PropertyType (m) + ", new()\n";
+			code += "public static T Deserialize<T> (Stream stream) where T : " + PropertyType (m) + ", new()\n";
 			code += "{\n";
 			code += "	T instance = new T ();\n";
 			code += "	Serializer.Read (stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static T Read<T> (byte[] buffer) where T : " + PropertyType (m) + ", new()\n";
+			code += "public static T Deserialize<T> (byte[] buffer) where T : " + PropertyType (m) + ", new()\n";
 			code += "{\n";
 			code += "	T instance = new T ();\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
@@ -478,7 +483,7 @@ namespace ProtocolBuffers
 				return "(" + PropertyItemType (f) + ")ProtocolParser.ReadUInt32(" + stream + ")";
 			case ProtoTypes.Message:				
 				if (f.Rule == Rules.Repeated)
-					return FullClass (f) + ".Read(ProtocolParser.ReadBytes(" + stream + "))";
+					return FullClass (f) + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
 				else
 					return "Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
 			default:
@@ -496,16 +501,16 @@ namespace ProtocolBuffers
 		/// </summary>
 		string GenerateWriter (Message m)
 		{
-			string code = "public static void Write(Stream stream, " + PropertyType (m) + " instance)\n";
+			string code = "public static void Serialize(Stream stream, " + m.CSName + " instance)\n";
 			code += "{\n";
 			code += "	Serializer.Write(stream, instance);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static byte[] GetBytes(" + PropertyType (m) + " instance)\n";
+			code += "public static byte[] SerializeToBytes(" + m.CSName + " instance)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream())\n";
 			code += "	{\n";
-			code += "		Write(ms, instance);\n";
+			code += "		Serialize(ms, instance);\n";
 			code += "		return ms.ToArray();\n";
 			code += "	}\n";
 			code += "}\n";
