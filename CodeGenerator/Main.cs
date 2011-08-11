@@ -12,7 +12,6 @@ namespace ProtocolBuffers
 				Console.Error.WriteLine ("Usage:\n\tCodeGenerator.exe path-to.proto [output.cs]");
 				return;						
 			}
-			
 			string protoPath = Path.GetFullPath (args [0]);
 			
 			if (File.Exists (protoPath) == false) {

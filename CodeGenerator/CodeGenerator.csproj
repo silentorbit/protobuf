@@ -58,5 +58,8 @@
     <EmbeddedResource Include="ProtocolParser.cs">
       <LogicalName>ProtocolParser</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParserCustom.cs">
+      <LogicalName>ProtocolParserCustom</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

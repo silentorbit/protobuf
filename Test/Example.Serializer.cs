@@ -38,9 +38,14 @@ namespace Personal
 		public static T Deserialize<T> (byte[] buffer) where T : Personal.Person, new()
 		{
 			T instance = new T ();
+			Deserialize(buffer, instance);
+			return instance;
+		}
+		
+		public static void Deserialize (byte[] buffer, Personal.Person instance)
+		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
-			return instance;
 		}
 		
 		public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
@@ -144,9 +149,14 @@ namespace Personal
 			public static T Deserialize<T> (byte[] buffer) where T : Personal.Person.PhoneNumber, new()
 			{
 				T instance = new T ();
+				Deserialize(buffer, instance);
+				return instance;
+			}
+			
+			public static void Deserialize (byte[] buffer, Personal.Person.PhoneNumber instance)
+			{
 				using (MemoryStream ms = new MemoryStream(buffer))
 					Deserialize (ms, instance);
-				return instance;
 			}
 			
 			public static Personal.Person.PhoneNumber Deserialize(Stream stream, Personal.Person.PhoneNumber instance)
@@ -239,9 +249,14 @@ namespace Mine
 		public static T Deserialize<T> (byte[] buffer) where T : Mine.MyMessageV1, new()
 		{
 			T instance = new T ();
+			Deserialize(buffer, instance);
+			return instance;
+		}
+		
+		public static void Deserialize (byte[] buffer, Mine.MyMessageV1 instance)
+		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
-			return instance;
 		}
 		
 		public static Mine.MyMessageV1 Deserialize(Stream stream, Mine.MyMessageV1 instance)
@@ -322,9 +337,14 @@ namespace Yours
 		public static T Deserialize<T> (byte[] buffer) where T : Yours.MyMessageV2, new()
 		{
 			T instance = new T ();
+			Deserialize(buffer, instance);
+			return instance;
+		}
+		
+		public static void Deserialize (byte[] buffer, Yours.MyMessageV2 instance)
+		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
-			return instance;
 		}
 		
 		public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
@@ -565,9 +585,14 @@ namespace Theirs
 		public static T Deserialize<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
 		{
 			T instance = new T ();
+			Deserialize(buffer, instance);
+			return instance;
+		}
+		
+		public static void Deserialize (byte[] buffer, Theirs.TheirMessage instance)
+		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
-			return instance;
 		}
 		
 		public static Theirs.TheirMessage Deserialize(Stream stream, Theirs.TheirMessage instance)

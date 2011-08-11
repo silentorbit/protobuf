@@ -9,8 +9,8 @@ namespace ProtocolBuffers
 		public static void Prepare (Proto proto)
 		{
 			//Check namespace, default to "Example"
-			if(proto.Options.ContainsKey("namespace") == false)
-				proto.Options.Add("namespace", "Example");
+			if (proto.Options.ContainsKey ("namespace") == false)
+				proto.Options.Add ("namespace", "Example");
 
 			foreach (Message m in proto.Messages)
 				PrepareMessage (m);
@@ -88,7 +88,7 @@ namespace ProtocolBuffers
 				}
 				
 				string[] parts = f.ProtoTypeName.Split ('.');
-				string cc = GetCamelCase (parts [parts.Length-1]);
+				string cc = GetCamelCase (parts [parts.Length - 1]);
 				if (pt is Message) {
 					f.CSClass = cc;
 #if GENERATE_INTERFACE
@@ -97,8 +97,7 @@ namespace ProtocolBuffers
 					f.CSType += cc;
 #endif
 					break;
-				}
-				else
+				} else
 					f.CSType = cc;
 
 				break;
@@ -108,6 +107,16 @@ namespace ProtocolBuffers
 				if (f.WireType == Wire.LengthDelimited)
 					throw new InvalidDataException ("Packed field not allowed for length delimited types");
 				f.WireType = Wire.LengthDelimited;
+			}
+
+			if (f.ExternalType == "DateTime" || f.ExternalType == "TimeSpan") {
+				if (f.ProtoType != ProtoTypes.Int64)
+					throw new InvalidDataException ("DateTime and TimeSpan must be stored in int64. was " + f.ProtoType);
+			}
+			if (f.ExternalType != null) {
+				f.ProtoType = ProtoTypes.External;
+				f.CSClass = f.ExternalType;
+				f.CSType = f.ExternalType;
 			}
 
 			if (f.CSType == null) {

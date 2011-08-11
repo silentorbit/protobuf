@@ -67,6 +67,8 @@ namespace ProtocolBuffers
 				if (message is Proto == false)
 					path = message.CSName + "." + path;
 				return FullPath (message, path);
+			case ProtoTypes.External:
+				return field.ExternalType;
 			default:	
 				return field.CSType;
 			}
@@ -185,6 +187,7 @@ namespace ProtocolBuffers
 				ReadCode (codeWriter, "ProtocolParserFixed", false);
 				ReadCode (codeWriter, "ProtocolParserKey", false);
 				ReadCode (codeWriter, "ProtocolParserVarInt", false);
+				ReadCode (codeWriter, "ProtocolParserCustom", false);
 			}
 		}
 		
@@ -406,9 +409,14 @@ namespace ProtocolBuffers
 			code += "public static T Deserialize<T> (byte[] buffer) where T : " + PropertyType (m) + ", new()\n";
 			code += "{\n";
 			code += "	T instance = new T ();\n";
+			code += "	Deserialize(buffer, instance);\n";
+			code += "	return instance;\n";
+			code += "}\n";
+			code += "\n";
+			code += "public static void Deserialize (byte[] buffer, " + PropertyType (m) + " instance)\n";
+			code += "{\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		Deserialize (ms, instance);\n";
-			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
 			
@@ -425,7 +433,7 @@ namespace ProtocolBuffers
 			code += "		ProtocolBuffers.Key key = null;\n";
 			code += "		try {\n";
 			code += "			key = ProtocolParser.ReadKey (stream);\n";
-			code += "		} catch (InvalidDataException) {\n";
+			code += "		} catch (IOException) {\n";
 			code += "			break;\n";
 			code += "		}\n";
 			code += "\n";
@@ -544,6 +552,15 @@ namespace ProtocolBuffers
 					return FullClass (f) + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
 				else
 					return "Serializer.Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+			case ProtoTypes.External:
+				switch (f.ExternalType) {
+				case "DateTime":
+					return "ProtocolParser.ReadDateTime(" + stream + ")";
+				case "TimeSpan":
+					return "ProtocolParser.ReadTimeSpan(" + stream + ")";
+				default:
+					return f.ExternalType + ".Read(" + stream + ", " + instance + ")";
+				}
 			default:
 				throw new NotImplementedException ();
 			}
@@ -727,6 +744,15 @@ namespace ProtocolBuffers
 				code += "	ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());\n";
 				code += "}\n";
 				return code;
+			case ProtoTypes.External:
+				switch (f.ExternalType) {
+				case "DateTime":
+					return "ProtocolParser.WriteDateTime(" + stream + ", " + instance + ");\n";
+				case "TimeSpan":
+					return "ProtocolParser.WriteTimeSpan(" + stream + ", " + instance + ");\n";
+				default:
+					return f.ExternalType + ".Write(" + stream + ", " + instance + ");\n";
+				}
 			default:
 				throw new NotImplementedException ();
 			}

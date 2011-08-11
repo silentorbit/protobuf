@@ -267,7 +267,7 @@ namespace ProtocolBuffers
 			while (true) {
 				int b = stream.ReadByte ();
 				if (b < 0)
-					throw new InvalidDataException ("Stream ended too early");
+					throw new IOException ("Stream ended too early");
 				
 				if ((b & 0x80) == 0)
 					return; //end of varint
@@ -315,7 +315,7 @@ namespace ProtocolBuffers
 			for (int n = 0; n < 5; n++) {
 				b = stream.ReadByte ();
 				if (b < 0)
-					throw new InvalidDataException ("Stream ended too early");
+					throw new IOException ("Stream ended too early");
 				
 				//Check that it fits in 32 bits
 				if ((n == 4) && (b & 0xF0) != 0)
@@ -393,7 +393,7 @@ namespace ProtocolBuffers
 			for (int n = 0; n < 10; n++) {
 				b = stream.ReadByte ();
 				if (b < 0)
-					throw new InvalidDataException ("Stream ended too early");
+					throw new IOException ("Stream ended too early");
 				
 				//Check that it fits in 64 bits
 				if ((n == 9) && (b & 0xFE) != 0)
@@ -436,7 +436,7 @@ namespace ProtocolBuffers
 		{
 			int b = stream.ReadByte ();
 			if (b < 0)
-				throw new InvalidDataException ("Stream ended too early");
+				throw new IOException ("Stream ended too early");
 			if (b == 1)
 				return true;
 			if (b == 0)
@@ -452,4 +452,46 @@ namespace ProtocolBuffers
 		#endregion
 	}
 }
+#endregion
+#region ProtocolParserCustom
+
+namespace ProtocolBuffers
+{
+	public static partial class ProtocolParser
+	{
+		/// <summary>
+		/// Read TimeSpan from Ticks in a int64.
+		/// </summary>
+		public static TimeSpan ReadTimeSpan (Stream stream)
+		{
+			return new TimeSpan((long)ReadUInt64 (stream));
+		}
+		
+		/// <summary>
+		/// Write TimeSpan Ticks in a int64.
+		/// </summary>
+		public static void WriteTimeSpan (Stream stream, TimeSpan time)
+		{
+			WriteUInt64 (stream, (ulong)time.Ticks);
+		}
+		
+		
+		/// <summary>
+		/// Read DateTime from Ticks in a int64.
+		/// </summary>
+		public static DateTime ReadDateTime (Stream stream)
+		{
+			return new DateTime((long)ReadUInt64 (stream));
+		}
+		
+		/// <summary>
+		/// Write DateTime Ticks in a int64.
+		/// </summary>
+		public static void WriteDateTime (Stream stream, DateTime time)
+		{
+			WriteUInt64 (stream, (ulong)time.Ticks);
+		}
+	}
+}
+
 #endregion

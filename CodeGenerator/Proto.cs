@@ -97,11 +97,20 @@ namespace ProtocolBuffers
 		
 		public string Default { get; set; }
 		
+		#region Locally used fields
+		
 		/// <summary>
 		/// Local for this implementation.
 		/// define the access of the field: public(default), protected, private or internal
 		/// </summary>
 		public string Access { get; set; }
+		
+		/// <summary>
+		/// Class implemented externally, in the ProtocolParser.cs or by the user.
+		/// </summary>
+		public string ExternalType { get; set; }
+		
+		#endregion
 		
 		#endregion
 		
@@ -183,6 +192,7 @@ namespace ProtocolBuffers
 		//Extra used only locally
 		Message,
 		Enum,
+		External,	//Field is parsed by hardcoded or external implemented code
 	}
 	
 	public class MessageEnum : IProtoType

@@ -160,9 +160,10 @@ namespace ProtocolBuffers
 					f.Deprecated = Boolean.Parse (value);
 					break;
 				case "access":
-					if (value == "private")
-						throw new NotImplementedException ("Support for private is not implemented, try protected instead");
 					f.Access = value;
+					break;
+				case "externaltype":
+					f.ExternalType = value;
 					break;
 				default:
 					//Ignore unknown options
