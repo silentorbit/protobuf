@@ -173,7 +173,7 @@ namespace Test
 			mm.FieldB = 2.2;
 			mm.FieldC = 3.3f;
 			mm.FieldD = -4;
-			mm.FieldE = -5;
+			mm.FieldE = new TimeSpan (3, 6, 3, 1).Ticks;
 			mm.FieldF = 6;
 			mm.FieldG = 7;
 			mm.FieldH = -8;

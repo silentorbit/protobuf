@@ -44,7 +44,7 @@ namespace ProtocolBuffers
 			WriteUInt32 (stream, n);
 		}
 		
-		public static void SkipKey(Stream stream, Key key)
+		public static void SkipKey (Stream stream, Key key)
 		{
 			switch (key.WireType) {
 			case Wire.Fixed32:
@@ -60,7 +60,7 @@ namespace ProtocolBuffers
 				ProtocolParser.ReadSkipVarInt (stream);
 				return;
 			default:
-				throw new NotImplementedException ();
+				throw new NotImplementedException ("Unknown wire type: " + key.WireType);
 			}
 		}
 	}

@@ -230,7 +230,7 @@ namespace ProtocolBuffers
 			WriteUInt32 (stream, n);
 		}
 		
-		public static void SkipKey(Stream stream, Key key)
+		public static void SkipKey (Stream stream, Key key)
 		{
 			switch (key.WireType) {
 			case Wire.Fixed32:
@@ -246,7 +246,7 @@ namespace ProtocolBuffers
 				ProtocolParser.ReadSkipVarInt (stream);
 				return;
 			default:
-				throw new NotImplementedException ();
+				throw new NotImplementedException ("Unknown wire type: " + key.WireType);
 			}
 		}
 	}
@@ -323,7 +323,7 @@ namespace ProtocolBuffers
 				//End of check
 				
 				if ((b & 0x80) == 0)
-					return val | (uint)(b << (7 * n));
+					return val | (uint)b << (7 * n);
 				
 				val |= (uint)(b & 0x7F) << (7 * n);
 			}
@@ -401,7 +401,7 @@ namespace ProtocolBuffers
 				//End of check
 				
 				if ((b & 0x80) == 0)
-					return val | (ulong)(b << (7 * n));
+					return val | (ulong)b << (7 * n);
 				
 				val |= (ulong)(b & 0x7F) << (7 * n);
 			}

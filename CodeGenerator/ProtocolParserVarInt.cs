@@ -69,7 +69,7 @@ namespace ProtocolBuffers
 				//End of check
 				
 				if ((b & 0x80) == 0)
-					return val | (uint)(b << (7 * n));
+					return val | (uint)b << (7 * n);
 				
 				val |= (uint)(b & 0x7F) << (7 * n);
 			}
@@ -147,7 +147,7 @@ namespace ProtocolBuffers
 				//End of check
 				
 				if ((b & 0x80) == 0)
-					return val | (ulong)(b << (7 * n));
+					return val | (ulong)b << (7 * n);
 				
 				val |= (ulong)(b & 0x7F) << (7 * n);
 			}

@@ -31,11 +31,11 @@ namespace Personal
 			this.Phone = new List<Personal.Person.PhoneNumber>();
 		}
 	
-		protected virtual void BeforeSerialize()
+		protected void BeforeSerialize()
 		{
 		}
 	
-		protected virtual void AfterDeserialize()
+		protected void AfterDeserialize()
 		{
 		}
 	
@@ -49,11 +49,11 @@ namespace Personal
 				this.Type = Personal.Person.PhoneType.HOME;
 			}
 		
-			protected virtual void BeforeSerialize()
+			protected void BeforeSerialize()
 			{
 			}
 		
-			protected virtual void AfterDeserialize()
+			protected void AfterDeserialize()
 			{
 			}
 		}
@@ -66,15 +66,12 @@ namespace Mine
 	{
 		public int FieldA { get; set; }
 	
-		public MyMessageV1()
+	
+		protected void BeforeSerialize()
 		{
 		}
 	
-		protected virtual void BeforeSerialize()
-		{
-		}
-	
-		protected virtual void AfterDeserialize()
+		protected void AfterDeserialize()
 		{
 		}
 	}
@@ -124,11 +121,11 @@ namespace Yours
 			this.FieldV = new List<Theirs.TheirMessage>();
 		}
 	
-		protected virtual void BeforeSerialize()
+		protected void BeforeSerialize()
 		{
 		}
 	
-		protected virtual void AfterDeserialize()
+		protected void AfterDeserialize()
 		{
 		}
 	}
@@ -140,15 +137,12 @@ namespace Theirs
 	{
 		public int FieldA { get; set; }
 	
-		public TheirMessage()
+	
+		protected void BeforeSerialize()
 		{
 		}
 	
-		protected virtual void BeforeSerialize()
-		{
-		}
-	
-		protected virtual void AfterDeserialize()
+		protected void AfterDeserialize()
 		{
 		}
 	}
