@@ -8,10 +8,6 @@ namespace ProtocolBuffers
 	{
 		public static void Prepare (Proto proto)
 		{
-			//Check namespace, default to "Example"
-			if (proto.Options.ContainsKey ("namespace") == false)
-				proto.Options.Add ("namespace", "Example");
-
 			foreach (Message m in proto.Messages)
 				PrepareMessage (m);
 		}
@@ -30,8 +26,8 @@ namespace ProtocolBuffers
 			//Prepare fields
 			foreach (Field f in m.Fields) {
 				PrepareProtoType (m, f);
-				if (f.Default != null)
-					f.Default = GetCSDefaultValue (f);
+				if (f.OptionDefault != null)
+					f.OptionDefault = GetCSDefaultValue (f);
 			}	
 
 		}
@@ -103,20 +99,20 @@ namespace ProtocolBuffers
 				break;
 			}
 			
-			if (f.Packed) {
+			if (f.OptionPacked) {
 				if (f.WireType == Wire.LengthDelimited)
 					throw new InvalidDataException ("Packed field not allowed for length delimited types");
 				f.WireType = Wire.LengthDelimited;
 			}
 
-			if (f.ExternalType == "DateTime" || f.ExternalType == "TimeSpan") {
+			if (f.OptionExternalType == "DateTime" || f.OptionExternalType == "TimeSpan") {
 				if (f.ProtoType != ProtoTypes.Int64)
 					throw new InvalidDataException ("DateTime and TimeSpan must be stored in int64. was " + f.ProtoType);
 			}
-			if (f.ExternalType != null) {
+			if (f.OptionExternalType != null) {
 				f.ProtoType = ProtoTypes.External;
-				f.CSClass = f.ExternalType;
-				f.CSType = f.ExternalType;
+				f.CSClass = f.OptionExternalType;
+				f.CSType = f.OptionExternalType;
 			}
 
 			if (f.CSType == null) {
@@ -291,16 +287,16 @@ namespace ProtocolBuffers
 			case ProtoTypes.Sint32:
 			case ProtoTypes.Sint64:
 			case ProtoTypes.Bool:
-				return f.Default;
+				return f.OptionDefault;
 			
 			case ProtoTypes.String:
-				return f.Default;
+				return f.OptionDefault;
 				
 			case ProtoTypes.Bytes:
 				throw new NotImplementedException ();
 				
 			case ProtoTypes.Enum:	
-				return f.Default;
+				return f.OptionDefault;
 				
 			case ProtoTypes.Message:
 				throw new InvalidDataException ("Don't think there can be a default for messages");

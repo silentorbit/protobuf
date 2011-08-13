@@ -151,22 +151,25 @@ namespace ProtocolBuffers
 				
 				switch (option) {
 				case "default":
-					f.Default = value;
+					f.OptionDefault = value;
 					break;
 				case "packed":
-					f.Packed = Boolean.Parse (value);
+					f.OptionPacked = Boolean.Parse (value);
 					break;
 				case "deprecated":
-					f.Deprecated = Boolean.Parse (value);
+					f.OptionDeprecated = Boolean.Parse (value);
 					break;
 				case "access":
-					f.Access = value;
+					f.OptionAccess = value;
 					break;
 				case "externaltype":
-					f.ExternalType = value;
+					f.OptionExternalType = value;
+					break;
+				case "generate":
+					f.OptionGenerate = Boolean.Parse (value);
 					break;
 				default:
-					//Ignore unknown options
+					Console.WriteLine ("Warning: Unknown field option: " + option);
 					break;
 				}
 				string optionSep = tr.ReadNext ();
@@ -193,8 +196,18 @@ namespace ProtocolBuffers
 			if (tr.ReadNext () != ";")
 				throw new InvalidDataException ("Expected: ;");
 			
-			if (m != null)
-				m.Options.Add (key, value);
+			//null = ignore option
+			if (m == null)
+				return;
+			
+			switch (key) {
+			case "namespace":
+				m.OptionNamespace = value;
+				break;
+			default:
+				Console.WriteLine ("Warning: Unknown option: " + key);
+				break;
+			}
 		}
 
 		static MessageEnum ParseEnum (TokenReader tr, Message parent)

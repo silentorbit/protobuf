@@ -39,27 +39,38 @@
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProtoParser.cs" />
-    <Compile Include="Proto.cs" />
     <Compile Include="TokenReader.cs" />
     <Compile Include="CodeGenerator.cs" />
     <Compile Include="ProtoPrepare.cs" />
+    <Compile Include="Proto\Field.cs" />
+    <Compile Include="Proto\Message.cs" />
+    <Compile Include="Proto\MessageEnum.cs" />
+    <Compile Include="Proto\Proto.cs" />
+    <Compile Include="Proto\Rules.cs" />
+    <Compile Include="Proto\Wire.cs" />
+    <Compile Include="Proto\IProtoType.cs" />
+    <Compile Include="Proto\ProtoTypes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="ProtocolParserVarInt.cs">
-      <LogicalName>ProtocolParserVarInt</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProtocolParserKey.cs">
-      <LogicalName>ProtocolParserKey</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProtocolParserFixed.cs">
-      <LogicalName>ProtocolParserFixed</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProtocolParser.cs">
+    <EmbeddedResource Include="ProtocolParser\ProtocolParser.cs">
       <LogicalName>ProtocolParser</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProtocolParserCustom.cs">
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserCustom.cs">
       <LogicalName>ProtocolParserCustom</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserFixed.cs">
+      <LogicalName>ProtocolParserFixed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserKey.cs">
+      <LogicalName>ProtocolParserKey</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserVarInt.cs">
+      <LogicalName>ProtocolParserVarInt</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Proto\" />
+    <Folder Include="ProtocolParser\" />
   </ItemGroup>
 </Project>

@@ -10,12 +10,12 @@ namespace ProtocolBuffers
 	public class CodeGenerator
 	{
 		readonly Proto proto;
-		readonly string ns;
+
+		string ns { get { return proto.Namespace; } }
 		
 		public CodeGenerator (Proto proto)
 		{
 			this.proto = proto;
-			this.ns = proto.Options ["namespace"];
 		}
 		
 		#region Path and Namespace generators
@@ -26,9 +26,7 @@ namespace ProtocolBuffers
 				message = message.Parent;
 				path = message.CSName + "." + path;
 			}
-			if (message.Options.ContainsKey ("namespace"))
-				return message.Options ["namespace"] + "." + path;
-			return ns + "." + path;
+			return message.Namespace + "." + path;
 		}
 		
 		/// <summary>
@@ -68,7 +66,7 @@ namespace ProtocolBuffers
 					path = message.CSName + "." + path;
 				return FullPath (message, path);
 			case ProtoTypes.External:
-				return field.ExternalType;
+				return field.OptionExternalType;
 			default:	
 				return field.CSType;
 			}
@@ -107,9 +105,9 @@ namespace ProtocolBuffers
 		
 		private string GetNamespace (Message m)
 		{
-			if (m.Options.ContainsKey ("namespace") == false)
+			if (m.OptionNamespace == null)
 				return ns;
-			return m.Options ["namespace"];
+			return m.OptionNamespace;
 		}
 		
 		#endregion
@@ -246,10 +244,12 @@ namespace ProtocolBuffers
 			//Properties
 			string properties = "";
 			foreach (Field f in m.Fields) {
+				if (f.OptionGenerate == false)
+					continue;
 			#if GENERATE_BASE
-				properties += f.Access + " virtual " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
+				properties += f.OptionAccess + " virtual " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
 				#else
-				properties += f.Access + " " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
+				properties += f.OptionAccess + " " + PropertyType (f) + " " + f.Name + " { get; set; }\n";
 				#endif
 			}
 			
@@ -258,11 +258,11 @@ namespace ProtocolBuffers
 			foreach (Field f in m.Fields) {
 				if (f.Rule == Rules.Repeated)
 					constructor += "	this." + f.Name + " = new List<" + PropertyItemType (f) + ">();\n";
-				else if (f.Default != null) {
+				else if (f.OptionDefault != null) {
 					if (f.ProtoType == ProtoTypes.Enum)
-						constructor += "	this." + f.Name + " = " + FullClass (f) + "." + f.Default + ";\n";
+						constructor += "	this." + f.Name + " = " + FullClass (f) + "." + f.OptionDefault + ";\n";
 					else
-						constructor += "	this." + f.Name + " = " + f.Default + ";\n";
+						constructor += "	this." + f.Name + " = " + f.OptionDefault + ";\n";
 				} else if (f.Rule == Rules.Optional) {
 					if (f.ProtoType == ProtoTypes.Enum) {
 						//the default value is the first value listed in the enum's type definition
@@ -276,6 +276,7 @@ namespace ProtocolBuffers
 					}
 				}
 			}
+			
 			if (constructor != "") {
 			#if GENERATE_BASE
 				constructor = "protected " + m.CSName + "Base()\n{\n" + constructor + "}\n";
@@ -325,7 +326,7 @@ namespace ProtocolBuffers
 			code += "\n";
 			code += Indent (constructor);
 			
-			if (m.Options.ContainsKey ("triggers") == false) {
+			if (m.OptionTriggers == Message.TriggerOptions.Generate) {
 				code += "\n";
 				code += "	protected void BeforeSerialize()\n";
 				code += "	{\n";
@@ -451,7 +452,7 @@ namespace ProtocolBuffers
 			code += "		}\n";
 			code += "	}\n";
 			code += "	\n";
-			if (m.Options.ContainsKey ("triggers") && m.Options ["triggers"] != "off")
+			if (m.OptionTriggers != Message.TriggerOptions.No)
 				code += "	instance.AfterDeserialize();\n";
 			code += "	return instance;\n";
 			code += "}\n";
@@ -487,7 +488,7 @@ namespace ProtocolBuffers
 		{
 			string code = "";
 			if (f.Rule == Rules.Repeated) {
-				if (f.Packed == true) {
+				if (f.OptionPacked == true) {
 					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream)))\n";
 					code += "{\n";
 					code += "	while(true)\n";
@@ -553,13 +554,13 @@ namespace ProtocolBuffers
 				else
 					return "Serializer.Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
 			case ProtoTypes.External:
-				switch (f.ExternalType) {
+				switch (f.OptionExternalType) {
 				case "DateTime":
 					return "ProtocolParser.ReadDateTime(" + stream + ")";
 				case "TimeSpan":
 					return "ProtocolParser.ReadTimeSpan(" + stream + ")";
 				default:
-					return f.ExternalType + ".Read(" + stream + ", " + instance + ")";
+					return f.OptionExternalType + ".Read(" + stream + ", " + instance + ")";
 				}
 			default:
 				throw new NotImplementedException ();
@@ -578,7 +579,7 @@ namespace ProtocolBuffers
 		{
 			string code = "public static void Serialize(Stream stream, " + m.CSName + " instance)\n";
 			code += "{\n";
-			if (m.Options.ContainsKey ("triggers") && m.Options ["triggers"] != "off") {
+			if (m.OptionTriggers != Message.TriggerOptions.No) {
 				code += "	instance.BeforeSerialize();\n";
 				code += "\n";
 			}
@@ -635,7 +636,7 @@ namespace ProtocolBuffers
 		{
 			string code = "";
 			if (f.Rule == Rules.Repeated) {
-				if (f.Packed == true) {
+				if (f.OptionPacked == true) {
 					
 					string binaryWriter = "";
 					switch (f.ProtoType) {
@@ -679,7 +680,7 @@ namespace ProtocolBuffers
 					code += "}\n";
 					return code;
 				case ProtoTypes.Enum:
-					code += "if(instance." + f.Name + " != " + PropertyItemType (f) + "." + f.Default + ")\n";
+					code += "if(instance." + f.Name + " != " + PropertyItemType (f) + "." + f.OptionDefault + ")\n";
 					code += "{\n";
 					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += Indent (GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name));
@@ -745,13 +746,13 @@ namespace ProtocolBuffers
 				code += "}\n";
 				return code;
 			case ProtoTypes.External:
-				switch (f.ExternalType) {
+				switch (f.OptionExternalType) {
 				case "DateTime":
 					return "ProtocolParser.WriteDateTime(" + stream + ", " + instance + ");\n";
 				case "TimeSpan":
 					return "ProtocolParser.WriteTimeSpan(" + stream + ", " + instance + ");\n";
 				default:
-					return f.ExternalType + ".Write(" + stream + ", " + instance + ");\n";
+					return f.OptionExternalType + ".Write(" + stream + ", " + instance + ");\n";
 				}
 			default:
 				throw new NotImplementedException ();

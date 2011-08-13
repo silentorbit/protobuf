@@ -55,7 +55,7 @@ namespace Personal
 				ProtocolBuffers.Key key = null;
 				try {
 					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
+				} catch (IOException) {
 					break;
 				}
 		
@@ -80,6 +80,7 @@ namespace Personal
 				}
 			}
 			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -92,6 +93,8 @@ namespace Personal
 	
 		public static void Serialize(Stream stream, Person instance)
 		{
+			instance.BeforeSerialize();
+		
 			if(instance.Name == null)
 				throw new ArgumentNullException("Name", "Required by proto specification.");
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
@@ -166,7 +169,7 @@ namespace Personal
 					ProtocolBuffers.Key key = null;
 					try {
 						key = ProtocolParser.ReadKey (stream);
-					} catch (InvalidDataException) {
+					} catch (IOException) {
 						break;
 					}
 			
@@ -185,6 +188,7 @@ namespace Personal
 					}
 				}
 				
+				instance.AfterDeserialize();
 				return instance;
 			}
 			
@@ -197,6 +201,8 @@ namespace Personal
 		
 			public static void Serialize(Stream stream, PhoneNumber instance)
 			{
+				instance.BeforeSerialize();
+			
 				if(instance.Number == null)
 					throw new ArgumentNullException("Number", "Required by proto specification.");
 				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
@@ -266,7 +272,7 @@ namespace Mine
 				ProtocolBuffers.Key key = null;
 				try {
 					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
+				} catch (IOException) {
 					break;
 				}
 		
@@ -282,6 +288,7 @@ namespace Mine
 				}
 			}
 			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -294,6 +301,8 @@ namespace Mine
 	
 		public static void Serialize(Stream stream, MyMessageV1 instance)
 		{
+			instance.BeforeSerialize();
+		
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
 		}
@@ -354,7 +363,7 @@ namespace Yours
 				ProtocolBuffers.Key key = null;
 				try {
 					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
+				} catch (IOException) {
 					break;
 				}
 		
@@ -448,6 +457,7 @@ namespace Yours
 				}
 			}
 			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -460,6 +470,8 @@ namespace Yours
 	
 		public static void Serialize(Stream stream, MyMessageV2 instance)
 		{
+			instance.BeforeSerialize();
+		
 			BinaryWriter bw = new BinaryWriter(stream);
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
@@ -602,7 +614,7 @@ namespace Theirs
 				ProtocolBuffers.Key key = null;
 				try {
 					key = ProtocolParser.ReadKey (stream);
-				} catch (InvalidDataException) {
+				} catch (IOException) {
 					break;
 				}
 		
@@ -618,6 +630,7 @@ namespace Theirs
 				}
 			}
 			
+			instance.AfterDeserialize();
 			return instance;
 		}
 		
@@ -630,6 +643,8 @@ namespace Theirs
 	
 		public static void Serialize(Stream stream, TheirMessage instance)
 		{
+			instance.BeforeSerialize();
+		
 			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
 			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
 		}
