@@ -253,39 +253,6 @@ namespace ProtocolBuffers
 				#endif
 			}
 			
-			//Constructor with default values
-			string constructor = "";
-			foreach (Field f in m.Fields) {
-				if (f.Rule == Rules.Repeated)
-					constructor += "	this." + f.Name + " = new List<" + PropertyItemType (f) + ">();\n";
-				else if (f.OptionDefault != null) {
-					if (f.ProtoType == ProtoTypes.Enum)
-						constructor += "	this." + f.Name + " = " + FullClass (f) + "." + f.OptionDefault + ";\n";
-					else
-						constructor += "	this." + f.Name + " = " + f.OptionDefault + ";\n";
-				} else if (f.Rule == Rules.Optional) {
-					if (f.ProtoType == ProtoTypes.Enum) {
-						//the default value is the first value listed in the enum's type definition
-						foreach (var kvp in f.ProtoTypeEnum.Enums) {
-							constructor += "	this." + f.Name + " = " + kvp.Key + ";\n";
-							break;
-						}
-					}
-					if (f.ProtoType == ProtoTypes.String) {
-						constructor += "	this." + f.Name + " = \"\";\n";
-					}
-				}
-			}
-			
-			if (constructor != "") {
-			#if GENERATE_BASE
-				constructor = "protected " + m.CSName + "Base()\n{\n" + constructor + "}\n";
-			#else
-				constructor = "public " + m.CSName + "()\n{\n" + constructor + "}\n";
-			#endif
-			
-			}
-			
 			string code = "";
 
 			#if GENERATE_BASE
@@ -324,7 +291,6 @@ namespace ProtocolBuffers
 			#if !GENERATE_BASE
 			code += Indent (properties);
 			code += "\n";
-			code += Indent (constructor);
 			
 			if (m.OptionTriggers == Message.TriggerOptions.Generate) {
 				code += "\n";
@@ -429,6 +395,30 @@ namespace ProtocolBuffers
 					break;
 				}
 			}
+			
+			foreach (Field f in m.Fields) {
+				if (f.Rule == Rules.Repeated) {
+					code += "	if(instance." + f.Name + " == null)\n";
+					code += "		instance." + f.Name + " = new List<" + PropertyItemType (f) + ">();\n";
+				} else if (f.OptionDefault != null) {
+					if (f.ProtoType == ProtoTypes.Enum)
+						code += "	instance." + f.Name + " = " + FullClass (f) + "." + f.OptionDefault + ";\n";
+					else
+						code += "	instance." + f.Name + " = " + f.OptionDefault + ";\n";
+				} else if (f.Rule == Rules.Optional) {
+					if (f.ProtoType == ProtoTypes.Enum) {
+						//the default value is the first value listed in the enum's type definition
+						foreach (var kvp in f.ProtoTypeEnum.Enums) {
+							code += "	instance." + f.Name + " = " + kvp.Key + ";\n";
+							break;
+						}
+					}
+					if (f.ProtoType == ProtoTypes.String) {
+						code += "	instance." + f.Name + " = \"\";\n";
+					}
+				}
+			}
+
 			code += "	while (true)\n";
 			code += "	{\n";
 			code += "		ProtocolBuffers.Key key = null;\n";
