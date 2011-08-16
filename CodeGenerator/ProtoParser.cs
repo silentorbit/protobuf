@@ -133,6 +133,10 @@ namespace ProtocolBuffers
 				throw new InvalidDataException ("Can't use reserved field ID 19000-19999");
 			if (f.ID > 536870911)
 				throw new InvalidDataException ("Maximum field id is 2^29 - 1");
+			foreach (Field fd in m.Fields)
+				if (fd.ID == f.ID && fd != f)
+					throw new InvalidDataException ("Duplicate key id: " + f.ID);
+
 			
 			//Determine if extra options
 			string extra = tr.ReadNext ();
