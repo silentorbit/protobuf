@@ -27,7 +27,6 @@ namespace ProtocolBuffers
 		//Extra used only locally
 		Message,
 		Enum,
-		External,	//Field is parsed by hardcoded or external implemented code
 	}
 	
 }

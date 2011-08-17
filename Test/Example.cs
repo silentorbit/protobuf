@@ -25,11 +25,6 @@ namespace Personal
 		public string Email { get; set; }
 		public List<Personal.Person.PhoneNumber> Phone { get; set; }
 	
-		public Person()
-		{
-			this.Email = "";
-			this.Phone = new List<Personal.Person.PhoneNumber>();
-		}
 	
 		protected void BeforeSerialize()
 		{
@@ -44,10 +39,6 @@ namespace Personal
 			public string Number { get; set; }
 			public Personal.Person.PhoneType Type { get; set; }
 		
-			public PhoneNumber()
-			{
-				this.Type = Personal.Person.PhoneType.HOME;
-			}
 		
 			protected void BeforeSerialize()
 			{
@@ -112,14 +103,6 @@ namespace Yours
 		public Theirs.TheirMessage FieldU { get; set; }
 		public List<Theirs.TheirMessage> FieldV { get; set; }
 	
-		public MyMessageV2()
-		{
-			this.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
-			this.Dummy = "";
-			this.FieldS = new List<uint>();
-			this.FieldT = new List<uint>();
-			this.FieldV = new List<Theirs.TheirMessage>();
-		}
 	
 		protected void BeforeSerialize()
 		{

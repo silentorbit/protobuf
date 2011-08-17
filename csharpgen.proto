@@ -1,0 +1,38 @@
+//
+// This file is not used directly by the code generator,
+// but the options defined her are used by it.
+//
+
+import "google/protobuf/descriptor.proto";
+
+package CSharpGen;
+
+//extend google.protobuf.FileOptions {
+//	optional string my_file_option = 50000;
+//}
+extend google.protobuf.MessageOptions {
+	optional string namespace = 50000;
+}
+extend google.protobuf.FieldOptions {
+	optional string access = 50000 [default=public];
+	//Define the field type in the generated code.
+	optional string customtype = 50001;
+	//Generate property for this field
+	//If false, the a field or property must be implemented elsewhere for the code to compile.
+	optional bool generate = 50002 [default=true];
+
+	//Call the instance methods BeforeSerialize and AfterDeserialize
+	optional bool triggers = 50003 [default=false];
+}
+//extend google.protobuf.EnumOptions {
+//	optional bool my_enum_option = 50003;
+//}
+//extend google.protobuf.EnumValueOptions {
+//	optional uint32 my_enum_value_option = 50004;
+//}
+//extend google.protobuf.ServiceOptions {
+//	optional MyEnum my_service_option = 50005;
+//}
+//extend google.protobuf.MethodOptions {
+//	optional MyMessage my_method_option = 50006;
+//}

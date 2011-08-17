@@ -105,14 +105,13 @@ namespace ProtocolBuffers
 				f.WireType = Wire.LengthDelimited;
 			}
 
-			if (f.OptionExternalType == "DateTime" || f.OptionExternalType == "TimeSpan") {
+			if (f.OptionCustomType == "DateTime" || f.OptionCustomType == "TimeSpan") {
 				if (f.ProtoType != ProtoTypes.Int64)
 					throw new InvalidDataException ("DateTime and TimeSpan must be stored in int64. was " + f.ProtoType);
 			}
-			if (f.OptionExternalType != null) {
-				f.ProtoType = ProtoTypes.External;
-				f.CSClass = f.OptionExternalType;
-				f.CSType = f.OptionExternalType;
+			if (f.OptionCustomType != null) {
+				f.CSClass = f.OptionCustomType;
+				f.CSType = f.OptionCustomType;
 			}
 
 			if (f.CSType == null) {

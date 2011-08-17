@@ -61,8 +61,19 @@ namespace ProtocolBuffers
 					//Save options
 					ParseOption (tr, p);
 					break;
+				case "import": //Ignored
+					tr.ReadNext ();
+					if (tr.ReadNext () != ";")
+						throw new InvalidDataException ("Expected ;");
+					break;
+				case "package":
+					string pkg = tr.ReadNext ();
+					if (tr.ReadNext () != ";")
+						throw new InvalidDataException ("Expected ;");
+					p.OptionNamespace = pkg;
+					break;
 				default:
-					throw new InvalidDataException ("Expected: message or option");
+					throw new InvalidDataException ("Unexpected/not implemented: " + token);
 				}
 			}
 		}
@@ -74,7 +85,7 @@ namespace ProtocolBuffers
 			
 			//Expect "{"
 			if (tr.ReadNext () != "{")
-				throw new InvalidDataException ("Ecpected: {");
+				throw new InvalidDataException ("Expected: {");
 			
 			while (ParseField (tr, msg))
 				continue;
@@ -148,34 +159,12 @@ namespace ProtocolBuffers
 				throw new InvalidDataException ("Expected: [");
 			
 			while (true) {
-				string option = tr.ReadNext ();
+				string key = tr.ReadNext ();
 				if (tr.ReadNext () != "=")
 					throw new InvalidDataException ("Expected: =");
-				string value = tr.ReadNext ();
+				string val = tr.ReadNext ();
 				
-				switch (option) {
-				case "default":
-					f.OptionDefault = value;
-					break;
-				case "packed":
-					f.OptionPacked = Boolean.Parse (value);
-					break;
-				case "deprecated":
-					f.OptionDeprecated = Boolean.Parse (value);
-					break;
-				case "access":
-					f.OptionAccess = value;
-					break;
-				case "externaltype":
-					f.OptionExternalType = value;
-					break;
-				case "generate":
-					f.OptionGenerate = Boolean.Parse (value);
-					break;
-				default:
-					Console.WriteLine ("Warning: Unknown field option: " + option);
-					break;
-				}
+				ParseFieldOption (key, val, f);
 				string optionSep = tr.ReadNext ();
 				if (optionSep == "]")
 					break;
@@ -189,6 +178,39 @@ namespace ProtocolBuffers
 			return true;
 		}
 
+		static void ParseFieldOption (string key, string val, Field f)
+		{
+			switch (key) {
+			case "default":
+				f.OptionDefault = val;
+				break;
+			case "packed":
+				f.OptionPacked = Boolean.Parse (val);
+				break;
+			case "deprecated":
+				f.OptionDeprecated = Boolean.Parse (val);
+				break;
+				
+			//Local options:
+				
+			case "access":
+				f.OptionAccess = val;
+				break;
+			case "externaltype":
+				f.OptionCustomType = val;
+				break;
+			case "generate":
+				f.OptionGenerate = Boolean.Parse (val);
+				break;
+			default:
+				Console.WriteLine ("Warning: Unknown field option: " + key);
+				break;
+			}
+		}
+		
+		/// <summary>
+		/// File or Message options
+		/// </summary>
 		static void ParseOption (TokenReader tr, Message m)
 		{
 			//Read name

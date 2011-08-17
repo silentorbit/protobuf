@@ -50,6 +50,9 @@ namespace Personal
 		
 		public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
 		{
+			instance.Email = "";
+			if(instance.Phone == null)
+				instance.Phone = new List<Personal.Person.PhoneNumber>();
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
@@ -164,6 +167,7 @@ namespace Personal
 			
 			public static Personal.Person.PhoneNumber Deserialize(Stream stream, Personal.Person.PhoneNumber instance)
 			{
+				instance.Type = Personal.Person.PhoneType.HOME;
 				while (true)
 				{
 					ProtocolBuffers.Key key = null;
@@ -358,7 +362,15 @@ namespace Yours
 		
 		public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
 		{
-			BinaryReader br = new BinaryReader (stream);	while (true)
+			BinaryReader br = new BinaryReader (stream);	instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
+			instance.Dummy = "";
+			if(instance.FieldS == null)
+				instance.FieldS = new List<uint>();
+			if(instance.FieldT == null)
+				instance.FieldT = new List<uint>();
+			if(instance.FieldV == null)
+				instance.FieldV = new List<Theirs.TheirMessage>();
+			while (true)
 			{
 				ProtocolBuffers.Key key = null;
 				try {

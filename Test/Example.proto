@@ -1,4 +1,7 @@
-﻿option namespace = "ExampleNamespace";
+﻿
+import "csharpgen.proto";
+
+package ExampleNamespace;
 
 message Person {
   option namespace = "Personal";

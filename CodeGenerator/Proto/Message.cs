@@ -30,25 +30,10 @@ namespace ProtocolBuffers
 		
 		public string OptionNamespace { get; set; }
 
-		public enum TriggerOptions
-		{
-			/// <summary>
-			/// Default. Use and generate template code.
-			/// </summary>
-			Generate,
-			/// <summary>
-			/// Use, but assume implemented elsewhere.
-			/// </summary>
-			Yes,
-			/// <summary>
-			/// Dont use
-			/// </summary>
-			No,			
-		}
 		/// <summary>
-		/// Whether to use triggers before/after serialization and to generate templates.
+		/// Call triggers before/after serialization.
 		/// </summary>
-		public TriggerOptions OptionTriggers { get; set; }
+		public bool OptionTriggers { get; set; }
 		
 		#endregion
 		
@@ -60,12 +45,24 @@ namespace ProtocolBuffers
 			this.Enums = new List<MessageEnum> ();
 			
 			this.OptionNamespace = null;
-			this.OptionTriggers = TriggerOptions.Generate;
+			this.OptionTriggers = false;
 		}
 		
 		public override string ToString ()
 		{
 			return string.Format ("[Message: Name={0}, Fields={1}, Enums={2}]", ProtoName, Fields.Count, Enums.Count);
+		}
+		
+		public string FullPath {
+			get {
+				string path = "";
+				Message message = this;
+				while (message.Parent != null && !(message.Parent is Proto)) {
+					message = message.Parent;
+					path = message.CSName + "." + path;
+				}
+				return message.Namespace + "." + path;
+			}
 		}
 	}
 }

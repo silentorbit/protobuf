@@ -10,7 +10,7 @@ namespace ProtocolBuffers
 		/// </summary>
 		public static TimeSpan ReadTimeSpan (Stream stream)
 		{
-			return new TimeSpan((long)ReadUInt64 (stream));
+			return 
 		}
 		
 		/// <summary>

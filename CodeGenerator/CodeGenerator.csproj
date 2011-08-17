@@ -40,7 +40,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProtoParser.cs" />
     <Compile Include="TokenReader.cs" />
-    <Compile Include="CodeGenerator.cs" />
     <Compile Include="ProtoPrepare.cs" />
     <Compile Include="Proto\Field.cs" />
     <Compile Include="Proto\Message.cs" />
@@ -50,6 +49,13 @@
     <Compile Include="Proto\Wire.cs" />
     <Compile Include="Proto\IProtoType.cs" />
     <Compile Include="Proto\ProtoTypes.cs" />
+    <Compile Include="CodeGenerator\FieldCode.cs" />
+    <Compile Include="CodeGenerator\MessageCode.cs" />
+    <Compile Include="CodeGenerator\ProtoCode.cs" />
+    <Compile Include="CodeGenerator\SerializerCode.cs" />
+    <Compile Include="CodeGenerator\Code.cs" />
+    <Compile Include="CodeGenerator\MessageBaseCode.cs" />
+    <Compile Include="CodeGenerator\MessageInterfaceCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -72,5 +78,14 @@
   <ItemGroup>
     <Folder Include="Proto\" />
     <Folder Include="ProtocolParser\" />
+    <Folder Include="CodeGenerator\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Test\Example.proto">
+      <Link>Example.proto</Link>
+    </None>
+    <None Include="..\csharpgen.proto">
+      <Link>csharpgen.proto</Link>
+    </None>
   </ItemGroup>
 </Project>

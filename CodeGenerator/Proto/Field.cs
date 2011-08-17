@@ -24,9 +24,7 @@ namespace ProtocolBuffers
 			
 		//Field options
 		public bool OptionPacked = false;
-
 		public bool OptionDeprecated = false;
-		
 		public string OptionDefault = null;
 		
 		#region Locally used fields
@@ -38,9 +36,10 @@ namespace ProtocolBuffers
 		public string OptionAccess = "public";
 		
 		/// <summary>
-		/// Class implemented externally, in the ProtocolParser.cs or by the user.
+		/// Define the type of the property that is not a primitive or class derived from a message.
+		/// This can be one of the build in (DateTime, TimeSpan) or a custom class that implements the static Read and Write functions;
 		/// </summary>
-		public string OptionExternalType = null;
+		public string OptionCustomType = null;
 		
 		/// <summary>
 		/// Generate property in class, if not it is expected to already be defined elsewhere.
@@ -86,6 +85,55 @@ namespace ProtocolBuffers
 		/// </summary>
 		public string CSClass { get; set; }
 
+		public string FullPath {
+			get {
+				IProtoType pt;
+				if (ProtoType == ProtoTypes.Message)
+					pt = ProtoTypeMessage;
+				else if (ProtoType == ProtoTypes.Enum)
+					pt = ProtoTypeEnum;
+				else
+					throw new InvalidOperationException ();
+			
+				return pt.Namespace + "." + this.CSClass;
+			}
+		}
+		
+		/// <summary>
+		/// Generate full Interface path
+		/// </summary>
+		public string PropertyType {
+			get {
+				if (Rule == Rules.Repeated)
+					return "List<" + PropertyItemType + ">";
+				else
+					return PropertyItemType;
+			}
+		}
+
+		/// <summary>
+		/// Generate full Interface path
+		/// </summary>
+		public string PropertyItemType {
+			get {
+				if (OptionCustomType != null)
+					return OptionCustomType;
+			
+				switch (ProtoType) {
+				case ProtoTypes.Message:
+					return ProtoTypeMessage.FullPath + "." + CSType;
+				case ProtoTypes.Enum:
+					string path = CSType;
+					Message message = ProtoTypeEnum.Parent;
+					if (message is Proto == false)
+						path = message.CSName + "." + path;
+					return message.FullPath + "." + path;
+				default:	
+					return CSType;
+				}
+			}
+		}
+
 		#endregion
 		
 		public override string ToString ()
@@ -93,5 +141,5 @@ namespace ProtocolBuffers
 			return string.Format ("{0} {1} {2} = {3}", Rule, ProtoTypeName, Name, ID);
 		}
 	}
-	}
+}
 

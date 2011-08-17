@@ -18,7 +18,15 @@ namespace ProtocolBuffers
 		public string OptionNamespace { get; set; }
 		
 		#endregion
-
+		
+		public string Namespace {
+			get {
+				if (OptionNamespace != null)
+					return OptionNamespace;
+				return Parent.Namespace + "." + Parent.CSName;
+			}
+		}
+		
 		public MessageEnum (Message parent)
 		{
 			this.Parent = parent;

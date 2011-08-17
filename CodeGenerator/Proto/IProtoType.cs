@@ -10,6 +10,11 @@ namespace ProtocolBuffers
 		
 		#region local options
 		
+		/// <summary>
+		/// Helper to get the full namespace
+		/// </summary>
+		string Namespace { get; }
+
 		string OptionNamespace { get; set; }
 		
 		#endregion
