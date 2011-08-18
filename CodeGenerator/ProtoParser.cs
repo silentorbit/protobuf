@@ -110,13 +110,13 @@ namespace ProtocolBuffers
 			//Rule
 			switch (rule) {
 			case "required":
-				f.Rule = Rules.Required;
+				f.Rule = FieldRule.Required;
 				break;
 			case "optional":
-				f.Rule = Rules.Optional;
+				f.Rule = FieldRule.Optional;
 				break;
 			case "repeated":
-				f.Rule = Rules.Repeated;
+				f.Rule = FieldRule.Repeated;
 				break;
 			case "option":
 				//Save options
@@ -128,7 +128,6 @@ namespace ProtocolBuffers
 			default:
 				throw new InvalidDataException ("unknown rule: " + rule);
 			}
-			m.Fields.Add (f);
 
 			//Type
 			f.ProtoTypeName = tr.ReadNext ();
@@ -139,15 +138,14 @@ namespace ProtocolBuffers
 			//ID
 			if (tr.ReadNext () != "=")
 				throw new InvalidDataException ("Expected: =");
-			f.ID = uint.Parse (tr.ReadNext ());
+			f.ID = int.Parse (tr.ReadNext ());
 			if (19000 <= f.ID && f.ID <= 19999)
 				throw new InvalidDataException ("Can't use reserved field ID 19000-19999");
 			if (f.ID > 536870911)
 				throw new InvalidDataException ("Maximum field id is 2^29 - 1");
-			foreach (Field fd in m.Fields)
-				if (fd.ID == f.ID && fd != f)
-					throw new InvalidDataException ("Duplicate key id: " + f.ID);
 
+			//Add Field to message
+			m.Fields.Add (f.ID, f);
 			
 			//Determine if extra options
 			string extra = tr.ReadNext ();

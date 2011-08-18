@@ -82,6 +82,7 @@ namespace Test
 			p1.Name = "Alice";
 			p1.Id = 17532;
 			p1.Email = "alice@silentorbit.com";
+			p1.Phone = new List<Person.PhoneNumber> ();
 			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.MOBILE, Number = "+46 11111111111"});
 			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.HOME, Number = "+46 777777777"});
 			MemoryStream ms1 = new MemoryStream ();
@@ -187,13 +188,16 @@ namespace Test
 			mm.FieldP = new byte[] { 0, 1, 2, 3, 4 };
 			mm.FieldQ = MyMessageV2.MyEnum.ETest1;
 			mm.FieldR = MyMessageV2.MyEnum.ETest3;
+			mm.FieldS = new List<uint> ();
 			mm.FieldS.Add (20);
 			mm.FieldS.Add (120);
 			mm.FieldS.Add (1120);
+			mm.FieldT = new List<uint> ();
 			mm.FieldT.Add (21);
 			mm.FieldT.Add (121);
 			mm.FieldT.Add (1121);
 			mm.FieldU = new TheirMessage (){ FieldA = 22};
+			mm.FieldV = new List<TheirMessage> ();
 			mm.FieldV.Add (new TheirMessage (){ FieldA = 23});
 			mm.FieldV.Add (new TheirMessage (){ FieldA = 123});
 			mm.FieldV.Add (new TheirMessage (){ FieldA = 1123});

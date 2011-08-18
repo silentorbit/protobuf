@@ -26,27 +26,11 @@ namespace Personal
 		public List<Personal.Person.PhoneNumber> Phone { get; set; }
 	
 	
-		protected void BeforeSerialize()
-		{
-		}
-	
-		protected void AfterDeserialize()
-		{
-		}
-	
 		public partial class PhoneNumber
 		{
 			public string Number { get; set; }
 			public Personal.Person.PhoneType Type { get; set; }
 		
-		
-			protected void BeforeSerialize()
-			{
-			}
-		
-			protected void AfterDeserialize()
-			{
-			}
 		}
 	}
 
@@ -57,14 +41,6 @@ namespace Mine
 	{
 		public int FieldA { get; set; }
 	
-	
-		protected void BeforeSerialize()
-		{
-		}
-	
-		protected void AfterDeserialize()
-		{
-		}
 	}
 
 }
@@ -103,14 +79,6 @@ namespace Yours
 		public Theirs.TheirMessage FieldU { get; set; }
 		public List<Theirs.TheirMessage> FieldV { get; set; }
 	
-	
-		protected void BeforeSerialize()
-		{
-		}
-	
-		protected void AfterDeserialize()
-		{
-		}
 	}
 
 }
@@ -120,14 +88,6 @@ namespace Theirs
 	{
 		public int FieldA { get; set; }
 	
-	
-		protected void BeforeSerialize()
-		{
-		}
-	
-		protected void AfterDeserialize()
-		{
-		}
 	}
 
 }

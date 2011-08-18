@@ -15,16 +15,16 @@ namespace ProtocolBuffers
 		static void PrepareMessage (Message m)
 		{
 			//Name of message and enums
-			m.CSName = ProtoPrepare.GetCamelCase (m.ProtoName);
+			m.CSType = ProtoPrepare.GetCamelCase (m.ProtoName);
 			foreach (MessageEnum e in m.Enums) {
-				e.CSName = GetCamelCase (e.ProtoName);
+				e.CSType = GetCamelCase (e.ProtoName);
 			}
 			
 			foreach (Message sub in m.Messages)
 				PrepareMessage (sub);
 			
 			//Prepare fields
-			foreach (Field f in m.Fields) {
+			foreach (Field f in m.Fields.Values) {
 				PrepareProtoType (m, f);
 				if (f.OptionDefault != null)
 					f.OptionDefault = GetCSDefaultValue (f);
@@ -68,7 +68,7 @@ namespace ProtocolBuffers
 				f.WireType = Wire.LengthDelimited;
 				break;
 			default:
-				IProtoType pt = GetProtoType (m, f.ProtoTypeName);
+				MessageEnumBase pt = GetProtoType (m, f.ProtoTypeName);
 
 				if (pt == null)
 					throw new InvalidDataException ("Name not found: " + f.ProtoTypeName);
@@ -121,7 +121,7 @@ namespace ProtocolBuffers
 		}
 		
 		//Search for name.
-		static IProtoType GetProtoType (Message m, string path)
+		static MessageEnumBase GetProtoType (Message m, string path)
 		{
 			string[] parts = path.Split ('.');
 			return SearchMessageUp (m, parts);			
@@ -133,7 +133,7 @@ namespace ProtocolBuffers
 		/// <param name='name'>
 		/// name from .proto
 		/// </param>
-		static IProtoType SearchMessageUp (Message p, string[] name)
+		static MessageEnumBase SearchMessageUp (Message p, string[] name)
 		{
 			if (p is Proto)
 				return SearchMessageDown (p, name);
@@ -149,7 +149,7 @@ namespace ProtocolBuffers
 				return SearchMessageDown (m, subName);
 			}
 			
-			IProtoType down = SearchMessageDown (p, name);
+			MessageEnumBase down = SearchMessageDown (p, name);
 			if (down != null)
 				return down;
 			
@@ -162,7 +162,7 @@ namespace ProtocolBuffers
 		/// <param name='name'>
 		/// Split .proto type name
 		/// </param>
-		static IProtoType SearchMessageDown (Message p, string[] name)
+		static MessageEnumBase SearchMessageDown (Message p, string[] name)
 		{
 			if (name.Length == 1) {
 				foreach (MessageEnum me in p.Enums) {
@@ -314,7 +314,7 @@ namespace ProtocolBuffers
 			string csname = GetCamelCase (name);	
 			
 			foreach (MessageEnum me in m.Enums)
-				if (me.CSName == csname)
+				if (me.CSType == csname)
 					return name;
 			
 			return csname;			

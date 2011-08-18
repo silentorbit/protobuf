@@ -9,7 +9,7 @@ namespace ProtocolBuffers
 			string code = "";
 
 			//Default class
-			code += "public partial class " + m.CSName + "\n";
+			code += "public partial class " + m.CSType + "\n";
 			code += "{\n";
 			
 			string enums = GenerateEnums (m);
@@ -32,7 +32,7 @@ namespace ProtocolBuffers
 		{
 			string enums = "";
 			foreach (MessageEnum me in m.Enums) {
-				enums += "public enum " + me.CSName + "\n";
+				enums += "public enum " + me.CSType + "\n";
 				enums += "{\n";
 				foreach (var epair in me.Enums)
 					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
@@ -46,7 +46,7 @@ namespace ProtocolBuffers
 			string code = "";
 
 			//Default class
-			code += "public partial class " + m.CSName + "\n";
+			code += "public partial class " + m.CSType + "\n";
 			code += "{\n";
 
 			code += Code.Indent (GenerateTemplateProperties (m));
@@ -79,7 +79,7 @@ namespace ProtocolBuffers
 		protected string GenerateProperties (Message m)
 		{
 			string code = "";
-			foreach (Field f in m.Fields) {
+			foreach (Field f in m.Fields.Values) {
 				if (f.OptionGenerate == true)
 					code += GenerateProperty (f) + "\n";
 			}
@@ -89,7 +89,7 @@ namespace ProtocolBuffers
 		protected string GenerateTemplateProperties (Message m)
 		{
 			string code = "";
-			foreach (Field f in m.Fields) {
+			foreach (Field f in m.Fields.Values) {
 				if (f.OptionGenerate == false)
 					code += GenerateProperty (f) + "\n";
 			}

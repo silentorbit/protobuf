@@ -9,7 +9,7 @@ namespace ProtocolBuffers
 		public static string GenerateFieldReader (Field f)
 		{
 			string code = "";
-			if (f.Rule == Rules.Repeated) {
+			if (f.Rule == FieldRule.Repeated) {
 				if (f.OptionPacked == true) {
 					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream)))\n";
 					code += "{\n";
@@ -89,7 +89,7 @@ namespace ProtocolBuffers
 			case ProtoTypes.Enum:
 				return "(" + f.PropertyItemType + ")ProtocolParser.ReadUInt32(" + stream + ")";
 			case ProtoTypes.Message:				
-				if (f.Rule == Rules.Repeated)
+				if (f.Rule == FieldRule.Repeated)
 					return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
 				else
 					return "Serializer.Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
@@ -110,7 +110,7 @@ namespace ProtocolBuffers
 		public static string GenerateFieldWriter (Message m, Field f)
 		{
 			string code = "";
-			if (f.Rule == Rules.Repeated) {
+			if (f.Rule == FieldRule.Repeated) {
 				if (f.OptionPacked == true) {
 					
 					string binaryWriter = "";
@@ -143,7 +143,7 @@ namespace ProtocolBuffers
 					code += "}\n";
 					return code;
 				}
-			} else if (f.Rule == Rules.Optional) {			
+			} else if (f.Rule == FieldRule.Optional) {			
 				switch (f.ProtoType) {
 				case ProtoTypes.String:
 				case ProtoTypes.Message:
@@ -166,7 +166,7 @@ namespace ProtocolBuffers
 					code += GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name);
 					return code;
 				}
-			} else if (f.Rule == Rules.Required) {			
+			} else if (f.Rule == FieldRule.Required) {			
 				switch (f.ProtoType) {
 				case ProtoTypes.String:
 				case ProtoTypes.Message:
@@ -187,9 +187,8 @@ namespace ProtocolBuffers
 			if (f.OptionCustomType != null) {
 				switch (f.OptionCustomType) {
 				case "DateTime":
-					return "ProtocolParser.WriteDateTime(" + stream + ", " + instance + ");\n";
 				case "TimeSpan":
-					return "ProtocolParser.WriteTimeSpan(" + stream + ", " + instance + ");\n";
+					return "WriteUInt64 (" + stream + ", (ulong)" + instance + ".Ticks);\n";
 				default:
 					return f.OptionCustomType + ".Write(" + stream + ", " + instance + ");\n";
 				}

@@ -5,7 +5,7 @@ namespace ProtocolBuffers
 	/// <summary>
 	/// Rules for fields in .proto files
 	/// </summary>
-	public enum Rules
+	public enum FieldRule
 	{
 		Required,	//a well-formed message must have exactly one of this field.
 		Optional,	//a well-formed message can have zero or one of this field (but not more than one).

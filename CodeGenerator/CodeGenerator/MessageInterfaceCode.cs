@@ -2,6 +2,11 @@ using System;
 
 namespace ProtocolBuffers
 {
+	/// <summary>
+	/// This is not currently used.
+	/// It represent a different approach working against interfaces.
+	/// This does require all fields to have access public or internal.
+	/// </summary>
 	public class MessageInterfaceCode : MessageCode
 	{
 		public override string GenerateClass (Message m)
@@ -12,7 +17,7 @@ namespace ProtocolBuffers
 			code += "\n";
 
 			//Default class
-			code += "public partial class " + m.CSName + " : I" + m.CSName + "\n";
+			code += "public partial class " + m.CSType + " : I" + m.CSType + "\n";
 			code += "{\n";
 			string enums = GenerateEnums (m);
 			if (enums.Length > 0) {
@@ -33,14 +38,14 @@ namespace ProtocolBuffers
 		private string GenerateInterface (Message m)
 		{
 			string properties = "";
-			foreach (Field f in m.Fields) {
+			foreach (Field f in m.Fields.Values) {
 				if (f.OptionDeprecated)
 					properties += "[Obsolete]\n";
 				properties += f.PropertyType + " " + f.Name + " { get; set; }\n";
 			}
 			
 			string code = "";
-			code += "public interface I" + m.CSName + "\n";
+			code += "public interface I" + m.CSType + "\n";
 			code += "{\n";
 			code += Code.Indent (properties);
 			code += "}\n";

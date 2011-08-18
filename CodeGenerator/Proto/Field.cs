@@ -4,14 +4,9 @@ namespace ProtocolBuffers
 {
 	public class Field
 	{
-		public Field ()
-		{
-			this.OptionAccess = "public";
-		}
-		
 		#region .proto data
 		
-		public Rules Rule { get; set; }
+		public FieldRule Rule { get; set; }
 		
 		/// <summary>
 		/// As read from the .proto file
@@ -20,7 +15,7 @@ namespace ProtocolBuffers
 		
 		public string Name { get; set; }
 
-		public uint ID { get; set; }
+		public int ID { get; set; }
 			
 		//Field options
 		public bool OptionPacked = false;
@@ -29,15 +24,16 @@ namespace ProtocolBuffers
 		
 		#region Locally used fields
 		
+		//These options are not the build in ones and have a meaning in the code generation
+		
 		/// <summary>
-		/// Local for this implementation.
-		/// define the access of the field: public(default), protected, private or internal
+		/// Define the access of the field: public, protected, private or internal
 		/// </summary>
 		public string OptionAccess = "public";
 		
 		/// <summary>
 		/// Define the type of the property that is not a primitive or class derived from a message.
-		/// This can be one of the build in (DateTime, TimeSpan) or a custom class that implements the static Read and Write functions;
+		/// This can be one of the build in (see method MessageCode.GenerateFieldTypeWriter()) or a custom class that implements the static Read and Write functions;
 		/// </summary>
 		public string OptionCustomType = null;
 		
@@ -46,9 +42,9 @@ namespace ProtocolBuffers
 		/// </summary>
 		public bool OptionGenerate = true;
 		
-		#endregion
+		#endregion //Local options
 		
-		#endregion
+		#endregion //.proto data
 		
 		#region Code Generation Properties
 		
@@ -56,22 +52,22 @@ namespace ProtocolBuffers
 		//They are used in the code generation.
 		
 		/// <summary>
-		/// .proto type includng enum and message.
+		/// .proto type including enum and message.
 		/// </summary>
 		public ProtoTypes ProtoType { get; set; }
 		
 		/// <summary>
-		/// If a message type this point to the Message class, for use in code generation
+		/// If a message type this point to the Message class
 		/// </summary>
 		public Message ProtoTypeMessage { get; set; }
 		
 		/// <summary>
-		/// If an enum type this point to the MessageEnum class, for use in code generation
+		/// If an enum type this point to the MessageEnum class
 		/// </summary>
 		public MessageEnum ProtoTypeEnum { get; set; }
 		
 		/// <summary>
-		/// Based on Prototype and Rule according to the protocol buffers specification
+		/// Based on ProtoType and Rule according to the protocol buffers specification
 		/// </summary>
 		public Wire WireType { get; set; }
 		
@@ -87,7 +83,7 @@ namespace ProtocolBuffers
 
 		public string FullPath {
 			get {
-				IProtoType pt;
+				MessageEnumBase pt;
 				if (ProtoType == ProtoTypes.Message)
 					pt = ProtoTypeMessage;
 				else if (ProtoType == ProtoTypes.Enum)
@@ -95,7 +91,7 @@ namespace ProtocolBuffers
 				else
 					throw new InvalidOperationException ();
 			
-				return pt.Namespace + "." + this.CSClass;
+				return pt.Namespace + "." + pt.CSType;
 			}
 		}
 		
@@ -104,7 +100,7 @@ namespace ProtocolBuffers
 		/// </summary>
 		public string PropertyType {
 			get {
-				if (Rule == Rules.Repeated)
+				if (Rule == FieldRule.Repeated)
 					return "List<" + PropertyItemType + ">";
 				else
 					return PropertyItemType;
@@ -121,13 +117,9 @@ namespace ProtocolBuffers
 			
 				switch (ProtoType) {
 				case ProtoTypes.Message:
-					return ProtoTypeMessage.FullPath + "." + CSType;
+					return ProtoTypeMessage.FullCSType;
 				case ProtoTypes.Enum:
-					string path = CSType;
-					Message message = ProtoTypeEnum.Parent;
-					if (message is Proto == false)
-						path = message.CSName + "." + path;
-					return message.FullPath + "." + path;
+					return ProtoTypeEnum.FullCSType;
 				default:	
 					return CSType;
 				}

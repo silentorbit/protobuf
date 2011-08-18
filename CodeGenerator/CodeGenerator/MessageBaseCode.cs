@@ -2,6 +2,10 @@ using System;
 
 namespace ProtocolBuffers
 {
+	/// <summary>
+	/// This is currently not used.
+	/// This approach place all fields and template methods in a base class.
+	/// </summary>
 	public class MessageBaseCode : MessageCode
 	{
 		public override string GenerateClass (Message m)
@@ -9,7 +13,7 @@ namespace ProtocolBuffers
 			string code = "";
 			
 			//Base class
-			code += "public abstract class " + m.CSName + "Base\n";
+			code += "public abstract class " + m.CSType + "Base\n";
 			code += "{\n";
 			code += Code.Indent (GenerateProperties (m));
 			code += "\n";
@@ -25,7 +29,7 @@ namespace ProtocolBuffers
 			code += "}\n\n";
 			
 			//Default class
-			code += "public partial class " + m.CSName + " : " + m.CSName + "Base\n";
+			code += "public partial class " + m.CSType + " : " + m.CSType + "Base\n";
 			code += "{\n";
 			string enums = GenerateEnums (m);
 			if (enums.Length > 0) {
