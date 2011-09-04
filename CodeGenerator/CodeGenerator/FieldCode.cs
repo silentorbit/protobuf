@@ -40,9 +40,9 @@ namespace ProtocolBuffers
 			if (f.OptionCustomType != null) {
 				switch (f.OptionCustomType) {
 				case "DateTime":
-					return "new DateTime((long)ReadUInt64 (" + stream + "))";
+					return "new DateTime((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				case "TimeSpan":
-					return "new TimeSpan((long)ReadUInt64 (" + stream + "))";
+					return "new TimeSpan((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				default:
 					Field tmp = new Field ();
 					tmp.ProtoType = f.ProtoType;
@@ -188,7 +188,7 @@ namespace ProtocolBuffers
 				switch (f.OptionCustomType) {
 				case "DateTime":
 				case "TimeSpan":
-					return "WriteUInt64 (" + stream + ", (ulong)" + instance + ".Ticks);\n";
+					return "ProtocolParser.WriteUInt64 (" + stream + ", (ulong)" + instance + ".Ticks);\n";
 				default:
 					return f.OptionCustomType + ".Write(" + stream + ", " + instance + ");\n";
 				}
