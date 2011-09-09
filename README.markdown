@@ -1,8 +1,8 @@
-# Protocol Buffers C# Code Generator BETA
+# Protocol Buffers C# Code Generator
 
-https://silentorbit.com/protobuf-csharpgen/
+https://silentorbit.com/protobuf/
 
-Implementation of [Googles Protocol Buffers](http://code.google.com/apis/protocolbuffers/docs/overview.html) in C#.
+Basic features of [Googles Protocol Buffers](http://code.google.com/apis/protocolbuffers/docs/overview.html) in C#.
 
 Parses a .proto file and generates a single C# source file
 with classes for every message as well as code for
@@ -71,14 +71,6 @@ Reading from a stream:
 
 	Person person2 = Serializer.Person.Read(stream);
 
-## ALPHA
-
-This is ALPHA, untested code.
-
-Correctness of the written binary data or handling of messages has not been tested.
-
-Check Test/Example.proto for the currently implemented features.
-
 ## Usage
 
     CodeGenerator.exe Example.proto [output.cs]
@@ -90,18 +82,18 @@ The output is three files.
 
  * Example.cs - Basic class declaration(based on .proto).
  * Example.Serializer.cs - Code for reading/writing the message.
- * ProtocolParser.cs - Helper functions for the backend, not related to the .proto specification.
+ * ProtocolParser.cs - Functions for reading and writing the protobuf wire format, static, not related to the contents of your .proto.
 
-If you generate code from multiple .proto files you only need to include one ProtocolParser.cs.
+If you generate code from multiple .proto files you must only include ProtocolParser.cs once in your project.
 
 ## Direct Contact, FeedBack, Bugs
 
-You can contact me using phq@silentorbit.com.
+You can contact me using phq@silentorbit.com .
 
 Public issues can also be submitted to the GitHub project page.
 
-# Licence
+# License
 
 All source code and generated code is licensed under GPLv3, see COPYING.GPLv3 for details.
-(Note that much of the generated code is a copy of the GPLv3 licenced code)
+(Note that much of the generated code is a direct copy of the GPLv3 licenced code)
 
