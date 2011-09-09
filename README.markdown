@@ -8,34 +8,42 @@ Parses a .proto file and generates a single C# source file
 with classes for every message as well as code for
 reading and writing them to the Protocol Buffers binary format.
 
+## Features
+
+ * Binary that transform a .proto specification directly into complete c# code.
+ * Generated code is relatively easy to debug(only hope you wont have too)
+ * Generated code does not use reflection, works after code obfuscation.
+ * Build-in serialization of DateTime and TimeSpan
 ## Example
 
 This is a part of the Test/Example.proto:
 
-	option namespace = "ExampleNamespace";
-
+	package ExampleNamespace;
+	
 	message Person {
+	  option namespace = "Personal";
+	  
 	  required string name = 1;
 	  required int32 id = 2;
 	  optional string email = 3;
-
+	
 	  enum PhoneType {
 	    MOBILE = 0;
 	    HOME = 1;
 	    WORK = 2;
 	  }
-
+	
 	  message PhoneNumber {
 	    required string number = 1;
 	    optional PhoneType type = 2 [default = HOME];
 	  }
-
+	
 	  repeated PhoneNumber phone = 4;
 	}
 
 When compiled it you will have the following class to work with.
 
-	public class Person : IPerson
+	public partial class Person
 	{
 		public enum PhoneType
 		{
@@ -47,29 +55,25 @@ When compiled it you will have the following class to work with.
 		public string Name { get; set; }
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public List<Person.IPhoneNumber> Phone { get; set; }
-		
-		...
-		
-		public class PhoneNumber : IPhoneNumber
+		public List<Personal.Person.PhoneNumber> Phone { get; set; }
+	
+	
+		public partial class PhoneNumber
 		{
-		
 			public string Number { get; set; }
-			public Person.PhoneType Type { get; set; }
-			...
+			public Personal.Person.PhoneType Type { get; set; }
+		}
+	}
 
 Writing this to a stream:
 
-	using ProtocolBuffers;
-
-	Serializer.Write(stream, person1);
-
-Person can be either of class Person
- or your own class implementing the interface IPerson.
+	Person person = new Person();
+	...
+	Person.Serialize(stream, person);
 
 Reading from a stream:
 
-	Person person2 = Serializer.Person.Read(stream);
+	Person person2 = Person.Deserialize(stream);
 
 ## Usage
 

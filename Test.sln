@@ -15,6 +15,25 @@ Global
 		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Test.csproj
+		StartupItem = Test\Test.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.TabWidth = 4
+		$1.NoTabsAfterNonTabs = True
+		$1.RemoveTrailingWhitespace = True
+		$1.inheritsSet = Mono
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$0.StandardHeader = $3
+		$3.Text = 
+		$3.IncludeInNewFiles = True
+		$0.TextStylePolicy = $4
+		$4.inheritsSet = VisualStudio
+		$4.inheritsScope = text/plain
+		$4.scope = text/plain
 	EndGlobalSection
 EndGlobal

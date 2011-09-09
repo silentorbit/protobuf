@@ -13,7 +13,7 @@ namespace ProtocolBuffers
 			string code = "";
 			
 			//Base class
-			code += "public abstract class " + m.CSType + "Base\n";
+			code += m.OptionAccess + " abstract class " + m.CSType + "Base\n";
 			code += "{\n";
 			code += Code.Indent (GenerateProperties (m));
 			code += "\n";
@@ -29,7 +29,7 @@ namespace ProtocolBuffers
 			code += "}\n\n";
 			
 			//Default class
-			code += "public partial class " + m.CSType + " : " + m.CSType + "Base\n";
+			code += m.OptionAccess + " partial class " + m.CSType + " : " + m.CSType + "Base\n";
 			code += "{\n";
 			string enums = GenerateEnums (m);
 			if (enums.Length > 0) {

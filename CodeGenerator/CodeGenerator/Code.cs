@@ -23,6 +23,13 @@ namespace ProtocolBuffers
 			code = sep + string.Join (sep, code.Split ('\n'));
 			return code.Substring (1).TrimEnd ('\t');			
 		}
+		
+		public static string Comment (string code)
+		{
+			string sep = "\n//";
+			code = sep + string.Join (sep, code.Split ('\n'));
+			return code.Substring (1).TrimEnd('/');
+		}
 	}
 }
 

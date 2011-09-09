@@ -84,3 +84,15 @@ message their_message
 	required int32 field_a = 1;
 }
 
+message local_features
+{
+	option triggers = true;
+	option access = internal;
+	required int64 Uptime = 1 [externaltype=TimeSpan];
+	required int64 DueDate = 2 [externaltype=DateTime];
+	required double Amount = 3 [generate=false];
+	optional string Denial = 4 [access=private];
+	optional string Secret = 5 [access=protected];
+	optional string Internal = 6 [access=internal];
+	optional string PR = 7 [access=public];
+}

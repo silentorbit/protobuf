@@ -2,12 +2,12 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public static class SerializerCode
+	static class SerializerCode
 	{
 		public static string GenerateClassSerializer (Message m)
 		{
 			string code = "";
-			code += "public partial class " + m.CSType + "\n";
+			code += m.OptionAccess + " partial class " + m.CSType + "\n";
 			code += "{\n";
 			code += Code.Indent (GenerateReader (m));
 			code += "\n";
@@ -39,41 +39,41 @@ namespace ProtocolBuffers
 		static string GenerateReader (Message m)
 		{
 			string code = "";
-			code += "public static " + m.CSType + " Deserialize(Stream stream)\n";
+			code += m.OptionAccess + " static " + m.CSType + " Deserialize(Stream stream)\n";
 			code += "{\n";
 			code += "	" + m.CSType + " instance = new " + m.CSType + "();\n";
 			code += "	Deserialize(stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static " + m.CSType + " Deserialize(byte[] buffer)\n";
+			code += m.OptionAccess + " static " + m.CSType + " Deserialize(byte[] buffer)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		return Deserialize(ms);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static T Deserialize<T> (Stream stream) where T : " + m.FullCSType + ", new()\n";
+			code += m.OptionAccess + " static T Deserialize<T> (Stream stream) where T : " + m.FullCSType + ", new()\n";
 			code += "{\n";
 			code += "	T instance = new T ();\n";
 			code += "	Deserialize (stream, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static T Deserialize<T> (byte[] buffer) where T : " + m.FullCSType + ", new()\n";
+			code += m.OptionAccess + " static T Deserialize<T> (byte[] buffer) where T : " + m.FullCSType + ", new()\n";
 			code += "{\n";
 			code += "	T instance = new T ();\n";
 			code += "	Deserialize(buffer, instance);\n";
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static void Deserialize (byte[] buffer, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static void Deserialize (byte[] buffer, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		Deserialize (ms, instance);\n";
 			code += "}\n";
 			code += "\n";
 			
-			code += "public static " + m.FullCSType + " Deserialize(Stream stream, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static " + m.FullCSType + " Deserialize(Stream stream, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			foreach (Field f in m.Fields.Values) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {
@@ -133,7 +133,7 @@ namespace ProtocolBuffers
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		Deserialize (ms, instance);\n";
@@ -146,12 +146,12 @@ namespace ProtocolBuffers
 		static string GenerateGenericReader (Message m)
 		{
 			string code = "";
-			code += "public static " + m.FullCSType + " Read (Stream stream, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static " + m.FullCSType + " Read (Stream stream, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			code += "	return " + m.FullCSType + ".Deserialize(stream, instance);\n";
 			code += "}\n";
 			code += "\n";
-			code += "public static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		" + m.FullCSType + ".Deserialize (ms, instance);\n";
@@ -166,7 +166,7 @@ namespace ProtocolBuffers
 		/// </summary>
 		static string GenerateWriter (Message m)
 		{
-			string code = "public static void Serialize(Stream stream, " + m.CSType + " instance)\n";
+			string code = m.OptionAccess + " static void Serialize(Stream stream, " + m.CSType + " instance)\n";
 			code += "{\n";
 			if (m.OptionTriggers) {
 				code += "	instance.BeforeSerialize();\n";
@@ -180,7 +180,7 @@ namespace ProtocolBuffers
 			}
 			code += "}\n\n";
 			
-			code += "public static byte[] SerializeToBytes(" + m.CSType + " instance)\n";
+			code += m.OptionAccess + " static byte[] SerializeToBytes(" + m.CSType + " instance)\n";
 			code += "{\n";
 			code += "	using(MemoryStream ms = new MemoryStream())\n";
 			code += "	{\n";
@@ -198,7 +198,7 @@ namespace ProtocolBuffers
 		static string GenerateGenericWriter (Message m)
 		{
 			string code = "";
-			code += "public static void Write(Stream stream, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static void Write(Stream stream, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			code += "	" + m.FullCSType + ".Serialize(stream, instance);\n";
 			code += "}\n";

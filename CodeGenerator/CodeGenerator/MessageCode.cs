@@ -9,7 +9,7 @@ namespace ProtocolBuffers
 			string code = "";
 
 			//Default class
-			code += "public partial class " + m.CSType + "\n";
+			code += m.OptionAccess + " partial class " + m.CSType + "\n";
 			code += "{\n";
 			
 			string enums = GenerateEnums (m);
@@ -19,6 +19,12 @@ namespace ProtocolBuffers
 			}
 			code += Code.Indent (GenerateProperties (m));
 			code += "\n";
+			
+			if (m.OptionTriggers) {
+				code += Code.Indent(Code.Comment(
+					"protected virtual void BeforeSerialize() {}\n"+
+					"protected virtual void AfterDeserialize() {}\n"));
+			}
 			
 			foreach (Message sub in m.Messages) {
 				code += "\n";
@@ -41,35 +47,6 @@ namespace ProtocolBuffers
 			return enums;
 		}
 
-		public virtual string GenerateClassTemplate (Message m)
-		{
-			string code = "";
-
-			//Default class
-			code += "public partial class " + m.CSType + "\n";
-			code += "{\n";
-
-			code += Code.Indent (GenerateTemplateProperties (m));
-			code += "\n";
-			
-			if (m.OptionTriggers) {
-				code += "	protected virtual void BeforeSerialize()\n";
-				code += "	{\n";
-				code += "	}\n";
-				code += "\n";
-				code += "	protected virtual void AfterDeserialize()\n";
-				code += "	{\n";
-				code += "	}\n";
-			}
-			
-			foreach (Message sub in m.Messages) {
-				code += "\n";
-				code += Code.Indent (GenerateClassTemplate (sub));
-			}
-			code += "}\n";
-			return code;
-		}
-		
 		/// <summary>
 		/// Generates the properties.
 		/// </summary>
@@ -80,18 +57,10 @@ namespace ProtocolBuffers
 		{
 			string code = "";
 			foreach (Field f in m.Fields.Values) {
-				if (f.OptionGenerate == true)
+				if (f.OptionGenerate)
 					code += GenerateProperty (f) + "\n";
-			}
-			return code;
-		}
-		
-		protected string GenerateTemplateProperties (Message m)
-		{
-			string code = "";
-			foreach (Field f in m.Fields.Values) {
-				if (f.OptionGenerate == false)
-					code += GenerateProperty (f) + "\n";
+				else
+					code += "//" + GenerateProperty (f) + "	//Implemented by user elsewhere\n";
 			}
 			return code;
 		}

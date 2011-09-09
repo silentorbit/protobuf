@@ -15,6 +15,18 @@ namespace ProtocolBuffers
 		/// Call triggers before/after serialization.
 		/// </summary>
 		public bool OptionTriggers { get; set; }
+
+		public string OptionAccess {
+			get {
+				if (optionAccess != null)
+					return optionAccess;
+				else
+					return "public";
+			}
+			set{ optionAccess = value;}
+		}
+
+		private string optionAccess = null;
 		
 		#endregion
 		

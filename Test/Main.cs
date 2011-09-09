@@ -9,6 +9,7 @@ using Yours;
 using Theirs;
 using Mine;
 using ProtocolBuffers;
+using ExampleNamespace;
 
 namespace Test
 {
@@ -16,21 +17,40 @@ namespace Test
 	{
 		public static void Main (string[] args)
 		{
-			Console.WriteLine ("Hello World!");
+			Console.WriteLine ("Hello Binary World!");
 			
-			TestZipZag ();
+			TestReadme ();
 			
-			TestFeatures ();
+			TestZigZag ();
 			
-			TestPersonWire ();
+			TestStandardFeatures ();
 			
-			if (total)
-				Console.WriteLine ("All test succeeded");
-			else
-				Console.WriteLine ("Some or all tests failed");
+			TestLocalFeatures ();
+			
+			TestProtoBufNet ();
 		}
-
-		public static void TestZipZag ()
+		
+		/// <summary>
+		/// Example found in the README file
+		/// </summary>
+		public static void TestReadme ()
+		{
+			MemoryStream stream = new MemoryStream ();
+			
+			Person person = new Person ();
+			person.Name = "George";
+			Person.Serialize (stream, person);
+			
+			stream.Seek (0, SeekOrigin.Begin);
+			
+			Person person2 = Person.Deserialize (stream);
+			Test ("ReadMe Person test", person.Name == person2.Name);
+		}
+		
+		/// <summary>
+		/// There was once an issue with the zigzag encoding
+		/// </summary>
+		public static void TestZigZag ()
 		{
 			int[] test32 = new int[]{int.MinValue, int.MinValue + 1, - 4, -3, -2, -1, 0, 1, 2, 3, 4, int.MaxValue-1, int.MaxValue};
 			
@@ -74,100 +94,9 @@ namespace Test
 		}
 		
 		/// <summary>
-		/// Test wire format of the person example against protobuf-net - another c# protocol buffers library
-		/// </summary>
-		static void TestPersonWire ()
-		{
-			Person p1 = new Person ();
-			p1.Name = "Alice";
-			p1.Id = 17532;
-			p1.Email = "alice@silentorbit.com";
-			p1.Phone = new List<Person.PhoneNumber> ();
-			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.MOBILE, Number = "+46 11111111111"});
-			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.HOME, Number = "+46 777777777"});
-			MemoryStream ms1 = new MemoryStream ();
-			ProtocolBuffers.Serializer.Write (ms1, p1);
-			
-			MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
-			NetPerson p2 = ProtoBuf.Serializer.Deserialize<NetPerson> (ms2);
-
-			//Test
-			Test ("12 Name", p1.Name == p2.Name);
-			Test ("12 Id", p1.Id == p2.Id);
-			Test ("12 Email", p1.Email == p2.Email);
-			Test ("12 Phone", p1.Phone.Count == p2.Phone.Count);
-			Test ("12 Phone[0]", p1.Phone [0].Number == p2.Phone [0].Number);
-			Test ("12 Phone[0]", (int)p1.Phone [0].Type == (int)p2.Phone [0].Type);
-			Test ("12 Phone[1]", p1.Phone [1].Number == p2.Phone [1].Number);
-			//Disabled test since missing data should return the default value(HOME).
-			//Test ("12 Phone[1]", (int)p1.Phone [1].Type == (int)p2.Phone [1].Type);
-			
-			//Correct invalid data for the next test
-			p2.Phone [1].Type = Person.PhoneType.HOME;
-			
-			MemoryStream ms3 = new MemoryStream ();
-			ProtoBuf.Serializer.Serialize (ms3, p2);
-
-			//Test wire data
-			byte[] b1 = ms1.ToArray ();
-			byte[] b3 = ms3.ToArray ();
-			Test ("WireLength", b1.Length == b3.Length);
-			if (b1.Length == b3.Length) {
-				for (int n = 0; n < b1.Length; n++)
-					if (b1 [n] != b3 [n])
-						Test ("Wire" + n, b1 [n] == b3 [n]);
-			} else {
-				Console.WriteLine (BitConverter.ToString (b1));
-				Console.WriteLine ();
-				Console.WriteLine (BitConverter.ToString (b3));
-			}
-			
-			MemoryStream ms4 = new MemoryStream (ms3.ToArray ());
-			Person p4 = Person.Deserialize (ms4);
-			
-			//Test			
-			Test ("14 Name", p1.Name == p4.Name);
-			Test ("14 Id", p1.Id == p4.Id);
-			Test ("14 Email", p1.Email == p4.Email);
-			Test ("14 Phone", p1.Phone.Count == p4.Phone.Count);
-			Test ("14 Phone[0]", p1.Phone [0].Number == p4.Phone [0].Number);
-			Test ("14 Phone[0]", p1.Phone [0].Type == p4.Phone [0].Type);
-			Test ("14 Phone[1]", p1.Phone [1].Number == p4.Phone [1].Number);
-			Test ("14 Phone[1]", p1.Phone [1].Type == p4.Phone [1].Type);
-		}
-		
-		[ProtoContract]
-		class NetPerson
-		{
-			[ProtoMember(1)]
-			public string Name;
-
-			[ProtoMember(2)]
-			public int Id { get; set; }
-
-			[ProtoMember(3)]
-			public string Email { get; set; }
-
-			[ProtoMember(4)]
-			public List<NetPhoneNumber> Phone { get; set; }
-		
-			[ProtoContract]
-			public class NetPhoneNumber
-			{
-				[ProtoMember(1)]
-				public string Number { get; set; }
-
-				[ProtoMember(2)]
-				[DefaultValue(Person.PhoneType.HOME)]
-				public Person.PhoneType Type { get; set; }
-			}
-		}
-		
-		
-		/// <summary>
 		/// This is a simple test to trigger most functionality of the generated code.
 		/// </summary>
-		static void TestFeatures ()
+		static void TestStandardFeatures ()
 		{
 			MyMessageV2 mm = new MyMessageV2 ();
 			mm.FieldA = 1;
@@ -254,15 +183,98 @@ namespace Test
 			Console.WriteLine ("Version 1");
 			Test ("FieldA", mm.FieldA == m1.FieldA);
 		}
-
-		static bool total = true;
 		
+		/// <summary>
+		/// Test wire format of the person example against protobuf-net - another c# protocol buffers library
+		/// </summary>
+		static void TestLocalFeatures ()
+		{
+			LocalFeatures local = new LocalFeatures ("139pt2m7");
+			local.Uptime = TimeSpan.FromHours (37.8);
+			local.DueDate = DateTime.Now.AddMinutes (1);
+			local.Internal = "assembly";
+			local.PR = "Hi";
+			local.Amount = Math.E;
+			local.Deny ("they exist");
+			MemoryStream ms1 = new MemoryStream ();
+			LocalFeatures.Serialize (ms1, local);
+			
+			MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
+			LocalFeatures l2 = LocalFeatures.Deserialize (ms2);
+
+			//Test in Equals to have access to all fields
+			Test ("Local Features", local.Equals(l2));
+		}
+		
+
+		/// <summary>
+		/// Test wire format of the person example against protobuf-net - another c# protocol buffers library
+		/// </summary>
+		static void TestProtoBufNet ()
+		{
+			Person p1 = new Person ();
+			p1.Name = "Alice";
+			p1.Id = 17532;
+			p1.Email = "alice@silentorbit.com";
+			p1.Phone = new List<Person.PhoneNumber> ();
+			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.MOBILE, Number = "+46 11111111111"});
+			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.HOME, Number = "+46 777777777"});
+			MemoryStream ms1 = new MemoryStream ();
+			ProtocolBuffers.Serializer.Write (ms1, p1);
+			
+			MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
+			NetPerson p2 = ProtoBuf.Serializer.Deserialize<NetPerson> (ms2);
+
+			//Test
+			Test ("12 Name", p1.Name == p2.Name);
+			Test ("12 Id", p1.Id == p2.Id);
+			Test ("12 Email", p1.Email == p2.Email);
+			Test ("12 Phone", p1.Phone.Count == p2.Phone.Count);
+			Test ("12 Phone[0]", p1.Phone [0].Number == p2.Phone [0].Number);
+			Test ("12 Phone[0]", (int)p1.Phone [0].Type == (int)p2.Phone [0].Type);
+			Test ("12 Phone[1]", p1.Phone [1].Number == p2.Phone [1].Number);
+			//Disabled test since missing data should return the default value(HOME).
+			//Test ("12 Phone[1]", (int)p1.Phone [1].Type == (int)p2.Phone [1].Type);
+			
+			//Correct invalid data for the next test
+			p2.Phone [1].Type = Person.PhoneType.HOME;
+			
+			MemoryStream ms3 = new MemoryStream ();
+			ProtoBuf.Serializer.Serialize (ms3, p2);
+
+			//Test wire data
+			byte[] b1 = ms1.ToArray ();
+			byte[] b3 = ms3.ToArray ();
+			Test ("WireLength", b1.Length == b3.Length);
+			if (b1.Length == b3.Length) {
+				for (int n = 0; n < b1.Length; n++)
+					if (b1 [n] != b3 [n])
+						Test ("Wire" + n, b1 [n] == b3 [n]);
+			} else {
+				Console.WriteLine (BitConverter.ToString (b1));
+				Console.WriteLine ();
+				Console.WriteLine (BitConverter.ToString (b3));
+			}
+			
+			MemoryStream ms4 = new MemoryStream (ms3.ToArray ());
+			Person p4 = Person.Deserialize (ms4);
+			
+			//Test			
+			Test ("14 Name", p1.Name == p4.Name);
+			Test ("14 Id", p1.Id == p4.Id);
+			Test ("14 Email", p1.Email == p4.Email);
+			Test ("14 Phone", p1.Phone.Count == p4.Phone.Count);
+			Test ("14 Phone[0]", p1.Phone [0].Number == p4.Phone [0].Number);
+			Test ("14 Phone[0]", p1.Phone [0].Type == p4.Phone [0].Type);
+			Test ("14 Phone[1]", p1.Phone [1].Number == p4.Phone [1].Number);
+			Test ("14 Phone[1]", p1.Phone [1].Type == p4.Phone [1].Type);
+		}
+
 		private static void Test (string message, bool result)
 		{
-			if (result == false)
-				total = false;
-			
 			Console.WriteLine (message + ": " + (result ? "OK" : "Fail!"));
+			if (result == false)
+				throw new InvalidProgramException ("Failed test: " + message);
 		}
 		
 	}

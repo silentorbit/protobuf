@@ -44,6 +44,8 @@
     <Compile Include="Example.cs" />
     <Compile Include="ProtocolParser.cs" />
     <Compile Include="Example.Serializer.cs" />
+    <Compile Include="NetPerson.cs" />
+    <Compile Include="LocalFeatures.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

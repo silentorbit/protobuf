@@ -125,21 +125,27 @@ namespace ProtocolBuffers
 						break;
 					}
 					
-					code += "ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
-					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
-					code += "{	" + binaryWriter + "\n";
-					code += "	foreach (" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
-					code += "	{\n";
-					code += "" + Code.Indent (2, GenerateFieldTypeWriter (f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID)) + "\n";
+					code += "if(instance."+f.Name+" != null)\n";
+					code += "{\n";
+					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "	using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
+					code += "	{	" + binaryWriter + "\n";
+					code += "		foreach(" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "		{\n";
+					code += Code.Indent (3, GenerateFieldTypeWriter (f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID)) + "\n";
+					code += "		}\n";
+					code += "		ProtocolParser.WriteBytes(stream, ms" + f.ID + ".ToArray());\n";
 					code += "	}\n";
-					code += "	ProtocolParser.WriteBytes(stream, ms" + f.ID + ".ToArray());\n";
 					code += "}\n";
 					return code;
 				} else {
-					code += "foreach (" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "if(instance."+f.Name+" != null)\n";
 					code += "{\n";
-					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
-					code += "" + Code.Indent (1, GenerateFieldTypeWriter (f, "stream", "bw", "i" + f.ID)) + "\n";
+					code += "	foreach(" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
+					code += "	{\n";
+					code += "		ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += Code.Indent (2, GenerateFieldTypeWriter (f, "stream", "bw", "i" + f.ID)) + "\n";
+					code += "	}\n";
 					code += "}\n";
 					return code;
 				}
