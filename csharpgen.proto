@@ -12,17 +12,20 @@ package CSharpGen;
 //}
 extend google.protobuf.MessageOptions {
 	optional string namespace = 50000;
+
+	optional string access = 50001 [default=public];
+
+	//Call the instance methods BeforeSerialize and AfterDeserialize
+	optional bool triggers = 50002 [default=false];
+
 }
 extend google.protobuf.FieldOptions {
 	optional string access = 50000 [default=public];
 	//Define the field type in the generated code.
-	optional string customtype = 50001;
+	optional string externaltype = 50001;
 	//Generate property for this field
 	//If false, the a field or property must be implemented elsewhere for the code to compile.
 	optional bool generate = 50002 [default=true];
-
-	//Call the instance methods BeforeSerialize and AfterDeserialize
-	optional bool triggers = 50003 [default=false];
 }
 //extend google.protobuf.EnumOptions {
 //	optional bool my_enum_option = 50003;
