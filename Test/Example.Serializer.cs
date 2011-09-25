@@ -228,6 +228,107 @@ namespace Personal
 	
 
 }
+namespace ExampleNamespace
+{
+	public partial class AddressBook
+	{
+		public static AddressBook Deserialize(Stream stream)
+		{
+			AddressBook instance = new AddressBook();
+			Deserialize(stream, instance);
+			return instance;
+		}
+		
+		public static AddressBook Deserialize(byte[] buffer)
+		{
+			using(MemoryStream ms = new MemoryStream(buffer))
+				return Deserialize(ms);
+		}
+		
+		public static T Deserialize<T> (Stream stream) where T : ExampleNamespace.AddressBook, new()
+		{
+			T instance = new T ();
+			Deserialize (stream, instance);
+			return instance;
+		}
+		
+		public static T Deserialize<T> (byte[] buffer) where T : ExampleNamespace.AddressBook, new()
+		{
+			T instance = new T ();
+			Deserialize(buffer, instance);
+			return instance;
+		}
+		
+		public static void Deserialize (byte[] buffer, ExampleNamespace.AddressBook instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Deserialize (ms, instance);
+		}
+		
+		public static ExampleNamespace.AddressBook Deserialize(Stream stream, ExampleNamespace.AddressBook instance)
+		{
+			if(instance.List == null)
+				instance.List = new List<Personal.Person>();
+			while (true)
+			{
+				ProtocolBuffers.Key key = null;
+				try {
+					key = ProtocolParser.ReadKey (stream);
+				} catch (IOException) {
+					break;
+				}
+		
+				switch (key.Field) {
+				case 0:
+					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+				case 1:
+					instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
+					break;
+				default:
+					ProtocolParser.SkipKey(stream, key);
+					break;
+				}
+			}
+			
+			return instance;
+		}
+		
+		public static ExampleNamespace.AddressBook Read(byte[] buffer, ExampleNamespace.AddressBook instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				Deserialize (ms, instance);
+			return instance;
+		}
+	
+		public static void Serialize(Stream stream, AddressBook instance)
+		{
+			if(instance.List != null)
+			{
+				foreach(Personal.Person i1 in instance.List)
+				{
+					ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
+					using(MemoryStream ms1 = new MemoryStream())
+					{
+						Personal.Person.Serialize(ms1, i1);
+						ProtocolParser.WriteBytes(stream, ms1.ToArray());
+					}
+			
+				}
+			}
+		}
+		
+		public static byte[] SerializeToBytes(AddressBook instance)
+		{
+			using(MemoryStream ms = new MemoryStream())
+			{
+				Serialize(ms, instance);
+				return ms.ToArray();
+			}
+		}
+	}
+	
+
+}
 namespace Mine
 {
 	public partial class MyMessageV1
@@ -844,6 +945,25 @@ namespace ProtocolBuffers
 		public static void Write(Stream stream, Personal.Person.PhoneNumber instance)
 		{
 			Personal.Person.PhoneNumber.Serialize(stream, instance);
+		}
+		
+
+		
+		public static ExampleNamespace.AddressBook Read (Stream stream, ExampleNamespace.AddressBook instance)
+		{
+			return ExampleNamespace.AddressBook.Deserialize(stream, instance);
+		}
+		
+		public static ExampleNamespace.AddressBook Read(byte[] buffer, ExampleNamespace.AddressBook instance)
+		{
+			using (MemoryStream ms = new MemoryStream(buffer))
+				ExampleNamespace.AddressBook.Deserialize (ms, instance);
+			return instance;
+		}
+		
+		public static void Write(Stream stream, ExampleNamespace.AddressBook instance)
+		{
+			ExampleNamespace.AddressBook.Serialize(stream, instance);
 		}
 		
 

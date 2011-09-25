@@ -28,6 +28,8 @@ namespace Test
 			TestLocalFeatures ();
 			
 			TestProtoBufNet ();
+
+			TestPerformance ();
 		}
 		
 		/// <summary>
@@ -203,7 +205,7 @@ namespace Test
 			LocalFeatures l2 = LocalFeatures.Deserialize (ms2);
 
 			//Test in Equals to have access to all fields
-			Test ("Local Features", local.Equals(l2));
+			Test ("Local Features", local.Equals (l2));
 		}
 		
 
@@ -268,6 +270,39 @@ namespace Test
 			Test ("14 Phone[0]", p1.Phone [0].Type == p4.Phone [0].Type);
 			Test ("14 Phone[1]", p1.Phone [1].Number == p4.Phone [1].Number);
 			Test ("14 Phone[1]", p1.Phone [1].Type == p4.Phone [1].Type);
+		}
+
+		private static void TestPerformance ()
+		{
+			AddressBook ab = new AddressBook ();
+			ab.List = new List<Person>();
+			//Generating structures
+			for (int n = 0; n < 1000; n++) {
+				Person p = new Person ();
+				p.Name = "Alice" + n;
+				p.Id = 17532;
+				p.Email = "Alice@silentobit.com";
+				p.Phone = new List<Person.PhoneNumber> ();
+				for (int m = 0; m < 1000; m++) {
+					Person.PhoneNumber pn = new Person.PhoneNumber ();
+					pn.Type = Person.PhoneType.MOBILE;
+					pn.Number = m.ToString ();
+					p.Phone.Add (pn);
+				}
+				ab.List.Add (p);
+			}
+
+			//Serialize
+			DateTime start = DateTime.Now;
+			byte[] buffer = AddressBook.SerializeToBytes (ab);
+			TimeSpan serialize = DateTime.Now - start;
+			Console.WriteLine ("Speed test: Serialize in   " + serialize);
+
+			//Deserialize
+			start = DateTime.Now;
+			AddressBook ac = AddressBook.Deserialize (buffer);
+			TimeSpan deserialize = DateTime.Now - start;
+			Console.WriteLine ("Speed test: Deserialize in " + deserialize);
 		}
 
 		private static void Test (string message, bool result)

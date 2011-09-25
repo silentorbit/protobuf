@@ -24,6 +24,10 @@ message Person {
   repeated PhoneNumber phone = 4;
 }
 
+message AddressBook {
+    repeated Person List = 1;
+}
+
 option file_option = "dobado";
 
 message my_message_v1

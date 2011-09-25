@@ -33,6 +33,14 @@ namespace Personal
 	}
 
 }
+namespace ExampleNamespace
+{
+	public partial class AddressBook
+	{
+		public List<Personal.Person> List { get; set; }
+	}
+
+}
 namespace Mine
 {
 	public partial class MyMessageV1
