@@ -25,12 +25,10 @@ namespace Personal
 		public string Email { get; set; }
 		public List<Personal.Person.PhoneNumber> Phone { get; set; }
 	
-	
 		public partial class PhoneNumber
 		{
 			public string Number { get; set; }
 			public Personal.Person.PhoneType Type { get; set; }
-		
 		}
 	}
 
@@ -40,7 +38,6 @@ namespace Mine
 	public partial class MyMessageV1
 	{
 		public int FieldA { get; set; }
-	
 	}
 
 }
@@ -78,7 +75,6 @@ namespace Yours
 		public List<uint> FieldT { get; set; }
 		public Theirs.TheirMessage FieldU { get; set; }
 		public List<Theirs.TheirMessage> FieldV { get; set; }
-	
 	}
 
 }
@@ -87,7 +83,6 @@ namespace Theirs
 	public partial class TheirMessage
 	{
 		public int FieldA { get; set; }
-	
 	}
 
 }

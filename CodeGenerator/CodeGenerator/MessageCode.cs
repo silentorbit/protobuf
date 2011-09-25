@@ -17,20 +17,23 @@ namespace ProtocolBuffers
 				code += Code.Indent (enums);
 				code += "\n";
 			}
+
 			code += Code.Indent (GenerateProperties (m));
 			code += "\n";
 			
 			if (m.OptionTriggers) {
-				code += Code.Indent(Code.Comment(
-					"protected virtual void BeforeSerialize() {}\n"+
+				code += Code.Indent (Code.Comment (
+					"protected virtual void BeforeSerialize() {}\n" +
 					"protected virtual void AfterDeserialize() {}\n"));
+				code += "\n";
 			}
 			
 			foreach (Message sub in m.Messages) {
-				code += "\n";
 				code += Code.Indent (GenerateClass (sub));
+				code += "\n";
 			}
-			code += "}\n";
+			code = code.TrimEnd ('\n');
+			code += "\n}\n";
 			return code;
 		}
 
