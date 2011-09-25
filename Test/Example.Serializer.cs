@@ -50,7 +50,6 @@ namespace Personal
 		
 		public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
 		{
-			instance.Email = "";
 			if(instance.Phone == null)
 				instance.Phone = new List<Personal.Person.PhoneNumber>();
 			while (true)
@@ -356,8 +355,8 @@ namespace Yours
 		
 		public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
 		{
-			BinaryReader br = new BinaryReader (stream);	instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
-			instance.Dummy = "";
+			BinaryReader br = new BinaryReader (stream);
+			instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
 			if(instance.FieldS == null)
 				instance.FieldS = new List<uint>();
 			if(instance.FieldT == null)
@@ -709,10 +708,7 @@ namespace ExampleNamespace
 		
 		internal static ExampleNamespace.LocalFeatures Deserialize(Stream stream, ExampleNamespace.LocalFeatures instance)
 		{
-			BinaryReader br = new BinaryReader (stream);	instance.Denial = "";
-			instance.Secret = "";
-			instance.Internal = "";
-			instance.PR = "";
+			BinaryReader br = new BinaryReader (stream);
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;

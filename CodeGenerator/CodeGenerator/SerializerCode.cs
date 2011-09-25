@@ -77,7 +77,7 @@ namespace ProtocolBuffers
 			code += "{\n";
 			foreach (Field f in m.Fields.Values) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {
-					code += "	BinaryReader br = new BinaryReader (stream);";
+					code += "	BinaryReader br = new BinaryReader (stream);\n";
 					break;
 				}
 			}
@@ -98,9 +98,6 @@ namespace ProtocolBuffers
 							code += "	instance." + f.Name + " = " + kvp.Key + ";\n";
 							break;
 						}
-					}
-					if (f.ProtoType == ProtoTypes.String) {
-						code += "	instance." + f.Name + " = \"\";\n";
 					}
 				}
 			}
