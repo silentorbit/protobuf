@@ -38,6 +38,14 @@ namespace ProtocolBuffers
 			return new Key (n >> 3, (Wire)(n & 0x07));
 		}
 		
+		public static Key ReadKey (byte firstByte, Stream stream)
+		{
+			if (firstByte < 128)
+				return new Key ((uint)(firstByte >> 3), (Wire)(firstByte & 0x07));
+			uint n = ReadUInt32 (stream) << 7 | firstByte;
+			return new Key (n >> 3, (Wire)(n & 0x07));
+		}
+		
 		public static void WriteKey (Stream stream, Key key)
 		{
 			uint n = (key.Field << 3) | ((uint)key.WireType);

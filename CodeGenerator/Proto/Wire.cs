@@ -10,6 +10,7 @@ namespace ProtocolBuffers
 		//Start = 3, 		//	groups (deprecated)
 		//End = 4,		//	groups (deprecated)
 		Fixed32 = 5,	//32-bit	fixed32, sfixed32, float
+		//Max = 7
 	}
 }
 

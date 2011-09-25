@@ -106,15 +106,35 @@ namespace ProtocolBuffers
 			code += "	{\n";
 			code += "		ProtocolBuffers.Key key = null;\n";
 			code += "		try {\n";
-			code += "			key = ProtocolParser.ReadKey (stream);\n";
+			code += "				//Optimize reading keys for short field numbers\n";
+			code += "				int keyByte = stream.ReadByte ();\n";
+			code += "				if (keyByte == -1)\n";
+			code += "					break;\n";
+			code += "				switch (keyByte) {\n";
+			foreach (Field f in m.Fields.Values) {
+				if (f.ID >= 16)
+					continue;
+				code += "				case " + ((f.ID << 3) | (int)f.WireType) + ": //Field " + f.ID + " " + f.WireType + "\n";
+				code += Code.Indent (5, FieldCode.GenerateFieldReader (f)) + "\n";
+				code += "					break;\n";
+			}
+			code += "				default:\n";
+			code += "					key = ProtocolParser.ReadKey ((byte)keyByte, stream);\n";
+			code += "					break;\n";
+			code += "				}\n";
 			code += "		} catch (IOException) {\n";
 			code += "			break;\n";
 			code += "		}\n";
+			code += "\n";
+			code += "		if (key == null)\n";
+			code += "			continue;\n";
 			code += "\n";
 			code += "		switch (key.Field) {\n";
 			code += "		case 0:\n";
 			code += "			throw new InvalidDataException(\"Invalid field id: 0, something went wrong in the stream\");\n";
 			foreach (Field f in m.Fields.Values) {
+				if (f.ID < 16)
+					continue;
 				code += "		case " + f.ID + ":\n";
 				code += Code.Indent (3, FieldCode.GenerateFieldReader (f)) + "\n";
 				code += "			break;\n";

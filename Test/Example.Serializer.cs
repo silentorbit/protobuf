@@ -56,26 +56,37 @@ namespace Personal
 			{
 				ProtocolBuffers.Key key = null;
 				try {
-					key = ProtocolParser.ReadKey (stream);
+						//Optimize reading keys for short field numbers
+						int keyByte = stream.ReadByte ();
+						if (keyByte == -1)
+							break;
+						switch (keyByte) {
+						case 10: //Field 1 LengthDelimited
+							instance.Name = ProtocolParser.ReadString(stream);
+							break;
+						case 16: //Field 2 Varint
+							instance.Id = (int)ProtocolParser.ReadUInt32(stream);
+							break;
+						case 26: //Field 3 LengthDelimited
+							instance.Email = ProtocolParser.ReadString(stream);
+							break;
+						case 34: //Field 4 LengthDelimited
+							instance.Phone.Add(Personal.Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
+							break;
+						default:
+							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+							break;
+						}
 				} catch (IOException) {
 					break;
 				}
 		
+				if (key == null)
+					continue;
+		
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.Name = ProtocolParser.ReadString(stream);
-					break;
-				case 2:
-					instance.Id = (int)ProtocolParser.ReadUInt32(stream);
-					break;
-				case 3:
-					instance.Email = ProtocolParser.ReadString(stream);
-					break;
-				case 4:
-					instance.Phone.Add(Personal.Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
-					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
 					break;
@@ -171,20 +182,31 @@ namespace Personal
 				{
 					ProtocolBuffers.Key key = null;
 					try {
-						key = ProtocolParser.ReadKey (stream);
+							//Optimize reading keys for short field numbers
+							int keyByte = stream.ReadByte ();
+							if (keyByte == -1)
+								break;
+							switch (keyByte) {
+							case 10: //Field 1 LengthDelimited
+								instance.Number = ProtocolParser.ReadString(stream);
+								break;
+							case 16: //Field 2 Varint
+								instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+								break;
+							default:
+								key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+								break;
+							}
 					} catch (IOException) {
 						break;
 					}
 			
+					if (key == null)
+						continue;
+			
 					switch (key.Field) {
 					case 0:
 						throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-					case 1:
-						instance.Number = ProtocolParser.ReadString(stream);
-						break;
-					case 2:
-						instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
-						break;
 					default:
 						ProtocolParser.SkipKey(stream, key);
 						break;
@@ -273,17 +295,28 @@ namespace ExampleNamespace
 			{
 				ProtocolBuffers.Key key = null;
 				try {
-					key = ProtocolParser.ReadKey (stream);
+						//Optimize reading keys for short field numbers
+						int keyByte = stream.ReadByte ();
+						if (keyByte == -1)
+							break;
+						switch (keyByte) {
+						case 10: //Field 1 LengthDelimited
+							instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
+							break;
+						default:
+							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+							break;
+						}
 				} catch (IOException) {
 					break;
 				}
 		
+				if (key == null)
+					continue;
+		
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
-					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
 					break;
@@ -372,17 +405,28 @@ namespace Mine
 			{
 				ProtocolBuffers.Key key = null;
 				try {
-					key = ProtocolParser.ReadKey (stream);
+						//Optimize reading keys for short field numbers
+						int keyByte = stream.ReadByte ();
+						if (keyByte == -1)
+							break;
+						switch (keyByte) {
+						case 8: //Field 1 Varint
+							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+							break;
+						default:
+							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+							break;
+						}
 				} catch (IOException) {
 					break;
 				}
 		
+				if (key == null)
+					continue;
+		
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
 					break;
@@ -468,59 +512,70 @@ namespace Yours
 			{
 				ProtocolBuffers.Key key = null;
 				try {
-					key = ProtocolParser.ReadKey (stream);
+						//Optimize reading keys for short field numbers
+						int keyByte = stream.ReadByte ();
+						if (keyByte == -1)
+							break;
+						switch (keyByte) {
+						case 8: //Field 1 Varint
+							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+							break;
+						case 17: //Field 2 Fixed64
+							instance.FieldB = br.ReadDouble ();
+							break;
+						case 29: //Field 3 Fixed32
+							instance.FieldC = br.ReadSingle ();
+							break;
+						case 32: //Field 4 Varint
+							instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
+							break;
+						case 40: //Field 5 Varint
+							instance.FieldE = (long)ProtocolParser.ReadUInt64(stream);
+							break;
+						case 48: //Field 6 Varint
+							instance.FieldF = ProtocolParser.ReadUInt32(stream);
+							break;
+						case 56: //Field 7 Varint
+							instance.FieldG = ProtocolParser.ReadUInt64(stream);;
+							break;
+						case 64: //Field 8 Varint
+							instance.FieldH = ProtocolParser.ReadSInt32(stream);;
+							break;
+						case 72: //Field 9 Varint
+							instance.FieldI = ProtocolParser.ReadSInt64(stream);;
+							break;
+						case 85: //Field 10 Fixed32
+							instance.FieldJ = br.ReadUInt32 ();
+							break;
+						case 89: //Field 11 Fixed64
+							instance.FieldK = br.ReadUInt64 ();
+							break;
+						case 101: //Field 12 Fixed32
+							instance.FieldL = br.ReadInt32 ();
+							break;
+						case 105: //Field 13 Fixed64
+							instance.FieldM = br.ReadInt64 ();
+							break;
+						case 112: //Field 14 Varint
+							instance.FieldN = ProtocolParser.ReadBool(stream);
+							break;
+						case 122: //Field 15 LengthDelimited
+							instance.FieldO = ProtocolParser.ReadString(stream);
+							break;
+						default:
+							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+							break;
+						}
 				} catch (IOException) {
 					break;
 				}
 		
+				if (key == null)
+					continue;
+		
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-					break;
-				case 2:
-					instance.FieldB = br.ReadDouble ();
-					break;
-				case 3:
-					instance.FieldC = br.ReadSingle ();
-					break;
-				case 4:
-					instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
-					break;
-				case 5:
-					instance.FieldE = (long)ProtocolParser.ReadUInt64(stream);
-					break;
-				case 6:
-					instance.FieldF = ProtocolParser.ReadUInt32(stream);
-					break;
-				case 7:
-					instance.FieldG = ProtocolParser.ReadUInt64(stream);;
-					break;
-				case 8:
-					instance.FieldH = ProtocolParser.ReadSInt32(stream);;
-					break;
-				case 9:
-					instance.FieldI = ProtocolParser.ReadSInt64(stream);;
-					break;
-				case 10:
-					instance.FieldJ = br.ReadUInt32 ();
-					break;
-				case 11:
-					instance.FieldK = br.ReadUInt64 ();
-					break;
-				case 12:
-					instance.FieldL = br.ReadInt32 ();
-					break;
-				case 13:
-					instance.FieldM = br.ReadInt64 ();
-					break;
-				case 14:
-					instance.FieldN = ProtocolParser.ReadBool(stream);
-					break;
-				case 15:
-					instance.FieldO = ProtocolParser.ReadString(stream);
-					break;
 				case 16:
 					instance.FieldP = ProtocolParser.ReadBytes(stream);
 					break;
@@ -725,17 +780,28 @@ namespace Theirs
 			{
 				ProtocolBuffers.Key key = null;
 				try {
-					key = ProtocolParser.ReadKey (stream);
+						//Optimize reading keys for short field numbers
+						int keyByte = stream.ReadByte ();
+						if (keyByte == -1)
+							break;
+						switch (keyByte) {
+						case 8: //Field 1 Varint
+							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+							break;
+						default:
+							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+							break;
+						}
 				} catch (IOException) {
 					break;
 				}
 		
+				if (key == null)
+					continue;
+		
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
 					break;
@@ -814,35 +880,46 @@ namespace ExampleNamespace
 			{
 				ProtocolBuffers.Key key = null;
 				try {
-					key = ProtocolParser.ReadKey (stream);
+						//Optimize reading keys for short field numbers
+						int keyByte = stream.ReadByte ();
+						if (keyByte == -1)
+							break;
+						switch (keyByte) {
+						case 8: //Field 1 Varint
+							instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64 (stream));
+							break;
+						case 16: //Field 2 Varint
+							instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64 (stream));
+							break;
+						case 25: //Field 3 Fixed64
+							instance.Amount = br.ReadDouble ();
+							break;
+						case 34: //Field 4 LengthDelimited
+							instance.Denial = ProtocolParser.ReadString(stream);
+							break;
+						case 42: //Field 5 LengthDelimited
+							instance.Secret = ProtocolParser.ReadString(stream);
+							break;
+						case 50: //Field 6 LengthDelimited
+							instance.Internal = ProtocolParser.ReadString(stream);
+							break;
+						case 58: //Field 7 LengthDelimited
+							instance.PR = ProtocolParser.ReadString(stream);
+							break;
+						default:
+							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
+							break;
+						}
 				} catch (IOException) {
 					break;
 				}
 		
+				if (key == null)
+					continue;
+		
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				case 1:
-					instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64 (stream));
-					break;
-				case 2:
-					instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64 (stream));
-					break;
-				case 3:
-					instance.Amount = br.ReadDouble ();
-					break;
-				case 4:
-					instance.Denial = ProtocolParser.ReadString(stream);
-					break;
-				case 5:
-					instance.Secret = ProtocolParser.ReadString(stream);
-					break;
-				case 6:
-					instance.Internal = ProtocolParser.ReadString(stream);
-					break;
-				case 7:
-					instance.PR = ProtocolParser.ReadString(stream);
-					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
 					break;
