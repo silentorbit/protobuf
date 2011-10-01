@@ -60,6 +60,7 @@ namespace Personal
 						int keyByte = stream.ReadByte ();
 						if (keyByte == -1)
 							break;
+						//Optimized reading of known fields with field ID < 16
 						switch (keyByte) {
 						case 10: //Field 1 LengthDelimited
 							instance.Name = ProtocolParser.ReadString(stream);
@@ -84,6 +85,7 @@ namespace Personal
 				if (key == null)
 					continue;
 		
+				//Reading field ID > 16 and unknown field ID/wire type combinations
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
@@ -186,6 +188,7 @@ namespace Personal
 							int keyByte = stream.ReadByte ();
 							if (keyByte == -1)
 								break;
+							//Optimized reading of known fields with field ID < 16
 							switch (keyByte) {
 							case 10: //Field 1 LengthDelimited
 								instance.Number = ProtocolParser.ReadString(stream);
@@ -204,6 +207,7 @@ namespace Personal
 					if (key == null)
 						continue;
 			
+					//Reading field ID > 16 and unknown field ID/wire type combinations
 					switch (key.Field) {
 					case 0:
 						throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
@@ -299,6 +303,7 @@ namespace ExampleNamespace
 						int keyByte = stream.ReadByte ();
 						if (keyByte == -1)
 							break;
+						//Optimized reading of known fields with field ID < 16
 						switch (keyByte) {
 						case 10: //Field 1 LengthDelimited
 							instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
@@ -314,6 +319,7 @@ namespace ExampleNamespace
 				if (key == null)
 					continue;
 		
+				//Reading field ID > 16 and unknown field ID/wire type combinations
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
@@ -409,6 +415,7 @@ namespace Mine
 						int keyByte = stream.ReadByte ();
 						if (keyByte == -1)
 							break;
+						//Optimized reading of known fields with field ID < 16
 						switch (keyByte) {
 						case 8: //Field 1 Varint
 							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
@@ -424,6 +431,7 @@ namespace Mine
 				if (key == null)
 					continue;
 		
+				//Reading field ID > 16 and unknown field ID/wire type combinations
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
@@ -516,6 +524,7 @@ namespace Yours
 						int keyByte = stream.ReadByte ();
 						if (keyByte == -1)
 							break;
+						//Optimized reading of known fields with field ID < 16
 						switch (keyByte) {
 						case 8: //Field 1 Varint
 							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
@@ -573,6 +582,7 @@ namespace Yours
 				if (key == null)
 					continue;
 		
+				//Reading field ID > 16 and unknown field ID/wire type combinations
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
@@ -784,6 +794,7 @@ namespace Theirs
 						int keyByte = stream.ReadByte ();
 						if (keyByte == -1)
 							break;
+						//Optimized reading of known fields with field ID < 16
 						switch (keyByte) {
 						case 8: //Field 1 Varint
 							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
@@ -799,6 +810,7 @@ namespace Theirs
 				if (key == null)
 					continue;
 		
+				//Reading field ID > 16 and unknown field ID/wire type combinations
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
@@ -884,6 +896,7 @@ namespace ExampleNamespace
 						int keyByte = stream.ReadByte ();
 						if (keyByte == -1)
 							break;
+						//Optimized reading of known fields with field ID < 16
 						switch (keyByte) {
 						case 8: //Field 1 Varint
 							instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64 (stream));
@@ -917,6 +930,7 @@ namespace ExampleNamespace
 				if (key == null)
 					continue;
 		
+				//Reading field ID > 16 and unknown field ID/wire type combinations
 				switch (key.Field) {
 				case 0:
 					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
