@@ -43,8 +43,15 @@ namespace ExampleNamespace
 }
 namespace Mine
 {
+	/// <summary>
+	/// This class is documented here:
+	/// With multiple lines
+	/// </summary>
 	public partial class MyMessageV1
 	{
+		/// <summary>
+		/// This field is important that is why we put the comment here
+		/// </summary>
 		public int FieldA { get; set; }
 	}
 
@@ -55,7 +62,13 @@ namespace Yours
 	{
 		public enum MyEnum
 		{
+			/// <summary>
+			/// First test
+			/// </summary>
 			ETest1 = 0,
+			/// <summary>
+			/// Second test
+			/// </summary>
 			ETest2 = 3,
 			ETest3 = 2,
 		}

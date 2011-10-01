@@ -6,6 +6,8 @@ namespace ProtocolBuffers
 	{
 		#region .proto data
 		
+		public string Comments;
+		
 		public FieldRule Rule { get; set; }
 		
 		/// <summary>

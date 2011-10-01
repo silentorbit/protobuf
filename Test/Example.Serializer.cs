@@ -55,30 +55,25 @@ namespace Personal
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
-				try {
-						//Optimize reading keys for short field numbers
-						int keyByte = stream.ReadByte ();
-						if (keyByte == -1)
-							break;
-						//Optimized reading of known fields with field ID < 16
-						switch (keyByte) {
-						case 10: //Field 1 LengthDelimited
-							instance.Name = ProtocolParser.ReadString(stream);
-							break;
-						case 16: //Field 2 Varint
-							instance.Id = (int)ProtocolParser.ReadUInt32(stream);
-							break;
-						case 26: //Field 3 LengthDelimited
-							instance.Email = ProtocolParser.ReadString(stream);
-							break;
-						case 34: //Field 4 LengthDelimited
-							instance.Phone.Add(Personal.Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
-							break;
-						default:
-							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-							break;
-						}
-				} catch (IOException) {
+				int keyByte = stream.ReadByte ();
+				if (keyByte == -1)
+					break;
+				//Optimized reading of known fields with field ID < 16
+				switch (keyByte) {
+				case 10: //Field 1 LengthDelimited
+					instance.Name = ProtocolParser.ReadString(stream);
+					break;
+				case 16: //Field 2 Varint
+					instance.Id = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				case 26: //Field 3 LengthDelimited
+					instance.Email = ProtocolParser.ReadString(stream);
+					break;
+				case 34: //Field 4 LengthDelimited
+					instance.Phone.Add(Personal.Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
+					break;
+				default:
+					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
 				}
 		
@@ -183,24 +178,19 @@ namespace Personal
 				while (true)
 				{
 					ProtocolBuffers.Key key = null;
-					try {
-							//Optimize reading keys for short field numbers
-							int keyByte = stream.ReadByte ();
-							if (keyByte == -1)
-								break;
-							//Optimized reading of known fields with field ID < 16
-							switch (keyByte) {
-							case 10: //Field 1 LengthDelimited
-								instance.Number = ProtocolParser.ReadString(stream);
-								break;
-							case 16: //Field 2 Varint
-								instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
-								break;
-							default:
-								key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-								break;
-							}
-					} catch (IOException) {
+					int keyByte = stream.ReadByte ();
+					if (keyByte == -1)
+						break;
+					//Optimized reading of known fields with field ID < 16
+					switch (keyByte) {
+					case 10: //Field 1 LengthDelimited
+						instance.Number = ProtocolParser.ReadString(stream);
+						break;
+					case 16: //Field 2 Varint
+						instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+						break;
+					default:
+						key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 						break;
 					}
 			
@@ -298,21 +288,16 @@ namespace ExampleNamespace
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
-				try {
-						//Optimize reading keys for short field numbers
-						int keyByte = stream.ReadByte ();
-						if (keyByte == -1)
-							break;
-						//Optimized reading of known fields with field ID < 16
-						switch (keyByte) {
-						case 10: //Field 1 LengthDelimited
-							instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
-							break;
-						default:
-							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-							break;
-						}
-				} catch (IOException) {
+				int keyByte = stream.ReadByte ();
+				if (keyByte == -1)
+					break;
+				//Optimized reading of known fields with field ID < 16
+				switch (keyByte) {
+				case 10: //Field 1 LengthDelimited
+					instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
+					break;
+				default:
+					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
 				}
 		
@@ -410,21 +395,16 @@ namespace Mine
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
-				try {
-						//Optimize reading keys for short field numbers
-						int keyByte = stream.ReadByte ();
-						if (keyByte == -1)
-							break;
-						//Optimized reading of known fields with field ID < 16
-						switch (keyByte) {
-						case 8: //Field 1 Varint
-							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-							break;
-						default:
-							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-							break;
-						}
-				} catch (IOException) {
+				int keyByte = stream.ReadByte ();
+				if (keyByte == -1)
+					break;
+				//Optimized reading of known fields with field ID < 16
+				switch (keyByte) {
+				case 8: //Field 1 Varint
+					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				default:
+					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
 				}
 		
@@ -519,63 +499,58 @@ namespace Yours
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
-				try {
-						//Optimize reading keys for short field numbers
-						int keyByte = stream.ReadByte ();
-						if (keyByte == -1)
-							break;
-						//Optimized reading of known fields with field ID < 16
-						switch (keyByte) {
-						case 8: //Field 1 Varint
-							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-							break;
-						case 17: //Field 2 Fixed64
-							instance.FieldB = br.ReadDouble ();
-							break;
-						case 29: //Field 3 Fixed32
-							instance.FieldC = br.ReadSingle ();
-							break;
-						case 32: //Field 4 Varint
-							instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
-							break;
-						case 40: //Field 5 Varint
-							instance.FieldE = (long)ProtocolParser.ReadUInt64(stream);
-							break;
-						case 48: //Field 6 Varint
-							instance.FieldF = ProtocolParser.ReadUInt32(stream);
-							break;
-						case 56: //Field 7 Varint
-							instance.FieldG = ProtocolParser.ReadUInt64(stream);;
-							break;
-						case 64: //Field 8 Varint
-							instance.FieldH = ProtocolParser.ReadSInt32(stream);;
-							break;
-						case 72: //Field 9 Varint
-							instance.FieldI = ProtocolParser.ReadSInt64(stream);;
-							break;
-						case 85: //Field 10 Fixed32
-							instance.FieldJ = br.ReadUInt32 ();
-							break;
-						case 89: //Field 11 Fixed64
-							instance.FieldK = br.ReadUInt64 ();
-							break;
-						case 101: //Field 12 Fixed32
-							instance.FieldL = br.ReadInt32 ();
-							break;
-						case 105: //Field 13 Fixed64
-							instance.FieldM = br.ReadInt64 ();
-							break;
-						case 112: //Field 14 Varint
-							instance.FieldN = ProtocolParser.ReadBool(stream);
-							break;
-						case 122: //Field 15 LengthDelimited
-							instance.FieldO = ProtocolParser.ReadString(stream);
-							break;
-						default:
-							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-							break;
-						}
-				} catch (IOException) {
+				int keyByte = stream.ReadByte ();
+				if (keyByte == -1)
+					break;
+				//Optimized reading of known fields with field ID < 16
+				switch (keyByte) {
+				case 8: //Field 1 Varint
+					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				case 17: //Field 2 Fixed64
+					instance.FieldB = br.ReadDouble ();
+					break;
+				case 29: //Field 3 Fixed32
+					instance.FieldC = br.ReadSingle ();
+					break;
+				case 32: //Field 4 Varint
+					instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				case 40: //Field 5 Varint
+					instance.FieldE = (long)ProtocolParser.ReadUInt64(stream);
+					break;
+				case 48: //Field 6 Varint
+					instance.FieldF = ProtocolParser.ReadUInt32(stream);
+					break;
+				case 56: //Field 7 Varint
+					instance.FieldG = ProtocolParser.ReadUInt64(stream);;
+					break;
+				case 64: //Field 8 Varint
+					instance.FieldH = ProtocolParser.ReadSInt32(stream);;
+					break;
+				case 72: //Field 9 Varint
+					instance.FieldI = ProtocolParser.ReadSInt64(stream);;
+					break;
+				case 85: //Field 10 Fixed32
+					instance.FieldJ = br.ReadUInt32 ();
+					break;
+				case 89: //Field 11 Fixed64
+					instance.FieldK = br.ReadUInt64 ();
+					break;
+				case 101: //Field 12 Fixed32
+					instance.FieldL = br.ReadInt32 ();
+					break;
+				case 105: //Field 13 Fixed64
+					instance.FieldM = br.ReadInt64 ();
+					break;
+				case 112: //Field 14 Varint
+					instance.FieldN = ProtocolParser.ReadBool(stream);
+					break;
+				case 122: //Field 15 LengthDelimited
+					instance.FieldO = ProtocolParser.ReadString(stream);
+					break;
+				default:
+					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
 				}
 		
@@ -789,21 +764,16 @@ namespace Theirs
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
-				try {
-						//Optimize reading keys for short field numbers
-						int keyByte = stream.ReadByte ();
-						if (keyByte == -1)
-							break;
-						//Optimized reading of known fields with field ID < 16
-						switch (keyByte) {
-						case 8: //Field 1 Varint
-							instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-							break;
-						default:
-							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-							break;
-						}
-				} catch (IOException) {
+				int keyByte = stream.ReadByte ();
+				if (keyByte == -1)
+					break;
+				//Optimized reading of known fields with field ID < 16
+				switch (keyByte) {
+				case 8: //Field 1 Varint
+					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+					break;
+				default:
+					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
 				}
 		
@@ -891,39 +861,34 @@ namespace ExampleNamespace
 			while (true)
 			{
 				ProtocolBuffers.Key key = null;
-				try {
-						//Optimize reading keys for short field numbers
-						int keyByte = stream.ReadByte ();
-						if (keyByte == -1)
-							break;
-						//Optimized reading of known fields with field ID < 16
-						switch (keyByte) {
-						case 8: //Field 1 Varint
-							instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64 (stream));
-							break;
-						case 16: //Field 2 Varint
-							instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64 (stream));
-							break;
-						case 25: //Field 3 Fixed64
-							instance.Amount = br.ReadDouble ();
-							break;
-						case 34: //Field 4 LengthDelimited
-							instance.Denial = ProtocolParser.ReadString(stream);
-							break;
-						case 42: //Field 5 LengthDelimited
-							instance.Secret = ProtocolParser.ReadString(stream);
-							break;
-						case 50: //Field 6 LengthDelimited
-							instance.Internal = ProtocolParser.ReadString(stream);
-							break;
-						case 58: //Field 7 LengthDelimited
-							instance.PR = ProtocolParser.ReadString(stream);
-							break;
-						default:
-							key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-							break;
-						}
-				} catch (IOException) {
+				int keyByte = stream.ReadByte ();
+				if (keyByte == -1)
+					break;
+				//Optimized reading of known fields with field ID < 16
+				switch (keyByte) {
+				case 8: //Field 1 Varint
+					instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64 (stream));
+					break;
+				case 16: //Field 2 Varint
+					instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64 (stream));
+					break;
+				case 25: //Field 3 Fixed64
+					instance.Amount = br.ReadDouble ();
+					break;
+				case 34: //Field 4 LengthDelimited
+					instance.Denial = ProtocolParser.ReadString(stream);
+					break;
+				case 42: //Field 5 LengthDelimited
+					instance.Secret = ProtocolParser.ReadString(stream);
+					break;
+				case 50: //Field 6 LengthDelimited
+					instance.Internal = ProtocolParser.ReadString(stream);
+					break;
+				case 58: //Field 7 LengthDelimited
+					instance.PR = ProtocolParser.ReadString(stream);
+					break;
+				default:
+					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
 				}
 		

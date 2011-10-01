@@ -9,6 +9,11 @@ namespace ProtocolBuffers
 			string code = "";
 
 			//Default class
+			if (m.Comments != null) {
+				code += "/// <summary>\n";
+				code += Code.Prefix ("/// ", m.Comments) + "\n";
+				code += "/// </summary>\n";
+			}
 			code += m.OptionAccess + " partial class " + m.CSType + "\n";
 			code += "{\n";
 			
@@ -39,15 +44,21 @@ namespace ProtocolBuffers
 
 		protected string GenerateEnums (Message m)
 		{
-			string enums = "";
+			string code = "";
 			foreach (MessageEnum me in m.Enums) {
-				enums += "public enum " + me.CSType + "\n";
-				enums += "{\n";
-				foreach (var epair in me.Enums)
-					enums += "	" + epair.Key + " = " + epair.Value + ",\n";
-				enums += "}\n";
+				code += "public enum " + me.CSType + "\n";
+				code += "{\n";
+				foreach (var epair in me.Enums) {
+					if (me.EnumsComments.ContainsKey (epair.Key)) {
+						code += "	/// <summary>\n";
+						code += Code.Prefix ("	/// ", me.EnumsComments [epair.Key]) + "\n";
+						code += "	/// </summary>\n";
+					}
+					code += "	" + epair.Key + " = " + epair.Value + ",\n";
+				}
+				code += "}\n";
 			}
-			return enums;
+			return code;
 		}
 
 		/// <summary>
@@ -60,10 +71,16 @@ namespace ProtocolBuffers
 		{
 			string code = "";
 			foreach (Field f in m.Fields.Values) {
-				if (f.OptionGenerate)
+				if (f.OptionGenerate) {
+					if (f.Comments != null) {
+						code += "/// <summary>\n";
+						code += Code.Prefix ("/// ", f.Comments) + "\n";
+						code += "/// </summary>\n";
+					}
 					code += GenerateProperty (f) + "\n";
-				else
+				} else {
 					code += "//" + GenerateProperty (f) + "	//Implemented by user elsewhere\n";
+				}
 			}
 			return code;
 		}

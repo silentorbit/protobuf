@@ -18,12 +18,7 @@ namespace ProtocolBuffers
 					if (line == null)
 						break;
 					
-					//Remove comment
-					int comment = line.IndexOf ("//");
-					if (comment >= 0)
-						line = line.Substring (0, comment);
 					t += line + "\n";
-					
 				}
 			}
 			
@@ -44,6 +39,23 @@ namespace ProtocolBuffers
 			return null;
 		}
 
+		static string lastComment = null;
+		
+		/// <summary>
+		/// Return true if token was a comment
+		/// </summary>
+		static bool ParseComment (string token)
+		{
+			if (token.StartsWith ("//") == false)
+				return false;
+			token = token.TrimStart ('/');
+			if (lastComment == null)
+				lastComment = token;
+			else
+				lastComment += "\r\n" + token;
+			return true;		
+		}
+		
 		static void ParseMessages (TokenReader tr, Proto p)
 		{
 			while (true) {
@@ -53,6 +65,9 @@ namespace ProtocolBuffers
 				} catch (EndOfStreamException) {
 					return;
 				}
+				if (ParseComment (token))
+					continue;
+				
 				switch (token) {
 				case "message":
 					p.Messages.Add (ParseMessage (tr, p));
@@ -81,6 +96,8 @@ namespace ProtocolBuffers
 		static Message ParseMessage (TokenReader tr, Message parent)
 		{
 			Message msg = new Message (parent);
+			msg.Comments = lastComment;
+			lastComment = null;
 			msg.ProtoName = tr.ReadNext ();
 			
 			//Expect "{"
@@ -96,6 +113,12 @@ namespace ProtocolBuffers
 		static bool ParseField (TokenReader tr, Message m)
 		{
 			string rule = tr.ReadNext ();
+			while (true) {
+				if (ParseComment (rule) == false)
+					break;
+				rule = tr.ReadNext ();
+			}
+
 			if (rule == "}")
 				return false;
 			
@@ -106,6 +129,8 @@ namespace ProtocolBuffers
 			}
 
 			Field f = new Field ();
+			f.Comments = lastComment;
+			lastComment = null;
 			
 			//Rule
 			switch (rule) {
@@ -243,6 +268,8 @@ namespace ProtocolBuffers
 		static MessageEnum ParseEnum (TokenReader tr, Message parent)
 		{
 			MessageEnum me = new MessageEnum (parent);
+			me.Comments = lastComment;
+			lastComment = null;
 			me.ProtoName = tr.ReadNext ();
 			
 			if (tr.ReadNext () != "{")
@@ -251,12 +278,16 @@ namespace ProtocolBuffers
 			while (true) {
 				string name = tr.ReadNext ();
 				
+				if (ParseComment (name))
+					continue;
+				
 				if (name == "}")
 					return me;
 				
 				//Ignore options
 				if (name == "option") {
 					ParseOption (tr, null);
+					lastComment = null;
 					continue;
 				}
 				
@@ -266,6 +297,9 @@ namespace ProtocolBuffers
 				int id = int.Parse (tr.ReadNext ());
 				
 				me.Enums.Add (name, id);
+				if(lastComment != null)
+					me.EnumsComments.Add(name, lastComment);
+				lastComment = null;
 				
 				if (tr.ReadNext () != ";")
 					throw new InvalidDataException ("Expected: ;");

@@ -30,12 +30,15 @@ message AddressBook {
 
 option file_option = "dobado";
 
+//This class is documented here:
+//With multiple lines
 message my_message_v1
 {
 	option namespace = "Mine";
 
 	option message_option = "dobado";
 
+	//This field is important that is why we put the comment here
 	required int32 field_a = 1;
 }
 
@@ -63,7 +66,9 @@ message my_message_v2
 	enum my_enum
 	{
 		option enum_option = "dobado";
+		//First test
 		ETest1 = 0;
+		//Second test
 		ETest2 = 3;
 		ETest3 = 2;
 	}

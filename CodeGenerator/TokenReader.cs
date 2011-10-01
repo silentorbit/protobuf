@@ -57,7 +57,10 @@ namespace ProtocolBuffers
 			//Follow token
 			string token = c;
 			bool parseString = false;
+			bool parseComment = false;
 			
+			if (token == "/")
+				parseComment = true;
 			if (token == "\"") {
 				parseString = true;
 				token = "";
@@ -65,7 +68,10 @@ namespace ProtocolBuffers
 			
 			while (true) {
 				c = GetChar ();
-				if (parseString) {
+				if (parseComment) {
+					if(c == "\r" || c == "\n")
+						return token;
+				} else if (parseString) {
 					if (c == "\"")
 						return token;
 				} else if (whitespace.Contains (c) || singletoken.Contains (c)) {

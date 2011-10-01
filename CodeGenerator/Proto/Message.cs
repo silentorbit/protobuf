@@ -5,10 +5,11 @@ namespace ProtocolBuffers
 {
 	public class Message : MessageEnumBase
 	{
+		public string Comments;
 		public Dictionary<int, Field> Fields = new  Dictionary<int, Field> ();
 		public List<Message> Messages = new List<Message> ();
 		public List<MessageEnum> Enums = new List<MessageEnum> ();
-
+		
 		#region Local options
 		
 		/// <summary>

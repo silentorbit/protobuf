@@ -36,7 +36,8 @@ namespace ProtocolBuffers
 			
 			//Bytes
 			byte[] buffer = new byte[length];
-			stream.Read (buffer, 0, buffer.Length);
+			if(length != 0)
+				stream.Read (buffer, 0, buffer.Length);
 			return buffer;
 		}
 		
