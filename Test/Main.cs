@@ -300,7 +300,7 @@ namespace Test
 
 			//Deserialize
 			start = DateTime.Now;
-			AddressBook ac = AddressBook.Deserialize (buffer);
+			AddressBook.Deserialize (buffer);
 			TimeSpan deserialize = DateTime.Now - start;
 			Console.WriteLine ("Speed test: Deserialize in " + deserialize);
 		}
