@@ -57,6 +57,7 @@
     <Compile Include="Proto\FieldRule.cs" />
     <Compile Include="Proto\MessageEnumBase.cs" />
     <Compile Include="CodeGenerator\MessageName.cs" />
+    <Compile Include="Proto\ProtoFormatException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

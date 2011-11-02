@@ -37,14 +37,14 @@ namespace ProtocolBuffers
 
 		static string GenerateFieldTypeReader (Field f, string stream, string binaryReader, string instance)
 		{
-			if (f.OptionCustomTypeSerializer != null) {
-				switch (f.OptionCustomTypeSerializer) {
+			if (f.OptionCodeType != null) {
+				switch (f.OptionCodeType) {
 				case "DateTime":
 					return "new DateTime((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				case "TimeSpan":
 					return "new TimeSpan((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				default:
-					return f.OptionCustomTypeSerializer + ".Deserialize(" + GenerateFieldTypeReaderPrimitive (f, stream, instance) + ", " + instance + ")";
+					return f.OptionCodeType + ".Deserialize(" + GenerateFieldTypeReaderPrimitive (f, stream, instance) + ", " + instance + ")";
 				}
 			}
 			
@@ -193,13 +193,13 @@ namespace ProtocolBuffers
 					
 		public static string GenerateFieldTypeWriter (Field f, string stream, string binaryWriter, string instance)
 		{
-			if (f.OptionCustomTypeSerializer != null) {
-				switch (f.OptionCustomTypeSerializer) {
+			if (f.OptionCodeType != null) {
+				switch (f.OptionCodeType) {
 				case "DateTime":
 				case "TimeSpan":
 					return "ProtocolParser.WriteUInt64 (" + stream + ", (ulong)" + instance + ".Ticks);\n";
 				default:
-					return f.OptionCustomTypeSerializer + ".Write(" + stream + ", " + instance + ");\n";
+					return f.OptionCodeType + ".Write(" + stream + ", " + instance + ");\n";
 				}
 			}
 			

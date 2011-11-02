@@ -23,6 +23,8 @@ namespace ProtocolBuffers
 				
 				if (File.Exists (protoPath) == false) {
 					Console.Error.WriteLine ("File not found: " + protoPath);
+					if(args [argIndex].EndsWith(".cs"))
+						argIndex += 1;
 					continue;
 				}
 
@@ -30,7 +32,11 @@ namespace ProtocolBuffers
 				Console.WriteLine ("Parsing " + protoPath);
 				Proto proto = ProtoParser.Parse (protoPath);
 				if (proto == null)
+				{
+					if(args [argIndex].EndsWith(".cs"))
+						argIndex += 1;
 					continue;
+				}
 				Console.WriteLine (proto);
 
 				//Interpret and reformat
@@ -46,7 +52,6 @@ namespace ProtocolBuffers
 				}
 
 				//Generate code
-				Console.WriteLine ("Generating code");
 				ProtoCode.Save (proto, new MessageCode (), codePath);
 				Console.WriteLine ("Saved: " + codePath);
 			}

@@ -38,6 +38,16 @@ namespace ProtocolBuffers
 			return c.ToString ();
 		}
 		
+		/// <summary>
+		/// Read next token and throw a ProtoFormatException if the token was not the specified.
+		/// </summary>
+		public void ReadNextOrThrow (string expect)
+		{
+			string n = ReadNext ();
+			if (n != expect)
+				throw new ProtoFormatException ("Expected: " + expect + " got " + n);
+		}
+		
 		public string ReadNext ()
 		{
 			string c;	//Character
@@ -69,7 +79,7 @@ namespace ProtocolBuffers
 			while (true) {
 				c = GetChar ();
 				if (parseComment) {
-					if(c == "\r" || c == "\n")
+					if (c == "\r" || c == "\n")
 						return token;
 				} else if (parseString) {
 					if (c == "\"")

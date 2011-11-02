@@ -23,19 +23,16 @@ namespace ProtocolBuffers
 			}
 			
 			TokenReader tr = new TokenReader (t);
-			Exception e = null;
+			ProtoFormatException e = null;
 			try {
 				ParseMessages (tr, p);
 				return p;
-			} catch (InvalidDataException ide) {
-				e = ide;
-			} catch (FormatException fe) {
-				e = fe;
+			} catch (ProtoFormatException pfe) {
+				e = pfe;
 			}
 			Console.Write (tr.Parsed);
 			Console.WriteLine (" <---");
 			Console.WriteLine (e.Message);
-			Console.WriteLine ("Got: " + tr.Next);
 			return null;
 		}
 
@@ -78,17 +75,15 @@ namespace ProtocolBuffers
 					break;
 				case "import": //Ignored
 					tr.ReadNext ();
-					if (tr.ReadNext () != ";")
-						throw new InvalidDataException ("Expected ;");
+					tr.ReadNextOrThrow (";");
 					break;
 				case "package":
 					string pkg = tr.ReadNext ();
-					if (tr.ReadNext () != ";")
-						throw new InvalidDataException ("Expected ;");
+					tr.ReadNextOrThrow (";");
 					p.OptionNamespace = pkg;
 					break;
 				default:
-					throw new InvalidDataException ("Unexpected/not implemented: " + token);
+					throw new ProtoFormatException ("Unexpected/not implemented: " + token);
 				}
 			}
 		}
@@ -100,9 +95,7 @@ namespace ProtocolBuffers
 			lastComment = null;
 			msg.ProtoName = tr.ReadNext ();
 			
-			//Expect "{"
-			if (tr.ReadNext () != "{")
-				throw new InvalidDataException ("Expected: {");
+			tr.ReadNextOrThrow ("{");
 			
 			while (ParseField (tr, msg))
 				continue;
@@ -151,7 +144,7 @@ namespace ProtocolBuffers
 				m.Messages.Add (ParseMessage (tr, m));
 				return true;
 			default:
-				throw new InvalidDataException ("unknown rule: " + rule);
+				throw new ProtoFormatException ("unknown rule: " + rule);
 			}
 
 			//Type
@@ -161,13 +154,12 @@ namespace ProtocolBuffers
 			f.Name = tr.ReadNext ();
 			
 			//ID
-			if (tr.ReadNext () != "=")
-				throw new InvalidDataException ("Expected: =");
+			tr.ReadNextOrThrow ("=");
 			f.ID = int.Parse (tr.ReadNext ());
 			if (19000 <= f.ID && f.ID <= 19999)
-				throw new InvalidDataException ("Can't use reserved field ID 19000-19999");
-			if (f.ID > 536870911)
-				throw new InvalidDataException ("Maximum field id is 2^29 - 1");
+				throw new ProtoFormatException ("Can't use reserved field ID 19000-19999");
+			if (f.ID > (1 << 29) - 1)
+				throw new ProtoFormatException ("Maximum field id is 2^29 - 1");
 
 			//Add Field to message
 			m.Fields.Add (f.ID, f);
@@ -179,12 +171,11 @@ namespace ProtocolBuffers
 			
 			//Field options
 			if (extra != "[")
-				throw new InvalidDataException ("Expected: [");
+				throw new ProtoFormatException ("Expected: [ got " + extra);
 			
 			while (true) {
 				string key = tr.ReadNext ();
-				if (tr.ReadNext () != "=")
-					throw new InvalidDataException ("Expected: =");
+				tr.ReadNextOrThrow ("=");
 				string val = tr.ReadNext ();
 				
 				ParseFieldOption (key, val, f);
@@ -193,10 +184,9 @@ namespace ProtocolBuffers
 					break;
 				if (optionSep == ",")
 					continue;
-				throw new InvalidDataException (@"Expected "","" or ""]""");
+				throw new ProtoFormatException (@"Expected "","" or ""]"" got " + tr.Next);
 			}
-			if (tr.ReadNext () != ";")
-				throw new InvalidDataException ("Expected: ;");
+			tr.ReadNextOrThrow (";");
 			
 			return true;
 		}
@@ -219,8 +209,13 @@ namespace ProtocolBuffers
 			case "access":
 				f.OptionAccess = val;
 				break;
-			case "externaltype":
-				f.OptionCustomTypeSerializer = val;
+			case "codetype":
+				if (val == "DateTime" || val == "TimeSpan") {
+					if (f.ProtoTypeName != "int64")
+						throw new ProtoFormatException ("DateTime and TimeSpan must be stored in int64. was " + f.ProtoTypeName);
+				} else
+					throw new ProtoFormatException ("Only codetype DateTime and TimeSpan is currently recognized.");
+				f.OptionCodeType = val;
 				break;
 			case "generate":
 				f.OptionGenerate = Boolean.Parse (val);
@@ -239,11 +234,11 @@ namespace ProtocolBuffers
 			//Read name
 			string key = tr.ReadNext ();
 			if (tr.ReadNext () != "=")
-				throw new InvalidDataException ("Expected: =");
+				throw new ProtoFormatException ("Expected: = got " + tr.Next);
 			//Read value
 			string value = tr.ReadNext ();
 			if (tr.ReadNext () != ";")
-				throw new InvalidDataException ("Expected: ;");
+				throw new ProtoFormatException ("Expected: ; got " + tr.Next);
 			
 			//null = ignore option
 			if (m == null)
@@ -273,7 +268,7 @@ namespace ProtocolBuffers
 			me.ProtoName = tr.ReadNext ();
 			
 			if (tr.ReadNext () != "{")
-				throw new InvalidDataException ("Expected: {");
+				throw new ProtoFormatException ("Expected: {");
 			
 			while (true) {
 				string name = tr.ReadNext ();
@@ -292,17 +287,17 @@ namespace ProtocolBuffers
 				}
 				
 				if (tr.ReadNext () != "=")
-					throw new InvalidDataException ("Expected: =");
+					throw new ProtoFormatException ("Expected: =");
 				
 				int id = int.Parse (tr.ReadNext ());
 				
 				me.Enums.Add (name, id);
-				if(lastComment != null)
-					me.EnumsComments.Add(name, lastComment);
+				if (lastComment != null)
+					me.EnumsComments.Add (name, lastComment);
 				lastComment = null;
 				
 				if (tr.ReadNext () != ";")
-					throw new InvalidDataException ("Expected: ;");
+					throw new ProtoFormatException ("Expected: ;");
 			}
 			
 		}

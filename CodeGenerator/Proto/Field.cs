@@ -37,7 +37,7 @@ namespace ProtocolBuffers
 		/// <para>Define the type of the property that is not a primitive or class derived from a message.</para>
 		/// <para>This can be one of the build in (see method MessageCode.GenerateFieldTypeWriter()) or a custom class that implements the static Serialize and Deserialize functions;</para>
 		/// </summary>
-		public string OptionCustomTypeSerializer = null;
+		public string OptionCodeType = null;
 		
 		/// <summary>
 		/// Generate property in class, if not it is expected to already be defined elsewhere.
@@ -114,8 +114,8 @@ namespace ProtocolBuffers
 		/// </summary>
 		public string PropertyItemType {
 			get {
-				if (OptionCustomTypeSerializer != null)
-					return OptionCustomTypeSerializer;
+				if (OptionCodeType != null)
+					return OptionCodeType;
 			
 				switch (ProtoType) {
 				case ProtoTypes.Message:

@@ -3,6 +3,7 @@ import "csharpgen.proto";
 
 package ExampleNamespaceB;
 
+//This message is referenced in ExampleA which is compiled into another project
 message their_message
 {
 	option namespace = "Theirs";
