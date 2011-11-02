@@ -1,0 +1,11 @@
+﻿
+import "csharpgen.proto";
+
+package ExampleNamespaceB;
+
+message their_message
+{
+	option namespace = "Theirs";
+	
+	required int32 field_a = 1;
+}

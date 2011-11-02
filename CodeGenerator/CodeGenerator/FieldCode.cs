@@ -21,12 +21,12 @@ namespace ProtocolBuffers
 					code += "	}\n";
 					code += "}\n";
 				} else {
-					code += "instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "stream", "br", null) + ");";
+					code += "instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "stream", "br", null) + ");\n";
 				}
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
 					code += "if(instance." + f.Name + " == null)\n";
-					code += "	instance." + f.Name + " = " + f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(stream));\n";
+					code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", null) + ";\n";
 					code += "else\n";
 					code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 				} else
@@ -37,16 +37,14 @@ namespace ProtocolBuffers
 
 		static string GenerateFieldTypeReader (Field f, string stream, string binaryReader, string instance)
 		{
-			if (f.OptionCustomType != null) {
-				switch (f.OptionCustomType) {
+			if (f.OptionCustomTypeSerializer != null) {
+				switch (f.OptionCustomTypeSerializer) {
 				case "DateTime":
 					return "new DateTime((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				case "TimeSpan":
 					return "new TimeSpan((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				default:
-					Field tmp = new Field ();
-					tmp.ProtoType = f.ProtoType;
-					return f.OptionCustomType + ".Read(" + GenerateFieldTypeReaderPrimitive (f, stream, instance) + ", " + instance + ")";
+					return f.OptionCustomTypeSerializer + ".Deserialize(" + GenerateFieldTypeReaderPrimitive (f, stream, instance) + ", " + instance + ")";
 				}
 			}
 			
@@ -92,7 +90,12 @@ namespace ProtocolBuffers
 				if (f.Rule == FieldRule.Repeated)
 					return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
 				else
-					return "Serializer.Read(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+				{
+					if(instance == null)
+						return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
+					else
+						return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+				}
 			default:
 				throw new NotImplementedException ();
 			}
@@ -190,13 +193,13 @@ namespace ProtocolBuffers
 					
 		public static string GenerateFieldTypeWriter (Field f, string stream, string binaryWriter, string instance)
 		{
-			if (f.OptionCustomType != null) {
-				switch (f.OptionCustomType) {
+			if (f.OptionCustomTypeSerializer != null) {
+				switch (f.OptionCustomTypeSerializer) {
 				case "DateTime":
 				case "TimeSpan":
 					return "ProtocolParser.WriteUInt64 (" + stream + ", (ulong)" + instance + ".Ticks);\n";
 				default:
-					return f.OptionCustomType + ".Write(" + stream + ", " + instance + ");\n";
+					return f.OptionCustomTypeSerializer + ".Write(" + stream + ", " + instance + ");\n";
 				}
 			}
 			

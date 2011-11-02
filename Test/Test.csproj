@@ -41,16 +41,25 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Example.cs" />
-    <Compile Include="ProtocolParser.cs" />
-    <Compile Include="Example.Serializer.cs" />
     <Compile Include="NetPerson.cs" />
     <Compile Include="LocalFeatures.cs" />
+    <Compile Include="Generated\ExampleA.cs" />
+    <Compile Include="Generated\ExampleA.Serializer.cs" />
+    <Compile Include="Generated\ProtocolParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Example.proto">
+    <None Include="ExampleA.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Generated\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="TestB\TestB.csproj">
+      <Project>{C068143A-07C2-48BE-9EDB-08A05E8153CF}</Project>
+      <Name>TestB</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

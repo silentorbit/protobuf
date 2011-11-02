@@ -1,7 +1,7 @@
 ﻿
 import "csharpgen.proto";
 
-package ExampleNamespace;
+package ExampleNamespaceA;
 
 message Person {
   option namespace = "Personal";
@@ -28,6 +28,7 @@ message AddressBook {
     repeated Person List = 1;
 }
 
+//This will be ignored
 option file_option = "dobado";
 
 //This class is documented here:
@@ -36,6 +37,7 @@ message my_message_v1
 {
 	option namespace = "Mine";
 
+    //This will be ignored
 	option message_option = "dobado";
 
 	//This field is important that is why we put the comment here
@@ -81,16 +83,9 @@ message my_message_v2
 	repeated uint32 field_s = 20;
 	repeated uint32 field_t = 21 [packed=true];
 	
-	optional their_message field_u = 22;
+	optional Theirs.TheirMessage field_u = 22;
 	
-	repeated their_message field_v = 23;
-}
-
-message their_message
-{
-	option namespace = "Theirs";
-	
-	required int32 field_a = 1;
+	repeated Theirs.TheirMessage field_v = 23;
 }
 
 message local_features

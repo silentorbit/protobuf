@@ -34,10 +34,10 @@ namespace ProtocolBuffers
 		public string OptionAccess = "public";
 		
 		/// <summary>
-		/// Define the type of the property that is not a primitive or class derived from a message.
-		/// This can be one of the build in (see method MessageCode.GenerateFieldTypeWriter()) or a custom class that implements the static Read and Write functions;
+		/// <para>Define the type of the property that is not a primitive or class derived from a message.</para>
+		/// <para>This can be one of the build in (see method MessageCode.GenerateFieldTypeWriter()) or a custom class that implements the static Serialize and Deserialize functions;</para>
 		/// </summary>
-		public string OptionCustomType = null;
+		public string OptionCustomTypeSerializer = null;
 		
 		/// <summary>
 		/// Generate property in class, if not it is expected to already be defined elsewhere.
@@ -114,8 +114,8 @@ namespace ProtocolBuffers
 		/// </summary>
 		public string PropertyItemType {
 			get {
-				if (OptionCustomType != null)
-					return OptionCustomType;
+				if (OptionCustomTypeSerializer != null)
+					return OptionCustomTypeSerializer;
 			
 				switch (ProtoType) {
 				case ProtoTypes.Message:

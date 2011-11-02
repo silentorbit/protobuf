@@ -1,6 +1,6 @@
 using System;
 
-namespace ExampleNamespace
+namespace ExampleNamespaceA
 {
 	internal partial class LocalFeatures
 	{

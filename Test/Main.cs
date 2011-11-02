@@ -9,7 +9,7 @@ using Yours;
 using Theirs;
 using Mine;
 using ProtocolBuffers;
-using ExampleNamespace;
+using ExampleNamespaceA;
 
 namespace Test
 {

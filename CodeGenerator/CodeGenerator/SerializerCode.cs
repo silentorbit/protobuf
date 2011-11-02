@@ -66,10 +66,11 @@ namespace ProtocolBuffers
 			code += "	return instance;\n";
 			code += "}\n";
 			code += "\n";
-			code += m.OptionAccess + " static void Deserialize (byte[] buffer, " + m.FullCSType + " instance)\n";
+			code += m.OptionAccess + " static " + m.FullCSType + " Deserialize (byte[] buffer, " + m.FullCSType + " instance)\n";
 			code += "{\n";
 			code += "	using (MemoryStream ms = new MemoryStream(buffer))\n";
 			code += "		Deserialize (ms, instance);\n";
+			code += "   return instance;\n";
 			code += "}\n";
 			code += "\n";
 			

@@ -220,7 +220,7 @@ namespace ProtocolBuffers
 				f.OptionAccess = val;
 				break;
 			case "externaltype":
-				f.OptionCustomType = val;
+				f.OptionCustomTypeSerializer = val;
 				break;
 			case "generate":
 				f.OptionGenerate = Boolean.Parse (val);

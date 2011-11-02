@@ -76,7 +76,6 @@ namespace ProtocolBuffers
 					f.ProtoType = ProtoTypes.Message;
 					f.WireType = Wire.LengthDelimited;
 					f.ProtoTypeMessage = new MessageName(m, f.ProtoTypeName);
-					f.OptionCustomType = f.ProtoTypeName;
 				}
 				if (pt is MessageEnum) {
 					f.ProtoType = ProtoTypes.Enum;
@@ -111,13 +110,13 @@ namespace ProtocolBuffers
 				f.WireType = Wire.LengthDelimited;
 			}
 
-			if (f.OptionCustomType == "DateTime" || f.OptionCustomType == "TimeSpan") {
+			if (f.OptionCustomTypeSerializer == "DateTime" || f.OptionCustomTypeSerializer == "TimeSpan") {
 				if (f.ProtoType != ProtoTypes.Int64)
 					throw new InvalidDataException ("DateTime and TimeSpan must be stored in int64. was " + f.ProtoType);
 			}
-			if (f.OptionCustomType != null) {
-				f.CSClass = f.OptionCustomType;
-				f.CSType = f.OptionCustomType;
+			if (f.OptionCustomTypeSerializer != null) {
+				f.CSClass = f.OptionCustomTypeSerializer;
+				f.CSType = f.OptionCustomTypeSerializer;
 			}
 
 			if (f.CSType == null) {

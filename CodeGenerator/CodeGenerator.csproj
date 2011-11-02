@@ -21,7 +21,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <Commandlineparameters>../../../Test/Example.proto</Commandlineparameters>
+    <Commandlineparameters>../../../Test/ExampleA.proto ../../../Test/Generated/ExampleA.cs ../../../Test/TestB/ExampleB.proto ../../../Test/TestB/Generated/ExampleB.cs</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -82,9 +82,6 @@
     <Folder Include="CodeGenerator\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Test\Example.proto">
-      <Link>Example.proto</Link>
-    </None>
     <None Include="..\csharpgen.proto">
       <Link>csharpgen.proto</Link>
     </None>

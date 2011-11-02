@@ -42,10 +42,11 @@ namespace Personal
 			return instance;
 		}
 		
-		public static void Deserialize (byte[] buffer, Personal.Person instance)
+		public static Personal.Person Deserialize (byte[] buffer, Personal.Person instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
+		   return instance;
 		}
 		
 		public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
@@ -71,6 +72,7 @@ namespace Personal
 					break;
 				case 34: //Field 4 LengthDelimited
 					instance.Phone.Add(Personal.Person.PhoneNumber.Deserialize(ProtocolParser.ReadBytes(stream)));
+		
 					break;
 				default:
 					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
@@ -166,10 +168,11 @@ namespace Personal
 				return instance;
 			}
 			
-			public static void Deserialize (byte[] buffer, Personal.Person.PhoneNumber instance)
+			public static Personal.Person.PhoneNumber Deserialize (byte[] buffer, Personal.Person.PhoneNumber instance)
 			{
 				using (MemoryStream ms = new MemoryStream(buffer))
 					Deserialize (ms, instance);
+			   return instance;
 			}
 			
 			public static Personal.Person.PhoneNumber Deserialize(Stream stream, Personal.Person.PhoneNumber instance)
@@ -244,7 +247,7 @@ namespace Personal
 	
 
 }
-namespace ExampleNamespace
+namespace ExampleNamespaceA
 {
 	public partial class AddressBook
 	{
@@ -261,27 +264,28 @@ namespace ExampleNamespace
 				return Deserialize(ms);
 		}
 		
-		public static T Deserialize<T> (Stream stream) where T : ExampleNamespace.AddressBook, new()
+		public static T Deserialize<T> (Stream stream) where T : ExampleNamespaceA.AddressBook, new()
 		{
 			T instance = new T ();
 			Deserialize (stream, instance);
 			return instance;
 		}
 		
-		public static T Deserialize<T> (byte[] buffer) where T : ExampleNamespace.AddressBook, new()
+		public static T Deserialize<T> (byte[] buffer) where T : ExampleNamespaceA.AddressBook, new()
 		{
 			T instance = new T ();
 			Deserialize(buffer, instance);
 			return instance;
 		}
 		
-		public static void Deserialize (byte[] buffer, ExampleNamespace.AddressBook instance)
+		public static ExampleNamespaceA.AddressBook Deserialize (byte[] buffer, ExampleNamespaceA.AddressBook instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
+		   return instance;
 		}
 		
-		public static ExampleNamespace.AddressBook Deserialize(Stream stream, ExampleNamespace.AddressBook instance)
+		public static ExampleNamespaceA.AddressBook Deserialize(Stream stream, ExampleNamespaceA.AddressBook instance)
 		{
 			if(instance.List == null)
 				instance.List = new List<Personal.Person>();
@@ -295,6 +299,7 @@ namespace ExampleNamespace
 				switch (keyByte) {
 				case 10: //Field 1 LengthDelimited
 					instance.List.Add(Personal.Person.Deserialize(ProtocolParser.ReadBytes(stream)));
+		
 					break;
 				default:
 					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
@@ -317,7 +322,7 @@ namespace ExampleNamespace
 			return instance;
 		}
 		
-		public static ExampleNamespace.AddressBook Read(byte[] buffer, ExampleNamespace.AddressBook instance)
+		public static ExampleNamespaceA.AddressBook Read(byte[] buffer, ExampleNamespaceA.AddressBook instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
@@ -384,10 +389,11 @@ namespace Mine
 			return instance;
 		}
 		
-		public static void Deserialize (byte[] buffer, Mine.MyMessageV1 instance)
+		public static Mine.MyMessageV1 Deserialize (byte[] buffer, Mine.MyMessageV1 instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
+		   return instance;
 		}
 		
 		public static Mine.MyMessageV1 Deserialize(Stream stream, Mine.MyMessageV1 instance)
@@ -480,10 +486,11 @@ namespace Yours
 			return instance;
 		}
 		
-		public static void Deserialize (byte[] buffer, Yours.MyMessageV2 instance)
+		public static Yours.MyMessageV2 Deserialize (byte[] buffer, Yours.MyMessageV2 instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
+		   return instance;
 		}
 		
 		public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
@@ -575,6 +582,7 @@ namespace Yours
 					break;
 				case 20:
 					instance.FieldS.Add(ProtocolParser.ReadUInt32(stream));
+		
 					break;
 				case 21:
 					using(MemoryStream ms21 = new MemoryStream(ProtocolParser.ReadBytes(stream)))
@@ -592,10 +600,11 @@ namespace Yours
 					if(instance.FieldU == null)
 						instance.FieldU = Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream));
 					else
-						instance.FieldU = Serializer.Read(ProtocolParser.ReadBytes(stream), instance.FieldU);
+						instance.FieldU = Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream), instance.FieldU);
 					break;
 				case 23:
 					instance.FieldV.Add(Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream)));
+		
 					break;
 				default:
 					ProtocolParser.SkipKey(stream, key);
@@ -722,103 +731,7 @@ namespace Yours
 	
 
 }
-namespace Theirs
-{
-	public partial class TheirMessage
-	{
-		public static TheirMessage Deserialize(Stream stream)
-		{
-			TheirMessage instance = new TheirMessage();
-			Deserialize(stream, instance);
-			return instance;
-		}
-		
-		public static TheirMessage Deserialize(byte[] buffer)
-		{
-			using(MemoryStream ms = new MemoryStream(buffer))
-				return Deserialize(ms);
-		}
-		
-		public static T Deserialize<T> (Stream stream) where T : Theirs.TheirMessage, new()
-		{
-			T instance = new T ();
-			Deserialize (stream, instance);
-			return instance;
-		}
-		
-		public static T Deserialize<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
-		{
-			T instance = new T ();
-			Deserialize(buffer, instance);
-			return instance;
-		}
-		
-		public static void Deserialize (byte[] buffer, Theirs.TheirMessage instance)
-		{
-			using (MemoryStream ms = new MemoryStream(buffer))
-				Deserialize (ms, instance);
-		}
-		
-		public static Theirs.TheirMessage Deserialize(Stream stream, Theirs.TheirMessage instance)
-		{
-			while (true)
-			{
-				ProtocolBuffers.Key key = null;
-				int keyByte = stream.ReadByte ();
-				if (keyByte == -1)
-					break;
-				//Optimized reading of known fields with field ID < 16
-				switch (keyByte) {
-				case 8: //Field 1 Varint
-					instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-					break;
-				default:
-					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
-					break;
-				}
-		
-				if (key == null)
-					continue;
-		
-				//Reading field ID > 16 and unknown field ID/wire type combinations
-				switch (key.Field) {
-				case 0:
-					throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
-				default:
-					ProtocolParser.SkipKey(stream, key);
-					break;
-				}
-			}
-			
-			return instance;
-		}
-		
-		public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
-		{
-			using (MemoryStream ms = new MemoryStream(buffer))
-				Deserialize (ms, instance);
-			return instance;
-		}
-	
-		public static void Serialize(Stream stream, TheirMessage instance)
-		{
-			ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
-			ProtocolParser.WriteUInt32(stream, (uint)instance.FieldA);
-		}
-		
-		public static byte[] SerializeToBytes(TheirMessage instance)
-		{
-			using(MemoryStream ms = new MemoryStream())
-			{
-				Serialize(ms, instance);
-				return ms.ToArray();
-			}
-		}
-	}
-	
-
-}
-namespace ExampleNamespace
+namespace ExampleNamespaceA
 {
 	internal partial class LocalFeatures
 	{
@@ -835,27 +748,28 @@ namespace ExampleNamespace
 				return Deserialize(ms);
 		}
 		
-		internal static T Deserialize<T> (Stream stream) where T : ExampleNamespace.LocalFeatures, new()
+		internal static T Deserialize<T> (Stream stream) where T : ExampleNamespaceA.LocalFeatures, new()
 		{
 			T instance = new T ();
 			Deserialize (stream, instance);
 			return instance;
 		}
 		
-		internal static T Deserialize<T> (byte[] buffer) where T : ExampleNamespace.LocalFeatures, new()
+		internal static T Deserialize<T> (byte[] buffer) where T : ExampleNamespaceA.LocalFeatures, new()
 		{
 			T instance = new T ();
 			Deserialize(buffer, instance);
 			return instance;
 		}
 		
-		internal static void Deserialize (byte[] buffer, ExampleNamespace.LocalFeatures instance)
+		internal static ExampleNamespaceA.LocalFeatures Deserialize (byte[] buffer, ExampleNamespaceA.LocalFeatures instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
+		   return instance;
 		}
 		
-		internal static ExampleNamespace.LocalFeatures Deserialize(Stream stream, ExampleNamespace.LocalFeatures instance)
+		internal static ExampleNamespaceA.LocalFeatures Deserialize(Stream stream, ExampleNamespaceA.LocalFeatures instance)
 		{
 			BinaryReader br = new BinaryReader (stream);
 			while (true)
@@ -909,7 +823,7 @@ namespace ExampleNamespace
 			return instance;
 		}
 		
-		internal static ExampleNamespace.LocalFeatures Read(byte[] buffer, ExampleNamespace.LocalFeatures instance)
+		internal static ExampleNamespaceA.LocalFeatures Read(byte[] buffer, ExampleNamespaceA.LocalFeatures instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
@@ -1005,21 +919,21 @@ namespace ProtocolBuffers
 		
 
 		
-		public static ExampleNamespace.AddressBook Read (Stream stream, ExampleNamespace.AddressBook instance)
+		public static ExampleNamespaceA.AddressBook Read (Stream stream, ExampleNamespaceA.AddressBook instance)
 		{
-			return ExampleNamespace.AddressBook.Deserialize(stream, instance);
+			return ExampleNamespaceA.AddressBook.Deserialize(stream, instance);
 		}
 		
-		public static ExampleNamespace.AddressBook Read(byte[] buffer, ExampleNamespace.AddressBook instance)
+		public static ExampleNamespaceA.AddressBook Read(byte[] buffer, ExampleNamespaceA.AddressBook instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
-				ExampleNamespace.AddressBook.Deserialize (ms, instance);
+				ExampleNamespaceA.AddressBook.Deserialize (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, ExampleNamespace.AddressBook instance)
+		public static void Write(Stream stream, ExampleNamespaceA.AddressBook instance)
 		{
-			ExampleNamespace.AddressBook.Serialize(stream, instance);
+			ExampleNamespaceA.AddressBook.Serialize(stream, instance);
 		}
 		
 
@@ -1062,40 +976,21 @@ namespace ProtocolBuffers
 		
 
 		
-		public static Theirs.TheirMessage Read (Stream stream, Theirs.TheirMessage instance)
+		internal static ExampleNamespaceA.LocalFeatures Read (Stream stream, ExampleNamespaceA.LocalFeatures instance)
 		{
-			return Theirs.TheirMessage.Deserialize(stream, instance);
+			return ExampleNamespaceA.LocalFeatures.Deserialize(stream, instance);
 		}
 		
-		public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
+		internal static ExampleNamespaceA.LocalFeatures Read(byte[] buffer, ExampleNamespaceA.LocalFeatures instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
-				Theirs.TheirMessage.Deserialize (ms, instance);
+				ExampleNamespaceA.LocalFeatures.Deserialize (ms, instance);
 			return instance;
 		}
 		
-		public static void Write(Stream stream, Theirs.TheirMessage instance)
+		internal static void Write(Stream stream, ExampleNamespaceA.LocalFeatures instance)
 		{
-			Theirs.TheirMessage.Serialize(stream, instance);
-		}
-		
-
-		
-		internal static ExampleNamespace.LocalFeatures Read (Stream stream, ExampleNamespace.LocalFeatures instance)
-		{
-			return ExampleNamespace.LocalFeatures.Deserialize(stream, instance);
-		}
-		
-		internal static ExampleNamespace.LocalFeatures Read(byte[] buffer, ExampleNamespace.LocalFeatures instance)
-		{
-			using (MemoryStream ms = new MemoryStream(buffer))
-				ExampleNamespace.LocalFeatures.Deserialize (ms, instance);
-			return instance;
-		}
-		
-		internal static void Write(Stream stream, ExampleNamespace.LocalFeatures instance)
-		{
-			ExampleNamespace.LocalFeatures.Serialize(stream, instance);
+			ExampleNamespaceA.LocalFeatures.Serialize(stream, instance);
 		}
 		
 

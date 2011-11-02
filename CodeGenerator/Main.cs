@@ -12,34 +12,44 @@ namespace ProtocolBuffers
 				Console.Error.WriteLine ("Usage:\n\tCodeGenerator.exe path-to.proto [output.cs]");
 				return;						
 			}
-			string protoPath = Path.GetFullPath (args [0]);
 			
-			if (File.Exists (protoPath) == false) {
-				Console.Error.WriteLine ("File not found: " + protoPath);
-				return;						
+			//Currently the format is CodeGenerator.exe file1.proto [file1otherpath.cs] file2.proto [file2otherpath.cs]
+			//Output paths must end in .cs
+			
+			int argIndex = 0;
+			while (argIndex < args.Length) {
+				string protoPath = Path.GetFullPath (args [argIndex]);
+				argIndex += 1;
+				
+				if (File.Exists (protoPath) == false) {
+					Console.Error.WriteLine ("File not found: " + protoPath);
+					continue;
+				}
+
+				//Parse proto
+				Console.WriteLine ("Parsing " + protoPath);
+				Proto proto = ProtoParser.Parse (protoPath);
+				if (proto == null)
+					continue;
+				Console.WriteLine (proto);
+
+				//Interpret and reformat
+				ProtoPrepare.Prepare (proto);
+			
+				string codePath;
+				if (argIndex < args.Length && args [argIndex].EndsWith (".cs")) {
+					codePath = Path.GetFullPath (args [argIndex]);
+					argIndex += 1;					
+				} else {
+					string ext = Path.GetExtension (protoPath);
+					codePath = protoPath.Substring (0, protoPath.Length - ext.Length) + ".cs";
+				}
+
+				//Generate code
+				Console.WriteLine ("Generating code");
+				ProtoCode.Save (proto, new MessageCode (), codePath);
+				Console.WriteLine ("Saved: " + codePath);
 			}
-
-			//Parse proto
-			Console.WriteLine ("Parsing " + protoPath);
-			Proto proto = ProtoParser.Parse (protoPath);
-			if (proto == null)
-				return;
-			Console.WriteLine (proto);
-
-			//Interpret and reformat
-			ProtoPrepare.Prepare (proto);
-			
-			string codePath;
-			if (args.Length < 2) {
-				string ext = Path.GetExtension (protoPath);
-				codePath = protoPath.Substring (0, protoPath.Length - ext.Length) + ".cs";
-			} else
-				codePath = Path.GetFullPath (args [1]);
-
-			//Generate code
-			Console.WriteLine ("Generating code");
-			ProtoCode.Save (proto, new MessageCode (), codePath);
-			Console.WriteLine ("Saved: " + codePath);
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace ProtocolBuffers
 		
 		#endregion
 		
-		public string FullCSType {
+		public virtual string FullCSType {
 			get {
 				string path = CSType;
 				MessageEnumBase message = this;
