@@ -71,7 +71,13 @@ namespace ProtocolBuffers
 				MessageEnumBase pt = GetProtoType (m, f.ProtoTypeName);
 
 				if (pt == null)
-					throw new InvalidDataException ("Name not found: " + f.ProtoTypeName);
+				{
+					//Assumed to be a message defined elsewhere
+					f.ProtoType = ProtoTypes.Message;
+					f.WireType = Wire.LengthDelimited;
+					f.ProtoTypeMessage = new MessageName(m, f.ProtoTypeName);
+					f.OptionCustomType = f.ProtoTypeName;
+				}
 				if (pt is MessageEnum) {
 					f.ProtoType = ProtoTypes.Enum;
 					f.WireType = Wire.Varint;
