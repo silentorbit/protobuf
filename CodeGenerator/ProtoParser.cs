@@ -213,8 +213,7 @@ namespace ProtocolBuffers
 				if (val == "DateTime" || val == "TimeSpan") {
 					if (f.ProtoTypeName != "int64")
 						throw new ProtoFormatException ("DateTime and TimeSpan must be stored in int64. was " + f.ProtoTypeName);
-				} else
-					throw new ProtoFormatException ("Only codetype DateTime and TimeSpan is currently recognized.");
+				}
 				f.OptionCodeType = val;
 				break;
 			case "generate":

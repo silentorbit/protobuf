@@ -44,7 +44,8 @@ namespace ProtocolBuffers
 				case "TimeSpan":
 					return "new TimeSpan((long)ProtocolParser.ReadUInt64 (" + stream + "))";
 				default:
-					return f.OptionCodeType + ".Deserialize(" + GenerateFieldTypeReaderPrimitive (f, stream, instance) + ", " + instance + ")";
+					//Assume enum
+					return "(" + f.OptionCodeType + ")" + GenerateFieldTypeReaderPrimitive (f, stream, instance);
 				}
 			}
 			
@@ -89,9 +90,8 @@ namespace ProtocolBuffers
 			case ProtoTypes.Message:				
 				if (f.Rule == FieldRule.Repeated)
 					return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
-				else
-				{
-					if(instance == null)
+				else {
+					if (instance == null)
 						return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
 					else
 						return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
@@ -128,7 +128,7 @@ namespace ProtocolBuffers
 						break;
 					}
 					
-					code += "if(instance."+f.Name+" != null)\n";
+					code += "if(instance." + f.Name + " != null)\n";
 					code += "{\n";
 					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += "	using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
@@ -142,7 +142,7 @@ namespace ProtocolBuffers
 					code += "}\n";
 					return code;
 				} else {
-					code += "if(instance."+f.Name+" != null)\n";
+					code += "if(instance." + f.Name + " != null)\n";
 					code += "{\n";
 					code += "	foreach(" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
 					code += "	{\n";
@@ -198,8 +198,8 @@ namespace ProtocolBuffers
 				case "DateTime":
 				case "TimeSpan":
 					return "ProtocolParser.WriteUInt64 (" + stream + ", (ulong)" + instance + ".Ticks);\n";
-				default:
-					return f.OptionCodeType + ".Write(" + stream + ", " + instance + ");\n";
+				default: //enum
+					break;
 				}
 			}
 			
