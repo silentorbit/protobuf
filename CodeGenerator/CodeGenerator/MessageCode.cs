@@ -87,7 +87,10 @@ namespace ProtocolBuffers
 		
 		protected virtual string GenerateProperty (Field f)
 		{
-			return f.OptionAccess + " " + f.PropertyType + " " + f.Name + " { get; set; }";
+			if (f.OptionReadOnly)
+				return f.OptionAccess + " readonly " + f.PropertyType + " " + f.Name + " = new " + f.PropertyType + "();";
+			else
+				return f.OptionAccess + " " + f.PropertyType + " " + f.Name + " { get; set; }";
 		}
 	}
 }

@@ -44,6 +44,12 @@ namespace ProtocolBuffers
 		/// </summary>
 		public bool OptionGenerate = true;
 		
+		/// <summary>
+		/// Field is (c#)readonly.
+		/// Can be set to true if OptionGenerate=false and your own code 
+		/// </summary>
+		public bool OptionReadOnly = false;
+		
 		#endregion //Local options
 		
 		#endregion //.proto data

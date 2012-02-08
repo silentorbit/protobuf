@@ -25,10 +25,14 @@ namespace ProtocolBuffers
 				}
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
-					code += "if(instance." + f.Name + " == null)\n";
-					code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", null) + ";\n";
-					code += "else\n";
-					code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
+					if (f.OptionReadOnly)
+						code += GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
+					else {
+						code += "if(instance." + f.Name + " == null)\n";
+						code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", null) + ";\n";
+						code += "else\n";
+						code += "	" + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
+					}
 				} else
 					code += "instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 			}

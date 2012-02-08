@@ -99,4 +99,5 @@ message local_features
 	optional string Secret = 5 [access=protected];
 	optional string Internal = 6 [access=internal];
 	optional string PR = 7 [access=public];
+    optional my_message_v1 testing_read_only = 8 [readonly=true]; 
 }

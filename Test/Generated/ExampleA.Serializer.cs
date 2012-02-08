@@ -600,7 +600,7 @@ namespace Yours
 					if(instance.FieldU == null)
 						instance.FieldU = Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream));
 					else
-						instance.FieldU = Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream), instance.FieldU);
+						Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream), instance.FieldU);
 					break;
 				case 23:
 					instance.FieldV.Add(Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream)));
@@ -801,6 +801,9 @@ namespace ExampleNamespaceA
 				case 58: //Field 7 LengthDelimited
 					instance.PR = ProtocolParser.ReadString(stream);
 					break;
+				case 66: //Field 8 LengthDelimited
+					Mine.MyMessageV1.Deserialize(ProtocolParser.ReadBytes(stream), instance.TestingReadOnly);
+					break;
 				default:
 					key = ProtocolParser.ReadKey ((byte)keyByte, stream);
 					break;
@@ -860,6 +863,15 @@ namespace ExampleNamespaceA
 			{
 				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(7, Wire.LengthDelimited));
 				ProtocolParser.WriteString(stream, instance.PR);
+			}
+			if(instance.TestingReadOnly != null)
+			{
+				ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(8, Wire.LengthDelimited));
+				using(MemoryStream ms8 = new MemoryStream())
+				{
+					Mine.MyMessageV1.Serialize(ms8, instance.TestingReadOnly);
+					ProtocolParser.WriteBytes(stream, ms8.ToArray());
+				}
 			}
 		}
 		

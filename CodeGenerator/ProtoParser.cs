@@ -219,6 +219,9 @@ namespace ProtocolBuffers
 			case "generate":
 				f.OptionGenerate = Boolean.Parse (val);
 				break;
+			case "readonly":
+				f.OptionReadOnly = Boolean.Parse (val);
+				break;
 			default:
 				Console.WriteLine ("Warning: Unknown field option: " + key);
 				break;

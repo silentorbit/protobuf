@@ -111,6 +111,7 @@ namespace ExampleNamespaceA
 		protected string Secret { get; set; }
 		internal string Internal { get; set; }
 		public string PR { get; set; }
+		public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
 	
 		//protected virtual void BeforeSerialize() {}
 		//protected virtual void AfterDeserialize() {}

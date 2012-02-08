@@ -9,7 +9,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>Test</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,8 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="protobuf-net, Version=2.0.0.420, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="protobuf-net">
       <HintPath>Library\ProtoBuf-NET\protobuf-net.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -45,7 +43,6 @@
     <Compile Include="LocalFeatures.cs" />
     <Compile Include="Generated\ExampleA.cs" />
     <Compile Include="Generated\ExampleA.Serializer.cs" />
-    <Compile Include="Generated\ProtocolParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
