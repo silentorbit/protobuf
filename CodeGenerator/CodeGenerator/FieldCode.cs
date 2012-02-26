@@ -11,24 +11,23 @@ namespace ProtocolBuffers
 			string code = "";
 			if (f.Rule == FieldRule.Repeated) {
 				if (f.OptionPacked == true) {
-					code += "using(MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream)))\n";
-					code += "{\n";
+					code += "using (MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream))) {\n";
 					code += "	while(true)\n";
 					code += "	{\n";
-					code += "		if(ms" + f.ID + ".Position == ms" + f.ID + ".Length)\n";
+					code += "		if (ms" + f.ID + ".Position == ms" + f.ID + ".Length)\n";
 					code += "			break;\n";
-					code += "		instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "ms" + f.ID, "br", null) + ");\n";
+					code += "		instance." + f.Name + ".Add (" + GenerateFieldTypeReader (f, "ms" + f.ID, "br", null) + ");\n";
 					code += "	}\n";
 					code += "}\n";
 				} else {
-					code += "instance." + f.Name + ".Add(" + GenerateFieldTypeReader (f, "stream", "br", null) + ");\n";
+					code += "instance." + f.Name + ".Add (" + GenerateFieldTypeReader (f, "stream", "br", null) + ");\n";
 				}
 			} else {			
 				if (f.ProtoType == ProtoTypes.Message) {
 					if (f.OptionReadOnly)
 						code += GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
 					else {
-						code += "if(instance." + f.Name + " == null)\n";
+						code += "if (instance." + f.Name + " == null)\n";
 						code += "	instance." + f.Name + " = " + GenerateFieldTypeReader (f, "stream", "br", null) + ";\n";
 						code += "else\n";
 						code += "	" + GenerateFieldTypeReader (f, "stream", "br", "instance." + f.Name) + ";";
@@ -72,33 +71,33 @@ namespace ProtocolBuffers
 			case ProtoTypes.Sfixed64:
 				return "br.ReadInt64 ()";
 			case ProtoTypes.Int32:
-				return "(int)ProtocolParser.ReadUInt32(" + stream + ")";
+				return "(int)ProtocolParser.ReadUInt32 (" + stream + ")";
 			case ProtoTypes.Int64:
-				return "(long)ProtocolParser.ReadUInt64(" + stream + ")";
+				return "(long)ProtocolParser.ReadUInt64 (" + stream + ")";
 			case ProtoTypes.Uint32:
-				return "ProtocolParser.ReadUInt32(" + stream + ")";
+				return "ProtocolParser.ReadUInt32 (" + stream + ")";
 			case ProtoTypes.Uint64:
-				return "ProtocolParser.ReadUInt64(" + stream + ");";
+				return "ProtocolParser.ReadUInt64 (" + stream + ")";
 			case ProtoTypes.Sint32:
-				return "ProtocolParser.ReadSInt32(" + stream + ");";
+				return "ProtocolParser.ReadSInt32 (" + stream + ")";
 			case ProtoTypes.Sint64:
-				return "ProtocolParser.ReadSInt64(" + stream + ");";
+				return "ProtocolParser.ReadSInt64 (" + stream + ")";
 			case ProtoTypes.Bool:
-				return "ProtocolParser.ReadBool(" + stream + ")";
+				return "ProtocolParser.ReadBool (" + stream + ")";
 			case ProtoTypes.String:
-				return "ProtocolParser.ReadString(" + stream + ")";
+				return "ProtocolParser.ReadString (" + stream + ")";
 			case ProtoTypes.Bytes:
-				return "ProtocolParser.ReadBytes(" + stream + ")";
+				return "ProtocolParser.ReadBytes (" + stream + ")";
 			case ProtoTypes.Enum:
-				return "(" + f.PropertyItemType + ")ProtocolParser.ReadUInt32(" + stream + ")";
+				return "(" + f.PropertyItemType + ")ProtocolParser.ReadUInt32 (" + stream + ")";
 			case ProtoTypes.Message:				
 				if (f.Rule == FieldRule.Repeated)
-					return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
+					return f.FullPath + ".Deserialize (ProtocolParser.ReadBytes (" + stream + "))";
 				else {
 					if (instance == null)
-						return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
+						return f.FullPath + ".Deserialize (ProtocolParser.ReadBytes (" + stream + "))";
 					else
-						return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+						return f.FullPath + ".Deserialize (ProtocolParser.ReadBytes (" + stream + "), " + instance + ")";
 				}
 			default:
 				throw new NotImplementedException ();
@@ -132,25 +131,21 @@ namespace ProtocolBuffers
 						break;
 					}
 					
-					code += "if(instance." + f.Name + " != null)\n";
-					code += "{\n";
-					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
-					code += "	using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
+					code += "if (instance." + f.Name + " != null) {\n";
+					code += "	ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "	using (MemoryStream ms" + f.ID + " = new MemoryStream())\n";
 					code += "	{	" + binaryWriter + "\n";
-					code += "		foreach(" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
-					code += "		{\n";
+					code += "		foreach (" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ") {\n";
 					code += Code.Indent (3, GenerateFieldTypeWriter (f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID)) + "\n";
 					code += "		}\n";
-					code += "		ProtocolParser.WriteBytes(stream, ms" + f.ID + ".ToArray());\n";
+					code += "		ProtocolParser.WriteBytes (stream, ms" + f.ID + ".ToArray ());\n";
 					code += "	}\n";
 					code += "}\n";
 					return code;
 				} else {
-					code += "if(instance." + f.Name + " != null)\n";
-					code += "{\n";
-					code += "	foreach(" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ")\n";
-					code += "	{\n";
-					code += "		ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "if (instance." + f.Name + " != null) {\n";
+					code += "	foreach (" + f.PropertyItemType + " i" + f.ID + " in instance." + f.Name + ") {\n";
+					code += "		ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += Code.Indent (2, GenerateFieldTypeWriter (f, "stream", "bw", "i" + f.ID)) + "\n";
 					code += "	}\n";
 					code += "}\n";
@@ -161,21 +156,19 @@ namespace ProtocolBuffers
 				case ProtoTypes.String:
 				case ProtoTypes.Message:
 				case ProtoTypes.Bytes:
-					code += "if(instance." + f.Name + " != null)\n";
-					code += "{\n";
-					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "if (instance." + f.Name + " != null) {\n";
+					code += "	ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += Code.Indent (GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name));
 					code += "}\n";
 					return code;
 				case ProtoTypes.Enum:
-					code += "if(instance." + f.Name + " != " + f.PropertyItemType + "." + f.OptionDefault + ")\n";
-					code += "{\n";
-					code += "	ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "if (instance." + f.Name + " != " + f.PropertyItemType + "." + f.OptionDefault + ") {\n";
+					code += "	ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += Code.Indent (GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name));
 					code += "}\n";
 					return code;
 				default:
-					code += "ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+					code += "ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (" + f.ID + ", Wire." + f.WireType + "));\n";
 					code += GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name);
 					return code;
 				}
@@ -184,11 +177,11 @@ namespace ProtocolBuffers
 				case ProtoTypes.String:
 				case ProtoTypes.Message:
 				case ProtoTypes.Bytes:
-					code += "if(instance." + f.Name + " == null)\n";
-					code += "	throw new ArgumentNullException(\"" + f.Name + "\", \"Required by proto specification.\");\n";
+					code += "if (instance." + f.Name + " == null)\n";
+					code += "	throw new ArgumentNullException (\"" + f.Name + "\", \"Required by proto specification.\");\n";
 					break;
 				}
-				code += "ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));\n";
+				code += "ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (" + f.ID + ", Wire." + f.WireType + "));\n";
 				code += GenerateFieldTypeWriter (f, "stream", "bw", "instance." + f.Name);
 				return code;
 			}			
@@ -214,33 +207,32 @@ namespace ProtocolBuffers
 			case ProtoTypes.Fixed64:
 			case ProtoTypes.Sfixed32:
 			case ProtoTypes.Sfixed64:
-				return binaryWriter + ".Write(" + instance + ");\n";
+				return binaryWriter + ".Write (" + instance + ");\n";
 			case ProtoTypes.Int32:
-				return "ProtocolParser.WriteUInt32(" + stream + ", (uint)" + instance + ");\n";
+				return "ProtocolParser.WriteUInt32 (" + stream + ", (uint)" + instance + ");\n";
 			case ProtoTypes.Int64:
-				return "ProtocolParser.WriteUInt64(" + stream + ", (ulong)" + instance + ");\n";
+				return "ProtocolParser.WriteUInt64 (" + stream + ", (ulong)" + instance + ");\n";
 			case ProtoTypes.Uint32:
-				return "ProtocolParser.WriteUInt32(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteUInt32 (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.Uint64:
-				return "ProtocolParser.WriteUInt64(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteUInt64 (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.Sint32:
-				return "ProtocolParser.WriteSInt32(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteSInt32 (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.Sint64:
-				return "ProtocolParser.WriteSInt64(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteSInt64 (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.Bool:
-				return "ProtocolParser.WriteBool(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteBool (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.String:
-				return "ProtocolParser.WriteString(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteString (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.Bytes:
-				return "ProtocolParser.WriteBytes(" + stream + ", " + instance + ");\n";
+				return "ProtocolParser.WriteBytes (" + stream + ", " + instance + ");\n";
 			case ProtoTypes.Enum:
-				return "ProtocolParser.WriteUInt32(" + stream + ", (uint)" + instance + ");\n";
+				return "ProtocolParser.WriteUInt32 (" + stream + ", (uint)" + instance + ");\n";
 			case ProtoTypes.Message:				
 				string code = "";
-				code += "using(MemoryStream ms" + f.ID + " = new MemoryStream())\n";
-				code += "{\n";
-				code += "	" + f.FullPath + ".Serialize(ms" + f.ID + ", " + instance + ");\n";
-				code += "	ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());\n";
+				code += "using (MemoryStream ms" + f.ID + " = new MemoryStream()) {\n";
+				code += "	" + f.FullPath + ".Serialize (ms" + f.ID + ", " + instance + ");\n";
+				code += "	ProtocolParser.WriteBytes (" + stream + ", ms" + f.ID + ".ToArray ());\n";
 				code += "}\n";
 				return code;
 			default:

@@ -12,14 +12,13 @@ namespace ProtocolBuffers
 	{
 		public static byte[] GetBytes<T>(T instance)
 		{
-			using(MemoryStream ms = new MemoryStream())
+			using (MemoryStream ms = new MemoryStream())
 			{
 				Write(ms, instance);
 				return ms.ToArray();
 			}
 		}
 	}*/
-	
 	public static partial class ProtocolParser
 	{
 		
@@ -35,7 +34,7 @@ namespace ProtocolBuffers
 			
 			//Bytes
 			byte[] buffer = new byte[length];
-			if(length != 0)
+			if (length != 0)
 				stream.Read (buffer, 0, buffer.Length);
 			return buffer;
 		}

@@ -35,7 +35,7 @@ namespace ProtocolBuffers
 		{
 			string sep = "\n//";
 			code = sep + string.Join (sep, code.Split ('\n'));
-			return code.Substring (1).TrimEnd('/');
+			return code.Substring (1).TrimEnd ('/');
 		}
 	}
 }

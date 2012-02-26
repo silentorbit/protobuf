@@ -24,12 +24,11 @@ namespace ProtocolBuffers
 			}
 
 			code += Code.Indent (GenerateProperties (m));
-			code += "\n";
 			
 			if (m.OptionTriggers) {
 				code += Code.Indent (Code.Comment (
-					"protected virtual void BeforeSerialize() {}\n" +
-					"protected virtual void AfterDeserialize() {}\n"));
+					"protected virtual void BeforeSerialize () {}\n" +
+					"protected virtual void AfterDeserialize () {}\n"));
 				code += "\n";
 			}
 			
@@ -77,9 +76,9 @@ namespace ProtocolBuffers
 						code += Code.Prefix ("/// ", f.Comments) + "\n";
 						code += "/// </summary>\n";
 					}
-					code += GenerateProperty (f) + "\n";
+					code += GenerateProperty (f) + "\n\n";
 				} else {
-					code += "//" + GenerateProperty (f) + "	//Implemented by user elsewhere\n";
+					code += "//" + GenerateProperty (f) + "	//Implemented by user elsewhere\n\n";
 				}
 			}
 			return code;

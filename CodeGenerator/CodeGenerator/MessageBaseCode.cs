@@ -16,13 +16,13 @@ namespace ProtocolBuffers
 			code += m.OptionAccess + " abstract class " + m.CSType + "Base\n";
 			code += "{\n";
 			code += Code.Indent (GenerateProperties (m));
-			code += "\n";
+
 			if (m.OptionTriggers) {
-				code += "	protected virtual void BeforeSerialize()\n";
+				code += "	protected virtual void BeforeSerialize ()\n";
 				code += "	{\n";
 				code += "	}\n";
 				code += "\n";
-				code += "	protected virtual void AfterDeserialize()\n";
+				code += "	protected virtual void AfterDeserialize ()\n";
 				code += "	{\n";
 				code += "	}\n";
 			}
@@ -38,7 +38,6 @@ namespace ProtocolBuffers
 			}
 			#if !GENERATE_BASE
 			code += Code.Indent (GenerateProperties (m));
-			code += "\n";
 			#endif
 			
 			foreach (Message sub in m.Messages) {

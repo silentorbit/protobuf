@@ -25,7 +25,6 @@ namespace ProtocolBuffers
 				code += "\n";
 			}
 			code += Code.Indent (GenerateProperties (m));
-			code += "\n";
 			
 			foreach (Message sub in m.Messages) {
 				code += "\n";
