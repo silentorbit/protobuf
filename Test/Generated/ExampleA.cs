@@ -56,10 +56,14 @@ namespace Mine
 	public partial class MyMessageV1
 	{
 		/// <summary>
-		/// This field is important that is why we put the comment here
+		/// This field is important to comment as we just did here
 		/// </summary>
 		public int FieldA { get; set; }
 		
+		/// <summary>
+		/// Values for unknown fields.
+		/// </summary>
+		public List<ProtocolBuffers.KeyValue> PreservedFields;
 	}
 
 }
@@ -149,8 +153,14 @@ namespace ExampleNamespaceA
 		
 		public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
 		
+		/// <summary>
+		/// Values for unknown fields.
+		/// </summary>
+		public List<ProtocolBuffers.KeyValue> PreservedFields;
+	
 		//protected virtual void BeforeSerialize () {}
 		//protected virtual void AfterDeserialize () {}
+		//
 	}
 
 }

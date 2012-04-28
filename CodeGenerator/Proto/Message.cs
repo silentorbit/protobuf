@@ -17,6 +17,15 @@ namespace ProtocolBuffers
 		/// </summary>
 		public bool OptionTriggers { get; set; }
 
+		/// <summary>
+		/// Keep unknown fields when deserializing and send them back when serializing.
+		/// This will generate field to store any unknown keys and their value.
+		/// </summary>
+		public bool OptionPreserveUnknown { get; set; }
+
+		/// <summary>
+		/// (C#) access modifier: public(default)/protected/private
+		/// </summary>
 		public string OptionAccess {
 			get {
 				if (optionAccess != null)
@@ -37,6 +46,7 @@ namespace ProtocolBuffers
 			
 			this.OptionNamespace = null;
 			this.OptionTriggers = false;
+			this.OptionPreserveUnknown = false;
 		}
 		
 		public override string ToString ()

@@ -43,6 +43,7 @@
     <Compile Include="LocalFeatures.cs" />
     <Compile Include="Generated\ExampleA.cs" />
     <Compile Include="Generated\ExampleA.Serializer.cs" />
+    <Compile Include="MyMessageV2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

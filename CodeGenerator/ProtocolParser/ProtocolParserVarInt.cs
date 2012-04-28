@@ -20,6 +20,26 @@ namespace ProtocolBuffers
 			}
 		}
 		
+		public static byte[] ReadVarIntBytes (Stream stream)
+		{
+			byte[] buffer = new byte[10];
+			int offset = 0;
+			while (true) {
+				int b = stream.ReadByte ();
+				if (b < 0)
+					throw new IOException ("Stream ended too early");
+				buffer [offset] = (byte)b;
+				offset += 1;
+				if ((b & 0x80) == 0)
+					break; //end of varint
+				if (offset >= buffer.Length)
+					throw new InvalidDataException ("VarInt too long, more than 10 bytes");
+			}
+			byte[] ret = new byte[offset];
+			Array.Copy (buffer, ret, ret.Length);
+			return ret;
+		}
+		
 		#region VarInt: int32, uint32, sint32
 		
 		[Obsolete("Use (int)ReadUInt32 (stream);")]

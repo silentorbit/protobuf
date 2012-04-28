@@ -135,7 +135,13 @@ namespace ProtocolBuffers
 				code += "			break;\n";
 			}
 			code += "		default:\n";
-			code += "			ProtocolParser.SkipKey (stream, key);\n";
+			if (m.OptionPreserveUnknown) {
+				code += "			if(instance.PreservedFields == null)\n";
+				code += "				instance.PreservedFields = new List<KeyValue>();\n";
+				code += "			instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes (stream, key)));\n";
+			} else {
+				code += "			ProtocolParser.SkipKey (stream, key);\n";
+			}
 			code += "			break;\n";
 			code += "		}\n";
 			code += "	}\n";
@@ -184,11 +190,22 @@ namespace ProtocolBuffers
 				code += "	instance.BeforeSerialize ();\n";
 				code += "\n";
 			}
-			if (GenerateBinaryWriter (m))
+			if (IsUsingBinaryWriter (m))
 				code += "	BinaryWriter bw = new BinaryWriter(stream);\n";
 			
 			foreach (Field f in m.Fields.Values) {
 				code += Code.Indent (FieldCode.GenerateFieldWriter (m, f));
+			}
+			if (m.OptionPreserveUnknown) {
+				code += Code.Indent ("if (instance.PreservedFields != null)\n" +
+					"{\n" +
+					"	foreach (KeyValue kv in instance.PreservedFields)" +
+					"	{\n" +
+					"		ProtocolParser.WriteKey (stream, kv.Key);\n" +
+					"		stream.Write (kv.Value, 0, kv.Value.Length);\n" +
+					"	}\n" +
+					"}\n"
+				);
 			}
 			code += "}\n\n";
 			
@@ -204,7 +221,7 @@ namespace ProtocolBuffers
 		}
 		
 		/// <summary>
-		/// Generates code for writing a class/message
+		/// Generates code for writing a class as a protobuf message
 		/// </summary>
 		static string GenerateGenericWriter (Message m)
 		{
@@ -217,9 +234,9 @@ namespace ProtocolBuffers
 		}
 		
 		/// <summary>
-		/// Adds BinaryWriter only if it will be used
+		/// Determines if a BinaryWriter will be used
 		/// </summary>
-		static bool GenerateBinaryWriter (Message m)
+		static bool IsUsingBinaryWriter (Message m)
 		{
 			foreach (Field f in m.Fields.Values) {
 				if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64) {

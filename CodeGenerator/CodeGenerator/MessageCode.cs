@@ -9,11 +9,8 @@ namespace ProtocolBuffers
 			string code = "";
 
 			//Default class
-			if (m.Comments != null) {
-				code += "/// <summary>\n";
-				code += Code.Prefix ("/// ", m.Comments) + "\n";
-				code += "/// </summary>\n";
-			}
+			if (m.Comments != null)
+				code += Code.Summary (m.Comments);
 			code += m.OptionAccess + " partial class " + m.CSType + "\n";
 			code += "{\n";
 			
@@ -24,11 +21,19 @@ namespace ProtocolBuffers
 			}
 
 			code += Code.Indent (GenerateProperties (m));
+
+			if (m.OptionPreserveUnknown) {
+				code += Code.Indent (Code.Summary ("Values for unknown fields."));
+				code += Code.Indent ("public List<ProtocolBuffers.KeyValue> PreservedFields;\n");
+				code += "\n";
+			}
 			
 			if (m.OptionTriggers) {
 				code += Code.Indent (Code.Comment (
 					"protected virtual void BeforeSerialize () {}\n" +
-					"protected virtual void AfterDeserialize () {}\n"));
+					"protected virtual void AfterDeserialize () {}\n"
+				)
+				);
 				code += "\n";
 			}
 			
@@ -48,11 +53,8 @@ namespace ProtocolBuffers
 				code += "public enum " + me.CSType + "\n";
 				code += "{\n";
 				foreach (var epair in me.Enums) {
-					if (me.EnumsComments.ContainsKey (epair.Key)) {
-						code += "	/// <summary>\n";
-						code += Code.Prefix ("	/// ", me.EnumsComments [epair.Key]) + "\n";
-						code += "	/// </summary>\n";
-					}
+					if (me.EnumsComments.ContainsKey (epair.Key))
+						code += Code.Indent (Code.Summary (me.EnumsComments [epair.Key]));
 					code += "	" + epair.Key + " = " + epair.Value + ",\n";
 				}
 				code += "}\n";
@@ -71,11 +73,8 @@ namespace ProtocolBuffers
 			string code = "";
 			foreach (Field f in m.Fields.Values) {
 				if (f.OptionGenerate) {
-					if (f.Comments != null) {
-						code += "/// <summary>\n";
-						code += Code.Prefix ("/// ", f.Comments) + "\n";
-						code += "/// </summary>\n";
-					}
+					if (f.Comments != null) 
+						code += Code.Summary (f.Comments);
 					code += GenerateProperty (f) + "\n\n";
 				} else {
 					code += "//" + GenerateProperty (f) + "	//Implemented by user elsewhere\n\n";

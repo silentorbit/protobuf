@@ -7,18 +7,7 @@ using System.Text;
 // 
 namespace ProtocolBuffers
 {
-	/*
-	public static partial class Serializer
-	{
-		public static byte[] GetBytes<T>(T instance)
-		{
-			using (MemoryStream ms = new MemoryStream())
-			{
-				Write(ms, instance);
-				return ms.ToArray();
-			}
-		}
-	}*/
+
 	public static partial class ProtocolParser
 	{
 		

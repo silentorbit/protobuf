@@ -407,7 +407,9 @@ namespace Mine
 				case 0:
 					throw new InvalidDataException ("Invalid field id: 0, something went wrong in the stream");
 				default:
-					ProtocolParser.SkipKey (stream, key);
+					if(instance.PreservedFields == null)
+						instance.PreservedFields = new List<KeyValue>();
+					instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes (stream, key)));
 					break;
 				}
 			}
@@ -426,6 +428,13 @@ namespace Mine
 		{
 			ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (1, Wire.Varint));
 			ProtocolParser.WriteUInt32 (stream, (uint)instance.FieldA);
+			if (instance.PreservedFields != null)
+			{
+				foreach (KeyValue kv in instance.PreservedFields)	{
+					ProtocolParser.WriteKey (stream, kv.Key);
+					stream.Write (kv.Value, 0, kv.Value.Length);
+				}
+			}
 		}
 		
 		public static byte[] SerializeToBytes (MyMessageV1 instance)
@@ -786,7 +795,9 @@ namespace ExampleNamespaceA
 				case 0:
 					throw new InvalidDataException ("Invalid field id: 0, something went wrong in the stream");
 				default:
-					ProtocolParser.SkipKey (stream, key);
+					if(instance.PreservedFields == null)
+						instance.PreservedFields = new List<KeyValue>();
+					instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes (stream, key)));
 					break;
 				}
 			}
@@ -834,6 +845,13 @@ namespace ExampleNamespaceA
 				using (MemoryStream ms8 = new MemoryStream()) {
 					Mine.MyMessageV1.Serialize (ms8, instance.TestingReadOnly);
 					ProtocolParser.WriteBytes (stream, ms8.ToArray ());
+				}
+			}
+			if (instance.PreservedFields != null)
+			{
+				foreach (KeyValue kv in instance.PreservedFields)	{
+					ProtocolParser.WriteKey (stream, kv.Key);
+					stream.Write (kv.Value, 0, kv.Value.Length);
 				}
 			}
 		}

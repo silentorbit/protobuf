@@ -253,6 +253,9 @@ namespace ProtocolBuffers
 			case "triggers":
 				m.OptionTriggers = Boolean.Parse (value);
 				break;
+			case "preserveunknown":
+				m.OptionPreserveUnknown = Boolean.Parse (value);
+				break;
 			case "access":
 				m.OptionAccess = value;
 				break;

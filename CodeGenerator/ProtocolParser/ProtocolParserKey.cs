@@ -28,7 +28,23 @@ namespace ProtocolBuffers
 			this.WireType = wireType;				
 		}
 	}
-	
+
+	/// <summary>
+	/// Storage of unknown fields
+	/// </summary>
+	public class KeyValue
+	{
+		public Key Key { get; set; }
+
+		public byte[] Value { get; set; }
+		
+		public KeyValue (Key key, byte[] value)
+		{
+			this.Key = key;
+			this.Value = value;
+		}
+	}
+
 	public static partial class ProtocolParser
 	{
 		
@@ -51,7 +67,10 @@ namespace ProtocolBuffers
 			uint n = (key.Field << 3) | ((uint)key.WireType);
 			WriteUInt32 (stream, n);
 		}
-		
+
+		/// <summary>
+		/// Seek past the value for the previously read key.
+		/// </summary>
 		public static void SkipKey (Stream stream, Key key)
 		{
 			switch (key.WireType) {
@@ -71,6 +90,49 @@ namespace ProtocolBuffers
 				throw new NotImplementedException ("Unknown wire type: " + key.WireType);
 			}
 		}
+
+		/// <summary>
+		/// Read the value for an unknown key as bytes.
+		/// Used to preserve unknown keys during deserialization.
+		/// Requires the message option preserveunknown=true.
+		/// </summary>
+		public static byte[] ReadValueBytes (Stream stream, Key key)
+		{
+			byte[] b;
+			int offset = 0;
+				
+			switch (key.WireType) {
+			case Wire.Fixed32:
+				b = new byte[4];
+				while (offset < 4)
+					offset += stream.Read (b, offset, 4 - offset);
+				return b;
+			case Wire.Fixed64:
+				b = new byte[8];
+				while (offset < 8)
+					offset += stream.Read (b, offset, 8 - offset);
+				return b;
+			case Wire.LengthDelimited:
+				//Read and include length in value buffer
+				uint length = ProtocolParser.ReadUInt32 (stream); 
+				using (MemoryStream ms = new MemoryStream ()) {
+					ProtocolParser.WriteUInt32 (ms, length);
+					b = new byte[length + ms.Length];
+					ms.ToArray ().CopyTo (b, 0);
+					offset = (int)ms.Length;
+				}
+
+				//Read data into buffer
+				while (offset < b.Length)
+					offset += stream.Read (b, offset, b.Length - offset);
+				return b;
+			case Wire.Varint:
+				return ProtocolParser.ReadVarIntBytes (stream);
+			default:
+				throw new NotImplementedException ("Unknown wire type: " + key.WireType);
+			}
+		}
+
 	}
 }
 

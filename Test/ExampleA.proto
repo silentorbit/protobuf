@@ -29,18 +29,19 @@ message AddressBook {
 }
 
 //This will be ignored
-option file_option = "dobado";
+option unknown_file_option = "dobado";
 
 //This class is documented here:
 //With multiple lines
 message my_message_v1
 {
 	option namespace = "Mine";
+    option preserveunknown = true;
 
     //This will be ignored
-	option message_option = "dobado";
+	option unknown_message_option = "dobado";
 
-	//This field is important that is why we put the comment here
+	//This field is important to comment as we just did here
 	required int32 field_a = 1;
 }
 
@@ -92,6 +93,7 @@ message local_features
 {
 	option triggers = true;
 	option access = internal;
+    option preserveunknown = true;
 	required int64 Uptime = 1 [codetype=TimeSpan];
 	required int64 DueDate = 2 [codetype=DateTime];
 	required double Amount = 3 [generate=false];

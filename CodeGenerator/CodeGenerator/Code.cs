@@ -33,10 +33,15 @@ namespace ProtocolBuffers
 		
 		public static string Comment (string code)
 		{
-			string sep = "\n//";
-			code = sep + string.Join (sep, code.Split ('\n'));
-			return code.Substring (1).TrimEnd ('/');
+			return "//" + string.Join ("\n//", code.Split ('\n'));
+			;
 		}
+		
+		public static string Summary (string summary)
+		{
+			return "/// <summary>\n/// " + string.Join ("\n/// ", summary.Split ('\n')) + "\n/// </summary>\n";
+		}
+
 	}
 }
 
