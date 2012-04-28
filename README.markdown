@@ -96,8 +96,7 @@ You can contact me using phq@silentorbit.com .
 
 Public issues can also be submitted to the GitHub project page.
 
-# License
+# Licence, Apache License version 2.0
 
-All source code and generated code is licensed under GPLv3, see COPYING.GPLv3 for details.
-(Note that much of the generated code is a direct copy of the GPLv3 licenced code)
+All source code and generated code is licensed under the Apache License Version 2.0.
 
