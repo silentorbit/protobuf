@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public abstract class MessageEnumBase
+	abstract class MessageEnumBase
 	{
 		public Message Parent { get; set; }
 		

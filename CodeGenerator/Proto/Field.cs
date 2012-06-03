@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public class Field
+	class Field
 	{
 		#region .proto data
 		

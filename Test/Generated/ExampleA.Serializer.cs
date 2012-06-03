@@ -710,7 +710,7 @@ namespace Yours
 	
 
 }
-namespace ExampleNamespaceA
+namespace Local
 {
 	internal partial class LocalFeatures
 	{
@@ -727,28 +727,28 @@ namespace ExampleNamespaceA
 				return Deserialize (ms);
 		}
 		
-		internal static T Deserialize<T> (Stream stream) where T : ExampleNamespaceA.LocalFeatures, new()
+		internal static T Deserialize<T> (Stream stream) where T : Local.LocalFeatures, new()
 		{
 			T instance = new T ();
 			Deserialize (stream, instance);
 			return instance;
 		}
 		
-		internal static T Deserialize<T> (byte[] buffer) where T : ExampleNamespaceA.LocalFeatures, new()
+		internal static T Deserialize<T> (byte[] buffer) where T : Local.LocalFeatures, new()
 		{
 			T instance = new T ();
 			Deserialize (buffer, instance);
 			return instance;
 		}
 		
-		internal static ExampleNamespaceA.LocalFeatures Deserialize (byte[] buffer, ExampleNamespaceA.LocalFeatures instance)
+		internal static Local.LocalFeatures Deserialize (byte[] buffer, Local.LocalFeatures instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
 			return instance;
 		}
 		
-		internal static ExampleNamespaceA.LocalFeatures Deserialize (Stream stream, ExampleNamespaceA.LocalFeatures instance)
+		internal static Local.LocalFeatures Deserialize (Stream stream, Local.LocalFeatures instance)
 		{
 			BinaryReader br = new BinaryReader (stream);
 			while (true) {
@@ -806,7 +806,7 @@ namespace ExampleNamespaceA
 			return instance;
 		}
 		
-		internal static ExampleNamespaceA.LocalFeatures Read (byte[] buffer, ExampleNamespaceA.LocalFeatures instance)
+		internal static Local.LocalFeatures Read (byte[] buffer, Local.LocalFeatures instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
 				Deserialize (ms, instance);
@@ -957,21 +957,21 @@ namespace ProtocolBuffers
 			Yours.MyMessageV2.Serialize (stream, instance);
 		}
 
-		internal static ExampleNamespaceA.LocalFeatures Read (Stream stream, ExampleNamespaceA.LocalFeatures instance)
+		internal static Local.LocalFeatures Read (Stream stream, Local.LocalFeatures instance)
 		{
-			return ExampleNamespaceA.LocalFeatures.Deserialize (stream, instance);
+			return Local.LocalFeatures.Deserialize (stream, instance);
 		}
 		
-		internal static ExampleNamespaceA.LocalFeatures Read (byte[] buffer, ExampleNamespaceA.LocalFeatures instance)
+		internal static Local.LocalFeatures Read (byte[] buffer, Local.LocalFeatures instance)
 		{
 			using (MemoryStream ms = new MemoryStream(buffer))
-				ExampleNamespaceA.LocalFeatures.Deserialize (ms, instance);
+				Local.LocalFeatures.Deserialize (ms, instance);
 			return instance;
 		}
 		
-		internal static void Write (Stream stream, ExampleNamespaceA.LocalFeatures instance)
+		internal static void Write (Stream stream, Local.LocalFeatures instance)
 		{
-			ExampleNamespaceA.LocalFeatures.Serialize (stream, instance);
+			Local.LocalFeatures.Serialize (stream, instance);
 		}
 
 

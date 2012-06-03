@@ -133,16 +133,28 @@ namespace Yours
 	}
 
 }
-namespace ExampleNamespaceA
+namespace Local
 {
+	/// <summary>
+	/// This is a demonstration of features only present in ProtoBuf Code Generator
+	/// </summary>
 	internal partial class LocalFeatures
 	{
+		/// <summary>
+		/// Make class field of type TimeSpan, serialized to Ticks
+		/// </summary>
 		public TimeSpan Uptime { get; set; }
 		
+		/// <summary>
+		/// Make class field of type DateTime, serialized to Ticks
+		/// </summary>
 		public DateTime DueDate { get; set; }
 		
 		//public double Amount { get; set; }	//Implemented by user elsewhere
 		
+		/// <summary>
+		/// Custom field access types. Default: public
+		/// </summary>
 		private string Denial { get; set; }
 		
 		protected string Secret { get; set; }
@@ -151,6 +163,9 @@ namespace ExampleNamespaceA
 		
 		public string PR { get; set; }
 		
+		/// <summary>
+		/// Generate a c# readonly field
+		/// </summary>
 		public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
 		
 		/// <summary>

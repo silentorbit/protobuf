@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public static class FieldCode
+	static class FieldCode
 	{
 		#region Reader
 		

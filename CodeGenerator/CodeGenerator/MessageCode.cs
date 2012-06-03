@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public class MessageCode
+	class MessageCode
 	{
 		public virtual string GenerateClass (Message m)
 		{

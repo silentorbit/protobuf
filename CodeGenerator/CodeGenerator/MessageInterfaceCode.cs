@@ -7,7 +7,7 @@ namespace ProtocolBuffers
 	/// It represent a different approach working against interfaces.
 	/// This does require all fields to have access public or internal.
 	/// </summary>
-	public class MessageInterfaceCode : MessageCode
+	class MessageInterfaceCode : MessageCode
 	{
 		public override string GenerateClass (Message m)
 		{

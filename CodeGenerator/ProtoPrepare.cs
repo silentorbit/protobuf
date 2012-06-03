@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
-	public static class ProtoPrepare
+	static class ProtoPrepare
 	{
 		public static void Prepare (Proto proto)
 		{

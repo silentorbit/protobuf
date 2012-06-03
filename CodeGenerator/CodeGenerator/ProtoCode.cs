@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
-	public static class ProtoCode
+	static class ProtoCode
 	{
 		/// <summary>
 		/// Generate code for reading and writing protocol buffer messages

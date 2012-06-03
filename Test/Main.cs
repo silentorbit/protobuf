@@ -10,6 +10,7 @@ using Theirs;
 using Mine;
 using ProtocolBuffers;
 using ExampleNamespaceA;
+using Local;
 
 namespace Test
 {
@@ -54,7 +55,21 @@ namespace Test
 		/// </summary>
 		public static void TestZigZag ()
 		{
-			int[] test32 = new int[]{int.MinValue, int.MinValue + 1, - 4, -3, -2, -1, 0, 1, 2, 3, 4, int.MaxValue-1, int.MaxValue};
+			int[] test32 = new int[] {
+				int.MinValue,
+				int.MinValue + 1,
+				- 4,
+				-3,
+				-2,
+				-1,
+				0,
+				1,
+				2,
+				3,
+				4,
+				int.MaxValue - 1,
+				int.MaxValue
+			};
 			
 			for (int n = 0; n < test32.Length; n++) {
 				MemoryStream ms1 = new MemoryStream ();
@@ -74,7 +89,21 @@ namespace Test
 					throw new InvalidDataException ("Test failed");
 			}
 
-			long[] test64 = new long[]{long.MinValue, long.MinValue + 1, - 4, -3, -2, -1, 0, 1, 2, 3, 4, long.MaxValue-1, long.MaxValue};
+			long[] test64 = new long[] {
+				long.MinValue,
+				long.MinValue + 1,
+				- 4,
+				-3,
+				-2,
+				-1,
+				0,
+				1,
+				2,
+				3,
+				4,
+				long.MaxValue - 1,
+				long.MaxValue
+			};
 			
 			for (int n = 0; n < test32.Length; n++) {
 				MemoryStream ms1 = new MemoryStream ();
@@ -202,8 +231,8 @@ namespace Test
 			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.MOBILE, Number = "+46 11111111111"});
 			p1.Phone.Add (new Person.PhoneNumber (){ Type = Person.PhoneType.HOME, Number = "+46 777777777"});
 			MemoryStream ms1 = new MemoryStream ();
-			ProtocolBuffers.Serializer.Write (ms1, p1);
-			
+			Person.Serialize(ms1, p1);
+
 			MemoryStream ms2 = new MemoryStream (ms1.ToArray ());
 			NetPerson p2 = ProtoBuf.Serializer.Deserialize<NetPerson> (ms2);
 
@@ -276,13 +305,13 @@ namespace Test
 			DateTime start = DateTime.Now;
 			byte[] buffer = AddressBook.SerializeToBytes (ab);
 			TimeSpan serialize = DateTime.Now - start;
-			Console.WriteLine ("Speed test: Serialize in   " + serialize);
+			Console.WriteLine ("Speed test: Serialize 1000 posts in   " + serialize);
 
 			//Deserialize
 			start = DateTime.Now;
 			AddressBook.Deserialize (buffer);
 			TimeSpan deserialize = DateTime.Now - start;
-			Console.WriteLine ("Speed test: Deserialize in " + deserialize);
+			Console.WriteLine ("Speed test: Deserialize 1000 posts in " + deserialize);
 		}
 
 		public static void Test (string message, bool result)

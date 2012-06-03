@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ProtocolBuffers
 {
-	public static class ProtoParser
+	static class ProtoParser
 	{
 		public static Proto Parse (string path)
 		{

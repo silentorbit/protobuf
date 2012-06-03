@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ProtocolBuffers
 {
-	public class TokenReader
+	class TokenReader
 	{
 		readonly string whitespace = " \t\r\n";
 		readonly string singletoken = "{}=[];,";

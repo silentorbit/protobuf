@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public static class Code
+	static class Code
 	{	
 		/// <summary>
 		/// Code.Indent all lines in the code string with one tab

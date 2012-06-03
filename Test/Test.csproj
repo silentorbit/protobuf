@@ -20,6 +20,11 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe ExampleA.proto Generated/ExampleA.cs TestB/ExampleB.proto TestB/Generated/ExampleB.cs" workingdir="${ProjectDir}" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -50,6 +55,7 @@
     <None Include="ExampleA.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="csharpgen.proto" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated\" />
@@ -58,6 +64,10 @@
     <ProjectReference Include="TestB\TestB.csproj">
       <Project>{C068143A-07C2-48BE-9EDB-08A05E8153CF}</Project>
       <Name>TestB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj">
+      <Project>{108DF716-5E86-4515-836F-1AC211CA648B}</Project>
+      <Name>CodeGenerator</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

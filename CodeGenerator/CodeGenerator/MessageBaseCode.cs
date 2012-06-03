@@ -6,7 +6,7 @@ namespace ProtocolBuffers
 	/// This is currently not used.
 	/// This approach place all fields and template methods in a base class.
 	/// </summary>
-	public class MessageBaseCode : MessageCode
+	class MessageBaseCode : MessageCode
 	{
 		public override string GenerateClass (Message m)
 		{

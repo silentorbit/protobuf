@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator", "CodeGenerator\CodeGenerator.csproj", "{108DF716-5E86-4515-836F-1AC211CA648B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestB", "Test\TestB\TestB.csproj", "{C068143A-07C2-48BE-9EDB-08A05E8153CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,14 +17,21 @@ Global
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Debug|x86.Build.0 = Debug|x86
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Release|x86.ActiveCfg = Release|x86
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Release|x86.Build.0 = Release|x86
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Debug|x86.ActiveCfg = Debug|x86
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Debug|x86.Build.0 = Debug|x86
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Release|x86.ActiveCfg = Release|x86
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Release|x86.Build.0 = Release|x86
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = CodeGenerator\CodeGenerator.csproj
+		StartupItem = Test\Test.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.TabWidth = 4
 		$1.NoTabsAfterNonTabs = True
-		$1.RemoveTrailingWhitespace = True
 		$1.inheritsSet = Mono
 		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp

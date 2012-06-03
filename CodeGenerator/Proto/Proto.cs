@@ -7,7 +7,7 @@ namespace ProtocolBuffers
 	/// <summary>
 	/// Representation of a .proto file
 	/// </summary>
-	public class Proto : Message
+	class Proto : Message
 	{
 		public Proto () : base(null)
 		{

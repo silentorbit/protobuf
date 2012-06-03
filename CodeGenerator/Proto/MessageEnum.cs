@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
-	public class MessageEnum : MessageEnumBase
+	class MessageEnum : MessageEnumBase
 	{
 		public string Comments;
 		public Dictionary<string,int> Enums = new Dictionary<string, int> ();

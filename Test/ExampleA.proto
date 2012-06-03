@@ -89,17 +89,37 @@ message my_message_v2
 	repeated Theirs.TheirMessage field_v = 23;
 }
 
+//This is a demonstration of features only present in ProtoBuf Code Generator
 message local_features
 {
+    //Namespace for clas
+    option namespace = "Local";
+
+    //Call BeforeSerialize and AfterDeserialize
 	option triggers = true;
+    
+    //Change class access type. Default: public
 	option access = internal;
+    
+    //Store unrecognized fields during deserialization that
+    // will be written back when serializing the class
     option preserveunknown = true;
+    
+    //Make class field of type TimeSpan, serialized to Ticks
 	required int64 Uptime = 1 [codetype=TimeSpan];
+    
+    //Make class field of type DateTime, serialized to Ticks
 	required int64 DueDate = 2 [codetype=DateTime];
+    
+    //Do not generate class field, must be implemented in other partial class
 	required double Amount = 3 [generate=false];
+    
+    //Custom field access types. Default: public
 	optional string Denial = 4 [access=private];
 	optional string Secret = 5 [access=protected];
 	optional string Internal = 6 [access=internal];
 	optional string PR = 7 [access=public];
+    
+    //Generate a c# readonly field
     optional my_message_v1 testing_read_only = 8 [readonly=true]; 
 }

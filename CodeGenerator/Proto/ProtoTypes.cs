@@ -5,7 +5,7 @@ namespace ProtocolBuffers
 	/// <summary>
 	/// Types in .proto files plus message and enum
 	/// </summary>
-	public enum ProtoTypes
+	enum ProtoTypes
 	{
 		Unknown = 0,
 		Double, //		double	double

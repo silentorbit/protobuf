@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public class ProtoFormatException : Exception
+	class ProtoFormatException : Exception
 	{
 		public ProtoFormatException (string message) : base(message)
 		{

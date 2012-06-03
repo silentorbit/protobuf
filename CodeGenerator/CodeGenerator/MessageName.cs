@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public class MessageName : Message
+	class MessageName : Message
 	{
 		string path;
 		

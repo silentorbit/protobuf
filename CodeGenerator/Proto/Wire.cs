@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-	public enum Wire
+	enum Wire
 	{
 		Varint = 0,		//int32, int64, uint32, uint64, sint32, sint64, bool, enum
 		Fixed64 = 1,	//fixed64, sfixed64, double
