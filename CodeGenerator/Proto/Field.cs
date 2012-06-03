@@ -79,9 +79,6 @@ namespace ProtocolBuffers
         /// </summary>
         public Wire WireType { get; set; }
         
-        /// <summary>
-        /// C# type, interface
-        /// </summary>
         public string CSType { get; set; }
         
         /// <summary>
@@ -93,18 +90,26 @@ namespace ProtocolBuffers
         {
             get
             {
-                MessageEnumBase pt;
                 if (ProtoType == ProtoTypes.Message)
-                    pt = ProtoTypeMessage;
+                    return ProtoTypeMessage.FullCSType;
                 else if (ProtoType == ProtoTypes.Enum)
-                    pt = ProtoTypeEnum;
-                else
-                    throw new InvalidOperationException();
-            
-                return pt.Namespace + "." + pt.CSType;
+                    return ProtoTypeEnum.FullCSType;
+                throw new InvalidOperationException();
             }
         }
-        
+
+        public string FullSerializerPath
+        {
+            get
+            {
+                if (ProtoType == ProtoTypes.Message)
+                    return ProtoTypeMessage.FullSerializerType;
+                else if (ProtoType == ProtoTypes.Enum)
+                    return ProtoTypeEnum.FullCSType;
+                throw new InvalidOperationException();
+            }
+        }
+
         /// <summary>
         /// Generate full Interface path
         /// </summary>

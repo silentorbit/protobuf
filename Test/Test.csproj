@@ -49,6 +49,7 @@
     <Compile Include="Generated\ExampleA.cs" />
     <Compile Include="Generated\ExampleA.Serializer.cs" />
     <Compile Include="MyMessageV2.cs" />
+    <Compile Include="MyImplementeInterface.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

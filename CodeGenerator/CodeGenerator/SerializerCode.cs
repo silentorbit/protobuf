@@ -6,7 +6,15 @@ namespace ProtocolBuffers
     {
         public static void GenerateClassSerializer(Message m, CodeWriter cw)
         {
-            cw.Bracket(m.OptionAccess + " partial class " + m.CSType);
+            if (m.OptionExternal || m.OptionType == "interface")
+            {
+                //Don't make partial class of external classes or interfaces
+                //Make separate static class for them
+                cw.Bracket(m.OptionAccess + " static class " + " " + m.SerializerType);
+            } else
+            {
+                cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
+            }
 
             GenerateReader(m, cw);
 
@@ -21,51 +29,33 @@ namespace ProtocolBuffers
             return;
         }
         
-        public static void GenerateGenericClassSerializer(Message m, CodeWriter cw)
-        {
-            GenerateGenericReader(m, cw);
-            cw.WriteLine();
-            GenerateGenericWriter(m, cw);
-            foreach (Message sub in m.Messages)
-            {
-                cw.WriteLine();
-                GenerateGenericClassSerializer(sub, cw);
-            }
-            return;
-        }
-        
         static void GenerateReader(Message m, CodeWriter cw)
         {
-            cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(Stream stream)");
-            cw.WriteLine("" + m.CSType + " instance = new " + m.CSType + "();");
-            cw.WriteLine("Deserialize(stream, instance);");
-            cw.WriteLine("return instance;");
-            cw.EndBracketSpace();
+            string refstr = (m.OptionType == "struct") ? "ref " : "";
+
+            if (m.OptionType != "interface")
+            {
+                cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(Stream stream)");
+                cw.WriteLine(m.CSType + " instance = new " + m.CSType + "();");
+                cw.WriteLine("Deserialize(stream, " + refstr + "instance);");
+                cw.WriteLine("return instance;");
+                cw.EndBracketSpace();
             
-            cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(byte[] buffer)");
+                cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(byte[] buffer)");
+                cw.WriteLine(m.CSType + " instance = new " + m.CSType + "();");
+                cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+                cw.WriteLine("Deserialize(ms, " + refstr + "instance);");
+                cw.WriteLine("return instance;");
+                cw.EndBracketSpace();
+            }
+
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(byte[] buffer, " + refstr + m.FullCSType + " instance)");
             cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
-            cw.WriteIndent("return Deserialize(ms);");
-            cw.EndBracketSpace();
-            
-            cw.Bracket(m.OptionAccess + " static T Deserialize<T>(Stream stream) where T : " + m.FullCSType + ", new()");
-            cw.WriteLine("T instance = new T();");
-            cw.WriteLine("Deserialize(stream, instance);");
+            cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
             cw.WriteLine("return instance;");
             cw.EndBracketSpace();
             
-            cw.Bracket(m.OptionAccess + " static T Deserialize<T>(byte[] buffer) where T : " + m.FullCSType + ", new()");
-            cw.WriteLine("T instance = new T();");
-            cw.WriteLine("Deserialize(buffer, instance);");
-            cw.WriteLine("return instance;");
-            cw.EndBracketSpace();
-            
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(byte[] buffer, " + m.FullCSType + " instance)");
-            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
-            cw.WriteIndent("Deserialize(ms, instance);");
-            cw.WriteLine("return instance;");
-            cw.EndBracketSpace();
-            
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(Stream stream, " + m.FullCSType + " instance)");
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(Stream stream, " + refstr + m.FullCSType + " instance)");
             if (IsUsingBinaryWriter(m))
                 cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
 
@@ -137,7 +127,7 @@ namespace ProtocolBuffers
             cw.CaseDefault();
             if (m.OptionPreserveUnknown)
             {
-                cw.WriteLine("if(instance.PreservedFields == null)");
+                cw.WriteLine("if (instance.PreservedFields == null)");
                 cw.WriteIndent("instance.PreservedFields = new List<KeyValue>();");
                 cw.WriteLine("instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes(stream, key)));");
             } else
@@ -155,30 +145,10 @@ namespace ProtocolBuffers
             cw.EndBracket();
             cw.WriteLine();
 
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)");
-            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
-            cw.WriteIndent("Deserialize(ms, instance);");
-            cw.WriteLine("return instance;");
-            cw.EndBracket();
-
             cw.WriteLine();
             return;
         }
 
-        static void GenerateGenericReader(Message m, CodeWriter cw)
-        {
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Read(Stream stream, " + m.FullCSType + " instance)");
-            cw.WriteLine("return " + m.FullCSType + ".Deserialize(stream, instance);");
-            cw.EndBracket();
-            cw.WriteLine();
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)");
-            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
-            cw.WriteIndent(m.FullCSType + ".Deserialize(ms, instance);");
-            cw.WriteLine("return instance;");
-            cw.EndBracket();
-        }
-        
-        
         /// <summary>
         /// Generates code for writing a class/message
         /// </summary>
@@ -215,17 +185,7 @@ namespace ProtocolBuffers
             cw.EndBracket();
             cw.EndBracket();
         }
-        
-        /// <summary>
-        /// Generates code for writing a class as a protobuf message
-        /// </summary>
-        static void GenerateGenericWriter(Message m, CodeWriter cw)
-        {
-            cw.Bracket(m.OptionAccess + " static void Write(Stream stream, " + m.FullCSType + " instance)");
-            cw.WriteLine("" + m.FullCSType + ".Serialize(stream, instance);");
-            cw.EndBracket();
-        }
-        
+
         /// <summary>
         /// Determines if a BinaryWriter will be used
         /// </summary>

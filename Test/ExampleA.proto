@@ -122,4 +122,38 @@ message local_features
     
     //Generate a c# readonly field
     optional my_message_v1 testing_read_only = 8 [readonly=true]; 
+    
+    //When deserializing this one must be set to a class before
+    required interface_test MyInterface = 9;
+    optional struct_test MyStruct = 10;
+    optional external_struct MyExtStruct = 11;
+    optional external_class MyExtClass = 12;
+}
+
+//Testing local struct serialization
+message interface_test
+{
+    option type=interface;
+}
+
+//Testing local struct serialization
+message struct_test
+{
+    option type=struct;
+}
+
+//Testing external struct serialization
+message external_struct
+{
+    option namespace = TestB;
+    option type = struct;
+    option external = true;
+}
+
+
+//External sealed class test, we have no posibility to modify this one
+message external_class
+{
+    option namespace = TestB;
+    option external = true;
 }

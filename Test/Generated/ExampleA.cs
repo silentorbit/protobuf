@@ -147,6 +147,15 @@ namespace Local
         /// <summary>Generate a c# readonly field</summary>
         public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
 
+        /// <summary>When deserializing this one must be set to a class before</summary>
+        public ExampleNamespaceA.InterfaceTest MyInterface { get; set; }
+
+        public ExampleNamespaceA.StructTest MyStruct;
+
+        public TestB.ExternalStruct MyExtStruct;
+
+        public TestB.ExternalClass MyExtClass { get; set; }
+
         /// <summary>Values for unknown fields.</summary>
         public List<ProtocolBuffers.KeyValue> PreservedFields;
 
@@ -154,4 +163,28 @@ namespace Local
         // protected virtual void AfterDeserialize() {}
 
     }
+}
+namespace ExampleNamespaceA
+{
+    /// <summary>Testing local struct serialization</summary>
+    public partial interface InterfaceTest
+    {
+    }
+}
+namespace ExampleNamespaceA
+{
+    /// <summary>Testing local struct serialization</summary>
+    public partial struct StructTest
+    {
+    }
+}
+namespace TestB
+{
+    // Written elsewhere
+    // public partial struct ExternalStruct
+}
+namespace TestB
+{
+    // Written elsewhere
+    // public partial class ExternalClass
 }

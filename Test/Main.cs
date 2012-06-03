@@ -166,11 +166,15 @@ namespace Test
             local.PR = "Hi";
             local.Amount = Math.E;
             local.Deny("they exist");
+            local.MyInterface = new MyImplementeInterface();
             MemoryStream ms1 = new MemoryStream();
             LocalFeatures.Serialize(ms1, local);
             
             MemoryStream ms2 = new MemoryStream(ms1.ToArray());
-            LocalFeatures l2 = LocalFeatures.Deserialize(ms2);
+            LocalFeatures l2 = new LocalFeatures("Secret");
+            //Since this property is an interface AND required we must set it before calling Deserialize
+            l2.MyInterface = new MyImplementeInterface();
+            LocalFeatures.Deserialize(ms2, l2);
 
             //Test in Equals to have access to all fields
             Test("Local Features", local.Equals(l2));

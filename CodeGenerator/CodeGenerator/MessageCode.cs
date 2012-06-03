@@ -6,10 +6,18 @@ namespace ProtocolBuffers
     {
         public virtual void GenerateClass(Message m, CodeWriter cw)
         {
+            //Do not generate class code for external structs
+            if (m.OptionExternal)
+            {
+                cw.Comment("Written elsewhere");
+                cw.Comment(m.OptionAccess + " partial " + m.OptionType + " " + m.CSType);
+                return;
+            }
+
             //Default class
             if (m.Comments != null)
                 cw.Summary(m.Comments);
-            cw.Bracket(m.OptionAccess + " partial class " + m.CSType);
+            cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CSType);
 
             GenerateEnums(m, cw);
 
@@ -81,6 +89,8 @@ namespace ProtocolBuffers
         {
             if (f.OptionReadOnly)
                 return f.OptionAccess + " readonly " + f.PropertyType + " " + f.Name + " = new " + f.PropertyType + "();";
+            else if (f.ProtoTypeMessage != null && f.ProtoTypeMessage.OptionType == "struct")
+                return f.OptionAccess + " " + f.PropertyType + " " + f.Name + ";";
             else
                 return f.OptionAccess + " " + f.PropertyType + " " + f.Name + " { get; set; }";
         }

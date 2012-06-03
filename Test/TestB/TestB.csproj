@@ -41,6 +41,8 @@
     <Compile Include="Generated\ExampleB.cs" />
     <Compile Include="Generated\ExampleB.Serializer.cs" />
     <Compile Include="Generated\ProtocolParser.cs" />
+    <Compile Include="ExternalClass.cs" />
+    <Compile Include="ExternalStruct.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

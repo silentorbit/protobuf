@@ -9,7 +9,29 @@ namespace ProtocolBuffers
         public Dictionary<int, Field> Fields = new  Dictionary<int, Field>();
         public List<Message> Messages = new List<Message>();
         public List<MessageEnum> Enums = new List<MessageEnum>();
-        
+
+        public string SerializerType
+        {
+            get
+            {
+                if (this.OptionExternal || this.OptionType == "interface")
+                    return CSType + "Serializer";
+                else
+                    return CSType;
+            }
+        }
+
+        public string FullSerializerType
+        {
+            get
+            {
+                if (this.OptionExternal || this.OptionType == "interface")
+                    return FullCSType + "Serializer";
+                else
+                    return FullCSType;
+            }
+        }
+
         #region Local options
         
         /// <summary>
@@ -34,9 +56,9 @@ namespace ProtocolBuffers
         public bool OptionExternal { get; set; }
 
         /// <summary>
-        /// Make message a struct rather than a class
+        /// Can be "class", "struct" or "interface"
         /// </summary>
-        public bool OptionStruct { get; set; }
+        public string OptionType { get; set; }
 
         #endregion
         
@@ -49,7 +71,7 @@ namespace ProtocolBuffers
             this.OptionTriggers = false;
             this.OptionPreserveUnknown = false;
             this.OptionExternal = false;
-            this.OptionStruct = false;
+            this.OptionType = "class";
         }
         
         public override string ToString()

@@ -10,11 +10,18 @@ namespace ProtocolBuffers
         {
             if (f.Rule == FieldRule.Repeated)
             {
+                //Make sure we are not reading a list of interfaces
+                if (f.ProtoTypeMessage != null && f.ProtoTypeMessage.OptionType == "interface")
+                {
+                    cw.WriteLine("throw new InvalidOperationException(\"Can't deserialize a list of interfaces\");");
+                    return;
+                }
+
                 if (f.OptionPacked == true)
                 {
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream))");
                     cw.WhileBracket("true");
-                    cw.WriteLine("if(ms" + f.ID + ".Position == ms" + f.ID + ".Length)");
+                    cw.WriteLine("if (ms" + f.ID + ".Position == ms" + f.ID + ".Length)");
                     cw.WriteIndent("break;");
                     cw.WriteLine("instance." + f.Name + ".Add(" + GenerateFieldTypeReader(f, "ms" + f.ID, "br", null) + ");");
                     cw.EndBracket();
@@ -31,10 +38,19 @@ namespace ProtocolBuffers
                         cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
                     else
                     {
-                        cw.WriteLine("if(instance." + f.Name + " == null)");
-                        cw.WriteIndent("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
+                        if (f.ProtoTypeMessage.OptionType == "struct")
+                        {
+                            cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "ref instance." + f.Name) + ";");
+                            return;
+                        }
+
+                        cw.WriteLine("if (instance." + f.Name + " == null)");
+                        if (f.ProtoTypeMessage.OptionType == "interface")
+                            cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a interfaces null pointer\");");
+                        else
+                            cw.WriteIndent("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
                         cw.WriteLine("else");
-                        cw.WriteIndent("" + GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
+                        cw.WriteIndent(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
                     }
                 } else
                     cw.WriteLine("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
@@ -97,15 +113,10 @@ namespace ProtocolBuffers
                 case ProtoTypes.Enum:
                     return "(" + f.PropertyItemType + ")ProtocolParser.ReadUInt32(" + stream + ")";
                 case ProtoTypes.Message:                
-                    if (f.Rule == FieldRule.Repeated)
-                        return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
+                    if (f.Rule == FieldRule.Repeated || instance == null)
+                        return f.FullSerializerPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
                     else
-                    {
-                        if (instance == null)
-                            return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
-                        else
-                            return f.FullPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
-                    }
+                        return f.FullSerializerPath + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
                 default:
                     throw new NotImplementedException();
             }
@@ -164,10 +175,13 @@ namespace ProtocolBuffers
                     case ProtoTypes.String:
                     case ProtoTypes.Message:
                     case ProtoTypes.Bytes:
-                        cw.IfBracket("instance." + f.Name + " != null");
+                        //Struct always exist, not optional
+                        if(f.ProtoTypeMessage == null || f.ProtoTypeMessage.OptionType != "struct")
+                            cw.IfBracket("instance." + f.Name + " != null");
                         cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.WireType + "));");
                         cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
-                        cw.EndBracket();
+                        if(f.ProtoTypeMessage == null || f.ProtoTypeMessage.OptionType != "struct")
+                            cw.EndBracket();
                         return;
                     case ProtoTypes.Enum:
                         cw.IfBracket("instance." + f.Name + " != " + f.PropertyItemType + "." + f.OptionDefault);
@@ -187,7 +201,9 @@ namespace ProtocolBuffers
                     case ProtoTypes.String:
                     case ProtoTypes.Message:
                     case ProtoTypes.Bytes:
-                        cw.WriteLine("if(instance." + f.Name + " == null)");
+                        if (f.ProtoType == ProtoTypes.Message && f.ProtoTypeMessage.OptionType == "struct")
+                            break;
+                        cw.WriteLine("if (instance." + f.Name + " == null)");
                         cw.WriteIndent("throw new ArgumentNullException(\"" + f.Name + "\", \"Required by proto specification.\");");
                         break;
                 }
@@ -244,7 +260,7 @@ namespace ProtocolBuffers
                 case ProtoTypes.Message: 
                     CodeWriter cw = new CodeWriter();
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream()");
-                    cw.WriteLine(f.FullPath + ".Serialize(ms" + f.ID + ", " + instance + ");");
+                    cw.WriteLine(f.FullSerializerPath + ".Serialize(ms" + f.ID + ", " + instance + ");");
                     cw.WriteLine("ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());");
                     cw.EndBracket();
                     return cw.Code;

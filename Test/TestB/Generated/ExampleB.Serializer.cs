@@ -24,21 +24,9 @@ namespace Theirs
 
         public static TheirMessage Deserialize(byte[] buffer)
         {
+            TheirMessage instance = new TheirMessage();
             using (MemoryStream ms = new MemoryStream(buffer))
-                return Deserialize(ms);
-        }
-
-        public static T Deserialize<T>(Stream stream) where T : Theirs.TheirMessage, new()
-        {
-            T instance = new T();
-            Deserialize(stream, instance);
-            return instance;
-        }
-
-        public static T Deserialize<T>(byte[] buffer) where T : Theirs.TheirMessage, new()
-        {
-            T instance = new T();
-            Deserialize(buffer, instance);
+            Deserialize(ms, instance);
             return instance;
         }
 
@@ -86,12 +74,6 @@ namespace Theirs
             return instance;
         }
 
-        public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
-        {
-            using (MemoryStream ms = new MemoryStream(buffer))
-                Deserialize(ms, instance);
-            return instance;
-        }
 
         public static void Serialize(Stream stream, TheirMessage instance)
         {
@@ -109,28 +91,4 @@ namespace Theirs
         }
     }
 
-}
-
-namespace ProtocolBuffers
-{
-    public static partial class Serializer
-    {
-public static Theirs.TheirMessage Read(Stream stream, Theirs.TheirMessage instance)
-{
-    return Theirs.TheirMessage.Deserialize(stream, instance);
-}
-
-public static Theirs.TheirMessage Read(byte[] buffer, Theirs.TheirMessage instance)
-{
-    using (MemoryStream ms = new MemoryStream(buffer))
-        Theirs.TheirMessage.Deserialize(ms, instance);
-    return instance;
-}
-
-public static void Write(Stream stream, Theirs.TheirMessage instance)
-{
-    Theirs.TheirMessage.Serialize(stream, instance);
-}
-
-    }
 }

@@ -98,11 +98,7 @@ namespace ProtocolBuffers
                     if (pt is Message)
                     {
                         f.CSClass = cc;
-#if GENERATE_INTERFACE
-                    f.CSType += "I" + cc;
-#else
                         f.CSType += cc;
-#endif
                         break;
                     } else
                         f.CSType = cc;

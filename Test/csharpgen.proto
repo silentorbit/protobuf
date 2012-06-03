@@ -29,8 +29,8 @@ extend google.protobuf.MessageOptions {
     //Usefule when serializing classes from a third party DLL
     optional bool external = 50004 [default=false];
 
-    //Make Object is a struct rather than a class
-    optional bool struct = 50005 [default=false];
+    //Make object a class, struct or interface
+    optional string type = 50005 [default=class];
 }
 
 extend google.protobuf.FieldOptions {

@@ -277,8 +277,11 @@ namespace ProtocolBuffers
                 case "external":
                     m.OptionExternal = Boolean.Parse(value);
                     break;
-                case "struct":
-                    m.OptionStruct = Boolean.Parse(value);
+                case "type":
+                    if (value == "class" || value == "struct" || value == "interface")
+                        m.OptionType = value;
+                    else
+                        throw new InvalidDataException("Unknown type, user one of: class(default), struct or interface");
                     break;
                 default:
                     Console.WriteLine("Warning: Unknown option: " + key);
