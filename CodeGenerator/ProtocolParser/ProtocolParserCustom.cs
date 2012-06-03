@@ -3,9 +3,9 @@ using System.IO;
 
 namespace ProtocolBuffers
 {
-	public static partial class ProtocolParser
-	{
+    public static partial class ProtocolParser
+    {
 
-	}
+    }
 }
 

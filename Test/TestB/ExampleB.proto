@@ -6,7 +6,7 @@ package ExampleNamespaceB;
 //This message is referenced in ExampleA which is compiled into another project
 message their_message
 {
-	option namespace = "Theirs";
-	
-	required int32 field_a = 1;
+    option namespace = "Theirs";
+ 
+    required int32 field_a = 1;
 }
