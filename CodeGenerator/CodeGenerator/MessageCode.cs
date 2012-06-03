@@ -61,7 +61,7 @@ namespace ProtocolBuffers
                 {
                     if (me.EnumsComments.ContainsKey(epair.Key))
                         code += Code.Indent(Code.Summary(me.EnumsComments [epair.Key]));
-                    code += "   " + epair.Key + " = " + epair.Value + ",\n";
+                    code += Code.Indent(epair.Key + " = " + epair.Value + ",\n");
                 }
                 code += "}\n";
             }

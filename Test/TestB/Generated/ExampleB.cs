@@ -16,7 +16,6 @@ namespace Theirs
     public partial class TheirMessage
     {
         public int FieldA { get; set; }
-        
     }
 
 }

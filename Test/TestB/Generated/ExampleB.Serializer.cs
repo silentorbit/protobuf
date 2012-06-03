@@ -15,40 +15,40 @@ namespace Theirs
 {
     public partial class TheirMessage
     {
-        public static TheirMessage Deserialize (Stream stream)
+        public static TheirMessage Deserialize(Stream stream)
         {
-           TheirMessage instance = new TheirMessage ();
-           Deserialize (stream, instance);
-           return instance;
+            TheirMessage instance = new TheirMessage();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static TheirMessage Deserialize (byte[] buffer)
+
+        public static TheirMessage Deserialize(byte[] buffer)
         {
-           using (MemoryStream ms = new MemoryStream(buffer))
-               return Deserialize (ms);
+            using (MemoryStream ms = new MemoryStream(buffer))
+                return Deserialize(ms);
         }
-        
+
         public static T Deserialize<T> (Stream stream) where T : Theirs.TheirMessage, new()
         {
-           T instance = new T ();
-           Deserialize (stream, instance);
-           return instance;
+            T instance = new T();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static T Deserialize<T> (byte[] buffer) where T : Theirs.TheirMessage, new()
+
+        public static T Deserialize<T>(byte[] buffer) where T : Theirs.TheirMessage, new()
         {
-           T instance = new T ();
-           Deserialize (buffer, instance);
-           return instance;
+            T instance = new T();
+            Deserialize (buffer, instance);
+            return instance;
         }
-        
+
         public static Theirs.TheirMessage Deserialize (byte[] buffer, Theirs.TheirMessage instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static Theirs.TheirMessage Deserialize (Stream stream, Theirs.TheirMessage instance)
         {
            while (true) {
@@ -65,10 +65,10 @@ namespace Theirs
                    key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                    break;
                }
-        
+
                if (key == null)
                    continue;
-        
+
                //Reading field ID > 16 and unknown field ID/wire type combinations
                switch (key.Field) {
                case 0:
@@ -78,23 +78,23 @@ namespace Theirs
                    break;
                }
            }
-           
+
            return instance;
         }
-        
+
         public static Theirs.TheirMessage Read (byte[] buffer, Theirs.TheirMessage instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-    
+
         public static void Serialize (Stream stream, TheirMessage instance)
         {
             ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (1, Wire.Varint));
             ProtocolParser.WriteUInt32 (stream, (uint)instance.FieldA);
         }
-        
+
         public static byte[] SerializeToBytes (TheirMessage instance)
         {
            using (MemoryStream ms = new MemoryStream()) {
@@ -103,7 +103,7 @@ namespace Theirs
            }
         }
     }
-    
+
 
 }
 
@@ -115,14 +115,14 @@ namespace ProtocolBuffers
         {
            return Theirs.TheirMessage.Deserialize (stream, instance);
         }
-        
+
         public static Theirs.TheirMessage Read (byte[] buffer, Theirs.TheirMessage instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Theirs.TheirMessage.Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static void Write (Stream stream, Theirs.TheirMessage instance)
         {
            Theirs.TheirMessage.Serialize (stream, instance);

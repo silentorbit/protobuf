@@ -17,18 +17,19 @@ namespace ProtocolBuffers
         /// </summary>
         public static string Indent(int tabs, string code)
         {
-            string sep = "\n";
+            string sep = "";
             for (int n = 0; n < tabs; n++)
                 sep += "    ";
-            code = sep + string.Join(sep, code.Split('\n'));
-            return code.Substring(1).TrimEnd(' ');         
+            return Prefix(sep, code);
         }
         
         public static string Prefix(string prefix, string code)
         {
             string sep = "\n" + prefix;
-            code = sep + string.Join(sep, code.Split('\n'));
-            return code.Substring(1);
+            string prefixedCode = "";
+            foreach(string line in code.Split('\n'))
+                prefixedCode += (sep + line).TrimEnd(' ');
+            return prefixedCode.Substring(1);
         }
         
         public static string Comment(string code)

@@ -15,40 +15,40 @@ namespace Personal
 {
     public partial class Person
     {
-        public static Person Deserialize (Stream stream)
+        public static Person Deserialize(Stream stream)
         {
-           Person instance = new Person ();
-           Deserialize (stream, instance);
-           return instance;
+            Person instance = new Person();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static Person Deserialize (byte[] buffer)
+
+        public static Person Deserialize(byte[] buffer)
         {
-           using (MemoryStream ms = new MemoryStream(buffer))
-               return Deserialize (ms);
+            using (MemoryStream ms = new MemoryStream(buffer))
+                return Deserialize(ms);
         }
-        
+
         public static T Deserialize<T> (Stream stream) where T : Personal.Person, new()
         {
-           T instance = new T ();
-           Deserialize (stream, instance);
-           return instance;
+            T instance = new T();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static T Deserialize<T> (byte[] buffer) where T : Personal.Person, new()
+
+        public static T Deserialize<T>(byte[] buffer) where T : Personal.Person, new()
         {
-           T instance = new T ();
-           Deserialize (buffer, instance);
-           return instance;
+            T instance = new T();
+            Deserialize (buffer, instance);
+            return instance;
         }
-        
+
         public static Personal.Person Deserialize (byte[] buffer, Personal.Person instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static Personal.Person Deserialize (Stream stream, Personal.Person instance)
         {
            if (instance.Phone == null)
@@ -71,16 +71,16 @@ namespace Personal
                    break;
                case 34: //Field 4 LengthDelimited
                     instance.Phone.Add (Personal.Person.PhoneNumber.Deserialize (ProtocolParser.ReadBytes (stream)));
-        
+
                    break;
                default:
                    key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                    break;
                }
-        
+
                if (key == null)
                    continue;
-        
+
                //Reading field ID > 16 and unknown field ID/wire type combinations
                switch (key.Field) {
                case 0:
@@ -90,17 +90,17 @@ namespace Personal
                    break;
                }
            }
-           
+
            return instance;
         }
-        
+
         public static Personal.Person Read (byte[] buffer, Personal.Person instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-    
+
         public static void Serialize (Stream stream, Person instance)
         {
             if (instance.Name == null)
@@ -120,11 +120,11 @@ namespace Personal
                        Personal.Person.PhoneNumber.Serialize (ms4, i4);
                        ProtocolParser.WriteBytes (stream, ms4.ToArray ());
                     }
-            
+
                }
             }
         }
-        
+
         public static byte[] SerializeToBytes (Person instance)
         {
            using (MemoryStream ms = new MemoryStream()) {
@@ -132,43 +132,43 @@ namespace Personal
                return ms.ToArray ();
            }
         }
-    
+
         public partial class PhoneNumber
         {
-            public static PhoneNumber Deserialize (Stream stream)
+            public static PhoneNumber Deserialize(Stream stream)
             {
-               PhoneNumber instance = new PhoneNumber ();
-               Deserialize (stream, instance);
-               return instance;
+                PhoneNumber instance = new PhoneNumber();
+                Deserialize(stream, instance);
+                return instance;
             }
-            
-            public static PhoneNumber Deserialize (byte[] buffer)
+
+            public static PhoneNumber Deserialize(byte[] buffer)
             {
-               using (MemoryStream ms = new MemoryStream(buffer))
-                   return Deserialize (ms);
+                using (MemoryStream ms = new MemoryStream(buffer))
+                    return Deserialize(ms);
             }
-            
+
             public static T Deserialize<T> (Stream stream) where T : Personal.Person.PhoneNumber, new()
             {
-               T instance = new T ();
-               Deserialize (stream, instance);
-               return instance;
+                T instance = new T();
+                Deserialize(stream, instance);
+                return instance;
             }
-            
-            public static T Deserialize<T> (byte[] buffer) where T : Personal.Person.PhoneNumber, new()
+
+            public static T Deserialize<T>(byte[] buffer) where T : Personal.Person.PhoneNumber, new()
             {
-               T instance = new T ();
-               Deserialize (buffer, instance);
-               return instance;
+                T instance = new T();
+                Deserialize (buffer, instance);
+                return instance;
             }
-            
+
             public static Personal.Person.PhoneNumber Deserialize (byte[] buffer, Personal.Person.PhoneNumber instance)
             {
                using (MemoryStream ms = new MemoryStream(buffer))
                    Deserialize (ms, instance);
                return instance;
             }
-            
+
             public static Personal.Person.PhoneNumber Deserialize (Stream stream, Personal.Person.PhoneNumber instance)
             {
                instance.Type = Personal.Person.PhoneType.HOME;
@@ -189,10 +189,10 @@ namespace Personal
                        key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                        break;
                    }
-            
+
                    if (key == null)
                        continue;
-            
+
                    //Reading field ID > 16 and unknown field ID/wire type combinations
                    switch (key.Field) {
                    case 0:
@@ -202,17 +202,17 @@ namespace Personal
                        break;
                    }
                }
-               
+
                return instance;
             }
-            
+
             public static Personal.Person.PhoneNumber Read (byte[] buffer, Personal.Person.PhoneNumber instance)
             {
                using (MemoryStream ms = new MemoryStream(buffer))
                    Deserialize (ms, instance);
                return instance;
             }
-        
+
             public static void Serialize (Stream stream, PhoneNumber instance)
             {
                 if (instance.Number == null)
@@ -224,7 +224,7 @@ namespace Personal
                     ProtocolParser.WriteUInt32 (stream, (uint)instance.Type);
                 }
             }
-            
+
             public static byte[] SerializeToBytes (PhoneNumber instance)
             {
                using (MemoryStream ms = new MemoryStream()) {
@@ -233,49 +233,49 @@ namespace Personal
                }
             }
         }
-        
+
     }
-    
+
 
 }
 namespace ExampleNamespaceA
 {
     public partial class AddressBook
     {
-        public static AddressBook Deserialize (Stream stream)
+        public static AddressBook Deserialize(Stream stream)
         {
-           AddressBook instance = new AddressBook ();
-           Deserialize (stream, instance);
-           return instance;
+            AddressBook instance = new AddressBook();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static AddressBook Deserialize (byte[] buffer)
+
+        public static AddressBook Deserialize(byte[] buffer)
         {
-           using (MemoryStream ms = new MemoryStream(buffer))
-               return Deserialize (ms);
+            using (MemoryStream ms = new MemoryStream(buffer))
+                return Deserialize(ms);
         }
-        
+
         public static T Deserialize<T> (Stream stream) where T : ExampleNamespaceA.AddressBook, new()
         {
-           T instance = new T ();
-           Deserialize (stream, instance);
-           return instance;
+            T instance = new T();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static T Deserialize<T> (byte[] buffer) where T : ExampleNamespaceA.AddressBook, new()
+
+        public static T Deserialize<T>(byte[] buffer) where T : ExampleNamespaceA.AddressBook, new()
         {
-           T instance = new T ();
-           Deserialize (buffer, instance);
-           return instance;
+            T instance = new T();
+            Deserialize (buffer, instance);
+            return instance;
         }
-        
+
         public static ExampleNamespaceA.AddressBook Deserialize (byte[] buffer, ExampleNamespaceA.AddressBook instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static ExampleNamespaceA.AddressBook Deserialize (Stream stream, ExampleNamespaceA.AddressBook instance)
         {
            if (instance.List == null)
@@ -289,16 +289,16 @@ namespace ExampleNamespaceA
                switch (keyByte) {
                case 10: //Field 1 LengthDelimited
                     instance.List.Add (Personal.Person.Deserialize (ProtocolParser.ReadBytes (stream)));
-        
+
                    break;
                default:
                    key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                    break;
                }
-        
+
                if (key == null)
                    continue;
-        
+
                //Reading field ID > 16 and unknown field ID/wire type combinations
                switch (key.Field) {
                case 0:
@@ -308,17 +308,17 @@ namespace ExampleNamespaceA
                    break;
                }
            }
-           
+
            return instance;
         }
-        
+
         public static ExampleNamespaceA.AddressBook Read (byte[] buffer, ExampleNamespaceA.AddressBook instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-    
+
         public static void Serialize (Stream stream, AddressBook instance)
         {
             if (instance.List != null) {
@@ -328,11 +328,11 @@ namespace ExampleNamespaceA
                        Personal.Person.Serialize (ms1, i1);
                        ProtocolParser.WriteBytes (stream, ms1.ToArray ());
                     }
-            
+
                }
             }
         }
-        
+
         public static byte[] SerializeToBytes (AddressBook instance)
         {
            using (MemoryStream ms = new MemoryStream()) {
@@ -341,47 +341,47 @@ namespace ExampleNamespaceA
            }
         }
     }
-    
+
 
 }
 namespace Mine
 {
     public partial class MyMessageV1
     {
-        public static MyMessageV1 Deserialize (Stream stream)
+        public static MyMessageV1 Deserialize(Stream stream)
         {
-           MyMessageV1 instance = new MyMessageV1 ();
-           Deserialize (stream, instance);
-           return instance;
+            MyMessageV1 instance = new MyMessageV1();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static MyMessageV1 Deserialize (byte[] buffer)
+
+        public static MyMessageV1 Deserialize(byte[] buffer)
         {
-           using (MemoryStream ms = new MemoryStream(buffer))
-               return Deserialize (ms);
+            using (MemoryStream ms = new MemoryStream(buffer))
+                return Deserialize(ms);
         }
-        
+
         public static T Deserialize<T> (Stream stream) where T : Mine.MyMessageV1, new()
         {
-           T instance = new T ();
-           Deserialize (stream, instance);
-           return instance;
+            T instance = new T();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static T Deserialize<T> (byte[] buffer) where T : Mine.MyMessageV1, new()
+
+        public static T Deserialize<T>(byte[] buffer) where T : Mine.MyMessageV1, new()
         {
-           T instance = new T ();
-           Deserialize (buffer, instance);
-           return instance;
+            T instance = new T();
+            Deserialize (buffer, instance);
+            return instance;
         }
-        
+
         public static Mine.MyMessageV1 Deserialize (byte[] buffer, Mine.MyMessageV1 instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static Mine.MyMessageV1 Deserialize (Stream stream, Mine.MyMessageV1 instance)
         {
            while (true) {
@@ -398,10 +398,10 @@ namespace Mine
                    key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                    break;
                }
-        
+
                if (key == null)
                    continue;
-        
+
                //Reading field ID > 16 and unknown field ID/wire type combinations
                switch (key.Field) {
                case 0:
@@ -413,17 +413,17 @@ namespace Mine
                    break;
                }
            }
-           
+
            return instance;
         }
-        
+
         public static Mine.MyMessageV1 Read (byte[] buffer, Mine.MyMessageV1 instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-    
+
         public static void Serialize (Stream stream, MyMessageV1 instance)
         {
             ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (1, Wire.Varint));
@@ -436,7 +436,7 @@ namespace Mine
                }
             }
         }
-        
+
         public static byte[] SerializeToBytes (MyMessageV1 instance)
         {
            using (MemoryStream ms = new MemoryStream()) {
@@ -445,47 +445,47 @@ namespace Mine
            }
         }
     }
-    
+
 
 }
 namespace Yours
 {
     public partial class MyMessageV2
     {
-        public static MyMessageV2 Deserialize (Stream stream)
+        public static MyMessageV2 Deserialize(Stream stream)
         {
-           MyMessageV2 instance = new MyMessageV2 ();
-           Deserialize (stream, instance);
-           return instance;
+            MyMessageV2 instance = new MyMessageV2();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static MyMessageV2 Deserialize (byte[] buffer)
+
+        public static MyMessageV2 Deserialize(byte[] buffer)
         {
-           using (MemoryStream ms = new MemoryStream(buffer))
-               return Deserialize (ms);
+            using (MemoryStream ms = new MemoryStream(buffer))
+                return Deserialize(ms);
         }
-        
+
         public static T Deserialize<T> (Stream stream) where T : Yours.MyMessageV2, new()
         {
-           T instance = new T ();
-           Deserialize (stream, instance);
-           return instance;
+            T instance = new T();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        public static T Deserialize<T> (byte[] buffer) where T : Yours.MyMessageV2, new()
+
+        public static T Deserialize<T>(byte[] buffer) where T : Yours.MyMessageV2, new()
         {
-           T instance = new T ();
-           Deserialize (buffer, instance);
-           return instance;
+            T instance = new T();
+            Deserialize (buffer, instance);
+            return instance;
         }
-        
+
         public static Yours.MyMessageV2 Deserialize (byte[] buffer, Yours.MyMessageV2 instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static Yours.MyMessageV2 Deserialize (Stream stream, Yours.MyMessageV2 instance)
         {
            BinaryReader br = new BinaryReader (stream);
@@ -552,10 +552,10 @@ namespace Yours
                    key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                    break;
                }
-        
+
                if (key == null)
                    continue;
-        
+
                //Reading field ID > 16 and unknown field ID/wire type combinations
                switch (key.Field) {
                case 0:
@@ -574,7 +574,7 @@ namespace Yours
                    break;
                case 20:
                     instance.FieldS.Add (ProtocolParser.ReadUInt32 (stream));
-        
+
                    break;
                case 21:
                     using (MemoryStream ms21 = new MemoryStream(ProtocolParser.ReadBytes(stream))) {
@@ -585,7 +585,7 @@ namespace Yours
                            instance.FieldT.Add (ProtocolParser.ReadUInt32 (ms21));
                        }
                     }
-        
+
                    break;
                case 22:
                     if (instance.FieldU == null)
@@ -595,24 +595,24 @@ namespace Yours
                    break;
                case 23:
                     instance.FieldV.Add (Theirs.TheirMessage.Deserialize (ProtocolParser.ReadBytes (stream)));
-        
+
                    break;
                default:
                    ProtocolParser.SkipKey (stream, key);
                    break;
                }
            }
-           
+
            return instance;
         }
-        
+
         public static Yours.MyMessageV2 Read (byte[] buffer, Yours.MyMessageV2 instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-    
+
         public static void Serialize (Stream stream, MyMessageV2 instance)
         {
            BinaryWriter bw = new BinaryWriter(stream);
@@ -666,16 +666,16 @@ namespace Yours
                foreach (uint i20 in instance.FieldS) {
                    ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (20, Wire.Varint));
                     ProtocolParser.WriteUInt32 (stream, i20);
-            
+
                }
             }
             if (instance.FieldT != null) {
                ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (21, Wire.LengthDelimited));
                using (MemoryStream ms21 = new MemoryStream())
-               {   
+               {
                    foreach (uint i21 in instance.FieldT) {
                         ProtocolParser.WriteUInt32 (ms21, i21);
-            
+
                    }
                    ProtocolParser.WriteBytes (stream, ms21.ToArray ());
                }
@@ -694,11 +694,11 @@ namespace Yours
                        Theirs.TheirMessage.Serialize (ms23, i23);
                        ProtocolParser.WriteBytes (stream, ms23.ToArray ());
                     }
-            
+
                }
             }
         }
-        
+
         public static byte[] SerializeToBytes (MyMessageV2 instance)
         {
            using (MemoryStream ms = new MemoryStream()) {
@@ -707,47 +707,47 @@ namespace Yours
            }
         }
     }
-    
+
 
 }
 namespace Local
 {
     internal partial class LocalFeatures
     {
-        internal static LocalFeatures Deserialize (Stream stream)
+        internal static LocalFeatures Deserialize(Stream stream)
         {
-           LocalFeatures instance = new LocalFeatures ();
-           Deserialize (stream, instance);
-           return instance;
+            LocalFeatures instance = new LocalFeatures();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        internal static LocalFeatures Deserialize (byte[] buffer)
+
+        internal static LocalFeatures Deserialize(byte[] buffer)
         {
-           using (MemoryStream ms = new MemoryStream(buffer))
-               return Deserialize (ms);
+            using (MemoryStream ms = new MemoryStream(buffer))
+                return Deserialize(ms);
         }
-        
+
         internal static T Deserialize<T> (Stream stream) where T : Local.LocalFeatures, new()
         {
-           T instance = new T ();
-           Deserialize (stream, instance);
-           return instance;
+            T instance = new T();
+            Deserialize(stream, instance);
+            return instance;
         }
-        
-        internal static T Deserialize<T> (byte[] buffer) where T : Local.LocalFeatures, new()
+
+        internal static T Deserialize<T>(byte[] buffer) where T : Local.LocalFeatures, new()
         {
-           T instance = new T ();
-           Deserialize (buffer, instance);
-           return instance;
+            T instance = new T();
+            Deserialize (buffer, instance);
+            return instance;
         }
-        
+
         internal static Local.LocalFeatures Deserialize (byte[] buffer, Local.LocalFeatures instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-        
+
         internal static Local.LocalFeatures Deserialize (Stream stream, Local.LocalFeatures instance)
         {
            BinaryReader br = new BinaryReader (stream);
@@ -786,10 +786,10 @@ namespace Local
                    key = ProtocolParser.ReadKey ((byte)keyByte, stream);
                    break;
                }
-        
+
                if (key == null)
                    continue;
-        
+
                //Reading field ID > 16 and unknown field ID/wire type combinations
                switch (key.Field) {
                case 0:
@@ -801,22 +801,22 @@ namespace Local
                    break;
                }
            }
-           
+
            instance.AfterDeserialize ();
            return instance;
         }
-        
+
         internal static Local.LocalFeatures Read (byte[] buffer, Local.LocalFeatures instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Deserialize (ms, instance);
            return instance;
         }
-    
+
         internal static void Serialize (Stream stream, LocalFeatures instance)
         {
            instance.BeforeSerialize ();
-        
+
            BinaryWriter bw = new BinaryWriter(stream);
             ProtocolParser.WriteKey (stream, new ProtocolBuffers.Key (1, Wire.Varint));
             ProtocolParser.WriteUInt64 (stream, (ulong)instance.Uptime.Ticks);
@@ -855,7 +855,7 @@ namespace Local
                }
             }
         }
-        
+
         internal static byte[] SerializeToBytes (LocalFeatures instance)
         {
            using (MemoryStream ms = new MemoryStream()) {
@@ -864,7 +864,7 @@ namespace Local
            }
         }
     }
-    
+
 
 }
 
@@ -876,31 +876,31 @@ namespace ProtocolBuffers
         {
            return Personal.Person.Deserialize (stream, instance);
         }
-        
+
         public static Personal.Person Read (byte[] buffer, Personal.Person instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Personal.Person.Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static void Write (Stream stream, Personal.Person instance)
         {
            Personal.Person.Serialize (stream, instance);
         }
-        
+
         public static Personal.Person.PhoneNumber Read (Stream stream, Personal.Person.PhoneNumber instance)
         {
            return Personal.Person.PhoneNumber.Deserialize (stream, instance);
         }
-        
+
         public static Personal.Person.PhoneNumber Read (byte[] buffer, Personal.Person.PhoneNumber instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Personal.Person.PhoneNumber.Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static void Write (Stream stream, Personal.Person.PhoneNumber instance)
         {
            Personal.Person.PhoneNumber.Serialize (stream, instance);
@@ -910,14 +910,14 @@ namespace ProtocolBuffers
         {
            return ExampleNamespaceA.AddressBook.Deserialize (stream, instance);
         }
-        
+
         public static ExampleNamespaceA.AddressBook Read (byte[] buffer, ExampleNamespaceA.AddressBook instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                ExampleNamespaceA.AddressBook.Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static void Write (Stream stream, ExampleNamespaceA.AddressBook instance)
         {
            ExampleNamespaceA.AddressBook.Serialize (stream, instance);
@@ -927,14 +927,14 @@ namespace ProtocolBuffers
         {
            return Mine.MyMessageV1.Deserialize (stream, instance);
         }
-        
+
         public static Mine.MyMessageV1 Read (byte[] buffer, Mine.MyMessageV1 instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Mine.MyMessageV1.Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static void Write (Stream stream, Mine.MyMessageV1 instance)
         {
            Mine.MyMessageV1.Serialize (stream, instance);
@@ -944,14 +944,14 @@ namespace ProtocolBuffers
         {
            return Yours.MyMessageV2.Deserialize (stream, instance);
         }
-        
+
         public static Yours.MyMessageV2 Read (byte[] buffer, Yours.MyMessageV2 instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Yours.MyMessageV2.Deserialize (ms, instance);
            return instance;
         }
-        
+
         public static void Write (Stream stream, Yours.MyMessageV2 instance)
         {
            Yours.MyMessageV2.Serialize (stream, instance);
@@ -961,14 +961,14 @@ namespace ProtocolBuffers
         {
            return Local.LocalFeatures.Deserialize (stream, instance);
         }
-        
+
         internal static Local.LocalFeatures Read (byte[] buffer, Local.LocalFeatures instance)
         {
            using (MemoryStream ms = new MemoryStream(buffer))
                Local.LocalFeatures.Deserialize (ms, instance);
            return instance;
         }
-        
+
         internal static void Write (Stream stream, Local.LocalFeatures instance)
         {
            Local.LocalFeatures.Serialize (stream, instance);
