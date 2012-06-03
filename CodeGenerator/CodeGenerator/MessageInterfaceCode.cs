@@ -9,49 +9,37 @@ namespace ProtocolBuffers
     /// </summary>
     class MessageInterfaceCode : MessageCode
     {
-        public override string GenerateClass(Message m)
+        public override void GenerateClass(Message m, CodeWriter cw)
         {
-            string code = "";
-
-            code += GenerateInterface(m);
-            code += "\n";
+            GenerateInterface(m, cw);
+            cw.WriteLine();
 
             //Default class
-            code += "public partial class " + m.CSType + " : I" + m.CSType + "\n";
-            code += "{\n";
-            string enums = GenerateEnums(m);
-            if (enums.Length > 0)
-            {
-                code += Code.Indent(enums);
-                code += "\n";
-            }
-            code += Code.Indent(GenerateProperties(m));
+            cw.Bracket("public partial class " + m.CSType + " : I" + m.CSType);
+            GenerateEnums(m, cw);
+
+            GenerateProperties(m, cw);
             
             foreach (Message sub in m.Messages)
             {
-                code += "\n";
-                code += Code.Indent(GenerateClass(sub));
+                cw.WriteLine();
+                GenerateClass(sub, cw);
             }
-            code += "}\n";
-            return code;
+            cw.EndBracket();
         }
         
-        private string GenerateInterface(Message m)
+        private void GenerateInterface(Message m, CodeWriter cw)
         {
-            string properties = "";
+            cw.Bracket("public interface I" + m.CSType);
+
             foreach (Field f in m.Fields.Values)
             {
                 if (f.OptionDeprecated)
-                    properties += "[Obsolete]\n";
-                properties += f.PropertyType + " " + f.Name + " { get; set; }\n";
+                    cw.WriteLine("[Obsolete]");
+                cw.WriteLine(f.PropertyType + " " + f.Name + " { get; set; }");
             }
-            
-            string code = "";
-            code += "public interface I" + m.CSType + "\n";
-            code += "{\n";
-            code += Code.Indent(properties);
-            code += "}\n";
-            return code;
+
+            cw.EndBracket();
         }
 
     }

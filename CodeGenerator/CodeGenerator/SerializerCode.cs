@@ -4,99 +4,83 @@ namespace ProtocolBuffers
 {
     static class SerializerCode
     {
-        public static string GenerateClassSerializer(Message m)
+        public static void GenerateClassSerializer(Message m, CodeWriter cw)
         {
-            string code = "";
-            code += m.OptionAccess + " partial class " + m.CSType + "\n";
-            code += "{\n";
-            code += Code.Indent(GenerateReader(m));
-            code += "\n";
-            code += Code.Indent(GenerateWriter(m));
+            cw.Bracket(m.OptionAccess + " partial class " + m.CSType);
+
+            GenerateReader(m, cw);
+
+            GenerateWriter(m, cw);
             foreach (Message sub in m.Messages)
             {
-                code += "\n";
-                code += Code.Indent(GenerateClassSerializer(sub));
+                cw.WriteLine();
+                GenerateClassSerializer(sub, cw);
             }
-            code += "}\n";
-            code += "\n";
-            return code;
+            cw.EndBracket();
+            cw.WriteLine();
+            return;
         }
         
-        public static string GenerateGenericClassSerializer(Message m)
+        public static void GenerateGenericClassSerializer(Message m, CodeWriter cw)
         {
-            string code = "";
-            code += GenerateGenericReader(m);
-            code += "\n";
-            code += GenerateGenericWriter(m);
+            GenerateGenericReader(m, cw);
+            cw.WriteLine();
+            GenerateGenericWriter(m, cw);
             foreach (Message sub in m.Messages)
             {
-                code += "\n";
-                code += GenerateGenericClassSerializer(sub);
+                cw.WriteLine();
+                GenerateGenericClassSerializer(sub, cw);
             }
-            return code;
+            return;
         }
         
-        static string GenerateReader(Message m)
+        static void GenerateReader(Message m, CodeWriter cw)
         {
-            string code = "";
-            code += m.OptionAccess + " static " + m.CSType + " Deserialize(Stream stream)\n";
-            code += "{\n";
-            code += "    " + m.CSType + " instance = new " + m.CSType + "();\n";
-            code += "    Deserialize(stream, instance);\n";
-            code += "    return instance;\n";
-            code += "}\n";
-            code += "\n";
-            code += m.OptionAccess + " static " + m.CSType + " Deserialize(byte[] buffer)\n";
-            code += "{\n";
-            code += "    using (MemoryStream ms = new MemoryStream(buffer))\n";
-            code += "        return Deserialize(ms);\n";
-            code += "}\n";
-            code += "\n";
-            code += m.OptionAccess + " static T Deserialize<T> (Stream stream) where T : " + m.FullCSType + ", new()\n";
-            code += "{\n";
-            code += "    T instance = new T();\n";
-            code += "    Deserialize(stream, instance);\n";
-            code += "    return instance;\n";
-            code += "}\n";
-            code += "\n";
-            code += m.OptionAccess + " static T Deserialize<T>(byte[] buffer) where T : " + m.FullCSType + ", new()\n";
-            code += "{\n";
-            code += "    T instance = new T();\n";
-            code += "    Deserialize (buffer, instance);\n";
-            code += "    return instance;\n";
-            code += "}\n";
-            code += "\n";
-            code += m.OptionAccess + " static " + m.FullCSType + " Deserialize (byte[] buffer, " + m.FullCSType + " instance)\n";
-            code += "{\n";
-            code += "   using (MemoryStream ms = new MemoryStream(buffer))\n";
-            code += "       Deserialize (ms, instance);\n";
-            code += "   return instance;\n";
-            code += "}\n";
-            code += "\n";
+            cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(Stream stream)");
+            cw.WriteLine("" + m.CSType + " instance = new " + m.CSType + "();");
+            cw.WriteLine("Deserialize(stream, instance);");
+            cw.WriteLine("return instance;");
+            cw.EndBracketSpace();
             
-            code += m.OptionAccess + " static " + m.FullCSType + " Deserialize (Stream stream, " + m.FullCSType + " instance)\n";
-            code += "{\n";
-            foreach (Field f in m.Fields.Values)
-            {
-                if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64)
-                {
-                    code += "   BinaryReader br = new BinaryReader (stream);\n";
-                    break;
-                }
-            }
+            cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(byte[] buffer)");
+            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+            cw.WriteIndent("return Deserialize(ms);");
+            cw.EndBracketSpace();
             
+            cw.Bracket(m.OptionAccess + " static T Deserialize<T>(Stream stream) where T : " + m.FullCSType + ", new()");
+            cw.WriteLine("T instance = new T();");
+            cw.WriteLine("Deserialize(stream, instance);");
+            cw.WriteLine("return instance;");
+            cw.EndBracketSpace();
+            
+            cw.Bracket(m.OptionAccess + " static T Deserialize<T>(byte[] buffer) where T : " + m.FullCSType + ", new()");
+            cw.WriteLine("T instance = new T();");
+            cw.WriteLine("Deserialize(buffer, instance);");
+            cw.WriteLine("return instance;");
+            cw.EndBracketSpace();
+            
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(byte[] buffer, " + m.FullCSType + " instance)");
+            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+            cw.WriteIndent("Deserialize(ms, instance);");
+            cw.WriteLine("return instance;");
+            cw.EndBracketSpace();
+            
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(Stream stream, " + m.FullCSType + " instance)");
+            if (IsUsingBinaryWriter(m))
+                cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
+
             foreach (Field f in m.Fields.Values)
             {
                 if (f.Rule == FieldRule.Repeated)
                 {
-                    code += "   if (instance." + f.Name + " == null)\n";
-                    code += "       instance." + f.Name + " = new List<" + f.PropertyItemType + "> ();\n";
+                    cw.WriteLine("if (instance." + f.Name + " == null)");
+                    cw.WriteIndent("instance." + f.Name + " = new List<" + f.PropertyItemType + ">();");
                 } else if (f.OptionDefault != null)
                 {
                     if (f.ProtoType == ProtoTypes.Enum)
-                        code += "   instance." + f.Name + " = " + f.FullPath + "." + f.OptionDefault + ";\n";
+                        cw.WriteLine("instance." + f.Name + " = " + f.FullPath + "." + f.OptionDefault + ";");
                     else
-                        code += "   instance." + f.Name + " = " + f.OptionDefault + ";\n";
+                        cw.WriteLine("instance." + f.Name + " = " + f.OptionDefault + ";");
                 } else if (f.Rule == FieldRule.Optional)
                 {
                     if (f.ProtoType == ProtoTypes.Enum)
@@ -104,150 +88,142 @@ namespace ProtocolBuffers
                         //the default value is the first value listed in the enum's type definition
                         foreach (var kvp in f.ProtoTypeEnum.Enums)
                         {
-                            code += "   instance." + f.Name + " = " + kvp.Key + ";\n";
+                            cw.WriteLine("instance." + f.Name + " = " + kvp.Key + ";");
                             break;
                         }
                     }
                 }
             }
 
-            code += "   while (true) {\n";
-            code += "       ProtocolBuffers.Key key = null;\n";
-            code += "       int keyByte = stream.ReadByte ();\n";
-            code += "       if (keyByte == -1)\n";
-            code += "           break;\n";
-            code += "       //Optimized reading of known fields with field ID < 16\n";
-            code += "       switch (keyByte) {\n";
+            cw.WhileBracket("true");
+            cw.WriteLine("ProtocolBuffers.Key key = null;");
+            cw.WriteLine("int keyByte = stream.ReadByte();");
+            cw.WriteLine("if (keyByte == -1)");
+            cw.WriteIndent("break;");
+
+            cw.Comment("Optimized reading of known fields with field ID < 16");
+            cw.Switch("keyByte");
             foreach (Field f in m.Fields.Values)
             {
                 if (f.ID >= 16)
                     continue;
-                code += "       case " + ((f.ID << 3) | (int)f.WireType) + ": //Field " + f.ID + " " + f.WireType + "\n";
-                code += Code.Indent(3, FieldCode.GenerateFieldReader(f)) + "\n";
-                code += "           break;\n";
+                cw.Comment("Field " + f.ID + " " + f.WireType);
+                cw.Case(((f.ID << 3) | (int)f.WireType));
+                FieldCode.GenerateFieldReader(f, cw);
+                cw.WriteLine("break;");
             }
-            code += "       default:\n";
-            code += "           key = ProtocolParser.ReadKey ((byte)keyByte, stream);\n";
-            code += "           break;\n";
-            code += "       }\n";
-            code += "\n";
-            code += "       if (key == null)\n";
-            code += "           continue;\n";
-            code += "\n";
-            code += "       //Reading field ID > 16 and unknown field ID/wire type combinations\n";
-            code += "       switch (key.Field) {\n";
-            code += "       case 0:\n";
-            code += "           throw new InvalidDataException (\"Invalid field id: 0, something went wrong in the stream\");\n";
+            cw.CaseDefault();
+            cw.WriteLine("key = ProtocolParser.ReadKey((byte)keyByte, stream);");
+            cw.WriteLine("break;");
+            cw.EndBracket();
+            cw.WriteLine();
+
+            cw.WriteLine("if (key == null)");
+            cw.WriteIndent("continue;");
+            cw.WriteLine();
+
+            cw.Comment("Reading field ID > 16 and unknown field ID/wire type combinations");
+            cw.Switch("key.Field");
+            cw.Case(0);
+            cw.WriteLine("throw new InvalidDataException(\"Invalid field id: 0, something went wrong in the stream\");");
             foreach (Field f in m.Fields.Values)
             {
                 if (f.ID < 16)
                     continue;
-                code += "       case " + f.ID + ":\n";
-                code += Code.Indent(3, FieldCode.GenerateFieldReader(f)) + "\n";
-                code += "           break;\n";
+                cw.Case(f.ID);
+                FieldCode.GenerateFieldReader(f, cw);
+                cw.WriteLine("break;");
             }
-            code += "       default:\n";
+            cw.CaseDefault();
             if (m.OptionPreserveUnknown)
             {
-                code += "           if(instance.PreservedFields == null)\n";
-                code += "               instance.PreservedFields = new List<KeyValue>();\n";
-                code += "           instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes (stream, key)));\n";
+                cw.WriteLine("if(instance.PreservedFields == null)");
+                cw.WriteIndent("instance.PreservedFields = new List<KeyValue>();");
+                cw.WriteLine("instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes(stream, key)));");
             } else
             {
-                code += "           ProtocolParser.SkipKey (stream, key);\n";
+                cw.WriteLine("ProtocolParser.SkipKey(stream, key);");
             }
-            code += "           break;\n";
-            code += "       }\n";
-            code += "   }\n";
-            code += "   \n";
-            if (m.OptionTriggers)
-                code += "   instance.AfterDeserialize ();\n";
-            code += "   return instance;\n";
-            code += "}\n";
-            code += "\n";
-            code += m.OptionAccess + " static " + m.FullCSType + " Read (byte[] buffer, " + m.FullCSType + " instance)\n";
-            code += "{\n";
-            code += "   using (MemoryStream ms = new MemoryStream(buffer))\n";
-            code += "       Deserialize (ms, instance);\n";
-            code += "   return instance;\n";
-            code += "}\n";
+            cw.WriteLine("break;");
+            cw.EndBracket();
+            cw.EndBracket();
+            cw.WriteLine();
 
-            return code;
+            if (m.OptionTriggers)
+                cw.WriteLine("instance.AfterDeserialize();");
+            cw.WriteLine("return instance;");
+            cw.EndBracket();
+            cw.WriteLine();
+
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)");
+            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+            cw.WriteIndent("Deserialize(ms, instance);");
+            cw.WriteLine("return instance;");
+            cw.EndBracket();
+
+            cw.WriteLine();
+            return;
         }
 
-        static string GenerateGenericReader(Message m)
+        static void GenerateGenericReader(Message m, CodeWriter cw)
         {
-            string code = "";
-            code += m.OptionAccess + " static " + m.FullCSType + " Read (Stream stream, " + m.FullCSType + " instance)\n";
-            code += "{\n";
-            code += "   return " + m.FullCSType + ".Deserialize (stream, instance);\n";
-            code += "}\n";
-            code += "\n";
-            code += m.OptionAccess + " static " + m.FullCSType + " Read (byte[] buffer, " + m.FullCSType + " instance)\n";
-            code += "{\n";
-            code += "   using (MemoryStream ms = new MemoryStream(buffer))\n";
-            code += "       " + m.FullCSType + ".Deserialize (ms, instance);\n";
-            code += "   return instance;\n";
-            code += "}\n";
-            return code;
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Read(Stream stream, " + m.FullCSType + " instance)");
+            cw.WriteLine("return " + m.FullCSType + ".Deserialize(stream, instance);");
+            cw.EndBracket();
+            cw.WriteLine();
+            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Read(byte[] buffer, " + m.FullCSType + " instance)");
+            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+            cw.WriteIndent(m.FullCSType + ".Deserialize(ms, instance);");
+            cw.WriteLine("return instance;");
+            cw.EndBracket();
         }
         
         
         /// <summary>
         /// Generates code for writing a class/message
         /// </summary>
-        static string GenerateWriter(Message m)
+        static void GenerateWriter(Message m, CodeWriter cw)
         {
-            string code = m.OptionAccess + " static void Serialize (Stream stream, " + m.CSType + " instance)\n";
-            code += "{\n";
+            cw.Bracket(m.OptionAccess + " static void Serialize(Stream stream, " + m.CSType + " instance)");
             if (m.OptionTriggers)
             {
-                code += "   instance.BeforeSerialize ();\n";
-                code += "\n";
+                cw.WriteLine("instance.BeforeSerialize();");
+                cw.WriteLine();
             }
             if (IsUsingBinaryWriter(m))
-                code += "   BinaryWriter bw = new BinaryWriter(stream);\n";
+                cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
             
             foreach (Field f in m.Fields.Values)
-            {
-                code += Code.Indent(FieldCode.GenerateFieldWriter(m, f));
-            }
+                FieldCode.GenerateFieldWriter(m, f, cw);
+
             if (m.OptionPreserveUnknown)
             {
-                code += Code.Indent("if (instance.PreservedFields != null)\n" +
-                    "{\n" +
-                    "   foreach (KeyValue kv in instance.PreservedFields)" +
-                    "   {\n" +
-                    "       ProtocolParser.WriteKey (stream, kv.Key);\n" +
-                    "       stream.Write (kv.Value, 0, kv.Value.Length);\n" +
-                    "   }\n" +
-                    "}\n"
-                );
+                cw.IfBracket("instance.PreservedFields != null");
+                cw.ForeachBracket("KeyValue kv in instance.PreservedFields");
+                cw.WriteLine("ProtocolParser.WriteKey(stream, kv.Key);");
+                cw.WriteLine("stream.Write(kv.Value, 0, kv.Value.Length);");
+                cw.EndBracket();
+                cw.EndBracket();
             }
-            code += "}\n\n";
-            
-            code += m.OptionAccess + " static byte[] SerializeToBytes (" + m.CSType + " instance)\n";
-            code += "{\n";
-            code += "   using (MemoryStream ms = new MemoryStream()) {\n";
-            code += "       Serialize (ms, instance);\n";
-            code += "       return ms.ToArray ();\n";
-            code += "   }\n";
-            code += "}\n";
-            
-            return code;
+            cw.EndBracket();
+            cw.WriteLine();
+
+            cw.Bracket(m.OptionAccess + " static byte[] SerializeToBytes(" + m.CSType + " instance)");
+            cw.Using("MemoryStream ms = new MemoryStream()");
+            cw.WriteLine("Serialize(ms, instance);");
+            cw.WriteLine("return ms.ToArray();");
+            cw.EndBracket();
+            cw.EndBracket();
         }
         
         /// <summary>
         /// Generates code for writing a class as a protobuf message
         /// </summary>
-        static string GenerateGenericWriter(Message m)
+        static void GenerateGenericWriter(Message m, CodeWriter cw)
         {
-            string code = "";
-            code += m.OptionAccess + " static void Write (Stream stream, " + m.FullCSType + " instance)\n";
-            code += "{\n";
-            code += "   " + m.FullCSType + ".Serialize (stream, instance);\n";
-            code += "}\n";
-            return code;
+            cw.Bracket(m.OptionAccess + " static void Write(Stream stream, " + m.FullCSType + " instance)");
+            cw.WriteLine("" + m.FullCSType + ".Serialize(stream, instance);");
+            cw.EndBracket();
         }
         
         /// <summary>

@@ -4,68 +4,54 @@ namespace ProtocolBuffers
 {
     class MessageCode
     {
-        public virtual string GenerateClass(Message m)
+        public virtual void GenerateClass(Message m, CodeWriter cw)
         {
-            string code = "";
-
             //Default class
             if (m.Comments != null)
-                code += Code.Summary(m.Comments);
-            code += m.OptionAccess + " partial class " + m.CSType + "\n";
-            code += "{\n";
-            
-            string enums = GenerateEnums(m);
-            if (enums.Length > 0)
-            {
-                code += Code.Indent(enums);
-                code += "\n";
-            }
+                cw.Summary(m.Comments);
+            cw.Bracket(m.OptionAccess + " partial class " + m.CSType);
 
-            code += Code.Indent(GenerateProperties(m));
+            GenerateEnums(m, cw);
+
+            GenerateProperties(m, cw);
 
             if (m.OptionPreserveUnknown)
             {
-                code += Code.Indent(Code.Summary("Values for unknown fields."));
-                code += Code.Indent("public List<ProtocolBuffers.KeyValue> PreservedFields;\n");
-                code += "\n";
+                cw.Summary("Values for unknown fields.");
+                cw.WriteLine("public List<ProtocolBuffers.KeyValue> PreservedFields;");
+                cw.WriteLine();
             }
             
             if (m.OptionTriggers)
             {
-                code += Code.Indent(Code.Comment(
-                    "protected virtual void BeforeSerialize () {}\n" +
-                    "protected virtual void AfterDeserialize () {}\n"
-                )
-                );
-                code += "\n";
+                cw.Comment("protected virtual void BeforeSerialize() {}");
+                cw.Comment("protected virtual void AfterDeserialize() {}");
+                cw.WriteLine();
             }
             
             foreach (Message sub in m.Messages)
             {
-                code += Code.Indent(GenerateClass(sub));
-                code += "\n";
+                GenerateClass(sub, cw);
+                cw.WriteLine();
             }
-            code = code.TrimEnd('\n');
-            code += "\n}\n";
-            return code;
+            cw.EndBracket();
+            return;
         }
 
-        protected string GenerateEnums(Message m)
+        protected void GenerateEnums(Message m, CodeWriter cw)
         {
-            string code = "";
             foreach (MessageEnum me in m.Enums)
             {
-                code += "public enum " + me.CSType + "\n";
-                code += "{\n";
+                cw.Bracket("public enum " + me.CSType);
                 foreach (var epair in me.Enums)
                 {
                     if (me.EnumsComments.ContainsKey(epair.Key))
-                        code += Code.Indent(Code.Summary(me.EnumsComments [epair.Key]));
-                    code += Code.Indent(epair.Key + " = " + epair.Value + ",\n");
+                        cw.Summary(me.EnumsComments [epair.Key]);
+                    cw.WriteLine(epair.Key + " = " + epair.Value + ",");
                 }
-                code += "}\n";
+                cw.EndBracket();
+                cw.WriteLine();
             }
-            return code;
         }
 
         /// <summary>
@@ -74,22 +60,21 @@ namespace ProtocolBuffers
         /// <param name='template'>
         /// if true it will generate only properties that are not included by default, because of the [generate=false] option.
         /// </param>
-        protected string GenerateProperties(Message m)
+        protected void GenerateProperties(Message m, CodeWriter cw)
         {
-            string code = "";
             foreach (Field f in m.Fields.Values)
             {
                 if (f.OptionGenerate)
                 {
                     if (f.Comments != null) 
-                        code += Code.Summary(f.Comments);
-                    code += GenerateProperty(f) + "\n\n";
+                        cw.Summary(f.Comments);
+                    cw.WriteLine(GenerateProperty(f));
+                    cw.WriteLine();
                 } else
                 {
-                    code += "//" + GenerateProperty(f) + "  //Implemented by user elsewhere\n\n";
+                    cw.WriteLine("//" + GenerateProperty(f) + " //Implemented by user elsewhere");
                 }
             }
-            return code;
         }
         
         protected virtual string GenerateProperty(Field f)

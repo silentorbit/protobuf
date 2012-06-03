@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{108DF716-5E86-4515-836F-1AC211CA648B}</ProjectGuid>
@@ -10,7 +10,7 @@
     <RootNamespace>ProtocolBuffers</RootNamespace>
     <AssemblyName>CodeGenerator</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -18,11 +18,11 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <Commandlineparameters>../../../../BiomeForce/Server/Protocol/Packets.proto ../../../../BiomeForce/Server/Protocol/Generated/Packets.cs</Commandlineparameters>
+    <PlatformTarget>x86</PlatformTarget>
+    <Commandlineparameters>../../../Test/ExampleA.proto ../../../Test/Generated/ExampleA.cs ../../../Test/TestB/ExampleB.proto ../../../Test/TestB/Generated/ExampleB.cs</Commandlineparameters>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\CodeGenerator\Release</OutputPath>
@@ -50,13 +50,13 @@
     <Compile Include="CodeGenerator\MessageCode.cs" />
     <Compile Include="CodeGenerator\ProtoCode.cs" />
     <Compile Include="CodeGenerator\SerializerCode.cs" />
-    <Compile Include="CodeGenerator\Code.cs" />
     <Compile Include="CodeGenerator\MessageBaseCode.cs" />
     <Compile Include="CodeGenerator\MessageInterfaceCode.cs" />
     <Compile Include="Proto\FieldRule.cs" />
     <Compile Include="Proto\MessageEnumBase.cs" />
     <Compile Include="CodeGenerator\MessageName.cs" />
     <Compile Include="Proto\ProtoFormatException.cs" />
+    <Compile Include="CodeGenerator\CodeWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

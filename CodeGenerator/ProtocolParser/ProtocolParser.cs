@@ -18,12 +18,18 @@ namespace ProtocolBuffers
         public static byte[] ReadBytes(Stream stream)
         {
             //VarInt length
-            uint length = ReadUInt32(stream);
+            int length = (int)ReadUInt32(stream);
             
             //Bytes
             byte[] buffer = new byte[length];
-            if (length != 0)
-                stream.Read(buffer, 0, buffer.Length);
+            int read = 0;
+            while (read < length)
+            {
+                int r = stream.Read(buffer, read, length - read);
+                if (r == 0)
+                    throw new InvalidDataException("Expected " + (length - read) + " got " + read);
+                read += r;
+            }
             return buffer;
         }
         

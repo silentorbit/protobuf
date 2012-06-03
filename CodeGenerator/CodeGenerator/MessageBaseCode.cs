@@ -8,48 +8,39 @@ namespace ProtocolBuffers
     /// </summary>
     class MessageBaseCode : MessageCode
     {
-        public override string GenerateClass(Message m)
+        public override void GenerateClass(Message m, CodeWriter cw)
         {
-            string code = "";
-            
             //Base class
-            code += m.OptionAccess + " abstract class " + m.CSType + "Base\n";
-            code += "{\n";
-            code += Code.Indent(GenerateProperties(m));
+            cw.Bracket(m.OptionAccess + " abstract class " + m.CSType + "Base");
+            GenerateProperties(m, cw);
 
             if (m.OptionTriggers)
             {
-                code += "   protected virtual void BeforeSerialize ()\n";
-                code += "   {\n";
-                code += "   }\n";
-                code += "\n";
-                code += "   protected virtual void AfterDeserialize ()\n";
-                code += "   {\n";
-                code += "   }\n";
+                cw.Bracket("protected virtual void BeforeSerialize()");
+                cw.EndBracket();
+                cw.WriteLine();
+                cw.Bracket("protected virtual void AfterDeserialize()");
+                cw.EndBracket();
             }
-            code += "}\n\n";
+            cw.EndBracket();
+            cw.WriteLine();
             
             //Default class
-            code += m.OptionAccess + " partial class " + m.CSType + " : " + m.CSType + "Base\n";
-            code += "{\n";
-            string enums = GenerateEnums(m);
-            if (enums.Length > 0)
-            {
-                code += Code.Indent(enums);
-                code += "\n";
-            }
+            cw.Bracket(m.OptionAccess + " partial class " + m.CSType + " : " + m.CSType + "Base");
+            GenerateEnums(m, cw);
+
             #if !GENERATE_BASE
-            code += Code.Indent(GenerateProperties(m));
+            GenerateProperties(m, cw);
             #endif
             
             foreach (Message sub in m.Messages)
             {
-                code += "\n";
-                code += Code.Indent(GenerateClass(sub));
+                cw.WriteLine();
+                GenerateClass(sub, cw);
             }
-            code += "}\n";
+            cw.EndBracket();
             
-            return code;
+            return;
         }
         
         protected override string GenerateProperty(Field f)
