@@ -16,7 +16,11 @@ namespace ProtocolBuffers
 		{
 			string ext = Path.GetExtension (csPath);
 			string prefix = csPath.Substring (0, csPath.Length - ext.Length);
-			
+
+			string csDir = Path.GetDirectoryName(csPath);
+			if(Directory.Exists (csDir) == false)
+				Directory.CreateDirectory(csDir);
+
 			//Basic structures
 			using (TextWriter codeWriter = new StreamWriter(csPath, false, Encoding.UTF8)) {
 				codeWriter.WriteLine (@"//

@@ -250,14 +250,20 @@ namespace ProtocolBuffers
 			case "namespace":
 				m.OptionNamespace = value;
 				break;
+			case "access":
+				m.OptionAccess = value;
+				break;
 			case "triggers":
 				m.OptionTriggers = Boolean.Parse (value);
 				break;
 			case "preserveunknown":
 				m.OptionPreserveUnknown = Boolean.Parse (value);
 				break;
-			case "access":
-				m.OptionAccess = value;
+			case "external":
+				m.OptionExternal = Boolean.Parse (value);
+				break;
+			case "struct":
+				m.OptionStruct = Boolean.Parse (value);
 				break;
 			default:
 				Console.WriteLine ("Warning: Unknown option: " + key);

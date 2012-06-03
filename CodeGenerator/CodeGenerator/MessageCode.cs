@@ -2,6 +2,12 @@ using System;
 
 namespace ProtocolBuffers
 {
+	partial struct A{
+		public int A1;
+	}
+	partial struct A{
+		public int A2;
+	}
 	class MessageCode
 	{
 		public virtual string GenerateClass (Message m)

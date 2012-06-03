@@ -20,7 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <Commandlineparameters>../../../Test/ExampleA.proto ../../../Test/Generated/ExampleA.cs ../../../Test/TestB/ExampleB.proto ../../../Test/TestB/Generated/ExampleB.cs</Commandlineparameters>
+    <Commandlineparameters>../../../../BiomeForce/Server/Protocol/Packets.proto ../../../../BiomeForce/Server/Protocol/Generated/Packets.cs</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>

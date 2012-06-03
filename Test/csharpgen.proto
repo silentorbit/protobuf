@@ -23,6 +23,14 @@ extend google.protobuf.MessageOptions {
     //Store unrecognized fields during deserialization that
     // will be written back when serializing the class
     optional bool preserveunknown = 50003 [default=false];
+
+    //Only create serialization code
+    //Don't create the class being serialized
+    //Usefule when serializing classes from a third party DLL
+    optional bool external = 50004 [default=false];
+
+    //Make Object is a struct rather than a class
+    optional bool struct = 50005 [default=false];
 }
 
 extend google.protobuf.FieldOptions {

@@ -27,7 +27,7 @@ Global
 		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Test\Test.csproj
+		StartupItem = CodeGenerator\CodeGenerator.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.TabWidth = 4
