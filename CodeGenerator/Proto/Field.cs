@@ -53,6 +53,16 @@ namespace ProtocolBuffers
         #endregion //Local options
         
         #endregion //.proto data
+
+        public Wire WireType
+        {
+            get
+            {
+                if(OptionPacked)
+                    return Wire.LengthDelimited;
+                return ProtoType.WireType;
+            }
+        }
         
         #region Code Generation Properties
         
@@ -62,89 +72,7 @@ namespace ProtocolBuffers
         /// <summary>
         /// .proto type including enum and message.
         /// </summary>
-        public ProtoTypes ProtoType { get; set; }
-        
-        /// <summary>
-        /// If a message type this point to the Message class
-        /// </summary>
-        public Message ProtoTypeMessage { get; set; }
-        
-        /// <summary>
-        /// If an enum type this point to the MessageEnum class
-        /// </summary>
-        public MessageEnum ProtoTypeEnum { get; set; }
-        
-        /// <summary>
-        /// Based on ProtoType and Rule according to the protocol buffers specification
-        /// </summary>
-        public Wire WireType { get; set; }
-        
-        public string CSType { get; set; }
-        
-        /// <summary>
-        /// C# class of the default class, useful with new Class() expressions.
-        /// </summary>
-        public string CSClass { get; set; }
-
-        public string FullPath
-        {
-            get
-            {
-                if (ProtoType == ProtoTypes.Message)
-                    return ProtoTypeMessage.FullCSType;
-                else if (ProtoType == ProtoTypes.Enum)
-                    return ProtoTypeEnum.FullCSType;
-                throw new InvalidOperationException();
-            }
-        }
-
-        public string FullSerializerPath
-        {
-            get
-            {
-                if (ProtoType == ProtoTypes.Message)
-                    return ProtoTypeMessage.FullSerializerType;
-                else if (ProtoType == ProtoTypes.Enum)
-                    return ProtoTypeEnum.FullCSType;
-                throw new InvalidOperationException();
-            }
-        }
-
-        /// <summary>
-        /// Generate full Interface path
-        /// </summary>
-        public string PropertyType
-        {
-            get
-            {
-                if (Rule == FieldRule.Repeated)
-                    return "List<" + PropertyItemType + ">";
-                else
-                    return PropertyItemType;
-            }
-        }
-
-        /// <summary>
-        /// Generate full Interface path
-        /// </summary>
-        public string PropertyItemType
-        {
-            get
-            {
-                if (OptionCodeType != null)
-                    return OptionCodeType;
-            
-                switch (ProtoType)
-                {
-                    case ProtoTypes.Message:
-                        return ProtoTypeMessage.FullCSType;
-                    case ProtoTypes.Enum:
-                        return ProtoTypeEnum.FullCSType;
-                    default:    
-                        return CSType;
-                }
-            }
-        }
+        public ProtoType ProtoType { get; set; }
 
         #endregion
         

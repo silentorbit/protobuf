@@ -8,12 +8,12 @@ namespace ProtocolBuffers
 {
     public enum Wire
     {
-        Varint = 0,     //int32, int64, uint32, uint64, sint32, sint64, bool, enum
+        Varint = 0,     //int32, int64, UInt32, UInt64, SInt32, SInt64, bool, enum
         Fixed64 = 1,    //fixed64, sfixed64, double
         LengthDelimited = 2,    //string, bytes, embedded messages, packed repeated fields
         //Start = 3,        //  groups (deprecated)
         //End = 4,      //  groups (deprecated)
-        Fixed32 = 5,    //32-bit    fixed32, sfixed32, float
+        Fixed32 = 5,    //32-bit    fixed32, SFixed32, float
     }
 
     public class Key
@@ -26,6 +26,11 @@ namespace ProtocolBuffers
         {
             this.Field = field;
             this.WireType = wireType;               
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[Key: {0}, {1}]", Field, WireType);
         }
     }
 
@@ -42,6 +47,11 @@ namespace ProtocolBuffers
         {
             this.Key = key;
             this.Value = value;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[KeyValue: {0}, {1}, {2} bytes]", Key.Field, Key.WireType, Value.Length);
         }
     }
 

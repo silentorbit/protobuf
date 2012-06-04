@@ -113,9 +113,9 @@ namespace Yours
 
         protected string Dummy { get; set; }
 
-        public List<uint> FieldS { get; set; }
-
         public List<uint> FieldT { get; set; }
+
+        public List<uint> FieldS { get; set; }
 
         public Theirs.TheirMessage FieldU { get; set; }
 
@@ -181,10 +181,15 @@ namespace ExampleNamespaceA
 namespace TestB
 {
     // Written elsewhere
-    // public partial struct ExternalStruct
+    // public struct ExternalStruct {}
 }
 namespace TestB
 {
     // Written elsewhere
-    // public partial class ExternalClass
+    // public class ExternalClass {}
+}
+namespace Theirs
+{
+    // Written elsewhere
+    // public class TheirMessage {}
 }

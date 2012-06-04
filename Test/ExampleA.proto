@@ -81,12 +81,12 @@ message my_message_v2
 	
 	optional string dummy = 19 [deprecated=true, access=protected];
 	
-	repeated uint32 field_s = 20;
-	repeated uint32 field_t = 21 [packed=true];
+	repeated uint32 field_t = 20 [packed=true];
+	repeated uint32 field_s = 21;
+    
+	optional their_message field_u = 22;
 	
-	optional Theirs.TheirMessage field_u = 22;
-	
-	repeated Theirs.TheirMessage field_v = 23;
+	repeated their_message field_v = 23;
 }
 
 //This is a demonstration of features only present in ProtoBuf Code Generator
@@ -156,4 +156,12 @@ message external_class
 {
     option namespace = TestB;
     option external = true;
+}
+
+//Serializer for this one is included in TestB
+//Here we only need to include the correct namespace, name and the "external" option
+message their_message
+{
+    option namespace = "Theirs";
+    option imported = true;
 }

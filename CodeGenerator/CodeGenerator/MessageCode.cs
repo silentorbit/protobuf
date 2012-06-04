@@ -2,22 +2,21 @@ using System;
 
 namespace ProtocolBuffers
 {
-    class MessageCode
+    static class MessageCode
     {
-        public virtual void GenerateClass(Message m, CodeWriter cw)
+        public static void GenerateClass(ProtoMessage m, CodeWriter cw)
         {
-            //Do not generate class code for external structs
-            if (m.OptionExternal)
+            //Do not generate class code for external classes
+            if (m.OptionExternal || m.OptionImported)
             {
                 cw.Comment("Written elsewhere");
-                cw.Comment(m.OptionAccess + " partial " + m.OptionType + " " + m.CSType);
+                cw.Comment(m.OptionAccess + " " + m.OptionType + " " + m.CsType + " {}");
                 return;
             }
 
             //Default class
-            if (m.Comments != null)
-                cw.Summary(m.Comments);
-            cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CSType);
+            cw.Summary(m.Comments);
+            cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CsType);
 
             GenerateEnums(m, cw);
 
@@ -37,7 +36,7 @@ namespace ProtocolBuffers
                 cw.WriteLine();
             }
             
-            foreach (Message sub in m.Messages)
+            foreach (ProtoMessage sub in m.Messages)
             {
                 GenerateClass(sub, cw);
                 cw.WriteLine();
@@ -46,11 +45,11 @@ namespace ProtocolBuffers
             return;
         }
 
-        protected void GenerateEnums(Message m, CodeWriter cw)
+        static void GenerateEnums(ProtoMessage m, CodeWriter cw)
         {
-            foreach (MessageEnum me in m.Enums)
+            foreach (ProtoEnum me in m.Enums)
             {
-                cw.Bracket("public enum " + me.CSType);
+                cw.Bracket("public enum " + me.CsType);
                 foreach (var epair in me.Enums)
                 {
                     if (me.EnumsComments.ContainsKey(epair.Key))
@@ -68,7 +67,7 @@ namespace ProtocolBuffers
         /// <param name='template'>
         /// if true it will generate only properties that are not included by default, because of the [generate=false] option.
         /// </param>
-        protected void GenerateProperties(Message m, CodeWriter cw)
+        static void GenerateProperties(ProtoMessage m, CodeWriter cw)
         {
             foreach (Field f in m.Fields.Values)
             {
@@ -85,14 +84,20 @@ namespace ProtocolBuffers
             }
         }
         
-        protected virtual string GenerateProperty(Field f)
+        static string GenerateProperty(Field f)
         {
+            string type = f.ProtoType.FullCsType;
+            if(f.OptionCodeType != null)
+                type = f.OptionCodeType;
+            if (f.Rule == FieldRule.Repeated)
+                type = "List<" + f.ProtoType.FullCsType + ">";
+
             if (f.OptionReadOnly)
-                return f.OptionAccess + " readonly " + f.PropertyType + " " + f.Name + " = new " + f.PropertyType + "();";
-            else if (f.ProtoTypeMessage != null && f.ProtoTypeMessage.OptionType == "struct")
-                return f.OptionAccess + " " + f.PropertyType + " " + f.Name + ";";
+                return f.OptionAccess + " readonly " + type + " " + f.Name + " = new " + type + "();";
+            else if (f.ProtoType is ProtoMessage && f.ProtoType.OptionType == "struct")
+                return f.OptionAccess + " " + type + " " + f.Name + ";";
             else
-                return f.OptionAccess + " " + f.PropertyType + " " + f.Name + " { get; set; }";
+                return f.OptionAccess + " " + type + " " + f.Name + " { get; set; }";
         }
     }
 }

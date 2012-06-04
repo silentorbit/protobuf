@@ -6,9 +6,9 @@ namespace ProtocolBuffers
 {
     static class ProtoParser
     {
-        public static Proto Parse(string path)
+        public static ProtoFile Parse(string path)
         {
-            Proto p = new Proto();
+            ProtoFile p = new ProtoFile();
             
             string t = "";
             
@@ -57,7 +57,7 @@ namespace ProtocolBuffers
             return true;        
         }
         
-        static void ParseMessages(TokenReader tr, Proto p)
+        static void ParseMessages(TokenReader tr, ProtoFile p)
         {
             while (true)
             {
@@ -96,9 +96,9 @@ namespace ProtocolBuffers
             }
         }
 
-        static Message ParseMessage(TokenReader tr, Message parent)
+        static ProtoMessage ParseMessage(TokenReader tr, ProtoMessage parent)
         {
-            Message msg = new Message(parent);
+            ProtoMessage msg = new ProtoMessage(parent);
             msg.Comments = lastComment;
             lastComment = null;
             msg.ProtoName = tr.ReadNext();
@@ -111,7 +111,7 @@ namespace ProtocolBuffers
             return msg;         
         }
 
-        static bool ParseField(TokenReader tr, Message m)
+        static bool ParseField(TokenReader tr, ProtoMessage m)
         {
             string rule = tr.ReadNext();
             while (true)
@@ -126,7 +126,7 @@ namespace ProtocolBuffers
             
             if (rule == "enum")
             {
-                MessageEnum me = ParseEnum(tr, m);
+                ProtoEnum me = ParseEnum(tr, m);
                 m.Enums.Add(me);
                 return true;
             }
@@ -245,7 +245,7 @@ namespace ProtocolBuffers
         /// <summary>
         /// File or Message options
         /// </summary>
-        static void ParseOption(TokenReader tr, Message m)
+        static void ParseOption(TokenReader tr, ProtoMessage m)
         {
             //Read name
             string key = tr.ReadNext();
@@ -277,6 +277,9 @@ namespace ProtocolBuffers
                 case "external":
                     m.OptionExternal = Boolean.Parse(value);
                     break;
+                case "imported":
+                    m.OptionImported = Boolean.Parse(value);
+                    break;
                 case "type":
                     if (value == "class" || value == "struct" || value == "interface")
                         m.OptionType = value;
@@ -289,9 +292,9 @@ namespace ProtocolBuffers
             }
         }
 
-        static MessageEnum ParseEnum(TokenReader tr, Message parent)
+        static ProtoEnum ParseEnum(TokenReader tr, ProtoMessage parent)
         {
-            MessageEnum me = new MessageEnum(parent);
+            ProtoEnum me = new ProtoEnum(parent);
             me.Comments = lastComment;
             lastComment = null;
             me.ProtoName = tr.ReadNext();

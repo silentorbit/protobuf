@@ -2,15 +2,15 @@ using System;
 
 namespace ProtocolBuffers
 {
-    static class SerializerCode
+    static class MessageSerializer
     {
-        public static void GenerateClassSerializer(Message m, CodeWriter cw)
+        public static void GenerateClassSerializer(ProtoMessage m, CodeWriter cw)
         {
             if (m.OptionExternal || m.OptionType == "interface")
             {
                 //Don't make partial class of external classes or interfaces
                 //Make separate static class for them
-                cw.Bracket(m.OptionAccess + " static class " + " " + m.SerializerType);
+                cw.Bracket(m.OptionAccess + " static class " + m.SerializerType);
             } else
             {
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
@@ -19,7 +19,7 @@ namespace ProtocolBuffers
             GenerateReader(m, cw);
 
             GenerateWriter(m, cw);
-            foreach (Message sub in m.Messages)
+            foreach (ProtoMessage sub in m.Messages)
             {
                 cw.WriteLine();
                 GenerateClassSerializer(sub, cw);
@@ -29,33 +29,33 @@ namespace ProtocolBuffers
             return;
         }
         
-        static void GenerateReader(Message m, CodeWriter cw)
+        static void GenerateReader(ProtoMessage m, CodeWriter cw)
         {
             string refstr = (m.OptionType == "struct") ? "ref " : "";
 
             if (m.OptionType != "interface")
             {
-                cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(Stream stream)");
-                cw.WriteLine(m.CSType + " instance = new " + m.CSType + "();");
+                cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(Stream stream)");
+                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("Deserialize(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
             
-                cw.Bracket(m.OptionAccess + " static " + m.CSType + " Deserialize(byte[] buffer)");
-                cw.WriteLine(m.CSType + " instance = new " + m.CSType + "();");
+                cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
+                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
                 cw.WriteLine("Deserialize(ms, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
             }
 
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(byte[] buffer, " + refstr + m.FullCSType + " instance)");
+            cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " Deserialize(byte[] buffer, " + refstr + m.FullCsType + " instance)");
             cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
             cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
             cw.WriteLine("return instance;");
             cw.EndBracketSpace();
             
-            cw.Bracket(m.OptionAccess + " static " + m.FullCSType + " Deserialize(Stream stream, " + refstr + m.FullCSType + " instance)");
+            cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " Deserialize(Stream stream, " + refstr + m.FullCsType + " instance)");
             if (IsUsingBinaryWriter(m))
                 cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
 
@@ -64,19 +64,20 @@ namespace ProtocolBuffers
                 if (f.Rule == FieldRule.Repeated)
                 {
                     cw.WriteLine("if (instance." + f.Name + " == null)");
-                    cw.WriteIndent("instance." + f.Name + " = new List<" + f.PropertyItemType + ">();");
+                    cw.WriteIndent("instance." + f.Name + " = new List<" + f.ProtoType.FullCsType + ">();");
                 } else if (f.OptionDefault != null)
                 {
-                    if (f.ProtoType == ProtoTypes.Enum)
-                        cw.WriteLine("instance." + f.Name + " = " + f.FullPath + "." + f.OptionDefault + ";");
+                    if (f.ProtoType is ProtoEnum)
+                        cw.WriteLine("instance." + f.Name + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
                     else
                         cw.WriteLine("instance." + f.Name + " = " + f.OptionDefault + ";");
                 } else if (f.Rule == FieldRule.Optional)
                 {
-                    if (f.ProtoType == ProtoTypes.Enum)
+                    if (f.ProtoType is ProtoEnum)
                     {
+                        ProtoEnum pe = f.ProtoType as ProtoEnum;
                         //the default value is the first value listed in the enum's type definition
-                        foreach (var kvp in f.ProtoTypeEnum.Enums)
+                        foreach (var kvp in pe.Enums)
                         {
                             cw.WriteLine("instance." + f.Name + " = " + kvp.Key + ";");
                             break;
@@ -99,7 +100,7 @@ namespace ProtocolBuffers
                     continue;
                 cw.Comment("Field " + f.ID + " " + f.WireType);
                 cw.Case(((f.ID << 3) | (int)f.WireType));
-                FieldCode.GenerateFieldReader(f, cw);
+                FieldSerializer.GenerateFieldReader(f, cw);
                 cw.WriteLine("break;");
             }
             cw.CaseDefault();
@@ -121,8 +122,11 @@ namespace ProtocolBuffers
                 if (f.ID < 16)
                     continue;
                 cw.Case(f.ID);
-                FieldCode.GenerateFieldReader(f, cw);
-                cw.WriteLine("break;");
+                //Makes sure we got the right wire type
+                cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
+                cw.WriteIndent("break;");
+                FieldSerializer.GenerateFieldReader(f, cw);
+                cw.WriteLine("continue;");
             }
             cw.CaseDefault();
             if (m.OptionPreserveUnknown)
@@ -152,9 +156,9 @@ namespace ProtocolBuffers
         /// <summary>
         /// Generates code for writing a class/message
         /// </summary>
-        static void GenerateWriter(Message m, CodeWriter cw)
+        static void GenerateWriter(ProtoMessage m, CodeWriter cw)
         {
-            cw.Bracket(m.OptionAccess + " static void Serialize(Stream stream, " + m.CSType + " instance)");
+            cw.Bracket(m.OptionAccess + " static void Serialize(Stream stream, " + m.CsType + " instance)");
             if (m.OptionTriggers)
             {
                 cw.WriteLine("instance.BeforeSerialize();");
@@ -164,7 +168,7 @@ namespace ProtocolBuffers
                 cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
             
             foreach (Field f in m.Fields.Values)
-                FieldCode.GenerateFieldWriter(m, f, cw);
+                FieldSerializer.GenerateFieldWriter(m, f, cw);
 
             if (m.OptionPreserveUnknown)
             {
@@ -178,7 +182,7 @@ namespace ProtocolBuffers
             cw.EndBracket();
             cw.WriteLine();
 
-            cw.Bracket(m.OptionAccess + " static byte[] SerializeToBytes(" + m.CSType + " instance)");
+            cw.Bracket(m.OptionAccess + " static byte[] SerializeToBytes(" + m.CsType + " instance)");
             cw.Using("MemoryStream ms = new MemoryStream()");
             cw.WriteLine("Serialize(ms, instance);");
             cw.WriteLine("return ms.ToArray();");
@@ -189,14 +193,14 @@ namespace ProtocolBuffers
         /// <summary>
         /// Determines if a BinaryWriter will be used
         /// </summary>
-        static bool IsUsingBinaryWriter(Message m)
+        static bool IsUsingBinaryWriter(ProtoMessage m)
         {
             foreach (Field f in m.Fields.Values)
             {
-                if (f.WireType == Wire.Fixed32 || f.WireType == Wire.Fixed64)
-                {
+                if (f.ProtoType.WireType == Wire.Fixed32)
                     return true;
-                }
+                if (f.ProtoType.WireType == Wire.Fixed64)
+                    return true;
             }
             return false;
         }

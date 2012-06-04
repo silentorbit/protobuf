@@ -170,6 +170,9 @@ namespace ProtocolBuffers
         
         public void Summary(string summary)
         {
+            if(summary == null || summary.Trim() == "")
+                return;
+
             string[] lines = summary.Replace("\r\n", "\n").Split('\n');
             if (lines.Length == 1)
             {

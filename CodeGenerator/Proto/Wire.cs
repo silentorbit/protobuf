@@ -9,7 +9,7 @@ namespace ProtocolBuffers
         LengthDelimited = 2,    //string, bytes, embedded messages, packed repeated fields
         //Start = 3,        //  groups (deprecated)
         //End = 4,      //  groups (deprecated)
-        Fixed32 = 5,    //32-bit    fixed32, sfixed32, float
+        Fixed32 = 5,    //32-bit    fixed32, SFixed32, float
         //Max = 7
     }
 }

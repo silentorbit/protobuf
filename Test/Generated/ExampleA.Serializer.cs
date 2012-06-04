@@ -104,7 +104,7 @@ namespace Personal
             }
             if (instance.Phone != null)
             {
-                foreach (Personal.Person.PhoneNumber i4 in instance.Phone)
+                foreach (var i4 in instance.Phone)
                 {
                     ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(4, Wire.LengthDelimited));
                     ﻿using (MemoryStream ms4 = new MemoryStream())
@@ -168,7 +168,7 @@ namespace Personal
                         break;
                         // Field 2 Varint
                     case 16:
-                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+                        instance.Type = (PhoneType)ProtocolParser.ReadUInt32(stream);
                         break;
                     default:
                         key = ProtocolParser.ReadKey((byte)keyByte, stream);
@@ -199,7 +199,7 @@ namespace Personal
                     throw new ArgumentNullException("Number", "Required by proto specification.");
                 ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
                 ProtocolParser.WriteString(stream, instance.Number);
-                if (instance.Type != Personal.Person.PhoneType.HOME)
+                if (instance.Type != PhoneType.HOME)
                 {
                     ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Varint));
                     ProtocolParser.WriteUInt32(stream,(uint)instance.Type);
@@ -289,7 +289,7 @@ namespace ExampleNamespaceA
         {
             if (instance.List != null)
             {
-                foreach (Personal.Person i1 in instance.List)
+                foreach (var i1 in instance.List)
                 {
                     ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
                     ﻿using (MemoryStream ms1 = new MemoryStream())
@@ -434,10 +434,10 @@ namespace Yours
         {
             BinaryReader br = new BinaryReader(stream);
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
-            if (instance.FieldS == null)
-                instance.FieldS = new List<uint>();
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
+            if (instance.FieldS == null)
+                instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
             while (true)
@@ -523,40 +523,52 @@ namespace Yours
                 case 0:
                     throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
                 case 16:
+                    if(key.WireType != Wire.LengthDelimited)
+                        break;
                     instance.FieldP = ProtocolParser.ReadBytes(stream);
-                    break;
+                    continue;
                 case 17:
-                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldQ = (MyEnum)ProtocolParser.ReadUInt32(stream);
+                    continue;
                 case 18:
-                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldR = (MyEnum)ProtocolParser.ReadUInt32(stream);
+                    continue;
                 case 19:
+                    if(key.WireType != Wire.LengthDelimited)
+                        break;
                     instance.Dummy = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                 case 20:
-                    instance.FieldS.Add(ProtocolParser.ReadUInt32(stream));
-                    break;
-                case 21:
-                    using (MemoryStream ms21 = new MemoryStream(ProtocolParser.ReadBytes(stream)))
+                    if(key.WireType != Wire.LengthDelimited)
+                        break;
+                    using (MemoryStream ms20 = new MemoryStream(ProtocolParser.ReadBytes(stream)))
                     {
-                        while (true)
-                        {
-                            if (ms21.Position == ms21.Length)
-                                break;
-                            instance.FieldT.Add(ProtocolParser.ReadUInt32(ms21));
-                        }
+                        while(ms20.Position < ms20.Length)
+                            instance.FieldT.Add(ProtocolParser.ReadUInt32(ms20));
                     }
-                    break;
+                    continue;
+                case 21:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldS.Add(ProtocolParser.ReadUInt32(stream));
+                    continue;
                 case 22:
+                    if(key.WireType != Wire.LengthDelimited)
+                        break;
                     if (instance.FieldU == null)
                         instance.FieldU = Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream));
                     else
                         Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream), instance.FieldU);
-                    break;
+                    continue;
                 case 23:
+                    if(key.WireType != Wire.LengthDelimited)
+                        break;
                     instance.FieldV.Add(Theirs.TheirMessage.Deserialize(ProtocolParser.ReadBytes(stream)));
-                    break;
+                    continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
                     break;
@@ -608,7 +620,7 @@ namespace Yours
             ProtocolParser.WriteBytes(stream, instance.FieldP);
             ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(17, Wire.Varint));
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldQ);
-            if (instance.FieldR != Yours.MyMessageV2.MyEnum.ETest2)
+            if (instance.FieldR != MyEnum.ETest2)
             {
                 ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(18, Wire.Varint));
                 ProtocolParser.WriteUInt32(stream,(uint)instance.FieldR);
@@ -618,24 +630,24 @@ namespace Yours
                 ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(19, Wire.LengthDelimited));
                 ProtocolParser.WriteString(stream, instance.Dummy);
             }
-            if (instance.FieldS != null)
-            {
-                foreach (uint i20 in instance.FieldS)
-                {
-                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(20, Wire.Varint));
-                    ProtocolParser.WriteUInt32(stream, i20);
-                }
-            }
             if (instance.FieldT != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(21, Wire.LengthDelimited));
-                using (MemoryStream ms21 = new MemoryStream())
+                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(20, Wire.LengthDelimited));
+                using (MemoryStream ms20 = new MemoryStream())
                 {
-                    foreach (uint i21 in instance.FieldT)
+                    foreach (var i20 in instance.FieldT)
                     {
-                        ProtocolParser.WriteUInt32(ms21, i21);
+                        ProtocolParser.WriteUInt32(ms20, i20);
                     }
-                    ProtocolParser.WriteBytes(stream, ms21.ToArray());
+                    ProtocolParser.WriteBytes(stream, ms20.ToArray());
+                }
+            }
+            if (instance.FieldS != null)
+            {
+                foreach (var i21 in instance.FieldS)
+                {
+                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(21, Wire.Varint));
+                    ProtocolParser.WriteUInt32(stream, i21);
                 }
             }
             if (instance.FieldU != null)
@@ -650,7 +662,7 @@ namespace Yours
             }
             if (instance.FieldV != null)
             {
-                foreach (Theirs.TheirMessage i23 in instance.FieldV)
+                foreach (var i23 in instance.FieldV)
                 {
                     ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(23, Wire.LengthDelimited));
                     ﻿using (MemoryStream ms23 = new MemoryStream())
@@ -889,7 +901,7 @@ namespace Local
 }
 namespace ExampleNamespaceA
 {
-    public static class  InterfaceTestSerializer
+    public static class InterfaceTestSerializer
     {
         public static ExampleNamespaceA.InterfaceTest Deserialize(byte[] buffer, ExampleNamespaceA.InterfaceTest instance)
         {
@@ -1024,7 +1036,7 @@ namespace ExampleNamespaceA
 }
 namespace TestB
 {
-    public static class  ExternalStructSerializer
+    public static class ExternalStructSerializer
     {
         public static ExternalStruct Deserialize(Stream stream)
         {
@@ -1099,7 +1111,7 @@ namespace TestB
 }
 namespace TestB
 {
-    public static class  ExternalClassSerializer
+    public static class ExternalClassSerializer
     {
         public static ExternalClass Deserialize(Stream stream)
         {

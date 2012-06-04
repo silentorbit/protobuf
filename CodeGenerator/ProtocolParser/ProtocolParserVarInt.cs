@@ -122,7 +122,7 @@ namespace ProtocolBuffers
         
         #endregion
         
-        #region VarInt: int64, uint64, sint64
+        #region VarInt: int64, UInt64, SInt64
         
         [Obsolete("Use (long)ReadUInt64(stream); instead")]
         /// <summary>

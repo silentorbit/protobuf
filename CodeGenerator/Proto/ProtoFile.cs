@@ -7,16 +7,16 @@ namespace ProtocolBuffers
     /// <summary>
     /// Representation of a .proto file
     /// </summary>
-    class Proto : Message
+    class ProtoFile : ProtoMessage
     {
-        public Proto() : base(null)
+        public ProtoFile() : base(null)
         {
         }
         
         /// <summary>
         /// Defaults to Example if not specified
         /// </summary>
-        public override string Namespace
+        public override string CsNamespace
         {
             get
             {
@@ -29,7 +29,7 @@ namespace ProtocolBuffers
         public override string ToString()
         {
             string t = "Proto: ";
-            foreach (Message m in Messages)
+            foreach (ProtoMessage m in Messages)
                 t += "\n\t" + m;
             return t;
         }

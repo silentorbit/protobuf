@@ -318,13 +318,13 @@ namespace Test
             DateTime start = DateTime.Now;
             byte[] buffer = AddressBook.SerializeToBytes(ab);
             TimeSpan serialize = DateTime.Now - start;
-            Console.WriteLine("Speed test: Serialize 1000 posts in   " + serialize);
+            Console.WriteLine("Speed test: Serialize 1000 posts in   " + serialize.TotalSeconds + " s");
 
             //Deserialize
             start = DateTime.Now;
             AddressBook.Deserialize(buffer);
             TimeSpan deserialize = DateTime.Now - start;
-            Console.WriteLine("Speed test: Deserialize 1000 posts in " + deserialize);
+            Console.WriteLine("Speed test: Deserialize 1000 posts in " + deserialize.TotalSeconds + " s");
         }
 
         public static void Test(string message, bool result)

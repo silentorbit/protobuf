@@ -14,7 +14,8 @@ namespace ProtocolBuffers
                 return;                     
             }
             
-            //Currently the format is CodeGenerator.exe file1.proto [file1otherpath.cs] file2.proto [file2otherpath.cs]
+            //Currently the format is:
+            //CodeGenerator.exe file1.proto [file1OutputPath.cs] file2.proto [file2OutputPath.cs]
             //Output paths must end in .cs
             
             int argIndex = 0;
@@ -31,9 +32,9 @@ namespace ProtocolBuffers
                     continue;
                 }
 
-                //Parse proto
+                //Parse .proto
                 Console.WriteLine("Parsing " + protoPath);
-                Proto proto = ProtoParser.Parse(protoPath);
+                ProtoFile proto = ProtoParser.Parse(protoPath);
                 if (proto == null)
                 {
                     if (args [argIndex].EndsWith(".cs"))
@@ -45,6 +46,7 @@ namespace ProtocolBuffers
                 //Interpret and reformat
                 ProtoPrepare.Prepare(proto);
             
+                //Determine where to save the result
                 string codePath;
                 if (argIndex < args.Length && args [argIndex].EndsWith(".cs"))
                 {
@@ -57,7 +59,7 @@ namespace ProtocolBuffers
                 }
 
                 //Generate code
-                ProtoCode.Save(proto, new MessageCode(), codePath);
+                ProtoCode.Save(proto, codePath);
                 Console.WriteLine("Saved: " + codePath);
             }
         }

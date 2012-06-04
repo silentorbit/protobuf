@@ -26,11 +26,15 @@ extend google.protobuf.MessageOptions {
 
     //Only create serialization code
     //Don't create the class being serialized
-    //Usefule when serializing classes from a third party DLL
+    //Useful when serializing classes from a third party DLL
     optional bool external = 50004 [default=false];
 
+    //Serialization code is already generated elsewhere
+    //Call that code for serialization.
+    optional bool imported = 50005 [default=false];
+
     //Make object a class, struct or interface
-    optional string type = 50005 [default=class];
+    optional string type = 50006 [default=class];
 }
 
 extend google.protobuf.FieldOptions {
@@ -50,7 +54,7 @@ extend google.protobuf.FieldOptions {
 //	optional bool my_enum_option = 50003;
 //}
 //extend google.protobuf.EnumValueOptions {
-//	optional uint32 my_enum_value_option = 50004;
+//	optional UInt32 my_enum_value_option = 50004;
 //}
 //extend google.protobuf.ServiceOptions {
 //	optional MyEnum my_service_option = 50005;

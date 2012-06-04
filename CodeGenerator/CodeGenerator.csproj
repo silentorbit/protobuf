@@ -41,28 +41,25 @@
     <Compile Include="TokenReader.cs" />
     <Compile Include="ProtoPrepare.cs" />
     <Compile Include="Proto\Field.cs" />
-    <Compile Include="Proto\Message.cs" />
-    <Compile Include="Proto\MessageEnum.cs" />
-    <Compile Include="Proto\Proto.cs" />
     <Compile Include="Proto\Wire.cs" />
-    <Compile Include="Proto\ProtoTypes.cs" />
-    <Compile Include="CodeGenerator\FieldCode.cs" />
     <Compile Include="CodeGenerator\MessageCode.cs" />
     <Compile Include="CodeGenerator\ProtoCode.cs" />
-    <Compile Include="CodeGenerator\SerializerCode.cs" />
     <Compile Include="Proto\FieldRule.cs" />
-    <Compile Include="Proto\MessageEnumBase.cs" />
-    <Compile Include="CodeGenerator\MessageName.cs" />
     <Compile Include="Proto\ProtoFormatException.cs" />
     <Compile Include="CodeGenerator\CodeWriter.cs" />
+    <Compile Include="Proto\ProtoMessage.cs" />
+    <Compile Include="Proto\ProtoEnum.cs" />
+    <Compile Include="Proto\ProtoFile.cs" />
+    <Compile Include="Proto\ProtoType.cs" />
+    <Compile Include="Proto\ProtoPacked.cs" />
+    <Compile Include="Proto\ProtoBuiltin.cs" />
+    <Compile Include="CodeGenerator\FieldSerializer.cs" />
+    <Compile Include="CodeGenerator\MessageSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="ProtocolParser\ProtocolParser.cs">
       <LogicalName>ProtocolParser</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProtocolParser\ProtocolParserCustom.cs">
-      <LogicalName>ProtocolParserCustom</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="ProtocolParser\ProtocolParserFixed.cs">
       <LogicalName>ProtocolParserFixed</LogicalName>
