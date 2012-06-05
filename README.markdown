@@ -8,12 +8,40 @@ Parses a .proto file and generates a single C# source file
 with classes for every message as well as code for
 reading and writing them to the Protocol Buffers binary format.
 
-## Features
+## Basic Features
 
  * Binary that transform a .proto specification directly into complete c# code.
  * Generated code is relatively easy to debug(only hope you wont have too)
  * Generated code does not use reflection, works after code obfuscation.
  * Build-in serialization of DateTime and TimeSpan
+
+## Advanced Features
+
+These features are local to this project.
+They affect how you will work with the generated code.
+It does not affect the final wire format.
+Any other Protocol Buffers implementation should be able to communicate using the same .proto specification.
+
+For the latest features, see Test/csharpgen.proto
+
+These local features are implemented in the Test project.
+
+Message options:
+
+ * access - set the acces of the generated class to internal rather than public.
+ * triggers - have the class methods BeforeSerialize and AfterDeserialize called accordingly.
+ * preserverunknown - keep all unknown fields during deserialization to be written back when serializing the class.
+ * external - generate serialization code for a class we don't have control over, such as one from a third party DLL.
+ * imported - utilize already generated code in the current generated messages.
+ * type - default: class, but you can make the serializer work with struct or interfaces.
+
+Field options:
+
+ * access - default: public, can be any, even private if generating a local class(default)
+ * codetype - set an int64 field type to "DateTime" or "TimeSpan", the serializer will do the conversion for you.
+ * generate - if set to false(default: true), the field/property is expected to be defined elsewhere in the project rather than the generated code.
+ * readonly - make the message field a c# readonly field rather than a property.
+
 ## Example
 
 This is a part of the Test/Example.proto:
