@@ -2,18 +2,17 @@
 
 https://silentorbit.com/protobuf/
 
-Basic features of [Googles Protocol Buffers](http://code.google.com/apis/protocolbuffers/docs/overview.html) in C#.
+C# code generator for serialization into [Googles Protocol Buffers](http://code.google.com/apis/protocolbuffers/docs/overview.html) wire format.
 
-Parses a .proto file and generates a single C# source file
+Parses a .proto file and generates C# source files
 with classes for every message as well as code for
 reading and writing them to the Protocol Buffers binary format.
 
 ## Basic Features
 
- * Binary that transform a .proto specification directly into complete c# code.
+ * CodeGenerator - transform a .proto specification directly into complete c# code.
  * Generated code is relatively easy to debug(only hope you wont have too)
  * Generated code does not use reflection, works after code obfuscation.
- * Build-in serialization of DateTime and TimeSpan
 
 ## Advanced Features
 
