@@ -15,7 +15,10 @@ namespace ProtocolBuffers
         {
             return Encoding.UTF8.GetString(ReadBytes(stream));
         }
-        
+
+        /// <summary>
+        /// Reads a length delimited byte array
+        /// </summary>
         public static byte[] ReadBytes(Stream stream)
         {
             //VarInt length
@@ -33,12 +36,15 @@ namespace ProtocolBuffers
             }
             return buffer;
         }
-        
+
         public static void WriteString(Stream stream, string val)
         {
             WriteBytes(stream, Encoding.UTF8.GetBytes(val));
         }
-        
+
+        /// <summary>
+        /// Writes length delimited byte array
+        /// </summary>
         public static void WriteBytes(Stream stream, byte[] val)
         {
             WriteUInt32(stream, (uint)val.Length);
@@ -59,7 +65,7 @@ namespace ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
-        #region Fixed Int
+        #region Fixed Int, Only for reference
         
         /// <summary>
         /// Only for reference
@@ -134,7 +140,7 @@ namespace ProtocolBuffers
         
         #endregion
         
-        #region Fixed: float, double
+        #region Fixed: float, double. Only for reference
 
         /// <summary>
         /// Only for reference
@@ -395,17 +401,26 @@ namespace ProtocolBuffers
             throw new NotImplementedException("Use WriteUInt32(stream, (uint)val);");
         }
         
+        /// <summary>
+        /// Zig-zag signed VarInt format
+        /// </summary>
         public static int ReadSInt32(Stream stream)
         {
             uint val = ReadUInt32(stream);
             return (int)(val >> 1) ^ ((int)(val << 31) >> 31);
         }
         
+        /// <summary>
+        /// Zig-zag signed VarInt format
+        /// </summary>
         public static void WriteSInt32(Stream stream, int val)
         {
             WriteUInt32(stream, (uint)((val << 1) ^ (val >> 31)));
         }
 
+        /// <summary>
+        /// Unsigned VarInt format
+        /// </summary>
         public static uint ReadUInt32(Stream stream)
         {
             int b;
@@ -431,6 +446,9 @@ namespace ProtocolBuffers
             throw new InvalidDataException("Got larger VarInt than 32bit unsigned");
         }
         
+        /// <summary>
+        /// Unsigned VarInt format
+        /// </summary>
         public static void WriteUInt32(Stream stream, uint val)
         {
             byte[] buffer = new byte[5];
@@ -475,17 +493,26 @@ namespace ProtocolBuffers
             throw new NotImplementedException("Use WriteUInt64(stream, (ulong)val); instead");
         }
 
+        /// <summary>
+        /// Zig-zag signed VarInt format
+        /// </summary>
         public static long ReadSInt64(Stream stream)
         {
             ulong val = ReadUInt64(stream);
             return (long)(val >> 1) ^ ((long)(val << 63) >> 63);
         }
         
+        /// <summary>
+        /// Zig-zag signed VarInt format
+        /// </summary>
         public static void WriteSInt64(Stream stream, long val)
         {
             WriteUInt64(stream, (ulong)((val << 1) ^ (val >> 63)));
         }
 
+        /// <summary>
+        /// Unsigned VarInt format
+        /// </summary>
         public static ulong ReadUInt64(Stream stream)
         {
             int b;
@@ -511,6 +538,9 @@ namespace ProtocolBuffers
             throw new InvalidDataException("Got larger VarInt than 64 bit unsigned");
         }
         
+        /// <summary>
+        /// Unsigned VarInt format
+        /// </summary>
         public static void WriteUInt64(Stream stream, ulong val)
         {
             byte[] buffer = new byte[10];

@@ -9,7 +9,7 @@ namespace ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
-        #region Fixed Int
+        #region Fixed Int, Only for reference
         
         /// <summary>
         /// Only for reference
@@ -84,7 +84,7 @@ namespace ProtocolBuffers
         
         #endregion
         
-        #region Fixed: float, double
+        #region Fixed: float, double. Only for reference
 
         /// <summary>
         /// Only for reference

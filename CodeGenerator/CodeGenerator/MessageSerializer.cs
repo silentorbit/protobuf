@@ -59,6 +59,7 @@ namespace ProtocolBuffers
             if (IsUsingBinaryWriter(m))
                 cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
 
+            //Prepare List<> and default values
             foreach (Field f in m.Fields.Values)
             {
                 if (f.Rule == FieldRule.Repeated)

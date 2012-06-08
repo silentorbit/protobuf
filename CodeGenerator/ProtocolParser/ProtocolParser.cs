@@ -14,7 +14,10 @@ namespace ProtocolBuffers
         {
             return Encoding.UTF8.GetString(ReadBytes(stream));
         }
-        
+
+        /// <summary>
+        /// Reads a length delimited byte array
+        /// </summary>
         public static byte[] ReadBytes(Stream stream)
         {
             //VarInt length
@@ -32,12 +35,15 @@ namespace ProtocolBuffers
             }
             return buffer;
         }
-        
+
         public static void WriteString(Stream stream, string val)
         {
             WriteBytes(stream, Encoding.UTF8.GetBytes(val));
         }
-        
+
+        /// <summary>
+        /// Writes length delimited byte array
+        /// </summary>
         public static void WriteBytes(Stream stream, byte[] val)
         {
             WriteUInt32(stream, (uint)val.Length);
