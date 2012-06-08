@@ -19,6 +19,7 @@ namespace ProtocolBuffers
 
                 if (f.OptionPacked == true)
                 {
+                    //TODO: read without buffering
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream))");
                     cw.WriteLine("while(ms" + f.ID + ".Position < ms" + f.ID + ".Length)");
                     cw.WriteIndent("instance." + f.Name + ".Add(" + GenerateFieldTypeReader(f, "ms" + f.ID, "br", null) + ");");
@@ -89,9 +90,9 @@ namespace ProtocolBuffers
             {
                 var m = f.ProtoType as ProtoMessage;
                 if (f.Rule == FieldRule.Repeated || instance == null)
-                    return m.FullSerializerType + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "))";
+                    return m.FullSerializerType + ".DeserializeLengthDelimited(" + stream + ", new " + m.FullCsType + "())";
                 else
-                    return m.FullSerializerType + ".Deserialize(ProtocolParser.ReadBytes(" + stream + "), " + instance + ")";
+                    return m.FullSerializerType + ".DeserializeLengthDelimited(" + stream + ", " + instance + ")";
             }
 
             if (f.ProtoType is ProtoEnum)

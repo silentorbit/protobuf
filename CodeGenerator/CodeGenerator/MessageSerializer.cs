@@ -31,8 +31,8 @@ namespace ProtocolBuffers
         
         static void GenerateReader(ProtoMessage m, CodeWriter cw)
         {
+            #region Helper Deserialize Methods
             string refstr = (m.OptionType == "struct") ? "ref " : "";
-
             if (m.OptionType != "interface")
             {
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(Stream stream)");
@@ -54,103 +54,137 @@ namespace ProtocolBuffers
             cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
             cw.WriteLine("return instance;");
             cw.EndBracketSpace();
-            
-            cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " Deserialize(Stream stream, " + refstr + m.FullCsType + " instance)");
-            if (IsUsingBinaryWriter(m))
-                cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
+            #endregion
 
-            //Prepare List<> and default values
-            foreach (Field f in m.Fields.Values)
+            string[] methods = new string[]{
+                "Deserialize", //Default old one
+                "DeserializeLengthDelimited", //Start by reading length prefix and stay within that limit
+            };
+
+            //Main Deserialize
+            foreach (string method in methods)
             {
-                if (f.Rule == FieldRule.Repeated)
+                if (method == "Deserialize")
+                    cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
+                else
+                    cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
+
+                if (IsUsingBinaryWriter(m))
+                    cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
+
+                //Prepare List<> and default values
+                foreach (Field f in m.Fields.Values)
                 {
-                    cw.WriteLine("if (instance." + f.Name + " == null)");
-                    cw.WriteIndent("instance." + f.Name + " = new List<" + f.ProtoType.FullCsType + ">();");
-                } else if (f.OptionDefault != null)
-                {
-                    if (f.ProtoType is ProtoEnum)
-                        cw.WriteLine("instance." + f.Name + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
-                    else
-                        cw.WriteLine("instance." + f.Name + " = " + f.OptionDefault + ";");
-                } else if (f.Rule == FieldRule.Optional)
-                {
-                    if (f.ProtoType is ProtoEnum)
+                    if (f.Rule == FieldRule.Repeated)
                     {
-                        ProtoEnum pe = f.ProtoType as ProtoEnum;
-                        //the default value is the first value listed in the enum's type definition
-                        foreach (var kvp in pe.Enums)
+                        cw.WriteLine("if (instance." + f.Name + " == null)");
+                        cw.WriteIndent("instance." + f.Name + " = new List<" + f.ProtoType.FullCsType + ">();");
+                    } else if (f.OptionDefault != null)
+                    {
+                        if (f.ProtoType is ProtoEnum)
+                            cw.WriteLine("instance." + f.Name + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
+                        else
+                            cw.WriteLine("instance." + f.Name + " = " + f.OptionDefault + ";");
+                    } else if (f.Rule == FieldRule.Optional)
+                    {
+                        if (f.ProtoType is ProtoEnum)
                         {
-                            cw.WriteLine("instance." + f.Name + " = " + kvp.Key + ";");
-                            break;
+                            ProtoEnum pe = f.ProtoType as ProtoEnum;
+                            //the default value is the first value listed in the enum's type definition
+                            foreach (var kvp in pe.Enums)
+                            {
+                                cw.WriteLine("instance." + f.Name + " = " + kvp.Key + ";");
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            cw.WhileBracket("true");
-            cw.WriteLine("ProtocolBuffers.Key key = null;");
-            cw.WriteLine("int keyByte = stream.ReadByte();");
-            cw.WriteLine("if (keyByte == -1)");
-            cw.WriteIndent("break;");
+                if (method == "DeserializeLengthDelimited")
+                {
+                    //Important to read stream position after we have read the length field
+                    cw.WriteLine("long limit = ProtocolParser.ReadUInt32(stream);");
+                    cw.WriteLine("limit += stream.Position;");
+                }
 
-            cw.Comment("Optimized reading of known fields with field ID < 16");
-            cw.Switch("keyByte");
-            foreach (Field f in m.Fields.Values)
-            {
-                if (f.ID >= 16)
-                    continue;
-                cw.Comment("Field " + f.ID + " " + f.WireType);
-                cw.Case(((f.ID << 3) | (int)f.WireType));
-                FieldSerializer.GenerateFieldReader(f, cw);
+                cw.WhileBracket("true");
+
+                if (method == "DeserializeLengthDelimited")
+                {
+                    cw.IfBracket("stream.Position >= limit");
+                    cw.WriteLine("if(stream.Position == limit)");
+                    cw.WriteIndent("break;");
+                    cw.WriteLine("else");
+                    cw.WriteIndent("throw new InvalidOperationException(\"Read past max limit\");");
+                    cw.EndBracket();
+                }
+
+                cw.WriteLine("ProtocolBuffers.Key key = null;");
+                cw.WriteLine("int keyByte = stream.ReadByte();");
+                cw.WriteLine("if (keyByte == -1)");
+                if (method == "Deserialize")
+                    cw.WriteIndent("break;");
+                else
+                    cw.WriteIndent("throw new System.IO.EndOfStreamException();");
+
+                cw.Comment("Optimized reading of known fields with field ID < 16");
+                cw.Switch("keyByte");
+                foreach (Field f in m.Fields.Values)
+                {
+                    if (f.ID >= 16)
+                        continue;
+                    cw.Comment("Field " + f.ID + " " + f.WireType);
+                    cw.Case(((f.ID << 3) | (int)f.WireType));
+                    FieldSerializer.GenerateFieldReader(f, cw);
+                    cw.WriteLine("break;");
+                }
+                cw.CaseDefault();
+                cw.WriteLine("key = ProtocolParser.ReadKey((byte)keyByte, stream);");
                 cw.WriteLine("break;");
+                cw.EndBracket();
+                cw.WriteLine();
+
+                cw.WriteLine("if (key == null)");
+                cw.WriteIndent("continue;");
+                cw.WriteLine();
+
+                cw.Comment("Reading field ID > 16 and unknown field ID/wire type combinations");
+                cw.Switch("key.Field");
+                cw.Case(0);
+                cw.WriteLine("throw new InvalidDataException(\"Invalid field id: 0, something went wrong in the stream\");");
+                foreach (Field f in m.Fields.Values)
+                {
+                    if (f.ID < 16)
+                        continue;
+                    cw.Case(f.ID);
+                    //Makes sure we got the right wire type
+                    cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
+                    cw.WriteIndent("break;");
+                    FieldSerializer.GenerateFieldReader(f, cw);
+                    cw.WriteLine("continue;");
+                }
+                cw.CaseDefault();
+                if (m.OptionPreserveUnknown)
+                {
+                    cw.WriteLine("if (instance.PreservedFields == null)");
+                    cw.WriteIndent("instance.PreservedFields = new List<KeyValue>();");
+                    cw.WriteLine("instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes(stream, key)));");
+                } else
+                {
+                    cw.WriteLine("ProtocolParser.SkipKey(stream, key);");
+                }
+                cw.WriteLine("break;");
+                cw.EndBracket();
+                cw.EndBracket();
+                cw.WriteLine();
+
+                if (m.OptionTriggers)
+                    cw.WriteLine("instance.AfterDeserialize();");
+                cw.WriteLine("return instance;");
+                cw.EndBracket();
+                cw.WriteLine();
             }
-            cw.CaseDefault();
-            cw.WriteLine("key = ProtocolParser.ReadKey((byte)keyByte, stream);");
-            cw.WriteLine("break;");
-            cw.EndBracket();
-            cw.WriteLine();
 
-            cw.WriteLine("if (key == null)");
-            cw.WriteIndent("continue;");
-            cw.WriteLine();
-
-            cw.Comment("Reading field ID > 16 and unknown field ID/wire type combinations");
-            cw.Switch("key.Field");
-            cw.Case(0);
-            cw.WriteLine("throw new InvalidDataException(\"Invalid field id: 0, something went wrong in the stream\");");
-            foreach (Field f in m.Fields.Values)
-            {
-                if (f.ID < 16)
-                    continue;
-                cw.Case(f.ID);
-                //Makes sure we got the right wire type
-                cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
-                cw.WriteIndent("break;");
-                FieldSerializer.GenerateFieldReader(f, cw);
-                cw.WriteLine("continue;");
-            }
-            cw.CaseDefault();
-            if (m.OptionPreserveUnknown)
-            {
-                cw.WriteLine("if (instance.PreservedFields == null)");
-                cw.WriteIndent("instance.PreservedFields = new List<KeyValue>();");
-                cw.WriteLine("instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes(stream, key)));");
-            } else
-            {
-                cw.WriteLine("ProtocolParser.SkipKey(stream, key);");
-            }
-            cw.WriteLine("break;");
-            cw.EndBracket();
-            cw.EndBracket();
-            cw.WriteLine();
-
-            if (m.OptionTriggers)
-                cw.WriteLine("instance.AfterDeserialize();");
-            cw.WriteLine("return instance;");
-            cw.EndBracket();
-            cw.WriteLine();
-
-            cw.WriteLine();
             return;
         }
 
