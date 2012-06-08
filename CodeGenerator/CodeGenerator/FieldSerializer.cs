@@ -28,39 +28,37 @@ namespace ProtocolBuffers
                     cw.WriteLine("instance." + f.Name + ".Add(" + GenerateFieldTypeReader(f, "stream", "br", null) + ");");
                 }
             } else
-            {           
+            {   
+                if (f.OptionReadOnly)
+                {
+                    //The only "readonly" fields we can modify
+                    //We could possibly support bytes primitive too but it would require the incoming length to match the wire length
+                    if (f.ProtoType is ProtoMessage)
+                    {
+                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
+                        return;
+                    }
+                    cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a readonly primitive field\");");
+                    return;
+                }
+                
                 if (f.ProtoType is ProtoMessage)
                 {
-                    if (f.OptionReadOnly)
-                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
-                    else
+                    if (f.ProtoType.OptionType == "struct")
                     {
-                        if (f.ProtoType.OptionType == "struct")
-                        {
-                            cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "ref instance." + f.Name) + ";");
-                            return;
-                        }
-
-                        cw.WriteLine("if (instance." + f.Name + " == null)");
-                        if (f.ProtoType.OptionType == "interface")
-                            cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a interfaces null pointer\");");
-                        else
-                            cw.WriteIndent("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
-                        cw.WriteLine("else");
-                        cw.WriteIndent(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
+                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "ref instance." + f.Name) + ";");
+                        return;
                     }
+
+                    cw.WriteLine("if (instance." + f.Name + " == null)");
+                    if (f.ProtoType.OptionType == "interface")
+                        cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a interfaces null pointer\");");
+                    else
+                        cw.WriteIndent("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
+                    cw.WriteLine("else");
+                    cw.WriteIndent(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
                     return;
                 } 
-
-                if(f.ProtoType.ProtoName == ProtoBuiltin.String || f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
-                {
-                    if (f.OptionReadOnly)
-                    {
-                        cw.WriteLine("if (instance." + f.Name + " == null)");
-                        cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a readonly field\");");
-                    }
-                    //Continue to code below
-                }
 
                 cw.WriteLine("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
             }
