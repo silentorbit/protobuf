@@ -1,0 +1,184 @@
+﻿// Custom features based on ProtoFeatures.proto
+// This file will be parsed and rewritten when CodeGenerator is run
+// Comments are lost
+
+message proto_test.my_message_v1
+	access = public	//public, internal
+	namespace = Mine
+	//type = class	//class, struct or interface
+	preserveunknown
+	//triggers
+	//external
+{
+	field_a
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+
+message proto_test.my_message_v2
+	access = public	//public, internal
+	namespace = Yours
+	//type = class	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+	field_a
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_b
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_c
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_d
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_e
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_f
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_g
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_h
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_i
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_j
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_k
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_l
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_m
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_n
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_o
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_p
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_q
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_r
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	dummy
+		access = protected	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_t
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_s
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_u
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	field_v
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+
+message proto_test.their_message
+	access = public	//public, internal
+	namespace = Theirs
+	//type = class	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+	field_a
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+

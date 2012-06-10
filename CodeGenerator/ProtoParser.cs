@@ -6,10 +6,12 @@ namespace ProtocolBuffers
 {
     static class ProtoParser
     {
-        public static ProtoFile Parse(string path)
-        {
-            ProtoFile p = new ProtoFile();
-            
+        /// <summary>
+        /// Parse a single .proto file.
+        /// Return true if successful/no errors.
+        /// </summary>
+        public static void Parse(string path, ProtoCollection p)
+        {            
             string t = "";
             
             using (TextReader reader = new StreamReader(path, Encoding.UTF8))
@@ -25,19 +27,7 @@ namespace ProtocolBuffers
             }
             
             TokenReader tr = new TokenReader(t);
-            ProtoFormatException e = null;
-            try
-            {
-                ParseMessages(tr, p);
-                return p;
-            } catch (ProtoFormatException pfe)
-            {
-                e = pfe;
-            }
-            Console.Write(tr.Parsed);
-            Console.WriteLine(" <---");
-            Console.WriteLine(e.Message);
-            return null;
+            ParseMessages(tr, p);
         }
 
         static string lastComment = null;
@@ -57,8 +47,10 @@ namespace ProtocolBuffers
             return true;        
         }
         
-        static void ParseMessages(TokenReader tr, ProtoFile p)
+        static void ParseMessages(TokenReader tr, ProtoCollection p)
         {
+            string package = null;
+
             while (true)
             {
                 string token;
@@ -75,7 +67,9 @@ namespace ProtocolBuffers
                 switch (token)
                 {
                     case "message":
-                        p.Messages.Add(ParseMessage(tr, p));
+                        ProtoMessage pm = ParseMessage(tr, p);
+                        pm.Package = package;
+                        p.Messages.Add(pm.ProtoName, pm);
                         break;
                     case "option":
                     //Save options
@@ -86,12 +80,11 @@ namespace ProtocolBuffers
                         tr.ReadNextOrThrow(";");
                         break;
                     case "package":
-                        string pkg = tr.ReadNext();
+                        package = tr.ReadNext();
                         tr.ReadNextOrThrow(";");
-                        p.OptionNamespace = pkg;
                         break;
                     default:
-                        throw new ProtoFormatException("Unexpected/not implemented: " + token);
+                        throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
                 }
             }
         }
@@ -127,7 +120,7 @@ namespace ProtocolBuffers
             if (rule == "enum")
             {
                 ProtoEnum me = ParseEnum(tr, m);
-                m.Enums.Add(me);
+                m.Enums.Add(me.ProtoName, me);
                 return true;
             }
 
@@ -152,25 +145,26 @@ namespace ProtocolBuffers
                     ParseOption(tr, m);
                     return true;
                 case "message":
-                    m.Messages.Add(ParseMessage(tr, m));
+                    ProtoMessage pm = ParseMessage(tr, m);
+                    m.Messages.Add(pm.ProtoName, pm);
                     return true;
                 default:
-                    throw new ProtoFormatException("unknown rule: " + rule);
+                    throw new ProtoFormatException("unknown rule: " + rule, tr);
             }
 
             //Type
             f.ProtoTypeName = tr.ReadNext();
             
             //Name
-            f.Name = tr.ReadNext();
+            f.ProtoName = tr.ReadNext();
             
             //ID
             tr.ReadNextOrThrow("=");
             f.ID = int.Parse(tr.ReadNext());
             if (19000 <= f.ID && f.ID <= 19999)
-                throw new ProtoFormatException("Can't use reserved field ID 19000-19999");
+                throw new ProtoFormatException("Can't use reserved field ID 19000-19999", tr);
             if (f.ID > (1 << 29) - 1)
-                throw new ProtoFormatException("Maximum field id is 2^29 - 1");
+                throw new ProtoFormatException("Maximum field id is 2^29 - 1", tr);
 
             //Add Field to message
             m.Fields.Add(f.ID, f);
@@ -182,7 +176,7 @@ namespace ProtocolBuffers
             
             //Field options
             if (extra != "[")
-                throw new ProtoFormatException("Expected: [ got " + extra);
+                throw new ProtoFormatException("Expected: [ got " + extra, tr);
             
             while (true)
             {
@@ -196,7 +190,7 @@ namespace ProtocolBuffers
                     break;
                 if (optionSep == ",")
                     continue;
-                throw new ProtoFormatException(@"Expected "","" or ""]"" got " + tr.Next);
+                throw new ProtoFormatException(@"Expected "","" or ""]"" got " + tr.NextCharacter, tr);
             }
             tr.ReadNextOrThrow(";");
             
@@ -216,26 +210,6 @@ namespace ProtocolBuffers
                 case "deprecated":
                     f.OptionDeprecated = Boolean.Parse(val);
                     break;
-                
-            //Local options:
-                
-                case "access":
-                    f.OptionAccess = val;
-                    break;
-                case "codetype":
-                    if (val == "DateTime" || val == "TimeSpan")
-                    {
-                        if (f.ProtoTypeName != "int64")
-                            throw new ProtoFormatException("DateTime and TimeSpan must be stored in int64. was " + f.ProtoTypeName);
-                    }
-                    f.OptionCodeType = val;
-                    break;
-                case "generate":
-                    f.OptionGenerate = Boolean.Parse(val);
-                    break;
-                case "readonly":
-                    f.OptionReadOnly = Boolean.Parse(val);
-                    break;
                 default:
                     Console.WriteLine("Warning: Unknown field option: " + key);
                     break;
@@ -250,11 +224,11 @@ namespace ProtocolBuffers
             //Read name
             string key = tr.ReadNext();
             if (tr.ReadNext() != "=")
-                throw new ProtoFormatException("Expected: = got " + tr.Next);
+                throw new ProtoFormatException("Expected: = got " + tr.NextCharacter);
             //Read value
             string value = tr.ReadNext();
             if (tr.ReadNext() != ";")
-                throw new ProtoFormatException("Expected: ; got " + tr.Next);
+                throw new ProtoFormatException("Expected: ; got " + tr.NextCharacter);
             
             //null = ignore option
             if (m == null)
@@ -262,30 +236,10 @@ namespace ProtocolBuffers
             
             switch (key)
             {
-                case "namespace":
-                    m.OptionNamespace = value;
-                    break;
-                case "access":
-                    m.OptionAccess = value;
-                    break;
-                case "triggers":
-                    m.OptionTriggers = Boolean.Parse(value);
-                    break;
-                case "preserveunknown":
-                    m.OptionPreserveUnknown = Boolean.Parse(value);
-                    break;
-                case "external":
-                    m.OptionExternal = Boolean.Parse(value);
-                    break;
-                case "imported":
-                    m.OptionImported = Boolean.Parse(value);
-                    break;
-                case "type":
-                    if (value == "class" || value == "struct" || value == "interface")
-                        m.OptionType = value;
-                    else
-                        throw new InvalidDataException("Unknown type, user one of: class(default), struct or interface");
-                    break;
+                //None at the moment
+                //case "namespace":
+                //    m.OptionNamespace = value;
+                //    break;
                 default:
                     Console.WriteLine("Warning: Unknown option: " + key);
                     break;

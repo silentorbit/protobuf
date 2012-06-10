@@ -15,7 +15,9 @@ namespace ProtocolBuffers
         /// </summary>
         public string ProtoTypeName { get; set; }
         
-        public string Name { get; set; }
+        public string ProtoName { get; set; }
+
+        public string CsName { get; set; }
 
         public int ID { get; set; }
             
@@ -40,9 +42,9 @@ namespace ProtocolBuffers
         public string OptionCodeType = null;
         
         /// <summary>
-        /// Generate property in class, if not it is expected to already be defined elsewhere.
+        /// Property is written elsewhere, in another file using partial, code will not be generated for this field
         /// </summary>
-        public bool OptionGenerate = true;
+        public bool OptionExternal = false;
         
         /// <summary>
         /// Field is (c#)readonly.
@@ -78,7 +80,7 @@ namespace ProtocolBuffers
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} = {3}", Rule, ProtoTypeName, Name, ID);
+            return string.Format("{0} {1} {2} = {3}", Rule, ProtoTypeName, ProtoName, ID);
         }
     }
 }

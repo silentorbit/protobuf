@@ -1,0 +1,138 @@
+﻿// Custom features based on LocalFeatures.proto
+// This file will be parsed and rewritten when CodeGenerator is run
+// Comments are lost
+
+message local_feature_test.local_features
+	access = internal	//public, internal
+	namespace = Local
+	//type = class	//class, struct or interface
+	//preserveunknown
+	triggers
+	//external
+{
+	Uptime
+		access = public	//public, internal, protected or private
+		codetype = TimeSpan
+		//external
+		//readonly
+
+	DueDate
+		access = public	//public, internal, protected or private
+		codetype = DateTime
+		//external
+		//readonly
+
+	Amount
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		external
+		//readonly
+
+	Denial
+		access = private	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	Secret
+		access = protected	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	Internal
+		access = internal	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	PR
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	testing_read_only
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		readonly
+
+	MyInterface
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	MyStruct
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	MyExtStruct
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	MyExtClass
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+
+message local_feature_test.interface_test
+	access = public	//public, internal
+	//namespace = local_feature_test
+	type = interface	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+}
+
+message local_feature_test.struct_test
+	access = public	//public, internal
+	//namespace = local_feature_test
+	type = struct	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+}
+
+message local_feature_test.external_struct
+	access = public	//public, internal
+	namespace = TestB
+	type = struct	//class, struct or interface
+	//preserveunknown
+	//triggers
+	external
+{
+	X
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+
+message local_feature_test.external_class
+	access = public	//public, internal
+	namespace = TestB
+	//type = class	//class, struct or interface
+	//preserveunknown
+	//triggers
+	external
+{
+	A
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+

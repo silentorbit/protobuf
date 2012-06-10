@@ -6,22 +6,26 @@ namespace ProtocolBuffers
 {
     static class ProtoPrepare
     {
-        public static void Prepare(ProtoFile proto)
+        static public void Prepare(ProtoCollection file)
         {
-            foreach (ProtoMessage m in proto.Messages)
+            foreach (ProtoMessage m in file.Messages.Values)
+            {
+                if(m.Package != null && m.OptionNamespace == null)
+                    m.OptionNamespace = GetCamelCase(m.Package);
                 PrepareMessage(m);
+            }
         }
-        
+
         static void PrepareMessage(ProtoMessage m)
         {
             //Name of message and enums
             m.CsType = ProtoPrepare.GetCamelCase(m.ProtoName);
-            foreach (ProtoEnum e in m.Enums)
+            foreach (ProtoEnum e in m.Enums.Values)
             {
                 e.CsType = GetCamelCase(e.ProtoName);
             }
             
-            foreach (ProtoMessage sub in m.Messages)
+            foreach (ProtoMessage sub in m.Messages.Values)
                 PrepareMessage(sub);
             
             //Prepare fields
@@ -30,9 +34,9 @@ namespace ProtocolBuffers
                 PrepareProtoType(m, f);
                 if (f.OptionDefault != null)
                 {
-                    if(f.ProtoType is ProtoBuiltin && ((ProtoBuiltin)f.ProtoType).ProtoName == "bytes")
+                    if (f.ProtoType is ProtoBuiltin && ((ProtoBuiltin)f.ProtoType).ProtoName == "bytes")
                         throw new NotImplementedException();
-                    if(f.ProtoType is ProtoMessage)
+                    if (f.ProtoType is ProtoMessage)
                         throw new InvalidDataException("Message can't have a default");
                 }
             }   
@@ -45,94 +49,24 @@ namespace ProtocolBuffers
         static void PrepareProtoType(ProtoMessage m, Field f)
         {
             //Change property name to C# style, CamelCase.
-            f.Name = GetCSPropertyName(m, f.Name);
+            f.CsName = GetCSPropertyName(m, f.ProtoName);
             
             f.ProtoType = GetBuiltinProtoType(f.ProtoTypeName);
             if (f.ProtoType == null)
-                f.ProtoType = GetProtoType(m, f.ProtoTypeName);
+                f.ProtoType = m.GetProtoType(f.ProtoTypeName);
             if (f.ProtoType == null)
+            {
+                f.ProtoType = m.GetProtoType(f.ProtoTypeName);
                 throw new ProtoFormatException("ProtoType not found: " + f.ProtoTypeName);
+            }
 
             if (f.OptionPacked)
             {
-                if(f.ProtoType.WireType == Wire.LengthDelimited)
+                if (f.ProtoType.WireType == Wire.LengthDelimited)
                     throw new InvalidOperationException("Length delimited types cannot be packed");
             }
         }
-        
-        /// <summary>
-        /// Search for field name in message hierarchy
-        /// </summary>
-        static ProtoType GetProtoType(ProtoMessage m, string path)
-        {
-            string[] parts = path.Split('.');
-            return SearchMessageUp(m, parts);           
-        }
 
-        /// <summary>
-        /// Searchs the message for matchink classes
-        /// </summary>
-        /// <param name='name'>
-        /// name from .proto
-        /// </param>
-        static ProtoType SearchMessageUp(ProtoMessage p, string[] name)
-        {
-            if (p is ProtoFile)
-                return SearchMessageDown(p, name);
-            
-            ProtoMessage m = p as ProtoMessage;
-            if (m.ProtoName == name [0])
-            {
-                if (name.Length == 1)
-                    return m;
-                
-                string[] subName = new string[name.Length - 1];
-                Array.Copy(name, 1, subName, 0, subName.Length);
-                
-                return SearchMessageDown(m, subName);
-            }
-            
-            ProtoType down = SearchMessageDown(p, name);
-            if (down != null)
-                return down;
-            
-            return SearchMessageUp(m.Parent, name);
-        }
-        
-        /// <summary>
-        /// Search down for matching name
-        /// </summary>
-        /// <param name='name'>
-        /// Split .proto type name
-        /// </param>
-        static ProtoType SearchMessageDown(ProtoMessage p, string[] name)
-        {
-            if (name.Length == 1)
-            {
-                foreach (ProtoEnum me in p.Enums)
-                {
-                    if (me.ProtoName == name [0])
-                        return me;
-                }
-            }
-            
-            foreach (ProtoMessage sub in p.Messages)
-            {
-                if (sub.ProtoName == name [0])
-                {
-                    if (name.Length == 1)
-                        return sub;
-                    string[] subName = new string[name.Length - 1];
-                    Array.Copy(name, 1, subName, 0, subName.Length);
-                    
-                    return SearchMessageDown(sub, subName);
-                }
-            }
-            
-            return null;
-        }
-        
-        
         /// <summary>
         /// Return the type given the name from a .proto file.
         /// Return Unknonw if it is a message or an enum.
@@ -184,7 +118,7 @@ namespace ProtocolBuffers
         {
             string csname = GetCamelCase(name); 
             
-            foreach (ProtoEnum me in m.Enums)
+            foreach (ProtoEnum me in m.Enums.Values)
                 if (me.CsType == csname)
                     return name;
             

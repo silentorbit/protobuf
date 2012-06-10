@@ -7,7 +7,7 @@ namespace Yours
     public partial class MyMessageV2
     {
         /// <summary>
-        /// Will with random test data
+        /// Create a message with test data
         /// </summary>
         public static MyMessageV2 TestInstance()
         {

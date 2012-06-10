@@ -7,7 +7,7 @@ namespace ProtocolBuffers
         public static void GenerateClass(ProtoMessage m, CodeWriter cw)
         {
             //Do not generate class code for external classes
-            if (m.OptionExternal || m.OptionImported)
+            if (m.OptionExternal)
             {
                 cw.Comment("Written elsewhere");
                 cw.Comment(m.OptionAccess + " " + m.OptionType + " " + m.CsType + " {}");
@@ -36,7 +36,7 @@ namespace ProtocolBuffers
                 cw.WriteLine();
             }
             
-            foreach (ProtoMessage sub in m.Messages)
+            foreach (ProtoMessage sub in m.Messages.Values)
             {
                 GenerateClass(sub, cw);
                 cw.WriteLine();
@@ -47,7 +47,7 @@ namespace ProtocolBuffers
 
         static void GenerateEnums(ProtoMessage m, CodeWriter cw)
         {
-            foreach (ProtoEnum me in m.Enums)
+            foreach (ProtoEnum me in m.Enums.Values)
             {
                 cw.Bracket("public enum " + me.CsType);
                 foreach (var epair in me.Enums)
@@ -71,33 +71,33 @@ namespace ProtocolBuffers
         {
             foreach (Field f in m.Fields.Values)
             {
-                if (f.OptionGenerate)
+                if (f.OptionExternal)
+                    cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
+                else
                 {
                     if (f.Comments != null) 
                         cw.Summary(f.Comments);
                     cw.WriteLine(GenerateProperty(f));
                     cw.WriteLine();
-                } else
-                {
-                    cw.WriteLine("//" + GenerateProperty(f) + " //Implemented by user elsewhere");
-                }
+                } 
+                
             }
         }
         
         static string GenerateProperty(Field f)
         {
             string type = f.ProtoType.FullCsType;
-            if(f.OptionCodeType != null)
+            if (f.OptionCodeType != null)
                 type = f.OptionCodeType;
             if (f.Rule == FieldRule.Repeated)
-                type = "List<" + f.ProtoType.FullCsType + ">";
+                type = "List<" + type + ">";
 
             if (f.OptionReadOnly)
-                return f.OptionAccess + " readonly " + type + " " + f.Name + " = new " + type + "();";
+                return f.OptionAccess + " readonly " + type + " " + f.CsName + " = new " + type + "();";
             else if (f.ProtoType is ProtoMessage && f.ProtoType.OptionType == "struct")
-                return f.OptionAccess + " " + type + " " + f.Name + ";";
+                return f.OptionAccess + " " + type + " " + f.CsName + ";";
             else
-                return f.OptionAccess + " " + type + " " + f.Name + " { get; set; }";
+                return f.OptionAccess + " " + type + " " + f.CsName + " { get; set; }";
         }
     }
 }

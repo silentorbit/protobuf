@@ -19,7 +19,7 @@ namespace ProtocolBuffers
             GenerateReader(m, cw);
 
             GenerateWriter(m, cw);
-            foreach (ProtoMessage sub in m.Messages)
+            foreach (ProtoMessage sub in m.Messages.Values)
             {
                 cw.WriteLine();
                 GenerateClassSerializer(sub, cw);
@@ -77,14 +77,14 @@ namespace ProtocolBuffers
                 {
                     if (f.Rule == FieldRule.Repeated)
                     {
-                        cw.WriteLine("if (instance." + f.Name + " == null)");
-                        cw.WriteIndent("instance." + f.Name + " = new List<" + f.ProtoType.FullCsType + ">();");
+                        cw.WriteLine("if (instance." + f.CsName + " == null)");
+                        cw.WriteIndent("instance." + f.CsName + " = new List<" + f.ProtoType.FullCsType + ">();");
                     } else if (f.OptionDefault != null)
                     {
                         if (f.ProtoType is ProtoEnum)
-                            cw.WriteLine("instance." + f.Name + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
+                            cw.WriteLine("instance." + f.CsName + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
                         else
-                            cw.WriteLine("instance." + f.Name + " = " + f.OptionDefault + ";");
+                            cw.WriteLine("instance." + f.CsName + " = " + f.OptionDefault + ";");
                     } else if (f.Rule == FieldRule.Optional)
                     {
                         if (f.ProtoType is ProtoEnum)
@@ -93,7 +93,7 @@ namespace ProtocolBuffers
                             //the default value is the first value listed in the enum's type definition
                             foreach (var kvp in pe.Enums)
                             {
-                                cw.WriteLine("instance." + f.Name + " = " + kvp.Key + ";");
+                                cw.WriteLine("instance." + f.CsName + " = " + kvp.Key + ";");
                                 break;
                             }
                         }

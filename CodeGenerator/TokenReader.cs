@@ -21,12 +21,12 @@ namespace ProtocolBuffers
                 return text.Substring(0, offset);
             }
         }
-        
-        public string Next
+
+        public char NextCharacter
         {
             get
             {
-                return text.Substring(offset, 1);
+                return text[offset];
             }
         }
         
@@ -43,13 +43,13 @@ namespace ProtocolBuffers
         }
         
         /// <summary>
-        /// Read next token and throw a ProtoFormatException if the token was not the specified.
+        /// Read next token and throw a ProtoFormatException if the token was not the expected one.
         /// </summary>
         public void ReadNextOrThrow(string expect)
         {
             string n = ReadNext();
             if (n != expect)
-                throw new ProtoFormatException("Expected: " + expect + " got " + n);
+                throw new ProtoFormatException("Expected: " + expect + " got " + n, this);
         }
         
         public string ReadNext()

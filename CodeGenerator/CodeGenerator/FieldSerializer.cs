@@ -22,11 +22,11 @@ namespace ProtocolBuffers
                     //TODO: read without buffering
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream))");
                     cw.WriteLine("while(ms" + f.ID + ".Position < ms" + f.ID + ".Length)");
-                    cw.WriteIndent("instance." + f.Name + ".Add(" + GenerateFieldTypeReader(f, "ms" + f.ID, "br", null) + ");");
+                    cw.WriteIndent("instance." + f.CsName + ".Add(" + GenerateFieldTypeReader(f, "ms" + f.ID, "br", null) + ");");
                     cw.EndBracket();
                 } else
                 {
-                    cw.WriteLine("instance." + f.Name + ".Add(" + GenerateFieldTypeReader(f, "stream", "br", null) + ");");
+                    cw.WriteLine("instance." + f.CsName + ".Add(" + GenerateFieldTypeReader(f, "stream", "br", null) + ");");
                 }
             } else
             {   
@@ -36,7 +36,7 @@ namespace ProtocolBuffers
                     //We could possibly support bytes primitive too but it would require the incoming length to match the wire length
                     if (f.ProtoType is ProtoMessage)
                     {
-                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
+                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.CsName) + ";");
                         return;
                     }
                     cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a readonly primitive field\");");
@@ -47,21 +47,21 @@ namespace ProtocolBuffers
                 {
                     if (f.ProtoType.OptionType == "struct")
                     {
-                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "ref instance." + f.Name) + ";");
+                        cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "ref instance." + f.CsName) + ";");
                         return;
                     }
 
-                    cw.WriteLine("if (instance." + f.Name + " == null)");
+                    cw.WriteLine("if (instance." + f.CsName + " == null)");
                     if (f.ProtoType.OptionType == "interface")
                         cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a interfaces null pointer\");");
                     else
-                        cw.WriteIndent("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
+                        cw.WriteIndent("instance." + f.CsName + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
                     cw.WriteLine("else");
-                    cw.WriteIndent(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
+                    cw.WriteIndent(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.CsName) + ";");
                     return;
                 } 
 
-                cw.WriteLine("instance." + f.Name + " = " + GenerateFieldTypeReader(f, "stream", "br", "instance." + f.Name) + ";");
+                cw.WriteLine("instance." + f.CsName + " = " + GenerateFieldTypeReader(f, "stream", "br", "instance." + f.CsName) + ";");
             }
         }
 
@@ -207,7 +207,7 @@ namespace ProtocolBuffers
             {
                 if (f.OptionPacked == true)
                 {
-                    cw.IfBracket("instance." + f.Name + " != null");
+                    cw.IfBracket("instance." + f.CsName + " != null");
                     GenerateKeyWriter("stream", f.ID, Wire.LengthDelimited, cw);
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream()");
                     if (f.ProtoType is ProtoBuiltin)
@@ -224,7 +224,7 @@ namespace ProtocolBuffers
                                 break;
                         }
                     }
-                    cw.ForeachBracket("var i" + f.ID + " in instance." + f.Name);
+                    cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID));
                     cw.EndBracket();
                     GenerateBytesWriter("stream", "ms" + f.ID, cw);
@@ -232,8 +232,8 @@ namespace ProtocolBuffers
                     cw.EndBracket();
                 } else
                 {
-                    cw.IfBracket("instance." + f.Name + " != null");
-                    cw.ForeachBracket("var i" + f.ID + " in instance." + f.Name);
+                    cw.IfBracket("instance." + f.CsName + " != null");
+                    cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
                     GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "i" + f.ID));
                     cw.EndBracket();
@@ -247,23 +247,23 @@ namespace ProtocolBuffers
                     f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
                 {
                     if (f.ProtoType.Nullable) //Struct always exist, not optional
-                        cw.IfBracket("instance." + f.Name + " != null");
+                        cw.IfBracket("instance." + f.CsName + " != null");
                     GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                    cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
+                    cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.CsName));
                     if (f.ProtoType.Nullable) //Struct always exist, not optional
                         cw.EndBracket();
                     return;
                 }
                 if (f.ProtoType is ProtoEnum)
                 {
-                    cw.IfBracket("instance." + f.Name + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
+                    cw.IfBracket("instance." + f.CsName + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
                     GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                    cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
+                    cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.CsName));
                     cw.EndBracket();
                     return;
                 }
                 GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
+                cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.CsName));
                 return;
             } else if (f.Rule == FieldRule.Required)
             {   
@@ -271,11 +271,11 @@ namespace ProtocolBuffers
                     f.ProtoType.ProtoName == ProtoBuiltin.String ||
                     f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
                 {
-                    cw.WriteLine("if (instance." + f.Name + " == null)");
-                    cw.WriteIndent("throw new ArgumentNullException(\"" + f.Name + "\", \"Required by proto specification.\");");
+                    cw.WriteLine("if (instance." + f.CsName + " == null)");
+                    cw.WriteIndent("throw new ArgumentNullException(\"" + f.CsName + "\", \"Required by proto specification.\");");
                 }
                 GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
+                cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.CsName));
                 return;
             }           
             throw new NotImplementedException("Unknown rule: " + f.Rule);

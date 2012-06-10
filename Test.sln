@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestB", "Test\TestB\TestB.csproj", "{C068143A-07C2-48BE-9EDB-08A05E8153CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BEA16CC-48D6-4FC7-9DF9-606ADC3428F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C068143A-07C2-48BE-9EDB-08A05E8153CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Test\Test.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.IndentSwitchBody = True
+		$2.AnonymousMethodBraceStyle = NextLine
+		$2.PropertyBraceStyle = NextLine
+		$2.PropertyGetBraceStyle = NextLine
+		$2.PropertySetBraceStyle = NextLine
+		$2.EventBraceStyle = NextLine
+		$2.EventAddBraceStyle = NextLine
+		$2.EventRemoveBraceStyle = NextLine
+		$2.StatementBraceStyle = NextLine
+		$2.ArrayInitializerBraceStyle = NextLine
+		$2.BeforeMethodDeclarationParentheses = False
+		$2.BeforeMethodCallParentheses = False
+		$2.BeforeConstructorDeclarationParentheses = False
+		$2.BeforeDelegateDeclarationParentheses = False
+		$2.NewParentheses = False
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.inheritsSet = VisualStudio
+		$3.inheritsScope = text/plain
+		$3.scope = text/plain
+		$0.TextStylePolicy = $4
+		$4.inheritsSet = VisualStudio
+		$4.inheritsScope = text/plain
+		$4.scope = text/x-csrc
+	EndGlobalSection
+EndGlobal

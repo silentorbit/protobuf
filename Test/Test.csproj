@@ -22,7 +22,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe ExampleA.proto Generated/ExampleA.cs TestB/ExampleB.proto TestB/Generated/ExampleB.cs" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe AddressBook.proto LocalFeatures.proto ProtoFeatures.proto Generated/Generated.cs" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -49,31 +49,34 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="NetPerson.cs" />
-    <Compile Include="LocalFeatures.cs" />
-    <Compile Include="Generated\ExampleA.cs" />
-    <Compile Include="Generated\ExampleA.Serializer.cs" />
-    <Compile Include="MyMessageV2.cs" />
-    <Compile Include="MyImplementeInterface.cs" />
+    <Compile Include="ProtoBuf-Net\NetPerson.cs" />
+    <Compile Include="CustomWritten\LocalFeatures.cs" />
+    <Compile Include="CustomWritten\MyImplementeInterface.cs" />
+    <Compile Include="CustomWritten\MyMessageV2.cs" />
+    <Compile Include="Generated\Generated.cs" />
+    <Compile Include="Generated\Generated.Serializer.cs" />
+    <Compile Include="Generated\ProtocolParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="ExampleA.proto">
+    <None Include="LocalFeatures.proto" />
+    <None Include="ProtoFeatures.proto" />
+    <None Include="AddressBook.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="csharpgen.proto" />
+    <None Include="AddressBook.csproto" />
+    <None Include="LocalFeatures.csproto" />
+    <None Include="ProtoFeatures.csproto" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated\" />
+    <Folder Include="ProtoBuf-Net\" />
+    <Folder Include="CustomWritten\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="TestB\TestB.csproj">
       <Project>{C068143A-07C2-48BE-9EDB-08A05E8153CF}</Project>
       <Name>TestB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj">
-      <Project>{108DF716-5E86-4515-836F-1AC211CA648B}</Project>
-      <Name>CodeGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>

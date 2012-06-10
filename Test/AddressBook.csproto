@@ -1,0 +1,76 @@
+﻿// Custom features based on AddressBook.proto
+// This file will be parsed and rewritten when CodeGenerator is run
+// Comments are lost
+
+message Personal.Person
+	access = public	//public, internal
+	//namespace = Personal
+	//type = class	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+	name
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	id
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	email
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	phone
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+
+message Personal.Person.PhoneNumber
+	access = public	//public, internal
+	//namespace = 
+	//type = class	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+	number
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+	type
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+
+message Personal.AddressBook
+	access = public	//public, internal
+	//namespace = Personal
+	//type = class	//class, struct or interface
+	//preserveunknown
+	//triggers
+	//external
+{
+	List
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
+}
+

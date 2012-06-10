@@ -6,62 +6,86 @@ namespace ProtocolBuffers
 {
     class MainClass
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            if (args.Length < 1)
+            if (args.Length == 0)
             {
-                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe path-to.proto [output.cs]");
-                return;                     
+                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe path-to.proto [path-to-second.proto [...]] [output.cs]");
+                Console.Error.WriteLine("Local settings(.csproto) files will be included automatically for mathcing .proto names.");
+                return -1;
             }
-            
-            //Currently the format is:
-            //CodeGenerator.exe file1.proto [file1OutputPath.cs] file2.proto [file2OutputPath.cs]
-            //Output paths must end in .cs
-            
+
+            ProtoCollection collection = new ProtoCollection();
+            string outputPath = null;
+
             int argIndex = 0;
             while (argIndex < args.Length)
             {
                 string protoPath = Path.GetFullPath(args [argIndex]);
+                string protoBase = Path.Combine(
+                        Path.GetDirectoryName(protoPath),
+                        Path.GetFileNameWithoutExtension(protoPath));
                 argIndex += 1;
-                
+
+                //First .proto filename is used as output unless specified later
+                if (argIndex == 1)
+                    outputPath = protoBase + ".cs";
+                //Handle last argument as the output .cs path
+                if (argIndex == args.Length && protoPath.EndsWith(".cs"))
+                {
+                    outputPath = protoPath;
+                    break;
+                }
+
                 if (File.Exists(protoPath) == false)
                 {
                     Console.Error.WriteLine("File not found: " + protoPath);
-                    if (args [argIndex].EndsWith(".cs"))
-                        argIndex += 1;
-                    continue;
+                    return -1;
                 }
 
-                //Parse .proto
-                Console.WriteLine("Parsing " + protoPath);
-                ProtoFile proto = ProtoParser.Parse(protoPath);
-                if (proto == null)
+                try
                 {
-                    if (args [argIndex].EndsWith(".cs"))
-                        argIndex += 1;
-                    continue;
-                }
-                Console.WriteLine(proto);
+                    ProtoCollection proto = new ProtoCollection();
 
-                //Interpret and reformat
-                ProtoPrepare.Prepare(proto);
-            
-                //Determine where to save the result
-                string codePath;
-                if (argIndex < args.Length && args [argIndex].EndsWith(".cs"))
-                {
-                    codePath = Path.GetFullPath(args [argIndex]);
-                    argIndex += 1;                  
-                } else
-                {
-                    string ext = Path.GetExtension(protoPath);
-                    codePath = protoPath.Substring(0, protoPath.Length - ext.Length) + ".cs";
-                }
+                    //Parse .proto
+                    Console.WriteLine("Parsing " + protoPath);
+                    ProtoParser.Parse(protoPath, proto);
+                
+                    //Parse .csproto
+                    if (File.Exists(protoBase + ".csproto"))
+                    {
+                        Console.WriteLine("Parsing " + protoPath);
+                        CsProtoParser.Parse(protoBase + ".csproto", proto);
+                    }
 
-                //Generate code
-                ProtoCode.Save(proto, codePath);
-                Console.WriteLine("Saved: " + codePath);
+                    //Save .csproto
+                    CsProtoWriter.Save(protoBase + ".csproto", proto);
+
+                    collection.Merge(proto);
+                }
+#if !DEBUG
+                catch (ProtoFormatException pfe)
+                {
+                    Console.WriteLine("Format error in " + protoPath);
+                    if (pfe.CsProto != null)
+                        Console.WriteLine(" at line " + pfe.CsProto.Line);
+                    Console.Write(pfe.Message);
+                    return -1;
+                }
+#else
+                finally {}
+#endif
             }
+
+            Console.WriteLine(collection);
+
+            //Interpret and reformat
+            ProtoPrepare.Prepare(collection);
+
+            //Generate code
+            ProtoCode.Save(collection, outputPath);
+            Console.WriteLine("Saved: " + outputPath);
+            return 0;
         }
     }
 }

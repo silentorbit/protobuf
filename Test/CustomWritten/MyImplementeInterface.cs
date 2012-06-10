@@ -2,7 +2,7 @@ using System;
 
 namespace Test
 {
-    public class MyImplementeInterface : ExampleNamespaceA.InterfaceTest
+    public class MyImplementeInterface : LocalFeatureTest.InterfaceTest
     {
         public MyImplementeInterface()
         {

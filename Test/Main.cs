@@ -6,10 +6,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Personal;
 using Yours;
-using Theirs;
 using Mine;
 using ProtocolBuffers;
-using ExampleNamespaceA;
 using Local;
 
 namespace Test

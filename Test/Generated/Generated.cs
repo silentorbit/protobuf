@@ -37,7 +37,7 @@ namespace Personal
 
     }
 }
-namespace ExampleNamespaceA
+namespace Personal
 {
     public partial class AddressBook
     {
@@ -45,10 +45,71 @@ namespace ExampleNamespaceA
 
     }
 }
+namespace Local
+{
+    /// <summary>This is a demonstration of features only present in ProtoBuf Code Generator</summary>
+    internal partial class LocalFeatures
+    {
+        /// <summary>Make class field of type TimeSpan, serialized to Ticks</summary>
+        public TimeSpan Uptime { get; set; }
+
+        /// <summary>Make class field of type DateTime, serialized to Ticks</summary>
+        public DateTime DueDate { get; set; }
+
+        //public double Amount { get; set; } // Implemented by user elsewhere
+        /// <summary>Custom field access types. Default: public</summary>
+        private string Denial { get; set; }
+
+        protected string Secret { get; set; }
+
+        internal string Internal { get; set; }
+
+        public string PR { get; set; }
+
+        /// <summary>Generate a c# readonly field</summary>
+        public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
+
+        /// <summary>When deserializing this one must be set to a class before</summary>
+        public LocalFeatureTest.InterfaceTest MyInterface { get; set; }
+
+        public LocalFeatureTest.StructTest MyStruct;
+
+        public TestB.ExternalStruct MyExtStruct;
+
+        public TestB.ExternalClass MyExtClass { get; set; }
+
+        // protected virtual void BeforeSerialize() {}
+        // protected virtual void AfterDeserialize() {}
+
+    }
+}
+namespace LocalFeatureTest
+{
+    /// <summary>Testing local struct serialization</summary>
+    public partial interface InterfaceTest
+    {
+    }
+}
+namespace LocalFeatureTest
+{
+    /// <summary>Testing local struct serialization</summary>
+    public partial struct StructTest
+    {
+    }
+}
+namespace TestB
+{
+    // Written elsewhere
+    // public struct ExternalStruct {}
+}
+namespace TestB
+{
+    // Written elsewhere
+    // public class ExternalClass {}
+}
 namespace Mine
 {
     /// <summary>
-    /// <para>This will be ignored</para>
     /// <para>This class is documented here:</para>
     /// <para>With multiple lines</para>
     /// </summary>
@@ -123,73 +184,11 @@ namespace Yours
 
     }
 }
-namespace Local
-{
-    /// <summary>This is a demonstration of features only present in ProtoBuf Code Generator</summary>
-    internal partial class LocalFeatures
-    {
-        /// <summary>Make class field of type TimeSpan, serialized to Ticks</summary>
-        public TimeSpan Uptime { get; set; }
-
-        /// <summary>Make class field of type DateTime, serialized to Ticks</summary>
-        public DateTime DueDate { get; set; }
-
-        //public double Amount { get; set; } //Implemented by user elsewhere
-        /// <summary>Custom field access types. Default: public</summary>
-        private string Denial { get; set; }
-
-        protected string Secret { get; set; }
-
-        internal string Internal { get; set; }
-
-        public string PR { get; set; }
-
-        /// <summary>Generate a c# readonly field</summary>
-        public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
-
-        /// <summary>When deserializing this one must be set to a class before</summary>
-        public ExampleNamespaceA.InterfaceTest MyInterface { get; set; }
-
-        public ExampleNamespaceA.StructTest MyStruct;
-
-        public TestB.ExternalStruct MyExtStruct;
-
-        public TestB.ExternalClass MyExtClass { get; set; }
-
-        /// <summary>Values for unknown fields.</summary>
-        public List<ProtocolBuffers.KeyValue> PreservedFields;
-
-        // protected virtual void BeforeSerialize() {}
-        // protected virtual void AfterDeserialize() {}
-
-    }
-}
-namespace ExampleNamespaceA
-{
-    /// <summary>Testing local struct serialization</summary>
-    public partial interface InterfaceTest
-    {
-    }
-}
-namespace ExampleNamespaceA
-{
-    /// <summary>Testing local struct serialization</summary>
-    public partial struct StructTest
-    {
-    }
-}
-namespace TestB
-{
-    // Written elsewhere
-    // public struct ExternalStruct {}
-}
-namespace TestB
-{
-    // Written elsewhere
-    // public class ExternalClass {}
-}
 namespace Theirs
 {
-    // Written elsewhere
-    // public class TheirMessage {}
+    public partial class TheirMessage
+    {
+        public int FieldA { get; set; }
+
+    }
 }

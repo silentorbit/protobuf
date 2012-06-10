@@ -20,7 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
-    <Commandlineparameters>../../../Test/ExampleA.proto ../../../Test/Generated/ExampleA.cs ../../../Test/TestB/ExampleB.proto ../../../Test/TestB/Generated/ExampleB.cs</Commandlineparameters>
+    <Commandlineparameters>../../../Test/AddressBook.proto ../../../Test/LocalFeatures.proto ../../../Test/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -49,12 +49,15 @@
     <Compile Include="CodeGenerator\CodeWriter.cs" />
     <Compile Include="Proto\ProtoMessage.cs" />
     <Compile Include="Proto\ProtoEnum.cs" />
-    <Compile Include="Proto\ProtoFile.cs" />
     <Compile Include="Proto\ProtoType.cs" />
     <Compile Include="Proto\ProtoPacked.cs" />
     <Compile Include="Proto\ProtoBuiltin.cs" />
     <Compile Include="CodeGenerator\FieldSerializer.cs" />
     <Compile Include="CodeGenerator\MessageSerializer.cs" />
+    <Compile Include="CsProtoParser.cs" />
+    <Compile Include="CsProtoReader.cs" />
+    <Compile Include="Proto\ProtoCollection.cs" />
+    <Compile Include="CsProtoWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -75,11 +78,7 @@
     <Folder Include="Proto\" />
     <Folder Include="ProtocolParser\" />
     <Folder Include="CodeGenerator\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\csharpgen.proto">
-      <Link>csharpgen.proto</Link>
-    </None>
+    <Folder Include="ProtoSpec\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -93,4 +92,24 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Include="..\Test\AddressBook.csproto">
+      <Link>ProtoSpec\AddressBook.csproto</Link>
+    </None>
+    <None Include="..\Test\AddressBook.proto">
+      <Link>ProtoSpec\AddressBook.proto</Link>
+    </None>
+    <None Include="..\Test\LocalFeatures.csproto">
+      <Link>ProtoSpec\LocalFeatures.csproto</Link>
+    </None>
+    <None Include="..\Test\LocalFeatures.proto">
+      <Link>ProtoSpec\LocalFeatures.proto</Link>
+    </None>
+    <None Include="..\Test\ProtoFeatures.csproto">
+      <Link>ProtoSpec\ProtoFeatures.csproto</Link>
+    </None>
+    <None Include="..\Test\ProtoFeatures.proto">
+      <Link>ProtoSpec\ProtoFeatures.proto</Link>
+    </None>
+  </ItemGroup>
 </Project>

@@ -33,7 +33,7 @@ namespace ProtocolBuffers
             {
                 if (OptionNamespace == null)
                 {
-                    if (Parent is ProtoFile)
+                    if (Parent is ProtoCollection)
                         return Parent.CsNamespace;
                     else
                         return Parent.CsNamespace + "." + Parent.CsType;
@@ -46,6 +46,24 @@ namespace ProtocolBuffers
         {
             get { return CsNamespace + "." + CsType;}
         }
+
+        /// <summary>
+        /// The C# namespace for this item
+        /// </summary>
+        public virtual string FullProtoName
+        {
+            get
+            {
+                if (Parent is ProtoCollection)
+                    return Package + "." + ProtoName;
+                return Parent.FullProtoName + "." + ProtoName;
+            }
+        }
+
+        /// <summary>
+        /// .proto package option
+        /// </summary>
+        public string Package { get; set; }
 
         #region Local options
 
@@ -73,11 +91,6 @@ namespace ProtocolBuffers
         public bool OptionExternal { get; set; }
 
         /// <summary>
-        /// Assume code for this message is already generated elsewhere
-        /// </summary>
-        public bool OptionImported { get; set; }
-
-        /// <summary>
         /// Can be "class", "struct" or "interface"
         /// </summary>
         public string OptionType { get; set; }
@@ -91,7 +104,6 @@ namespace ProtocolBuffers
             this.OptionTriggers = false;
             this.OptionPreserveUnknown = false;
             this.OptionExternal = false;
-            this.OptionImported = false;
             this.OptionType = null;
         }
 
