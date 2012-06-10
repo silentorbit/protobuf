@@ -152,27 +152,28 @@ namespace Personal
         {
             if (instance.Name == null)
                 throw new ArgumentNullException("Name", "Required by proto specification.");
-            // //Field: 1, LengthDelimited
-            ProtocolParser.WriteUInt32(stream, 10);
-            ProtocolParser.WriteString(stream, instance.Name);
-            // //Field: 2, Varint
-            ProtocolParser.WriteUInt32(stream, 16);
+            // Key for field: 1, LengthDelimited
+            stream.WriteByte(10);
+            ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
             ProtocolParser.WriteUInt32(stream,(uint)instance.Id);
             if (instance.Email != null)
             {
-                // //Field: 3, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 26);
-                ProtocolParser.WriteString(stream, instance.Email);
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Email));
             }
             if (instance.Phone != null)
             {
                 foreach (var i4 in instance.Phone)
                 {
-                    // //Field: 4, LengthDelimited
-                    ProtocolParser.WriteUInt32(stream, 34);
+                    // Key for field: 4, LengthDelimited
+                    stream.WriteByte(34);
                     ﻿using (MemoryStream ms4 = new MemoryStream())
                     {
                         Personal.Person.PhoneNumber.Serialize(ms4, i4);
+                        // Length delimited byte array
                         ProtocolParser.WriteBytes(stream, ms4.ToArray());
                     }
                     
@@ -310,13 +311,13 @@ namespace Personal
             {
                 if (instance.Number == null)
                     throw new ArgumentNullException("Number", "Required by proto specification.");
-                // //Field: 1, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 10);
-                ProtocolParser.WriteString(stream, instance.Number);
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Number));
                 if (instance.Type != PhoneType.HOME)
                 {
-                    // //Field: 2, Varint
-                    ProtocolParser.WriteUInt32(stream, 16);
+                    // Key for field: 2, Varint
+                    stream.WriteByte(16);
                     ProtocolParser.WriteUInt32(stream,(uint)instance.Type);
                 }
             }
@@ -453,11 +454,12 @@ namespace ExampleNamespaceA
             {
                 foreach (var i1 in instance.List)
                 {
-                    // //Field: 1, LengthDelimited
-                    ProtocolParser.WriteUInt32(stream, 10);
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
                     ﻿using (MemoryStream ms1 = new MemoryStream())
                     {
                         Personal.Person.Serialize(ms1, i1);
+                        // Length delimited byte array
                         ProtocolParser.WriteBytes(stream, ms1.ToArray());
                     }
                     
@@ -591,8 +593,8 @@ namespace Mine
 
         public static void Serialize(Stream stream, MyMessageV1 instance)
         {
-            // //Field: 1, Varint
-            ProtocolParser.WriteUInt32(stream, 8);
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
             if (instance.PreservedFields != null)
             {
@@ -949,83 +951,89 @@ namespace Yours
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            // //Field: 1, Varint
-            ProtocolParser.WriteUInt32(stream, 8);
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
-            // //Field: 2, Fixed64
-            ProtocolParser.WriteUInt32(stream, 17);
+            // Key for field: 2, Fixed64
+            stream.WriteByte(17);
             bw.Write(instance.FieldB);
-            // //Field: 3, Fixed32
-            ProtocolParser.WriteUInt32(stream, 29);
+            // Key for field: 3, Fixed32
+            stream.WriteByte(29);
             bw.Write(instance.FieldC);
-            // //Field: 4, Varint
-            ProtocolParser.WriteUInt32(stream, 32);
+            // Key for field: 4, Varint
+            stream.WriteByte(32);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldD);
-            // //Field: 5, Varint
-            ProtocolParser.WriteUInt32(stream, 40);
+            // Key for field: 5, Varint
+            stream.WriteByte(40);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldE);
-            // //Field: 6, Varint
-            ProtocolParser.WriteUInt32(stream, 48);
+            // Key for field: 6, Varint
+            stream.WriteByte(48);
             ProtocolParser.WriteUInt32(stream, instance.FieldF);
-            // //Field: 7, Varint
-            ProtocolParser.WriteUInt32(stream, 56);
+            // Key for field: 7, Varint
+            stream.WriteByte(56);
             ProtocolParser.WriteUInt64(stream, instance.FieldG);
-            // //Field: 8, Varint
-            ProtocolParser.WriteUInt32(stream, 64);
+            // Key for field: 8, Varint
+            stream.WriteByte(64);
             ProtocolParser.WriteSInt32(stream, instance.FieldH);
-            // //Field: 9, Varint
-            ProtocolParser.WriteUInt32(stream, 72);
+            // Key for field: 9, Varint
+            stream.WriteByte(72);
             ProtocolParser.WriteSInt64(stream, instance.FieldI);
-            // //Field: 10, Fixed32
-            ProtocolParser.WriteUInt32(stream, 85);
+            // Key for field: 10, Fixed32
+            stream.WriteByte(85);
             bw.Write(instance.FieldJ);
-            // //Field: 11, Fixed64
-            ProtocolParser.WriteUInt32(stream, 89);
+            // Key for field: 11, Fixed64
+            stream.WriteByte(89);
             bw.Write(instance.FieldK);
-            // //Field: 12, Fixed32
-            ProtocolParser.WriteUInt32(stream, 101);
+            // Key for field: 12, Fixed32
+            stream.WriteByte(101);
             bw.Write(instance.FieldL);
-            // //Field: 13, Fixed64
-            ProtocolParser.WriteUInt32(stream, 105);
+            // Key for field: 13, Fixed64
+            stream.WriteByte(105);
             bw.Write(instance.FieldM);
-            // //Field: 14, Varint
-            ProtocolParser.WriteUInt32(stream, 112);
+            // Key for field: 14, Varint
+            stream.WriteByte(112);
             ProtocolParser.WriteBool(stream, instance.FieldN);
             if (instance.FieldO == null)
                 throw new ArgumentNullException("FieldO", "Required by proto specification.");
-            // //Field: 15, LengthDelimited
-            ProtocolParser.WriteUInt32(stream, 122);
-            ProtocolParser.WriteString(stream, instance.FieldO);
+            // Key for field: 15, LengthDelimited
+            stream.WriteByte(122);
+            ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.FieldO));
             if (instance.FieldP == null)
                 throw new ArgumentNullException("FieldP", "Required by proto specification.");
-            // //Field: 16, LengthDelimited
-            ProtocolParser.WriteUInt32(stream, 130);
+            // Key for field: 16, LengthDelimited
+            stream.WriteByte(130);
+            stream.WriteByte(1);
             ProtocolParser.WriteBytes(stream, instance.FieldP);
-            // //Field: 17, Varint
-            ProtocolParser.WriteUInt32(stream, 136);
+            // Key for field: 17, Varint
+            stream.WriteByte(136);
+            stream.WriteByte(1);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldQ);
             if (instance.FieldR != MyEnum.ETest2)
             {
-                // //Field: 18, Varint
-                ProtocolParser.WriteUInt32(stream, 144);
+                // Key for field: 18, Varint
+                stream.WriteByte(144);
+                stream.WriteByte(1);
                 ProtocolParser.WriteUInt32(stream,(uint)instance.FieldR);
             }
             if (instance.Dummy != null)
             {
-                // //Field: 19, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 154);
-                ProtocolParser.WriteString(stream, instance.Dummy);
+                // Key for field: 19, LengthDelimited
+                stream.WriteByte(154);
+                stream.WriteByte(1);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
             }
             if (instance.FieldT != null)
             {
-                // //Field: 20, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 162);
+                // Key for field: 20, LengthDelimited
+                stream.WriteByte(162);
+                stream.WriteByte(1);
                 using (MemoryStream ms20 = new MemoryStream())
                 {
                     foreach (var i20 in instance.FieldT)
                     {
                         ProtocolParser.WriteUInt32(ms20, i20);
                     }
+                    // Length delimited byte array
                     ProtocolParser.WriteBytes(stream, ms20.ToArray());
                 }
             }
@@ -1033,18 +1041,21 @@ namespace Yours
             {
                 foreach (var i21 in instance.FieldS)
                 {
-                    // //Field: 21, Varint
-                    ProtocolParser.WriteUInt32(stream, 168);
+                    // Key for field: 21, Varint
+                    stream.WriteByte(168);
+                    stream.WriteByte(1);
                     ProtocolParser.WriteUInt32(stream, i21);
                 }
             }
             if (instance.FieldU != null)
             {
-                // //Field: 22, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 178);
+                // Key for field: 22, LengthDelimited
+                stream.WriteByte(178);
+                stream.WriteByte(1);
                 ﻿using (MemoryStream ms22 = new MemoryStream())
                 {
                     Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
+                    // Length delimited byte array
                     ProtocolParser.WriteBytes(stream, ms22.ToArray());
                 }
                 
@@ -1053,11 +1064,13 @@ namespace Yours
             {
                 foreach (var i23 in instance.FieldV)
                 {
-                    // //Field: 23, LengthDelimited
-                    ProtocolParser.WriteUInt32(stream, 186);
+                    // Key for field: 23, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(1);
                     ﻿using (MemoryStream ms23 = new MemoryStream())
                     {
                         Theirs.TheirMessage.Serialize(ms23, i23);
+                        // Length delimited byte array
                         ProtocolParser.WriteBytes(stream, ms23.ToArray());
                     }
                     
@@ -1298,83 +1311,88 @@ namespace Local
             instance.BeforeSerialize();
 
             BinaryWriter bw = new BinaryWriter(stream);
-            // //Field: 1, Varint
-            ProtocolParser.WriteUInt32(stream, 8);
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.Uptime.Ticks);
-            // //Field: 2, Varint
-            ProtocolParser.WriteUInt32(stream, 16);
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
-            // //Field: 3, Fixed64
-            ProtocolParser.WriteUInt32(stream, 25);
+            // Key for field: 3, Fixed64
+            stream.WriteByte(25);
             bw.Write(instance.Amount);
             if (instance.Denial != null)
             {
-                // //Field: 4, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 34);
-                ProtocolParser.WriteString(stream, instance.Denial);
+                // Key for field: 4, LengthDelimited
+                stream.WriteByte(34);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Denial));
             }
             if (instance.Secret != null)
             {
-                // //Field: 5, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 42);
-                ProtocolParser.WriteString(stream, instance.Secret);
+                // Key for field: 5, LengthDelimited
+                stream.WriteByte(42);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Secret));
             }
             if (instance.Internal != null)
             {
-                // //Field: 6, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 50);
-                ProtocolParser.WriteString(stream, instance.Internal);
+                // Key for field: 6, LengthDelimited
+                stream.WriteByte(50);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Internal));
             }
             if (instance.PR != null)
             {
-                // //Field: 7, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 58);
-                ProtocolParser.WriteString(stream, instance.PR);
+                // Key for field: 7, LengthDelimited
+                stream.WriteByte(58);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.PR));
             }
             if (instance.TestingReadOnly != null)
             {
-                // //Field: 8, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 66);
+                // Key for field: 8, LengthDelimited
+                stream.WriteByte(66);
                 ﻿using (MemoryStream ms8 = new MemoryStream())
                 {
                     Mine.MyMessageV1.Serialize(ms8, instance.TestingReadOnly);
+                    // Length delimited byte array
                     ProtocolParser.WriteBytes(stream, ms8.ToArray());
                 }
                 
             }
             if (instance.MyInterface == null)
                 throw new ArgumentNullException("MyInterface", "Required by proto specification.");
-            // //Field: 9, LengthDelimited
-            ProtocolParser.WriteUInt32(stream, 74);
+            // Key for field: 9, LengthDelimited
+            stream.WriteByte(74);
             ﻿using (MemoryStream ms9 = new MemoryStream())
             {
                 ExampleNamespaceA.InterfaceTestSerializer.Serialize(ms9, instance.MyInterface);
+                // Length delimited byte array
                 ProtocolParser.WriteBytes(stream, ms9.ToArray());
             }
             
-            // //Field: 10, LengthDelimited
-            ProtocolParser.WriteUInt32(stream, 82);
+            // Key for field: 10, LengthDelimited
+            stream.WriteByte(82);
             ﻿using (MemoryStream ms10 = new MemoryStream())
             {
                 ExampleNamespaceA.StructTest.Serialize(ms10, instance.MyStruct);
+                // Length delimited byte array
                 ProtocolParser.WriteBytes(stream, ms10.ToArray());
             }
             
-            // //Field: 11, LengthDelimited
-            ProtocolParser.WriteUInt32(stream, 90);
+            // Key for field: 11, LengthDelimited
+            stream.WriteByte(90);
             ﻿using (MemoryStream ms11 = new MemoryStream())
             {
                 TestB.ExternalStructSerializer.Serialize(ms11, instance.MyExtStruct);
+                // Length delimited byte array
                 ProtocolParser.WriteBytes(stream, ms11.ToArray());
             }
             
             if (instance.MyExtClass != null)
             {
-                // //Field: 12, LengthDelimited
-                ProtocolParser.WriteUInt32(stream, 98);
+                // Key for field: 12, LengthDelimited
+                stream.WriteByte(98);
                 ﻿using (MemoryStream ms12 = new MemoryStream())
                 {
                     TestB.ExternalClassSerializer.Serialize(ms12, instance.MyExtClass);
+                    // Length delimited byte array
                     ProtocolParser.WriteBytes(stream, ms12.ToArray());
                 }
                 

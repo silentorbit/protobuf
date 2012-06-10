@@ -122,8 +122,8 @@ namespace Theirs
 
         public static void Serialize(Stream stream, TheirMessage instance)
         {
-            // //Field: 1, Varint
-            ProtocolParser.WriteUInt32(stream, 8);
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
         }
 

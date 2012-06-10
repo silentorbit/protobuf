@@ -150,9 +150,52 @@ namespace ProtocolBuffers
         static void GenerateKeyWriter(string stream, int id, Wire wire, CodeWriter cw)
         {
             uint n = ((uint)id << 3) | ((uint)wire);
-            cw.Comment("//Field: " + id + ", " + wire);
-            //TODO: Generate entire WriteUInt32 for specific id/wire
-            cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", " + n + ");");
+            cw.Comment("Key for field: " + id + ", " + wire);
+            //cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", " + n + ");");
+            GenerateVarintWriter(stream, n, cw);
+        }
+
+        /// <summary>
+        /// Generates writer for a varint value known at compile time
+        /// </summary>
+        static void GenerateVarintWriter(string stream, uint value, CodeWriter cw)
+        {
+            while (true)
+            {
+                byte b = (byte)(value & 0x7F);
+                value = value >> 7;
+                if (value == 0)
+                {
+                    //Write final byte
+                    cw.WriteLine(stream + ".WriteByte(" + b + ");");
+                    return;
+                }
+
+                //Write part of value
+                b |= 0x80;
+                cw.WriteLine(stream + ".WriteByte(" + b + ");");
+            }
+        }
+        
+        /// <summary>
+        /// Generates inline writer of a length delimited byte array
+        /// </summary>
+        static void GenerateBytesWriter(string stream, string memoryStream, CodeWriter cw)
+        {
+            cw.Comment("Length delimited byte array");
+            //Much slower
+            /*
+            cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", (uint)" + memoryStream + ".Length);");
+            cw.WriteLine(memoryStream + ".Seek(0, System.IO.SeekOrigin.Begin);");
+            cw.WriteLine(memoryStream + ".CopyTo(" + stream + ");");
+            */
+            //Same speed as original
+            /*
+            cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", (uint)" + memoryStream + ".Length);");
+            cw.WriteLine(stream + ".Write(" + memoryStream + ".ToArray(), 0, (int)" + memoryStream + ".Length);");
+            */
+            //Original, fastest so far
+            cw.WriteLine("ProtocolParser.WriteBytes(" + stream + ", " + memoryStream + ".ToArray());");
         }
 
         /// <summary>
@@ -184,7 +227,7 @@ namespace ProtocolBuffers
                     cw.ForeachBracket("var i" + f.ID + " in instance." + f.Name);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID));
                     cw.EndBracket();
-                    cw.WriteLine("ProtocolParser.WriteBytes(stream, ms" + f.ID + ".ToArray());");
+                    GenerateBytesWriter("stream", "ms" + f.ID, cw);
                     cw.EndBracket();
                     cw.EndBracket();
                 } else
@@ -261,7 +304,7 @@ namespace ProtocolBuffers
                 CodeWriter cw = new CodeWriter();
                 cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream()");
                 cw.WriteLine(pm.FullSerializerType + ".Serialize(ms" + f.ID + ", " + instance + ");");
-                cw.WriteLine("ProtocolParser.WriteBytes(" + stream + ", ms" + f.ID + ".ToArray());");
+                GenerateBytesWriter(stream, "ms" + f.ID, cw);
                 cw.EndBracket();
                 return cw.Code;
             }
@@ -290,7 +333,7 @@ namespace ProtocolBuffers
                 case ProtoBuiltin.Bool:
                     return "ProtocolParser.WriteBool(" + stream + ", " + instance + ");";
                 case ProtoBuiltin.String:
-                    return "ProtocolParser.WriteString(" + stream + ", " + instance + ");";
+                    return "ProtocolParser.WriteBytes(" + stream + ", Encoding.UTF8.GetBytes(" + instance + "));";
                 case ProtoBuiltin.Bytes:
                     return "ProtocolParser.WriteBytes(" + stream + ", " + instance + ");";
             }
