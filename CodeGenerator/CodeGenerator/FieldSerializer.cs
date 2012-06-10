@@ -146,7 +146,15 @@ namespace ProtocolBuffers
         
         
         #region Writer
-        
+
+        static void GenerateKeyWriter(string stream, int id, Wire wire, CodeWriter cw)
+        {
+            uint n = ((uint)id << 3) | ((uint)wire);
+            cw.Comment("//Field: " + id + ", " + wire);
+            //TODO: Generate entire WriteUInt32 for specific id/wire
+            cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", " + n + ");");
+        }
+
         /// <summary>
         /// Generates code for writing one field
         /// </summary>
@@ -157,7 +165,7 @@ namespace ProtocolBuffers
                 if (f.OptionPacked == true)
                 {
                     cw.IfBracket("instance." + f.Name + " != null");
-                    cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + Wire.LengthDelimited + "));");
+                    GenerateKeyWriter("stream", f.ID, Wire.LengthDelimited, cw);
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream()");
                     if (f.ProtoType is ProtoBuiltin)
                     {
@@ -183,7 +191,7 @@ namespace ProtocolBuffers
                 {
                     cw.IfBracket("instance." + f.Name + " != null");
                     cw.ForeachBracket("var i" + f.ID + " in instance." + f.Name);
-                    cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.ProtoType.WireType + "));");
+                    GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "i" + f.ID));
                     cw.EndBracket();
                     cw.EndBracket();
@@ -197,7 +205,7 @@ namespace ProtocolBuffers
                 {
                     if (f.ProtoType.Nullable) //Struct always exist, not optional
                         cw.IfBracket("instance." + f.Name + " != null");
-                    cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.ProtoType.WireType + "));");
+                    GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
                     if (f.ProtoType.Nullable) //Struct always exist, not optional
                         cw.EndBracket();
@@ -206,12 +214,12 @@ namespace ProtocolBuffers
                 if (f.ProtoType is ProtoEnum)
                 {
                     cw.IfBracket("instance." + f.Name + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
-                    cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.ProtoType.WireType + "));");
+                    GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
                     cw.EndBracket();
                     return;
                 }
-                cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.ProtoType.WireType + "));");
+                GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                 cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
                 return;
             } else if (f.Rule == FieldRule.Required)
@@ -223,7 +231,7 @@ namespace ProtocolBuffers
                     cw.WriteLine("if (instance." + f.Name + " == null)");
                     cw.WriteIndent("throw new ArgumentNullException(\"" + f.Name + "\", \"Required by proto specification.\");");
                 }
-                cw.WriteLine("ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(" + f.ID + ", Wire." + f.ProtoType.WireType + "));");
+                GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                 cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.Name));
                 return;
             }           

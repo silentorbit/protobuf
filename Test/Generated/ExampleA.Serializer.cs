@@ -152,20 +152,24 @@ namespace Personal
         {
             if (instance.Name == null)
                 throw new ArgumentNullException("Name", "Required by proto specification.");
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
+            // //Field: 1, LengthDelimited
+            ProtocolParser.WriteUInt32(stream, 10);
             ProtocolParser.WriteString(stream, instance.Name);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Varint));
+            // //Field: 2, Varint
+            ProtocolParser.WriteUInt32(stream, 16);
             ProtocolParser.WriteUInt32(stream,(uint)instance.Id);
             if (instance.Email != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(3, Wire.LengthDelimited));
+                // //Field: 3, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 26);
                 ProtocolParser.WriteString(stream, instance.Email);
             }
             if (instance.Phone != null)
             {
                 foreach (var i4 in instance.Phone)
                 {
-                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(4, Wire.LengthDelimited));
+                    // //Field: 4, LengthDelimited
+                    ProtocolParser.WriteUInt32(stream, 34);
                     ﻿using (MemoryStream ms4 = new MemoryStream())
                     {
                         Personal.Person.PhoneNumber.Serialize(ms4, i4);
@@ -306,11 +310,13 @@ namespace Personal
             {
                 if (instance.Number == null)
                     throw new ArgumentNullException("Number", "Required by proto specification.");
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
+                // //Field: 1, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 10);
                 ProtocolParser.WriteString(stream, instance.Number);
                 if (instance.Type != PhoneType.HOME)
                 {
-                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Varint));
+                    // //Field: 2, Varint
+                    ProtocolParser.WriteUInt32(stream, 16);
                     ProtocolParser.WriteUInt32(stream,(uint)instance.Type);
                 }
             }
@@ -447,7 +453,8 @@ namespace ExampleNamespaceA
             {
                 foreach (var i1 in instance.List)
                 {
-                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.LengthDelimited));
+                    // //Field: 1, LengthDelimited
+                    ProtocolParser.WriteUInt32(stream, 10);
                     ﻿using (MemoryStream ms1 = new MemoryStream())
                     {
                         Personal.Person.Serialize(ms1, i1);
@@ -584,7 +591,8 @@ namespace Mine
 
         public static void Serialize(Stream stream, MyMessageV1 instance)
         {
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
+            // //Field: 1, Varint
+            ProtocolParser.WriteUInt32(stream, 8);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
             if (instance.PreservedFields != null)
             {
@@ -941,57 +949,77 @@ namespace Yours
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
+            // //Field: 1, Varint
+            ProtocolParser.WriteUInt32(stream, 8);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Fixed64));
+            // //Field: 2, Fixed64
+            ProtocolParser.WriteUInt32(stream, 17);
             bw.Write(instance.FieldB);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(3, Wire.Fixed32));
+            // //Field: 3, Fixed32
+            ProtocolParser.WriteUInt32(stream, 29);
             bw.Write(instance.FieldC);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(4, Wire.Varint));
+            // //Field: 4, Varint
+            ProtocolParser.WriteUInt32(stream, 32);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldD);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(5, Wire.Varint));
+            // //Field: 5, Varint
+            ProtocolParser.WriteUInt32(stream, 40);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldE);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(6, Wire.Varint));
+            // //Field: 6, Varint
+            ProtocolParser.WriteUInt32(stream, 48);
             ProtocolParser.WriteUInt32(stream, instance.FieldF);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(7, Wire.Varint));
+            // //Field: 7, Varint
+            ProtocolParser.WriteUInt32(stream, 56);
             ProtocolParser.WriteUInt64(stream, instance.FieldG);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(8, Wire.Varint));
+            // //Field: 8, Varint
+            ProtocolParser.WriteUInt32(stream, 64);
             ProtocolParser.WriteSInt32(stream, instance.FieldH);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(9, Wire.Varint));
+            // //Field: 9, Varint
+            ProtocolParser.WriteUInt32(stream, 72);
             ProtocolParser.WriteSInt64(stream, instance.FieldI);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(10, Wire.Fixed32));
+            // //Field: 10, Fixed32
+            ProtocolParser.WriteUInt32(stream, 85);
             bw.Write(instance.FieldJ);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(11, Wire.Fixed64));
+            // //Field: 11, Fixed64
+            ProtocolParser.WriteUInt32(stream, 89);
             bw.Write(instance.FieldK);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(12, Wire.Fixed32));
+            // //Field: 12, Fixed32
+            ProtocolParser.WriteUInt32(stream, 101);
             bw.Write(instance.FieldL);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(13, Wire.Fixed64));
+            // //Field: 13, Fixed64
+            ProtocolParser.WriteUInt32(stream, 105);
             bw.Write(instance.FieldM);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(14, Wire.Varint));
+            // //Field: 14, Varint
+            ProtocolParser.WriteUInt32(stream, 112);
             ProtocolParser.WriteBool(stream, instance.FieldN);
             if (instance.FieldO == null)
                 throw new ArgumentNullException("FieldO", "Required by proto specification.");
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(15, Wire.LengthDelimited));
+            // //Field: 15, LengthDelimited
+            ProtocolParser.WriteUInt32(stream, 122);
             ProtocolParser.WriteString(stream, instance.FieldO);
             if (instance.FieldP == null)
                 throw new ArgumentNullException("FieldP", "Required by proto specification.");
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(16, Wire.LengthDelimited));
+            // //Field: 16, LengthDelimited
+            ProtocolParser.WriteUInt32(stream, 130);
             ProtocolParser.WriteBytes(stream, instance.FieldP);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(17, Wire.Varint));
+            // //Field: 17, Varint
+            ProtocolParser.WriteUInt32(stream, 136);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldQ);
             if (instance.FieldR != MyEnum.ETest2)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(18, Wire.Varint));
+                // //Field: 18, Varint
+                ProtocolParser.WriteUInt32(stream, 144);
                 ProtocolParser.WriteUInt32(stream,(uint)instance.FieldR);
             }
             if (instance.Dummy != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(19, Wire.LengthDelimited));
+                // //Field: 19, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 154);
                 ProtocolParser.WriteString(stream, instance.Dummy);
             }
             if (instance.FieldT != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(20, Wire.LengthDelimited));
+                // //Field: 20, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 162);
                 using (MemoryStream ms20 = new MemoryStream())
                 {
                     foreach (var i20 in instance.FieldT)
@@ -1005,13 +1033,15 @@ namespace Yours
             {
                 foreach (var i21 in instance.FieldS)
                 {
-                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(21, Wire.Varint));
+                    // //Field: 21, Varint
+                    ProtocolParser.WriteUInt32(stream, 168);
                     ProtocolParser.WriteUInt32(stream, i21);
                 }
             }
             if (instance.FieldU != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(22, Wire.LengthDelimited));
+                // //Field: 22, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 178);
                 ﻿using (MemoryStream ms22 = new MemoryStream())
                 {
                     Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
@@ -1023,7 +1053,8 @@ namespace Yours
             {
                 foreach (var i23 in instance.FieldV)
                 {
-                    ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(23, Wire.LengthDelimited));
+                    // //Field: 23, LengthDelimited
+                    ProtocolParser.WriteUInt32(stream, 186);
                     ﻿using (MemoryStream ms23 = new MemoryStream())
                     {
                         Theirs.TheirMessage.Serialize(ms23, i23);
@@ -1267,35 +1298,43 @@ namespace Local
             instance.BeforeSerialize();
 
             BinaryWriter bw = new BinaryWriter(stream);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(1, Wire.Varint));
+            // //Field: 1, Varint
+            ProtocolParser.WriteUInt32(stream, 8);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.Uptime.Ticks);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(2, Wire.Varint));
+            // //Field: 2, Varint
+            ProtocolParser.WriteUInt32(stream, 16);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(3, Wire.Fixed64));
+            // //Field: 3, Fixed64
+            ProtocolParser.WriteUInt32(stream, 25);
             bw.Write(instance.Amount);
             if (instance.Denial != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(4, Wire.LengthDelimited));
+                // //Field: 4, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 34);
                 ProtocolParser.WriteString(stream, instance.Denial);
             }
             if (instance.Secret != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(5, Wire.LengthDelimited));
+                // //Field: 5, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 42);
                 ProtocolParser.WriteString(stream, instance.Secret);
             }
             if (instance.Internal != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(6, Wire.LengthDelimited));
+                // //Field: 6, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 50);
                 ProtocolParser.WriteString(stream, instance.Internal);
             }
             if (instance.PR != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(7, Wire.LengthDelimited));
+                // //Field: 7, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 58);
                 ProtocolParser.WriteString(stream, instance.PR);
             }
             if (instance.TestingReadOnly != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(8, Wire.LengthDelimited));
+                // //Field: 8, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 66);
                 ﻿using (MemoryStream ms8 = new MemoryStream())
                 {
                     Mine.MyMessageV1.Serialize(ms8, instance.TestingReadOnly);
@@ -1305,21 +1344,24 @@ namespace Local
             }
             if (instance.MyInterface == null)
                 throw new ArgumentNullException("MyInterface", "Required by proto specification.");
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(9, Wire.LengthDelimited));
+            // //Field: 9, LengthDelimited
+            ProtocolParser.WriteUInt32(stream, 74);
             ﻿using (MemoryStream ms9 = new MemoryStream())
             {
                 ExampleNamespaceA.InterfaceTestSerializer.Serialize(ms9, instance.MyInterface);
                 ProtocolParser.WriteBytes(stream, ms9.ToArray());
             }
             
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(10, Wire.LengthDelimited));
+            // //Field: 10, LengthDelimited
+            ProtocolParser.WriteUInt32(stream, 82);
             ﻿using (MemoryStream ms10 = new MemoryStream())
             {
                 ExampleNamespaceA.StructTest.Serialize(ms10, instance.MyStruct);
                 ProtocolParser.WriteBytes(stream, ms10.ToArray());
             }
             
-            ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(11, Wire.LengthDelimited));
+            // //Field: 11, LengthDelimited
+            ProtocolParser.WriteUInt32(stream, 90);
             ﻿using (MemoryStream ms11 = new MemoryStream())
             {
                 TestB.ExternalStructSerializer.Serialize(ms11, instance.MyExtStruct);
@@ -1328,7 +1370,8 @@ namespace Local
             
             if (instance.MyExtClass != null)
             {
-                ProtocolParser.WriteKey(stream, new ProtocolBuffers.Key(12, Wire.LengthDelimited));
+                // //Field: 12, LengthDelimited
+                ProtocolParser.WriteUInt32(stream, 98);
                 ﻿using (MemoryStream ms12 = new MemoryStream())
                 {
                     TestB.ExternalClassSerializer.Serialize(ms12, instance.MyExtClass);
