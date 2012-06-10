@@ -6,6 +6,9 @@ using System.ComponentModel;
 
 namespace Test
 {
+    /// <summary>
+    /// This class is similar to the Person class but special for testing against protobuf-net
+    /// </summary>
     [ProtoContract]
     class NetPerson
     {
@@ -32,6 +35,13 @@ namespace Test
             [DefaultValue(Person.PhoneType.HOME)]
             public Person.PhoneType Type { get; set; }
         }
+    }
+
+    [ProtoContract]
+    class NetAddressBook
+    {
+        [ProtoMember(1)]
+        public List<NetPerson> List { get; set; }
     }
 }
 
