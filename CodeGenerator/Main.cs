@@ -80,7 +80,16 @@ namespace ProtocolBuffers
             Console.WriteLine(collection);
 
             //Interpret and reformat
-            ProtoPrepare.Prepare(collection);
+            try
+            {
+                ProtoPrepare.Prepare(collection);
+            }
+            catch (ProtoFormatException pfe)
+            {
+                Console.WriteLine("Error in perparation:");
+                Console.WriteLine("\t" + pfe.Message);
+                return -1;
+            }
 
             //Generate code
             ProtoCode.Save(collection, outputPath);

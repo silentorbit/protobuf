@@ -38,7 +38,7 @@ message Personal.Person
 
 message Personal.Person.PhoneNumber
 	access = public	//public, internal
-	//namespace = 
+	//namespace = Personal.Person
 	//type = class	//class, struct or interface
 	//preserveunknown
 	//triggers

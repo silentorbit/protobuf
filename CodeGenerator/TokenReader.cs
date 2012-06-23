@@ -26,7 +26,7 @@ namespace ProtocolBuffers
         {
             get
             {
-                return text[offset];
+                return text [offset];
             }
         }
         
@@ -47,9 +47,15 @@ namespace ProtocolBuffers
         /// </summary>
         public void ReadNextOrThrow(string expect)
         {
-            string n = ReadNext();
-            if (n != expect)
-                throw new ProtoFormatException("Expected: " + expect + " got " + n, this);
+            try
+            {
+                string n = ReadNext();
+                if (n != expect)
+                    throw new ProtoFormatException("Expected: " + expect + " got " + n, this);
+            } catch (EndOfStreamException)
+            {
+                throw new ProtoFormatException("Expected: " + expect + " got EOF", this);
+            }
         }
         
         public string ReadNext()

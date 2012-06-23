@@ -22,7 +22,7 @@ message local_features
     optional string PR = 7;
     
     //Generate a c# readonly field
-    optional proto_test.my_message_v1 testing_read_only = 8;
+    optional proto.test.my_message_v1 testing_read_only = 8;
     
     //When deserializing this one must be set to a class before
     required interface_test MyInterface = 9;

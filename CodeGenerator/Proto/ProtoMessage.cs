@@ -37,11 +37,12 @@ namespace ProtocolBuffers
             }
         }
 
-        public ProtoMessage(ProtoMessage parent)
+        public ProtoMessage(ProtoMessage parent, string package)
         {
-            if((parent == null) && (this is ProtoCollection == false))
+            if ((parent == null) && (this is ProtoCollection == false))
                 throw new ArgumentNullException("parent");
             this.Parent = parent;
+            this.Package = package;
             this.OptionType = "class";
         }
         
@@ -54,98 +55,59 @@ namespace ProtocolBuffers
         #region Name searching
 
         /// <summary>
-        /// Search for field name in message hierarchy
+        /// Search for message in hierarchy
         /// </summary>
         public ProtoType GetProtoType(string path)
         {
-            //First assume local path
-            string[] parts = path.Split('.');
-            ProtoType pt = SearchMessageUp(parts);
-            if(pt != null)
+            if (this is ProtoCollection)
+                return SearchMessage(this, path);
+
+            //Get protocollection, top parent
+            ProtoMessage topParent = Parent;
+            while (topParent is ProtoCollection == false)
+                topParent = topParent.Parent;
+
+            //Search for message or enum
+            ProtoType pt;
+
+            //First search down current message hierarchy
+            pt = SearchMessage(topParent, Package + "." + ProtoName + "." + path);
+            if (pt != null)
                 return pt;
 
-            //If not found test by adding package name as prefix
-            parts = (Package + "." + path).Split('.');
-            return SearchMessageUp(parts);
+            //Second Search local namespace
+            pt = SearchMessage(topParent, Package + "." + path);
+            if (pt != null)
+                return pt;
+
+            //Finally search for global namespace
+            return SearchMessage(topParent, path);
         }
 
-        /// <summary>
-        /// Searchs the message for matchink classes
-        /// </summary>
-        /// <param name='name'>
-        /// name from .proto
-        /// </param>
-        ProtoType SearchMessageUp(string[] name)
+        ProtoType SearchMessage(ProtoMessage msg, string fullPath)
         {
-            if (this is ProtoCollection)
-                return SearchMessageDown(name);
-            
-            if (ProtoName == name [0])
+            foreach (ProtoMessage sub in msg.Messages.Values)
             {
-                if (name.Length == 1)
-                    return this;
-                
-                string[] subName = new string[name.Length - 1];
-                Array.Copy(name, 1, subName, 0, subName.Length);
-                
-                return SearchMessageDown(subName);
-            }
-            
-            ProtoType down = SearchMessageDown(name);
-            if (down != null)
-                return down;
-            
-            return Parent.SearchMessageUp(name);
-        }
-        
-        /// <summary>
-        /// Search down for matching name
-        /// </summary>
-        /// <param name='name'>
-        /// Split .proto type name
-        /// </param>
-        ProtoType SearchMessageDown(string[] name)
-        {
-            var p = this as ProtoMessage;
-            if (name.Length == 1)
-            {
-                foreach (ProtoEnum me in p.Enums.Values)
+                if(fullPath == sub.FullProtoName)
+                    return sub;
+
+                if(fullPath.StartsWith(sub.FullProtoName + "."))
                 {
-                    if (me.ProtoName == name [0])
-                        return me;
+                    ProtoType pt = SearchMessage(sub, fullPath);
+                    if(pt != null)
+                        return pt;
                 }
             }
 
-            int index = 0;
-            if (this is ProtoCollection)
+            foreach (ProtoEnum subEnum in msg.Enums.Values)
             {
-                if(name.Length < 2)
-                    return null;
-                index = 1;
+                if(fullPath == subEnum.FullProtoName)
+                    return subEnum;
             }
 
-            foreach (ProtoMessage sub in p.Messages.Values)
-            {
-                if (this is ProtoCollection)
-                {
-                    if(sub.Package != name[0])
-                        continue;
-                }
-
-                if (sub.ProtoName == name [index])
-                {
-                    if (name.Length == 1 + index)
-                        return sub;
-                    string[] subName = new string[name.Length - 1 - index];
-                    Array.Copy(name, 1 + index, subName, 0, subName.Length);
-                    
-                    return sub.SearchMessageDown(subName);
-                }
-            }
-            
             return null;
         }
-        
+
         #endregion
 
     }

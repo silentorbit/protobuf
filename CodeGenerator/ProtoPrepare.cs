@@ -57,7 +57,7 @@ namespace ProtocolBuffers
             if (f.ProtoType == null)
             {
                 f.ProtoType = m.GetProtoType(f.ProtoTypeName);
-                throw new ProtoFormatException("ProtoType not found: " + f.ProtoTypeName);
+                throw new ProtoFormatException("Field type \""+f.ProtoTypeName+"\" not found for field " + f.ProtoName + " in message " + m.FullProtoName);
             }
 
             if (f.OptionPacked)

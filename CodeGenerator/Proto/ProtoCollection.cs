@@ -9,7 +9,7 @@ namespace ProtocolBuffers
     /// </summary>
     class ProtoCollection : ProtoMessage
     {
-        public ProtoCollection() : base(null)
+        public ProtoCollection() : base(null, null)
         {
         }
 
@@ -36,7 +36,7 @@ namespace ProtocolBuffers
                 Enums.Add(e.ProtoName, e);
                 e.Parent = this;
             }
-        }        
+        }
 
         public override string ToString()
         {

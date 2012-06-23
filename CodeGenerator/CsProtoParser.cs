@@ -30,35 +30,35 @@ namespace ProtocolBuffers
                     line = line.Trim();
 
                     //Match to prefix
-                    for(int n = 0; n <= (int)level; n++)
+                    for (int n = 0; n <= (int)level; n++)
                     {
-                        if(prefix[n] == null)
+                        if (prefix [n] == null)
                         {
-                            prefix[n] = space;
+                            prefix [n] = space;
                             break;
                         }
 
-                        if(space == "")
+                        if (space == "")
                             level = (Level)n;
 
                         //Remove prefix part and continue
-                        if(space.StartsWith(prefix[n]))
-                            space = space.Substring(prefix[n].Length);
+                        if (space.StartsWith(prefix [n]))
+                            space = space.Substring(prefix [n].Length);
                         else
                             throw new ProtoFormatException("mismatch in indentation");
                     }
 
                     //Parse line
-                    if(level == Level.File)
+                    if (level == Level.File)
                     {
-                        if(line == "{")
+                        if (line == "{")
                         {
-                            if(message == null)
+                            if (message == null)
                                 throw new ProtoFormatException("Expected message before {", reader);
                             level = Level.MessageFields;
                             continue;
                         }
-                        if(line == "}")
+                        if (line == "}")
                         {
                             message = null;
                             level = Level.File;
@@ -66,30 +66,30 @@ namespace ProtocolBuffers
                         }
                         
                         string messageToken = "message";
-                        if(line.StartsWith(messageToken) == false)
+                        if (line.StartsWith(messageToken) == false)
                             throw new ProtoFormatException("Expected 'message'", reader);
 
                         //Found message
-                        string messageName =line.Substring(messageToken.Length).Trim();
+                        string messageName = line.Substring(messageToken.Length).Trim();
                         message = p.GetProtoType(messageName) as ProtoMessage;
-                        if(message == null)
-                            throw new ProtoFormatException("Message name not found in .proto: " + messageName, reader);
+                        if (message == null)
+                            throw new ProtoFormatException("Message \"" + messageName + "\" in .csproto not found in .proto", reader);
                         level = Level.Message;
                         continue;
                     }
-                    if(level == Level.Message)
+                    if (level == Level.Message)
                     {
                         //Parse message options
                         string[] parts = line.Split('=');
-                        if(parts.Length > 2)
+                        if (parts.Length > 2)
                             throw new ProtoFormatException("Bad option format, at most one '=', " + line);
-                        string key = parts[0].Trim().ToLowerInvariant();
-                        string value = (parts.Length == 2) ? parts[1].Trim() : null;
+                        string key = parts [0].Trim().ToLowerInvariant();
+                        string value = (parts.Length == 2) ? parts [1].Trim() : null;
 
-                        if(parts.Length == 1)
+                        if (parts.Length == 1)
                         {
                             //Parse flag
-                            switch(key)
+                            switch (key)
                             {
                                 case "triggers":
                                     message.OptionTriggers = true;
@@ -101,15 +101,14 @@ namespace ProtocolBuffers
                                     message.OptionExternal = true;
                                     break;
                                 default:
-                                    throw new ProtoFormatException("Unknown option: " + parts[0], reader);
+                                    throw new ProtoFormatException("Unknown option: " + parts [0], reader);
                             }
 
                             continue;
-                        }
-                        else
+                        } else
                         {
                             //Parse value
-                            switch(key)
+                            switch (key)
                             {
                                 case "namespace":
                                     message.OptionNamespace = value;
@@ -121,40 +120,40 @@ namespace ProtocolBuffers
                                     message.OptionType = value;
                                     break;
                                 default:
-                                    throw new ProtoFormatException("Unknown option: " + parts[0], reader);
+                                    throw new ProtoFormatException("Unknown option: " + parts [0], reader);
                             }
                             continue;
                         }
                     }
-                    if(level == Level.MessageFields)
+                    if (level == Level.MessageFields)
                     {
                         field = null;
-                        foreach(var f in message.Fields)
+                        foreach (var f in message.Fields)
                         {
-                            if(f.Value.ProtoName == line)
+                            if (f.Value.ProtoName == line)
                             {
                                 field = f.Value;
                                 break;
                             }
                         }
-                        if(field == null)
+                        if (field == null)
                             throw new ProtoFormatException("Field name not found in .proto: " + line, reader);
                         level = Level.Field;
                         continue;
                     }
-                    if(level == Level.Field)
+                    if (level == Level.Field)
                     {
                         //Parse message options
                         string[] parts = line.Split('=');
-                        if(parts.Length > 2)
+                        if (parts.Length > 2)
                             throw new ProtoFormatException("Bad option format, at most one '=', " + line);
-                        string key = parts[0].Trim().ToLowerInvariant();
-                        string value = (parts.Length == 2) ? parts[1].Trim() : null;
+                        string key = parts [0].Trim().ToLowerInvariant();
+                        string value = (parts.Length == 2) ? parts [1].Trim() : null;
 
-                        if(value == null)
+                        if (value == null)
                         {
                             //Parse flag
-                            switch(key)
+                            switch (key)
                             {
                                 case "external":
                                     field.OptionExternal = true;
@@ -163,14 +162,13 @@ namespace ProtocolBuffers
                                     field.OptionReadOnly = true;
                                     break;
                                 default:
-                                    throw new ProtoFormatException("Unknown field option: " + parts[0], reader);
+                                    throw new ProtoFormatException("Unknown field option: " + parts [0], reader);
                             }
                             continue;
-                        }
-                        else
+                        } else
                         {
                             //Parse value
-                            switch(key)
+                            switch (key)
                             {
                                 case "access":
                                     field.OptionAccess = value;
@@ -179,7 +177,7 @@ namespace ProtocolBuffers
                                     field.OptionCodeType = value;
                                     break;
                                 default:
-                                    throw new ProtoFormatException("Unknown field option: " + parts[0], reader);
+                                    throw new ProtoFormatException("Unknown field option: " + parts [0], reader);
                             }
                             continue;
                         }

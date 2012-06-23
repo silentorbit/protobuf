@@ -11,9 +11,13 @@ namespace ProtocolBuffers
         /// Return true if successful/no errors.
         /// </summary>
         public static void Parse(string path, ProtoCollection p)
-        {            
+        {   
+            //Preparation for parsing
+            //Real parsing is done in ParseMessages
+            lastComment = null;
+
+            //Read entire file and pass it into a TokenReader
             string t = "";
-            
             using (TextReader reader = new StreamReader(path, Encoding.UTF8))
             {
                 while (true)
@@ -25,9 +29,16 @@ namespace ProtocolBuffers
                     t += line + "\n";
                 }
             }
-            
             TokenReader tr = new TokenReader(t);
-            ParseMessages(tr, p);
+
+            try
+            {
+                ParseMessages(tr, p);
+            } catch (EndOfStreamException)
+            {
+                return;
+            }
+
         }
 
         static string lastComment = null;
@@ -53,45 +64,42 @@ namespace ProtocolBuffers
 
             while (true)
             {
-                string token;
-                try
-                {
-                    token = tr.ReadNext();
-                } catch (EndOfStreamException)
-                {
-                    return;
-                }
+                string token = tr.ReadNext();
                 if (ParseComment(token))
                     continue;
-                
-                switch (token)
+
+                try
                 {
-                    case "message":
-                        ProtoMessage pm = ParseMessage(tr, p);
-                        pm.Package = package;
-                        p.Messages.Add(pm.ProtoName, pm);
-                        break;
-                    case "option":
-                    //Save options
-                        ParseOption(tr, p);
-                        break;
-                    case "import": //Ignored
-                        tr.ReadNext();
-                        tr.ReadNextOrThrow(";");
-                        break;
-                    case "package":
-                        package = tr.ReadNext();
-                        tr.ReadNextOrThrow(";");
-                        break;
-                    default:
-                        throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
+                    switch (token)
+                    {
+                        case "message":
+                            ParseMessage(tr, p, package);
+                            break;
+                        case "option":
+                        //Save options
+                            ParseOption(tr, p);
+                            break;
+                        case "import": //Ignored
+                            tr.ReadNext();
+                            tr.ReadNextOrThrow(";");
+                            break;
+                        case "package":
+                            package = tr.ReadNext();
+                            tr.ReadNextOrThrow(";");
+                            break;
+                        default:
+                            throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
+                    }
+                } catch (EndOfStreamException)
+                {
+                    throw new ProtoFormatException("Unexpected EOF", tr);
                 }
             }
         }
 
-        static ProtoMessage ParseMessage(TokenReader tr, ProtoMessage parent)
+        static void ParseMessage(TokenReader tr, ProtoMessage parent, string package)
         {
-            ProtoMessage msg = new ProtoMessage(parent);
+            ProtoMessage msg = new ProtoMessage(parent, package);
             msg.Comments = lastComment;
             lastComment = null;
             msg.ProtoName = tr.ReadNext();
@@ -100,8 +108,8 @@ namespace ProtocolBuffers
             
             while (ParseField (tr, msg))
                 continue;
-            
-            return msg;         
+
+            parent.Messages.Add(msg.ProtoName, msg);
         }
 
         static bool ParseField(TokenReader tr, ProtoMessage m)
@@ -145,8 +153,7 @@ namespace ProtocolBuffers
                     ParseOption(tr, m);
                     return true;
                 case "message":
-                    ProtoMessage pm = ParseMessage(tr, m);
-                    m.Messages.Add(pm.ProtoName, pm);
+                    ParseMessage(tr, m, m.Package + "." + m.ProtoName);
                     return true;
                 default:
                     throw new ProtoFormatException("unknown rule: " + rule, tr);
@@ -236,12 +243,12 @@ namespace ProtocolBuffers
             
             switch (key)
             {
-                //None at the moment
-                //case "namespace":
-                //    m.OptionNamespace = value;
-                //    break;
+            //None at the moment
+            //case "namespace":
+            //    m.OptionNamespace = value;
+            //    break;
                 default:
-                    Console.WriteLine("Warning: Unknown option: " + key);
+                    Console.WriteLine("Warning: Unknown option: " + key + " = " + value);
                     break;
             }
         }
