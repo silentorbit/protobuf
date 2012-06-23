@@ -125,17 +125,18 @@ namespace ProtocolBuffers
                         offset += stream.Read(b, offset, 8 - offset);
                     return b;
                 case Wire.LengthDelimited:
-                //Read and include length in value buffer
-                    uint length = ProtocolParser.ReadUInt32(stream); 
+                    //Read and include length in value buffer
+                    uint length = ProtocolParser.ReadUInt32(stream);
                     using (MemoryStream ms = new MemoryStream ())
                     {
+                        //TODO: pass b directly to MemoryStream constructor or skip usage of it completely
                         ProtocolParser.WriteUInt32(ms, length);
                         b = new byte[length + ms.Length];
                         ms.ToArray().CopyTo(b, 0);
                         offset = (int)ms.Length;
                     }
 
-                //Read data into buffer
+                    //Read data into buffer
                     while (offset < b.Length)
                         offset += stream.Read(b, offset, b.Length - offset);
                     return b;

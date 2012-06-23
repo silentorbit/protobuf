@@ -183,19 +183,27 @@ namespace ProtocolBuffers
         static void GenerateBytesWriter(string stream, string memoryStream, CodeWriter cw)
         {
             cw.Comment("Length delimited byte array");
-            //Much slower
+
+            //Original
+            //cw.WriteLine("ProtocolParser.WriteBytes(" + stream + ", " + memoryStream + ".ToArray());");
+
+            //Much slower than original
             /*
             cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", (uint)" + memoryStream + ".Length);");
             cw.WriteLine(memoryStream + ".Seek(0, System.IO.SeekOrigin.Begin);");
             cw.WriteLine(memoryStream + ".CopyTo(" + stream + ");");
             */
+
             //Same speed as original
             /*
             cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", (uint)" + memoryStream + ".Length);");
             cw.WriteLine(stream + ".Write(" + memoryStream + ".ToArray(), 0, (int)" + memoryStream + ".Length);");
             */
-            //Original, fastest so far
-            cw.WriteLine("ProtocolParser.WriteBytes(" + stream + ", " + memoryStream + ".ToArray());");
+
+            //10% faster than original using GetBuffer rather than ToArray
+            cw.WriteLine("uint " + memoryStream + "Length = (uint)" + memoryStream + ".Length;");
+            cw.WriteLine("ProtocolParser.WriteUInt32(" + stream + ", " + memoryStream + "Length);");
+            cw.WriteLine(stream + ".Write(" + memoryStream + ".GetBuffer(), 0, (int)" + memoryStream + "Length);");
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace Personal
         {
             Person instance = new Person();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 
@@ -174,7 +174,9 @@ namespace Personal
                     {
                         Personal.Person.PhoneNumber.Serialize(ms4, i4);
                         // Length delimited byte array
-                        ProtocolParser.WriteBytes(stream, ms4.ToArray());
+                        uint ms4Length = (uint)ms4.Length;
+                        ProtocolParser.WriteUInt32(stream, ms4Length);
+                        stream.Write(ms4.GetBuffer(), 0, (int)ms4Length);
                     }
                     
                 }
@@ -203,7 +205,7 @@ namespace Personal
             {
                 PhoneNumber instance = new PhoneNumber();
                 using (MemoryStream ms = new MemoryStream(buffer))
-                Deserialize(ms, instance);
+                    Deserialize(ms, instance);
                 return instance;
             }
 
@@ -350,7 +352,7 @@ namespace Personal
         {
             AddressBook instance = new AddressBook();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 
@@ -460,7 +462,9 @@ namespace Personal
                     {
                         Personal.Person.Serialize(ms1, i1);
                         // Length delimited byte array
-                        ProtocolParser.WriteBytes(stream, ms1.ToArray());
+                        uint ms1Length = (uint)ms1.Length;
+                        ProtocolParser.WriteUInt32(stream, ms1Length);
+                        stream.Write(ms1.GetBuffer(), 0, (int)ms1Length);
                     }
                     
                 }
@@ -493,7 +497,7 @@ namespace Local
         {
             LocalFeatures instance = new LocalFeatures();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 
@@ -737,7 +741,9 @@ namespace Local
                 {
                     Mine.MyMessageV1.Serialize(ms8, instance.TestingReadOnly);
                     // Length delimited byte array
-                    ProtocolParser.WriteBytes(stream, ms8.ToArray());
+                    uint ms8Length = (uint)ms8.Length;
+                    ProtocolParser.WriteUInt32(stream, ms8Length);
+                    stream.Write(ms8.GetBuffer(), 0, (int)ms8Length);
                 }
                 
             }
@@ -749,7 +755,9 @@ namespace Local
             {
                 LocalFeatureTest.InterfaceTestSerializer.Serialize(ms9, instance.MyInterface);
                 // Length delimited byte array
-                ProtocolParser.WriteBytes(stream, ms9.ToArray());
+                uint ms9Length = (uint)ms9.Length;
+                ProtocolParser.WriteUInt32(stream, ms9Length);
+                stream.Write(ms9.GetBuffer(), 0, (int)ms9Length);
             }
             
             // Key for field: 10, LengthDelimited
@@ -758,7 +766,9 @@ namespace Local
             {
                 LocalFeatureTest.StructTest.Serialize(ms10, instance.MyStruct);
                 // Length delimited byte array
-                ProtocolParser.WriteBytes(stream, ms10.ToArray());
+                uint ms10Length = (uint)ms10.Length;
+                ProtocolParser.WriteUInt32(stream, ms10Length);
+                stream.Write(ms10.GetBuffer(), 0, (int)ms10Length);
             }
             
             // Key for field: 11, LengthDelimited
@@ -767,7 +777,9 @@ namespace Local
             {
                 TestB.ExternalStructSerializer.Serialize(ms11, instance.MyExtStruct);
                 // Length delimited byte array
-                ProtocolParser.WriteBytes(stream, ms11.ToArray());
+                uint ms11Length = (uint)ms11.Length;
+                ProtocolParser.WriteUInt32(stream, ms11Length);
+                stream.Write(ms11.GetBuffer(), 0, (int)ms11Length);
             }
             
             if (instance.MyExtClass != null)
@@ -778,7 +790,9 @@ namespace Local
                 {
                     TestB.ExternalClassSerializer.Serialize(ms12, instance.MyExtClass);
                     // Length delimited byte array
-                    ProtocolParser.WriteBytes(stream, ms12.ToArray());
+                    uint ms12Length = (uint)ms12.Length;
+                    ProtocolParser.WriteUInt32(stream, ms12Length);
+                    stream.Write(ms12.GetBuffer(), 0, (int)ms12Length);
                 }
                 
             }
@@ -911,7 +925,7 @@ namespace LocalFeatureTest
         {
             StructTest instance = new StructTest();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, ref instance);
+                Deserialize(ms, ref instance);
             return instance;
         }
 
@@ -1027,7 +1041,7 @@ namespace TestB
         {
             ExternalStruct instance = new ExternalStruct();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, ref instance);
+                Deserialize(ms, ref instance);
             return instance;
         }
 
@@ -1157,7 +1171,7 @@ namespace TestB
         {
             ExternalClass instance = new ExternalClass();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 
@@ -1284,7 +1298,7 @@ namespace Mine
         {
             MyMessageV1 instance = new MyMessageV1();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 
@@ -1423,7 +1437,7 @@ namespace Yours
         {
             MyMessageV2 instance = new MyMessageV2();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 
@@ -1825,7 +1839,9 @@ namespace Yours
                         ProtocolParser.WriteUInt32(ms20, i20);
                     }
                     // Length delimited byte array
-                    ProtocolParser.WriteBytes(stream, ms20.ToArray());
+                    uint ms20Length = (uint)ms20.Length;
+                    ProtocolParser.WriteUInt32(stream, ms20Length);
+                    stream.Write(ms20.GetBuffer(), 0, (int)ms20Length);
                 }
             }
             if (instance.FieldS != null)
@@ -1847,7 +1863,9 @@ namespace Yours
                 {
                     Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
                     // Length delimited byte array
-                    ProtocolParser.WriteBytes(stream, ms22.ToArray());
+                    uint ms22Length = (uint)ms22.Length;
+                    ProtocolParser.WriteUInt32(stream, ms22Length);
+                    stream.Write(ms22.GetBuffer(), 0, (int)ms22Length);
                 }
                 
             }
@@ -1862,7 +1880,9 @@ namespace Yours
                     {
                         Theirs.TheirMessage.Serialize(ms23, i23);
                         // Length delimited byte array
-                        ProtocolParser.WriteBytes(stream, ms23.ToArray());
+                        uint ms23Length = (uint)ms23.Length;
+                        ProtocolParser.WriteUInt32(stream, ms23Length);
+                        stream.Write(ms23.GetBuffer(), 0, (int)ms23Length);
                     }
                     
                 }
@@ -1895,7 +1915,7 @@ namespace Theirs
         {
             TheirMessage instance = new TheirMessage();
             using (MemoryStream ms = new MemoryStream(buffer))
-            Deserialize(ms, instance);
+                Deserialize(ms, instance);
             return instance;
         }
 

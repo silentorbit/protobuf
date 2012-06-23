@@ -44,7 +44,7 @@ namespace ProtocolBuffers
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
-                cw.WriteLine("Deserialize(ms, " + refstr + "instance);");
+                cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
             }
