@@ -5,8 +5,12 @@ namespace ProtocolBuffers
     static class FieldSerializer
     {
         #region Reader
-        
-        public static void GenerateFieldReader(Field f, CodeWriter cw)
+
+        /// <summary>
+        /// Return true for normal code and false for generated throw.
+        /// In the later case a break is not needed to be generated afterwards.
+        /// </summary>
+        public static bool GenerateFieldReader(Field f, CodeWriter cw)
         {
             if (f.Rule == FieldRule.Repeated)
             {
@@ -14,7 +18,7 @@ namespace ProtocolBuffers
                 if (f.ProtoType.OptionType == "interface")
                 {
                     cw.WriteLine("throw new InvalidOperationException(\"Can't deserialize a list of interfaces\");");
-                    return;
+                    return false;
                 }
 
                 if (f.OptionPacked == true)
@@ -37,10 +41,10 @@ namespace ProtocolBuffers
                     if (f.ProtoType is ProtoMessage)
                     {
                         cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.CsName) + ";");
-                        return;
+                        return true;
                     }
-                    cw.WriteIndent("throw new InvalidOperationException(\"Can't deserialize into a readonly primitive field\");");
-                    return;
+                    cw.WriteLine("throw new InvalidOperationException(\"Can't deserialize into a readonly primitive field\");");
+                    return false;
                 }
                 
                 if (f.ProtoType is ProtoMessage)
@@ -48,7 +52,7 @@ namespace ProtocolBuffers
                     if (f.ProtoType.OptionType == "struct")
                     {
                         cw.WriteLine(GenerateFieldTypeReader(f, "stream", "br", "ref instance." + f.CsName) + ";");
-                        return;
+                        return true;
                     }
 
                     cw.WriteLine("if (instance." + f.CsName + " == null)");
@@ -58,11 +62,12 @@ namespace ProtocolBuffers
                         cw.WriteIndent("instance." + f.CsName + " = " + GenerateFieldTypeReader(f, "stream", "br", null) + ";");
                     cw.WriteLine("else");
                     cw.WriteIndent(GenerateFieldTypeReader(f, "stream", "br", "instance." + f.CsName) + ";");
-                    return;
+                    return true;
                 } 
 
                 cw.WriteLine("instance." + f.CsName + " = " + GenerateFieldTypeReader(f, "stream", "br", "instance." + f.CsName) + ";");
             }
+            return true;
         }
 
         static string GenerateFieldTypeReader(Field f, string stream, string binaryReader, string instance)

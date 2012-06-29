@@ -35,12 +35,14 @@ namespace ProtocolBuffers
             string refstr = (m.OptionType == "struct") ? "ref " : "";
             if (m.OptionType != "interface")
             {
+                cw.Summary("Helper: create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(Stream stream)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("Deserialize(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
             
+                cw.Summary("Helper: put the buffer into a MemoryStream and create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
@@ -49,6 +51,7 @@ namespace ProtocolBuffers
                 cw.EndBracketSpace();
             }
 
+            cw.Summary("Helper: put the buffer into a MemoryStream before deserializing");
             cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " Deserialize(byte[] buffer, " + refstr + m.FullCsType + " instance)");
             cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
             cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
@@ -65,9 +68,15 @@ namespace ProtocolBuffers
             foreach (string method in methods)
             {
                 if (method == "Deserialize")
+                {
+                    cw.Summary("Takes the remaining content of the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
+                }
                 else
+                {
+                    cw.Summary("Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
+                }
 
                 if (IsUsingBinaryWriter(m))
                     cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
@@ -119,7 +128,6 @@ namespace ProtocolBuffers
                     cw.EndBracket();
                 }
 
-                cw.WriteLine("ProtocolBuffers.Key key = null;");
                 cw.WriteLine("int keyByte = stream.ReadByte();");
                 cw.WriteLine("if (keyByte == -1)");
                 if (method == "Deserialize")
@@ -135,17 +143,13 @@ namespace ProtocolBuffers
                         continue;
                     cw.Comment("Field " + f.ID + " " + f.WireType);
                     cw.Case(((f.ID << 3) | (int)f.WireType));
-                    FieldSerializer.GenerateFieldReader(f, cw);
-                    cw.WriteLine("break;");
+                    if(FieldSerializer.GenerateFieldReader(f, cw))
+                        cw.WriteLine("continue;");
                 }
-                cw.CaseDefault();
-                cw.WriteLine("key = ProtocolParser.ReadKey((byte)keyByte, stream);");
-                cw.WriteLine("break;");
                 cw.EndBracket();
                 cw.WriteLine();
 
-                cw.WriteLine("if (key == null)");
-                cw.WriteIndent("continue;");
+                cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);");
                 cw.WriteLine();
 
                 cw.Comment("Reading field ID > 16 and unknown field ID/wire type combinations");
@@ -160,8 +164,8 @@ namespace ProtocolBuffers
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
                     cw.WriteIndent("break;");
-                    FieldSerializer.GenerateFieldReader(f, cw);
-                    cw.WriteLine("continue;");
+                    if(FieldSerializer.GenerateFieldReader(f, cw))
+                        cw.WriteLine("continue;");
                 }
                 cw.CaseDefault();
                 if (m.OptionPreserveUnknown)
@@ -193,6 +197,7 @@ namespace ProtocolBuffers
         /// </summary>
         static void GenerateWriter(ProtoMessage m, CodeWriter cw)
         {
+            cw.Summary("Serialize the instance into the stream");
             cw.Bracket(m.OptionAccess + " static void Serialize(Stream stream, " + m.CsType + " instance)");
             if (m.OptionTriggers)
             {
@@ -217,6 +222,7 @@ namespace ProtocolBuffers
             cw.EndBracket();
             cw.WriteLine();
 
+            cw.Summary("Helper: Serialize into a MemoryStream and return its byte array");
             cw.Bracket(m.OptionAccess + " static byte[] SerializeToBytes(" + m.CsType + " instance)");
             cw.Using("MemoryStream ms = new MemoryStream()");
             cw.WriteLine("Serialize(ms, instance);");
