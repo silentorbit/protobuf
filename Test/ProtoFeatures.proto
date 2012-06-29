@@ -42,7 +42,7 @@ message my_message_v2
     
     optional string dummy = 19 [deprecated=true];
     
-    repeated uint32 field_t = 20 [packed=true];
+    repeated fixed32 field_t = 20 [packed=true];
     repeated uint32 field_s = 21;
     
     optional their_message field_u = 22;

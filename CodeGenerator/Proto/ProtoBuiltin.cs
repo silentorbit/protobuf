@@ -50,6 +50,16 @@ namespace ProtocolBuffers
 
         readonly Wire wireType;
         public override Wire WireType { get { return wireType; } }
+
+        public override int WireSize
+        {
+            get
+            {
+                if(ProtoName == ProtoBuiltin.Bool)
+                    return 1;
+                return base.WireSize;
+            }
+        }
     }
 }
 

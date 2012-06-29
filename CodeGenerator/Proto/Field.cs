@@ -25,6 +25,18 @@ namespace ProtocolBuffers
         public bool OptionPacked = false;
         public bool OptionDeprecated = false;
         public string OptionDefault = null;
+
+        public bool IsUsingBinaryWriter
+        {
+            get
+            {
+                if (ProtoType.WireType == Wire.Fixed32)
+                    return true;
+                if (ProtoType.WireType == Wire.Fixed64)
+                    return true;
+                return false;
+            }
+        }
         
         #region Locally used fields
         
@@ -60,7 +72,7 @@ namespace ProtocolBuffers
         {
             get
             {
-                if(OptionPacked)
+                if (OptionPacked)
                     return Wire.LengthDelimited;
                 return ProtoType.WireType;
             }

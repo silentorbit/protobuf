@@ -51,7 +51,35 @@ namespace ProtocolBuffers
             return "message " + FullProtoName;
         }
 
-        
+        public bool IsUsingBinaryWriter
+        {
+            get
+            {
+                foreach (Field f in Fields.Values)
+                    if (f.IsUsingBinaryWriter)
+                        return true;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// If all fields are constant then this messag eis constant too
+        /// </summary>
+        public override int WireSize
+        {
+            get
+            {
+                int totalSize = 0;
+                foreach (Field f in Fields.Values)
+                {
+                    if(f.ProtoType.WireSize < 0)
+                        return -1;
+                    totalSize += f.ProtoType.WireSize;
+                }
+                return totalSize;
+            }
+        }
+
         #region Name searching
 
         /// <summary>
@@ -88,20 +116,20 @@ namespace ProtocolBuffers
         {
             foreach (ProtoMessage sub in msg.Messages.Values)
             {
-                if(fullPath == sub.FullProtoName)
+                if (fullPath == sub.FullProtoName)
                     return sub;
 
-                if(fullPath.StartsWith(sub.FullProtoName + "."))
+                if (fullPath.StartsWith(sub.FullProtoName + "."))
                 {
                     ProtoType pt = SearchMessage(sub, fullPath);
-                    if(pt != null)
+                    if (pt != null)
                         return pt;
                 }
             }
 
             foreach (ProtoEnum subEnum in msg.Enums.Values)
             {
-                if(fullPath == subEnum.FullProtoName)
+                if (fullPath == subEnum.FullProtoName)
                     return subEnum;
             }
 

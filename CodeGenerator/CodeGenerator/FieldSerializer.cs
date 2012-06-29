@@ -24,12 +24,17 @@ namespace ProtocolBuffers
                 if (f.OptionPacked == true)
                 {
                     //TODO: read without buffering
+                    cw.Comment("repeated packed");
                     cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream(ProtocolParser.ReadBytes(stream))");
-                    cw.WriteLine("while(ms" + f.ID + ".Position < ms" + f.ID + ".Length)");
-                    cw.WriteIndent("instance." + f.CsName + ".Add(" + GenerateFieldTypeReader(f, "ms" + f.ID, "br", null) + ");");
+                    if (f.IsUsingBinaryWriter)
+                        cw.WriteLine("BinaryReader br" + f.ID + " = new BinaryReader(ms" + f.ID + ");");
+                    cw.WhileBracket("ms" + f.ID + ".Position < ms" + f.ID + ".Length");
+                    cw.WriteLine("instance." + f.CsName + ".Add(" + GenerateFieldTypeReader(f, "ms" + f.ID, "br" + f.ID, null) + ");");
+                    cw.EndBracket();
                     cw.EndBracket();
                 } else
                 {
+                    cw.Comment("repeated");
                     cw.WriteLine("instance." + f.CsName + ".Add(" + GenerateFieldTypeReader(f, "stream", "br", null) + ");");
                 }
             } else
@@ -82,14 +87,14 @@ namespace ProtocolBuffers
                         return "new TimeSpan((long)ProtocolParser.ReadUInt64(" + stream + "))";
                     default:
                     //Assume enum
-                        return "(" + f.OptionCodeType + ")" + GenerateFieldTypeReaderPrimitive(f, stream, instance);
+                        return "(" + f.OptionCodeType + ")" + GenerateFieldTypeReaderPrimitive(f, stream, binaryReader, instance);
                 }
             }
             
-            return GenerateFieldTypeReaderPrimitive(f, stream, instance);
+            return GenerateFieldTypeReaderPrimitive(f, stream, binaryReader, instance);
         }
 
-        static string GenerateFieldTypeReaderPrimitive(Field f, string stream, string instance)
+        static string GenerateFieldTypeReaderPrimitive(Field f, string stream, string binaryReader, string instance)
         {
             if (f.ProtoType is ProtoMessage)
             {
@@ -108,9 +113,9 @@ namespace ProtocolBuffers
                 switch (f.ProtoType.ProtoName)
                 {
                     case ProtoBuiltin.Double:
-                        return "br.ReadDouble()";
+                        return binaryReader + ".ReadDouble()";
                     case ProtoBuiltin.Float:
-                        return "br.ReadSingle()";
+                        return binaryReader + ".ReadSingle()";
                     case ProtoBuiltin.Int32:
                         return "(int)ProtocolParser.ReadUInt32(" + stream + ")";
                     case ProtoBuiltin.Int64:
@@ -124,13 +129,13 @@ namespace ProtocolBuffers
                     case ProtoBuiltin.SInt64:
                         return "ProtocolParser.ReadSInt64(" + stream + ")";
                     case ProtoBuiltin.Fixed32:
-                        return "br.ReadUInt32()";
+                        return binaryReader + ".ReadUInt32()";
                     case ProtoBuiltin.Fixed64:
-                        return "br.ReadUInt64()";
+                        return binaryReader + ".ReadUInt64()";
                     case ProtoBuiltin.SFixed32:
-                        return "br.ReadInt32()";
+                        return binaryReader + ".ReadInt32()";
                     case ProtoBuiltin.SFixed64:
-                        return "br.ReadInt64()";
+                        return binaryReader + ".ReadInt64()";
                     case ProtoBuiltin.Bool:
                         return "ProtocolParser.ReadBool(" + stream + ")";
                     case ProtoBuiltin.String:
@@ -220,31 +225,39 @@ namespace ProtocolBuffers
             {
                 if (f.OptionPacked == true)
                 {
+                    //Repeated packed
                     cw.IfBracket("instance." + f.CsName + " != null");
+
                     GenerateKeyWriter("stream", f.ID, Wire.LengthDelimited, cw);
-                    cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream()");
-                    if (f.ProtoType is ProtoBuiltin)
+                    if (f.ProtoType.WireSize < 0)
                     {
-                        switch (f.ProtoType.ProtoName)
-                        {
-                            case ProtoBuiltin.Double:
-                            case ProtoBuiltin.Float:
-                            case ProtoBuiltin.Fixed32:
-                            case ProtoBuiltin.Fixed64:
-                            case ProtoBuiltin.SFixed32:
-                            case ProtoBuiltin.SFixed64:
-                                cw.WriteLine("BinaryWriter bw" + f.ID + " = new BinaryWriter(ms" + f.ID + ");");
-                                break;
-                        }
+                        //Un-optimized, unknown size
+                        cw.Using("MemoryStream ms" + f.ID + " = new MemoryStream()");
+                        if (f.IsUsingBinaryWriter)
+                            cw.WriteLine("BinaryWriter bw" + f.ID + " = new BinaryWriter(ms" + f.ID + ");");
+
+                        cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
+                        cw.WriteLine(GenerateFieldTypeWriter(f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID));
+                        cw.EndBracket();
+
+                        GenerateBytesWriter("stream", "ms" + f.ID, cw);
+                        cw.EndBracket();
+                    } else
+                    {
+                        //Optimized with known size
+                        //No memorystream buffering, write size first at once
+
+                        //For constant size messages we can skip serializing to the MemoryStream
+                        cw.WriteLine("ProtocolParser.WriteUInt32(stream, " + f.ProtoType.WireSize + "u * (uint)instance." + f.CsName + ".Count);");
+
+                        cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
+                        cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "i" + f.ID));
+                        cw.EndBracket();
                     }
-                    cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
-                    cw.WriteLine(GenerateFieldTypeWriter(f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID));
-                    cw.EndBracket();
-                    GenerateBytesWriter("stream", "ms" + f.ID, cw);
-                    cw.EndBracket();
                     cw.EndBracket();
                 } else
                 {
+                    //Repeated not packet
                     cw.IfBracket("instance." + f.CsName + " != null");
                     cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
                     GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
@@ -353,7 +366,7 @@ namespace ProtocolBuffers
 
             throw new NotImplementedException();
         }
-        
+
         #endregion
     }
 }

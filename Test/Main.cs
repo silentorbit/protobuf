@@ -296,7 +296,7 @@ namespace Test
             ab.List = new List<Person>();
             nab.List = new List<NetPerson>();
             //Generating structures
-            for (int n = 0; n < 1000; n++)
+            for (int n = 0; n < 5000; n++)
             {
                 Person p = new Person();
                 p.Name = "Alice" + n;

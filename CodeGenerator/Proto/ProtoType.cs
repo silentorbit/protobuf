@@ -125,6 +125,25 @@ namespace ProtocolBuffers
                 return false;
             }
         }
+
+        /// <summary>
+        /// If constant size, return the size, if not return -1.
+        /// </summary>
+        public virtual int WireSize
+        {
+            get
+            {
+                if(WireType == Wire.Fixed32)
+                    return 4;
+                if(WireType == Wire.Fixed64)
+                    return 8;
+                if(WireType == Wire.Varint)
+                    return -1;
+                if(WireType == Wire.LengthDelimited)
+                    return -1;
+                return -1;
+            }
+        }
     }
 }
 

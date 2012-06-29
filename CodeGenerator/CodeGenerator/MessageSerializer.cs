@@ -78,7 +78,7 @@ namespace ProtocolBuffers
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
                 }
 
-                if (IsUsingBinaryWriter(m))
+                if (m.IsUsingBinaryWriter)
                     cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
 
                 //Prepare List<> and default values
@@ -204,7 +204,7 @@ namespace ProtocolBuffers
                 cw.WriteLine("instance.BeforeSerialize();");
                 cw.WriteLine();
             }
-            if (IsUsingBinaryWriter(m))
+            if (m.IsUsingBinaryWriter)
                 cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
             
             foreach (Field f in m.Fields.Values)
@@ -229,21 +229,6 @@ namespace ProtocolBuffers
             cw.WriteLine("return ms.ToArray();");
             cw.EndBracket();
             cw.EndBracket();
-        }
-
-        /// <summary>
-        /// Determines if a BinaryWriter will be used
-        /// </summary>
-        static bool IsUsingBinaryWriter(ProtoMessage m)
-        {
-            foreach (Field f in m.Fields.Values)
-            {
-                if (f.ProtoType.WireType == Wire.Fixed32)
-                    return true;
-                if (f.ProtoType.WireType == Wire.Fixed64)
-                    return true;
-            }
-            return false;
         }
     }
 }

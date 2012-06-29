@@ -15,6 +15,7 @@ namespace Personal
 {
     public partial class Person
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Person Deserialize(Stream stream)
         {
             Person instance = new Person();
@@ -22,6 +23,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Person Deserialize(byte[] buffer)
         {
             Person instance = new Person();
@@ -30,6 +32,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Personal.Person Deserialize(byte[] buffer, Personal.Person instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -37,13 +40,13 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
         {
             if (instance.Phone == null)
                 instance.Phone = new List<Personal.Person.PhoneNumber>();
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -53,26 +56,23 @@ namespace Personal
                     // Field 1 LengthDelimited
                 case 10:
                     instance.Name = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 2 Varint
                 case 16:
                     instance.Id = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 3 LengthDelimited
                 case 26:
                     instance.Email = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 4 LengthDelimited
                 case 34:
+                    // repeated
                     instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream, new Personal.Person.PhoneNumber()));
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -88,6 +88,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Personal.Person DeserializeLengthDelimited(Stream stream, Personal.Person instance)
         {
             if (instance.Phone == null)
@@ -103,7 +104,6 @@ namespace Personal
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -113,26 +113,23 @@ namespace Personal
                     // Field 1 LengthDelimited
                 case 10:
                     instance.Name = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 2 Varint
                 case 16:
                     instance.Id = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 3 LengthDelimited
                 case 26:
                     instance.Email = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 4 LengthDelimited
                 case 34:
+                    // repeated
                     instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream, new Personal.Person.PhoneNumber()));
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -148,6 +145,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Person instance)
         {
             if (instance.Name == null)
@@ -183,6 +181,7 @@ namespace Personal
             }
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(Person instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -194,6 +193,7 @@ namespace Personal
 
         public partial class PhoneNumber
         {
+            /// <summary>Helper: create a new instance to deserializing into</summary>
             public static PhoneNumber Deserialize(Stream stream)
             {
                 PhoneNumber instance = new PhoneNumber();
@@ -201,6 +201,7 @@ namespace Personal
                 return instance;
             }
 
+            /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static PhoneNumber Deserialize(byte[] buffer)
             {
                 PhoneNumber instance = new PhoneNumber();
@@ -209,6 +210,7 @@ namespace Personal
                 return instance;
             }
 
+            /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
             public static Personal.Person.PhoneNumber Deserialize(byte[] buffer, Personal.Person.PhoneNumber instance)
             {
                 using (MemoryStream ms = new MemoryStream(buffer))
@@ -216,12 +218,12 @@ namespace Personal
                 return instance;
             }
 
+            /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
             public static Personal.Person.PhoneNumber Deserialize(Stream stream, Personal.Person.PhoneNumber instance)
             {
                 instance.Type = Personal.Person.PhoneType.HOME;
                 while (true)
                 {
-                    ProtocolBuffers.Key key = null;
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
                         break;
@@ -231,18 +233,14 @@ namespace Personal
                         // Field 1 LengthDelimited
                     case 10:
                         instance.Number = ProtocolParser.ReadString(stream);
-                        break;
+                        continue;
                         // Field 2 Varint
                     case 16:
                         instance.Type = (PhoneType)ProtocolParser.ReadUInt32(stream);
-                        break;
-                    default:
-                        key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                        break;
+                        continue;
                     }
 
-                    if (key == null)
-                        continue;
+                    ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                     // Reading field ID > 16 and unknown field ID/wire type combinations
                     switch (key.Field)
@@ -258,6 +256,7 @@ namespace Personal
                 return instance;
             }
 
+            /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
             public static Personal.Person.PhoneNumber DeserializeLengthDelimited(Stream stream, Personal.Person.PhoneNumber instance)
             {
                 instance.Type = Personal.Person.PhoneType.HOME;
@@ -272,7 +271,6 @@ namespace Personal
                         else
                             throw new InvalidOperationException("Read past max limit");
                     }
-                    ProtocolBuffers.Key key = null;
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
                         throw new System.IO.EndOfStreamException();
@@ -282,18 +280,14 @@ namespace Personal
                         // Field 1 LengthDelimited
                     case 10:
                         instance.Number = ProtocolParser.ReadString(stream);
-                        break;
+                        continue;
                         // Field 2 Varint
                     case 16:
                         instance.Type = (PhoneType)ProtocolParser.ReadUInt32(stream);
-                        break;
-                    default:
-                        key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                        break;
+                        continue;
                     }
 
-                    if (key == null)
-                        continue;
+                    ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                     // Reading field ID > 16 and unknown field ID/wire type combinations
                     switch (key.Field)
@@ -309,6 +303,7 @@ namespace Personal
                 return instance;
             }
 
+            /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, PhoneNumber instance)
             {
                 if (instance.Number == null)
@@ -324,6 +319,7 @@ namespace Personal
                 }
             }
 
+            /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
             public static byte[] SerializeToBytes(PhoneNumber instance)
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -341,6 +337,7 @@ namespace Personal
 {
     public partial class AddressBook
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static AddressBook Deserialize(Stream stream)
         {
             AddressBook instance = new AddressBook();
@@ -348,6 +345,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static AddressBook Deserialize(byte[] buffer)
         {
             AddressBook instance = new AddressBook();
@@ -356,6 +354,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Personal.AddressBook Deserialize(byte[] buffer, Personal.AddressBook instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -363,13 +362,13 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Personal.AddressBook Deserialize(Stream stream, Personal.AddressBook instance)
         {
             if (instance.List == null)
                 instance.List = new List<Personal.Person>();
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -378,15 +377,12 @@ namespace Personal
                 {
                     // Field 1 LengthDelimited
                 case 10:
+                    // repeated
                     instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream, new Personal.Person()));
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -402,6 +398,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Personal.AddressBook DeserializeLengthDelimited(Stream stream, Personal.AddressBook instance)
         {
             if (instance.List == null)
@@ -417,7 +414,6 @@ namespace Personal
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -426,15 +422,12 @@ namespace Personal
                 {
                     // Field 1 LengthDelimited
                 case 10:
+                    // repeated
                     instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream, new Personal.Person()));
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -450,6 +443,7 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, AddressBook instance)
         {
             if (instance.List != null)
@@ -471,6 +465,7 @@ namespace Personal
             }
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(AddressBook instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -486,6 +481,7 @@ namespace Local
 {
     internal partial class LocalFeatures
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         internal static LocalFeatures Deserialize(Stream stream)
         {
             LocalFeatures instance = new LocalFeatures();
@@ -493,6 +489,7 @@ namespace Local
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         internal static LocalFeatures Deserialize(byte[] buffer)
         {
             LocalFeatures instance = new LocalFeatures();
@@ -501,6 +498,7 @@ namespace Local
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         internal static Local.LocalFeatures Deserialize(byte[] buffer, Local.LocalFeatures instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -508,12 +506,12 @@ namespace Local
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures Deserialize(Stream stream, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -523,64 +521,60 @@ namespace Local
                     // Field 1 Varint
                 case 8:
                     instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64(stream));
-                    break;
+                    continue;
                     // Field 2 Varint
                 case 16:
                     instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64(stream));
-                    break;
+                    continue;
                     // Field 3 Fixed64
                 case 25:
                     instance.Amount = br.ReadDouble();
-                    break;
+                    continue;
                     // Field 4 LengthDelimited
                 case 34:
                     instance.Denial = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 5 LengthDelimited
                 case 42:
                     instance.Secret = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 6 LengthDelimited
                 case 50:
                     instance.Internal = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 7 LengthDelimited
                 case 58:
                     instance.PR = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 8 LengthDelimited
                 case 66:
                     Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
-                    break;
+                    continue;
                     // Field 9 LengthDelimited
                 case 74:
                     if (instance.MyInterface == null)
                         throw new InvalidOperationException("Can't deserialize into a interfaces null pointer");
                     else
                         LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
-                    break;
+                    continue;
                     // Field 10 LengthDelimited
                 case 82:
                     LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
-                    break;
+                    continue;
                     // Field 11 LengthDelimited
                 case 90:
                     TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
-                    break;
+                    continue;
                     // Field 12 LengthDelimited
                 case 98:
                     if (instance.MyExtClass == null)
                         instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, new TestB.ExternalClass());
                     else
                         TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -597,6 +591,7 @@ namespace Local
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures DeserializeLengthDelimited(Stream stream, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
@@ -611,7 +606,6 @@ namespace Local
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -621,64 +615,60 @@ namespace Local
                     // Field 1 Varint
                 case 8:
                     instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64(stream));
-                    break;
+                    continue;
                     // Field 2 Varint
                 case 16:
                     instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64(stream));
-                    break;
+                    continue;
                     // Field 3 Fixed64
                 case 25:
                     instance.Amount = br.ReadDouble();
-                    break;
+                    continue;
                     // Field 4 LengthDelimited
                 case 34:
                     instance.Denial = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 5 LengthDelimited
                 case 42:
                     instance.Secret = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 6 LengthDelimited
                 case 50:
                     instance.Internal = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 7 LengthDelimited
                 case 58:
                     instance.PR = ProtocolParser.ReadString(stream);
-                    break;
+                    continue;
                     // Field 8 LengthDelimited
                 case 66:
                     Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
-                    break;
+                    continue;
                     // Field 9 LengthDelimited
                 case 74:
                     if (instance.MyInterface == null)
                         throw new InvalidOperationException("Can't deserialize into a interfaces null pointer");
                     else
                         LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
-                    break;
+                    continue;
                     // Field 10 LengthDelimited
                 case 82:
                     LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
-                    break;
+                    continue;
                     // Field 11 LengthDelimited
                 case 90:
                     TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
-                    break;
+                    continue;
                     // Field 12 LengthDelimited
                 case 98:
                     if (instance.MyExtClass == null)
                         instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, new TestB.ExternalClass());
                     else
                         TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -695,6 +685,7 @@ namespace Local
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         internal static void Serialize(Stream stream, LocalFeatures instance)
         {
             instance.BeforeSerialize();
@@ -798,6 +789,7 @@ namespace Local
             }
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         internal static byte[] SerializeToBytes(LocalFeatures instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -813,6 +805,7 @@ namespace LocalFeatureTest
 {
     public static class InterfaceTestSerializer
     {
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static LocalFeatureTest.InterfaceTest Deserialize(byte[] buffer, LocalFeatureTest.InterfaceTest instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -820,24 +813,20 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.InterfaceTest Deserialize(Stream stream, LocalFeatureTest.InterfaceTest instance)
         {
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
                 // Optimized reading of known fields with field ID < 16
                 switch (keyByte)
                 {
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -853,6 +842,7 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.InterfaceTest DeserializeLengthDelimited(Stream stream, LocalFeatureTest.InterfaceTest instance)
         {
             long limit = ProtocolParser.ReadUInt32(stream);
@@ -866,20 +856,15 @@ namespace LocalFeatureTest
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
                 // Optimized reading of known fields with field ID < 16
                 switch (keyByte)
                 {
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -895,10 +880,12 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, InterfaceTest instance)
         {
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(InterfaceTest instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -914,6 +901,7 @@ namespace LocalFeatureTest
 {
     public partial struct StructTest
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static StructTest Deserialize(Stream stream)
         {
             StructTest instance = new StructTest();
@@ -921,6 +909,7 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static StructTest Deserialize(byte[] buffer)
         {
             StructTest instance = new StructTest();
@@ -929,6 +918,7 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static LocalFeatureTest.StructTest Deserialize(byte[] buffer, ref LocalFeatureTest.StructTest instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -936,24 +926,20 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.StructTest Deserialize(Stream stream, ref LocalFeatureTest.StructTest instance)
         {
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
                 // Optimized reading of known fields with field ID < 16
                 switch (keyByte)
                 {
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -969,6 +955,7 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.StructTest DeserializeLengthDelimited(Stream stream, ref LocalFeatureTest.StructTest instance)
         {
             long limit = ProtocolParser.ReadUInt32(stream);
@@ -982,20 +969,15 @@ namespace LocalFeatureTest
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
                 // Optimized reading of known fields with field ID < 16
                 switch (keyByte)
                 {
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1011,10 +993,12 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, StructTest instance)
         {
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(StructTest instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -1030,6 +1014,7 @@ namespace TestB
 {
     public static class ExternalStructSerializer
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalStruct Deserialize(Stream stream)
         {
             ExternalStruct instance = new ExternalStruct();
@@ -1037,6 +1022,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalStruct Deserialize(byte[] buffer)
         {
             ExternalStruct instance = new ExternalStruct();
@@ -1045,6 +1031,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static TestB.ExternalStruct Deserialize(byte[] buffer, ref TestB.ExternalStruct instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -1052,12 +1039,12 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct Deserialize(Stream stream, ref TestB.ExternalStruct instance)
         {
             BinaryReader br = new BinaryReader(stream);
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -1067,14 +1054,10 @@ namespace TestB
                     // Field 1 Fixed64
                 case 9:
                     instance.X = br.ReadDouble();
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1090,6 +1073,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct DeserializeLengthDelimited(Stream stream, ref TestB.ExternalStruct instance)
         {
             BinaryReader br = new BinaryReader(stream);
@@ -1104,7 +1088,6 @@ namespace TestB
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -1114,14 +1097,10 @@ namespace TestB
                     // Field 1 Fixed64
                 case 9:
                     instance.X = br.ReadDouble();
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1137,6 +1116,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalStruct instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
@@ -1145,6 +1125,7 @@ namespace TestB
             bw.Write(instance.X);
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(ExternalStruct instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -1160,6 +1141,7 @@ namespace TestB
 {
     public static class ExternalClassSerializer
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalClass Deserialize(Stream stream)
         {
             ExternalClass instance = new ExternalClass();
@@ -1167,6 +1149,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalClass Deserialize(byte[] buffer)
         {
             ExternalClass instance = new ExternalClass();
@@ -1175,6 +1158,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static TestB.ExternalClass Deserialize(byte[] buffer, TestB.ExternalClass instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -1182,11 +1166,11 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalClass Deserialize(Stream stream, TestB.ExternalClass instance)
         {
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -1196,14 +1180,10 @@ namespace TestB
                     // Field 1 Varint
                 case 8:
                     instance.A = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1219,6 +1199,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalClass DeserializeLengthDelimited(Stream stream, TestB.ExternalClass instance)
         {
             long limit = ProtocolParser.ReadUInt32(stream);
@@ -1232,7 +1213,6 @@ namespace TestB
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -1242,14 +1222,10 @@ namespace TestB
                     // Field 1 Varint
                 case 8:
                     instance.A = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1265,6 +1241,7 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalClass instance)
         {
             // Key for field: 1, Varint
@@ -1272,6 +1249,7 @@ namespace TestB
             ProtocolParser.WriteUInt32(stream,(uint)instance.A);
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(ExternalClass instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -1287,6 +1265,7 @@ namespace Mine
 {
     public partial class MyMessageV1
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(Stream stream)
         {
             MyMessageV1 instance = new MyMessageV1();
@@ -1294,6 +1273,7 @@ namespace Mine
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(byte[] buffer)
         {
             MyMessageV1 instance = new MyMessageV1();
@@ -1302,6 +1282,7 @@ namespace Mine
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Mine.MyMessageV1 Deserialize(byte[] buffer, Mine.MyMessageV1 instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -1309,11 +1290,11 @@ namespace Mine
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Mine.MyMessageV1 Deserialize(Stream stream, Mine.MyMessageV1 instance)
         {
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -1323,14 +1304,10 @@ namespace Mine
                     // Field 1 Varint
                 case 8:
                     instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1348,6 +1325,7 @@ namespace Mine
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Mine.MyMessageV1 DeserializeLengthDelimited(Stream stream, Mine.MyMessageV1 instance)
         {
             long limit = ProtocolParser.ReadUInt32(stream);
@@ -1361,7 +1339,6 @@ namespace Mine
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -1371,14 +1348,10 @@ namespace Mine
                     // Field 1 Varint
                 case 8:
                     instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1396,6 +1369,7 @@ namespace Mine
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV1 instance)
         {
             // Key for field: 1, Varint
@@ -1411,6 +1385,7 @@ namespace Mine
             }
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(MyMessageV1 instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -1426,6 +1401,7 @@ namespace Yours
 {
     public partial class MyMessageV2
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(Stream stream)
         {
             MyMessageV2 instance = new MyMessageV2();
@@ -1433,6 +1409,7 @@ namespace Yours
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(byte[] buffer)
         {
             MyMessageV2 instance = new MyMessageV2();
@@ -1441,6 +1418,7 @@ namespace Yours
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Yours.MyMessageV2 Deserialize(byte[] buffer, Yours.MyMessageV2 instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -1448,6 +1426,7 @@ namespace Yours
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
         {
             BinaryReader br = new BinaryReader(stream);
@@ -1460,7 +1439,6 @@ namespace Yours
                 instance.FieldV = new List<Theirs.TheirMessage>();
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -1470,70 +1448,66 @@ namespace Yours
                     // Field 1 Varint
                 case 8:
                     instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 2 Fixed64
                 case 17:
                     instance.FieldB = br.ReadDouble();
-                    break;
+                    continue;
                     // Field 3 Fixed32
                 case 29:
                     instance.FieldC = br.ReadSingle();
-                    break;
+                    continue;
                     // Field 4 Varint
                 case 32:
                     instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 5 Varint
                 case 40:
                     instance.FieldE = (long)ProtocolParser.ReadUInt64(stream);
-                    break;
+                    continue;
                     // Field 6 Varint
                 case 48:
                     instance.FieldF = ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 7 Varint
                 case 56:
                     instance.FieldG = ProtocolParser.ReadUInt64(stream);
-                    break;
+                    continue;
                     // Field 8 Varint
                 case 64:
                     instance.FieldH = ProtocolParser.ReadSInt32(stream);
-                    break;
+                    continue;
                     // Field 9 Varint
                 case 72:
                     instance.FieldI = ProtocolParser.ReadSInt64(stream);
-                    break;
+                    continue;
                     // Field 10 Fixed32
                 case 85:
                     instance.FieldJ = br.ReadUInt32();
-                    break;
+                    continue;
                     // Field 11 Fixed64
                 case 89:
                     instance.FieldK = br.ReadUInt64();
-                    break;
+                    continue;
                     // Field 12 Fixed32
                 case 101:
                     instance.FieldL = br.ReadInt32();
-                    break;
+                    continue;
                     // Field 13 Fixed64
                 case 105:
                     instance.FieldM = br.ReadInt64();
-                    break;
+                    continue;
                     // Field 14 Varint
                 case 112:
                     instance.FieldN = ProtocolParser.ReadBool(stream);
-                    break;
+                    continue;
                     // Field 15 LengthDelimited
                 case 122:
                     instance.FieldO = ProtocolParser.ReadString(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1563,15 +1537,20 @@ namespace Yours
                 case 20:
                     if(key.WireType != Wire.LengthDelimited)
                         break;
+                    // repeated packed
                     using (MemoryStream ms20 = new MemoryStream(ProtocolParser.ReadBytes(stream)))
                     {
-                        while(ms20.Position < ms20.Length)
-                            instance.FieldT.Add(ProtocolParser.ReadUInt32(ms20));
+                        BinaryReader br20 = new BinaryReader(ms20);
+                        while (ms20.Position < ms20.Length)
+                        {
+                            instance.FieldT.Add(br20.ReadUInt32());
+                        }
                     }
                     continue;
                 case 21:
                     if(key.WireType != Wire.Varint)
                         break;
+                    // repeated
                     instance.FieldS.Add(ProtocolParser.ReadUInt32(stream));
                     continue;
                 case 22:
@@ -1585,6 +1564,7 @@ namespace Yours
                 case 23:
                     if(key.WireType != Wire.LengthDelimited)
                         break;
+                    // repeated
                     instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream, new Theirs.TheirMessage()));
                     continue;
                 default:
@@ -1596,6 +1576,7 @@ namespace Yours
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 DeserializeLengthDelimited(Stream stream, Yours.MyMessageV2 instance)
         {
             BinaryReader br = new BinaryReader(stream);
@@ -1617,7 +1598,6 @@ namespace Yours
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -1627,70 +1607,66 @@ namespace Yours
                     // Field 1 Varint
                 case 8:
                     instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 2 Fixed64
                 case 17:
                     instance.FieldB = br.ReadDouble();
-                    break;
+                    continue;
                     // Field 3 Fixed32
                 case 29:
                     instance.FieldC = br.ReadSingle();
-                    break;
+                    continue;
                     // Field 4 Varint
                 case 32:
                     instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 5 Varint
                 case 40:
                     instance.FieldE = (long)ProtocolParser.ReadUInt64(stream);
-                    break;
+                    continue;
                     // Field 6 Varint
                 case 48:
                     instance.FieldF = ProtocolParser.ReadUInt32(stream);
-                    break;
+                    continue;
                     // Field 7 Varint
                 case 56:
                     instance.FieldG = ProtocolParser.ReadUInt64(stream);
-                    break;
+                    continue;
                     // Field 8 Varint
                 case 64:
                     instance.FieldH = ProtocolParser.ReadSInt32(stream);
-                    break;
+                    continue;
                     // Field 9 Varint
                 case 72:
                     instance.FieldI = ProtocolParser.ReadSInt64(stream);
-                    break;
+                    continue;
                     // Field 10 Fixed32
                 case 85:
                     instance.FieldJ = br.ReadUInt32();
-                    break;
+                    continue;
                     // Field 11 Fixed64
                 case 89:
                     instance.FieldK = br.ReadUInt64();
-                    break;
+                    continue;
                     // Field 12 Fixed32
                 case 101:
                     instance.FieldL = br.ReadInt32();
-                    break;
+                    continue;
                     // Field 13 Fixed64
                 case 105:
                     instance.FieldM = br.ReadInt64();
-                    break;
+                    continue;
                     // Field 14 Varint
                 case 112:
                     instance.FieldN = ProtocolParser.ReadBool(stream);
-                    break;
+                    continue;
                     // Field 15 LengthDelimited
                 case 122:
                     instance.FieldO = ProtocolParser.ReadString(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1720,15 +1696,20 @@ namespace Yours
                 case 20:
                     if(key.WireType != Wire.LengthDelimited)
                         break;
+                    // repeated packed
                     using (MemoryStream ms20 = new MemoryStream(ProtocolParser.ReadBytes(stream)))
                     {
-                        while(ms20.Position < ms20.Length)
-                            instance.FieldT.Add(ProtocolParser.ReadUInt32(ms20));
+                        BinaryReader br20 = new BinaryReader(ms20);
+                        while (ms20.Position < ms20.Length)
+                        {
+                            instance.FieldT.Add(br20.ReadUInt32());
+                        }
                     }
                     continue;
                 case 21:
                     if(key.WireType != Wire.Varint)
                         break;
+                    // repeated
                     instance.FieldS.Add(ProtocolParser.ReadUInt32(stream));
                     continue;
                 case 22:
@@ -1742,6 +1723,7 @@ namespace Yours
                 case 23:
                     if(key.WireType != Wire.LengthDelimited)
                         break;
+                    // repeated
                     instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream, new Theirs.TheirMessage()));
                     continue;
                 default:
@@ -1753,6 +1735,7 @@ namespace Yours
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
@@ -1832,16 +1815,10 @@ namespace Yours
                 // Key for field: 20, LengthDelimited
                 stream.WriteByte(162);
                 stream.WriteByte(1);
-                using (MemoryStream ms20 = new MemoryStream())
+                ProtocolParser.WriteUInt32(stream, 4u * (uint)instance.FieldT.Count);
+                foreach (var i20 in instance.FieldT)
                 {
-                    foreach (var i20 in instance.FieldT)
-                    {
-                        ProtocolParser.WriteUInt32(ms20, i20);
-                    }
-                    // Length delimited byte array
-                    uint ms20Length = (uint)ms20.Length;
-                    ProtocolParser.WriteUInt32(stream, ms20Length);
-                    stream.Write(ms20.GetBuffer(), 0, (int)ms20Length);
+                    bw.Write(i20);
                 }
             }
             if (instance.FieldS != null)
@@ -1889,6 +1866,7 @@ namespace Yours
             }
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(MyMessageV2 instance)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -1904,6 +1882,7 @@ namespace Theirs
 {
     public partial class TheirMessage
     {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(Stream stream)
         {
             TheirMessage instance = new TheirMessage();
@@ -1911,6 +1890,7 @@ namespace Theirs
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(byte[] buffer)
         {
             TheirMessage instance = new TheirMessage();
@@ -1919,6 +1899,7 @@ namespace Theirs
             return instance;
         }
 
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Theirs.TheirMessage Deserialize(byte[] buffer, Theirs.TheirMessage instance)
         {
             using (MemoryStream ms = new MemoryStream(buffer))
@@ -1926,11 +1907,11 @@ namespace Theirs
             return instance;
         }
 
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Theirs.TheirMessage Deserialize(Stream stream, Theirs.TheirMessage instance)
         {
             while (true)
             {
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
@@ -1940,14 +1921,10 @@ namespace Theirs
                     // Field 1 Varint
                 case 8:
                     instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1963,6 +1940,7 @@ namespace Theirs
             return instance;
         }
 
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Theirs.TheirMessage DeserializeLengthDelimited(Stream stream, Theirs.TheirMessage instance)
         {
             long limit = ProtocolParser.ReadUInt32(stream);
@@ -1976,7 +1954,6 @@ namespace Theirs
                     else
                         throw new InvalidOperationException("Read past max limit");
                 }
-                ProtocolBuffers.Key key = null;
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
@@ -1986,14 +1963,10 @@ namespace Theirs
                     // Field 1 Varint
                 case 8:
                     instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
-                    break;
-                default:
-                    key = ProtocolParser.ReadKey((byte)keyByte, stream);
-                    break;
+                    continue;
                 }
 
-                if (key == null)
-                    continue;
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -2009,6 +1982,7 @@ namespace Theirs
             return instance;
         }
 
+        /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, TheirMessage instance)
         {
             // Key for field: 1, Varint
@@ -2016,6 +1990,7 @@ namespace Theirs
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
         }
 
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(TheirMessage instance)
         {
             using (MemoryStream ms = new MemoryStream())
