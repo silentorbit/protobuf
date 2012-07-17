@@ -148,7 +148,10 @@ namespace ProtocolBuffers
             {
                 foreach (string part in name.Split('_'))
                 {
-                    csname += part.Substring(0, 1).ToUpperInvariant() + part.Substring(1);
+                    if(part.Length == 0)
+                        csname += "_";
+                    else
+                        csname += part.Substring(0, 1).ToUpperInvariant() + part.Substring(1);
                 }
             }       
             
