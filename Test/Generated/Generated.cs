@@ -78,6 +78,8 @@ namespace Local
 
         public TestB.ExternalClass MyExtClass { get; set; }
 
+        public LocalFeatureTest.TopEnum MyEnum { get; set; }
+
         // protected virtual void BeforeSerialize() {}
         // protected virtual void AfterDeserialize() {}
 
@@ -191,4 +193,13 @@ namespace Theirs
         public int FieldA { get; set; }
 
     }
+}
+namespace LocalFeatureTest
+{
+    public enum TopEnum
+    {
+        First = 1,
+        Last = 1000000,
+    }
+
 }

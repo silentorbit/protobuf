@@ -20,7 +20,7 @@ namespace ProtocolBuffers
         {
             get
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("This is a collection of multiple .proto files with different namespaces, namespace should have been set at local.");
             }
         }
 

@@ -75,6 +75,9 @@ namespace ProtocolBuffers
                         case "message":
                             ParseMessage(tr, p, package);
                             break;
+                        case "enum":
+                            ParseEnum(tr, p, package);
+                            break;
                         case "option":
                         //Save options
                             ParseOption(tr, p);
@@ -122,23 +125,14 @@ namespace ProtocolBuffers
                 rule = tr.ReadNext();
             }
 
-            if (rule == "}")
-                return false;
-            
-            if (rule == "enum")
-            {
-                ProtoEnum me = ParseEnum(tr, m);
-                m.Enums.Add(me.ProtoName, me);
-                return true;
-            }
-
             Field f = new Field();
-            f.Comments = lastComment;
-            lastComment = null;
-            
+
             //Rule
             switch (rule)
             {
+                case "}":
+                    lastComment = null;
+                    return false;
                 case "required":
                     f.Rule = FieldRule.Required;
                     break;
@@ -155,9 +149,16 @@ namespace ProtocolBuffers
                 case "message":
                     ParseMessage(tr, m, m.Package + "." + m.ProtoName);
                     return true;
+                case "enum":
+                    ParseEnum(tr, m, m.Package + "." + m.ProtoName);
+                    return true;
                 default:
                     throw new ProtoFormatException("unknown rule: " + rule, tr);
             }
+
+            //Field comments
+            f.Comments = lastComment;
+            lastComment = null;
 
             //Type
             f.ProtoTypeName = tr.ReadNext();
@@ -253,25 +254,28 @@ namespace ProtocolBuffers
             }
         }
 
-        static ProtoEnum ParseEnum(TokenReader tr, ProtoMessage parent)
+        static void ParseEnum(TokenReader tr, ProtoMessage parent, string package)
         {
-            ProtoEnum me = new ProtoEnum(parent);
+            ProtoEnum me = new ProtoEnum(parent, package);
+
             me.Comments = lastComment;
             lastComment = null;
             me.ProtoName = tr.ReadNext();
-            
+
+            parent.Enums.Add(me.ProtoName, me); //must be after .ProtoName is read
+
             if (tr.ReadNext() != "{")
                 throw new ProtoFormatException("Expected: {");
             
             while (true)
             {
                 string name = tr.ReadNext();
-                
+
                 if (ParseComment(name))
                     continue;
                 
                 if (name == "}")
-                    return me;
+                    return;
                 
                 //Ignore options
                 if (name == "option")

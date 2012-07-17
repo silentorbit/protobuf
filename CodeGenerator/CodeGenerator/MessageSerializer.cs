@@ -71,8 +71,7 @@ namespace ProtocolBuffers
                 {
                     cw.Summary("Takes the remaining content of the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
-                }
-                else
+                } else
                 {
                     cw.Summary("Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
@@ -102,7 +101,7 @@ namespace ProtocolBuffers
                             //the default value is the first value listed in the enum's type definition
                             foreach (var kvp in pe.Enums)
                             {
-                                cw.WriteLine("instance." + f.CsName + " = " + kvp.Key + ";");
+                                cw.WriteLine("instance." + f.CsName + " = " + pe.FullCsType + "." + kvp.Key + ";");
                                 break;
                             }
                         }
@@ -135,21 +134,38 @@ namespace ProtocolBuffers
                 else
                     cw.WriteIndent("throw new System.IO.EndOfStreamException();");
 
-                cw.Comment("Optimized reading of known fields with field ID < 16");
-                cw.Switch("keyByte");
+                //Determine if we need the lowID optimization
+                bool hasLowID = false;
                 foreach (Field f in m.Fields.Values)
                 {
-                    if (f.ID >= 16)
-                        continue;
-                    cw.Comment("Field " + f.ID + " " + f.WireType);
-                    cw.Case(((f.ID << 3) | (int)f.WireType));
-                    if(FieldSerializer.GenerateFieldReader(f, cw))
-                        cw.WriteLine("continue;");
+                    if (f.ID < 16)
+                    {
+                        hasLowID = true;
+                        break;
+                    }
                 }
-                cw.EndBracket();
-                cw.WriteLine();
 
-                cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);");
+                if(hasLowID)
+                {
+                    cw.Comment("Optimized reading of known fields with field ID < 16");
+                    cw.Switch("keyByte");
+                    foreach (Field f in m.Fields.Values)
+                    {
+                        if (f.ID >= 16)
+                            continue;
+                        cw.Comment("Field " + f.ID + " " + f.WireType);
+                        cw.Case(((f.ID << 3) | (int)f.WireType));
+                        if (FieldSerializer.GenerateFieldReader(f, cw))
+                            cw.WriteLine("continue;");
+                    }
+                    cw.EndBracket();
+                    cw.WriteLine();
+
+                    cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);");
+                }
+                else
+                    cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey(stream);");
+
                 cw.WriteLine();
 
                 cw.Comment("Reading field ID > 16 and unknown field ID/wire type combinations");
@@ -164,7 +180,7 @@ namespace ProtocolBuffers
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
                     cw.WriteIndent("break;");
-                    if(FieldSerializer.GenerateFieldReader(f, cw))
+                    if (FieldSerializer.GenerateFieldReader(f, cw))
                         cw.WriteLine("continue;");
                 }
                 cw.CaseDefault();

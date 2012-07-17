@@ -165,6 +165,7 @@ namespace Test
             local.Amount = Math.E;
             local.Deny("they exist");
             local.MyInterface = new MyImplementeInterface();
+            local.MyEnum = LocalFeatureTest.TopEnum.Last;
             MemoryStream ms1 = new MemoryStream();
             LocalFeatures.Serialize(ms1, local);
             

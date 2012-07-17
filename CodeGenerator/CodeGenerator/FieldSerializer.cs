@@ -106,7 +106,7 @@ namespace ProtocolBuffers
             }
 
             if (f.ProtoType is ProtoEnum)
-                return "(" + f.ProtoType.CsType + ")ProtocolParser.ReadUInt32(" + stream + ")";
+                return "(" + f.ProtoType.FullCsType + ")ProtocolParser.ReadUInt32(" + stream + ")";
             
             if (f.ProtoType is ProtoBuiltin)
             {
@@ -282,10 +282,12 @@ namespace ProtocolBuffers
                 }
                 if (f.ProtoType is ProtoEnum)
                 {
-                    cw.IfBracket("instance." + f.CsName + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
+                    if(f.OptionDefault != null)
+                        cw.IfBracket("instance." + f.CsName + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
                     GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.CsName));
-                    cw.EndBracket();
+                    if(f.OptionDefault != null)
+                        cw.EndBracket();
                     return;
                 }
                 GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);

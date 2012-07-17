@@ -236,7 +236,7 @@ namespace Personal
                         continue;
                         // Field 2 Varint
                     case 16:
-                        instance.Type = (PhoneType)ProtocolParser.ReadUInt32(stream);
+                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
                         continue;
                     }
 
@@ -283,7 +283,7 @@ namespace Personal
                         continue;
                         // Field 2 Varint
                     case 16:
-                        instance.Type = (PhoneType)ProtocolParser.ReadUInt32(stream);
+                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
                         continue;
                     }
 
@@ -510,6 +510,7 @@ namespace Local
         internal static Local.LocalFeatures Deserialize(Stream stream, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
+            instance.MyEnum = LocalFeatureTest.TopEnum.First;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -572,6 +573,10 @@ namespace Local
                     else
                         TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
                     continue;
+                    // Field 13 Varint
+                case 104:
+                    instance.MyEnum = (LocalFeatureTest.TopEnum)ProtocolParser.ReadUInt32(stream);
+                    continue;
                 }
 
                 ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
@@ -595,6 +600,7 @@ namespace Local
         internal static Local.LocalFeatures DeserializeLengthDelimited(Stream stream, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
+            instance.MyEnum = LocalFeatureTest.TopEnum.First;
             long limit = ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -665,6 +671,10 @@ namespace Local
                         instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, new TestB.ExternalClass());
                     else
                         TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
+                    continue;
+                    // Field 13 Varint
+                case 104:
+                    instance.MyEnum = (LocalFeatureTest.TopEnum)ProtocolParser.ReadUInt32(stream);
                     continue;
                 }
 
@@ -787,6 +797,9 @@ namespace Local
                 }
                 
             }
+            // Key for field: 13, Varint
+            stream.WriteByte(104);
+            ProtocolParser.WriteUInt32(stream,(uint)instance.MyEnum);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -821,12 +834,7 @@ namespace LocalFeatureTest
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
-                // Optimized reading of known fields with field ID < 16
-                switch (keyByte)
-                {
-                }
-
-                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey(stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -859,12 +867,7 @@ namespace LocalFeatureTest
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
-                // Optimized reading of known fields with field ID < 16
-                switch (keyByte)
-                {
-                }
-
-                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey(stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -934,12 +937,7 @@ namespace LocalFeatureTest
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     break;
-                // Optimized reading of known fields with field ID < 16
-                switch (keyByte)
-                {
-                }
-
-                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey(stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -972,12 +970,7 @@ namespace LocalFeatureTest
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
-                // Optimized reading of known fields with field ID < 16
-                switch (keyByte)
-                {
-                }
-
-                ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);
+                ProtocolBuffers.Key key = ProtocolParser.ReadKey(stream);
 
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
@@ -1522,12 +1515,12 @@ namespace Yours
                 case 17:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldQ = (MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
                     continue;
                 case 18:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldR = (MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
                     continue;
                 case 19:
                     if(key.WireType != Wire.LengthDelimited)
@@ -1681,12 +1674,12 @@ namespace Yours
                 case 17:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldQ = (MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
                     continue;
                 case 18:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldR = (MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
                     continue;
                 case 19:
                     if(key.WireType != Wire.LengthDelimited)

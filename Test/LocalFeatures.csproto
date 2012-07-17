@@ -82,6 +82,12 @@ message local_feature_test.local_features
 		//external
 		//readonly
 
+	MyEnum
+		access = public	//public, internal, protected or private
+		//codetype = DateTime or TimeSpan
+		//external
+		//readonly
+
 }
 
 message local_feature_test.interface_test

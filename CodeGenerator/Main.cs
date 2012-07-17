@@ -86,7 +86,7 @@ namespace ProtocolBuffers
             }
             catch (ProtoFormatException pfe)
             {
-                Console.WriteLine("Error in perparation:");
+                Console.WriteLine("Error in preparation:");
                 Console.WriteLine("\t" + pfe.Message);
                 return -1;
             }

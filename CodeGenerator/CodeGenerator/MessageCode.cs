@@ -49,18 +49,23 @@ namespace ProtocolBuffers
         {
             foreach (ProtoEnum me in m.Enums.Values)
             {
-                cw.Bracket("public enum " + me.CsType);
-                foreach (var epair in me.Enums)
-                {
-                    if (me.EnumsComments.ContainsKey(epair.Key))
-                        cw.Summary(me.EnumsComments [epair.Key]);
-                    cw.WriteLine(epair.Key + " = " + epair.Value + ",");
-                }
-                cw.EndBracket();
-                cw.WriteLine();
+                GenerateEnum(me, cw);
             }
         }
-
+        
+        public static void GenerateEnum(ProtoEnum me, CodeWriter cw)
+        {
+            cw.Bracket("public enum " + me.CsType);
+            foreach (var epair in me.Enums)
+            {
+                if (me.EnumsComments.ContainsKey(epair.Key))
+                    cw.Summary(me.EnumsComments [epair.Key]);
+                cw.WriteLine(epair.Key + " = " + epair.Value + ",");
+            }
+            cw.EndBracket();
+            cw.WriteLine();
+        }
+        
         /// <summary>
         /// Generates the properties.
         /// </summary>

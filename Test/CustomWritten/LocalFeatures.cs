@@ -57,7 +57,8 @@ namespace Local
                 return false;
             if (l.PR != this.PR)
                 return false;
-
+            if(l.MyEnum != this.MyEnum)
+                return false;
             return true;
         }
         

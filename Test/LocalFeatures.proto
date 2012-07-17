@@ -3,6 +3,12 @@ package local_feature_test;
 
 import "ProtoFeatures.proto";
 
+enum top_enum
+{
+    First = 1;
+    Last = 1000000;
+}
+
 //This is a demonstration of features only present in ProtoBuf Code Generator
 message local_features
 {
@@ -29,6 +35,8 @@ message local_features
     optional struct_test MyStruct = 10;
     optional external_struct MyExtStruct = 11;
     optional external_class MyExtClass = 12;
+    
+    optional top_enum MyEnum = 13;
 }
 
 //Testing local struct serialization
