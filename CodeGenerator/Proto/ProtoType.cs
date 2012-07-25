@@ -97,6 +97,22 @@ namespace ProtocolBuffers
 
         #endregion
 
+        /// <summary>
+        /// Used by types within a namespace
+        /// </summary>
+        public ProtoType(ProtoMessage parent, string package) : this()
+        {
+            if (this is ProtoCollection == false)
+            {
+                if (parent == null)
+                    throw new ArgumentNullException("parent");
+                if (package == null)
+                    throw new ArgumentNullException("package");
+            }
+            this.Parent = parent;
+            this.Package = package;
+        }
+        
         public ProtoType()
         {
             this.OptionNamespace = null;
@@ -106,7 +122,7 @@ namespace ProtocolBuffers
             this.OptionExternal = false;
             this.OptionType = null;
         }
-
+        
         public bool Nullable
         {
             get
@@ -133,13 +149,13 @@ namespace ProtocolBuffers
         {
             get
             {
-                if(WireType == Wire.Fixed32)
+                if (WireType == Wire.Fixed32)
                     return 4;
-                if(WireType == Wire.Fixed64)
+                if (WireType == Wire.Fixed64)
                     return 8;
-                if(WireType == Wire.Varint)
+                if (WireType == Wire.Varint)
                     return -1;
-                if(WireType == Wire.LengthDelimited)
+                if (WireType == Wire.LengthDelimited)
                     return -1;
                 return -1;
             }

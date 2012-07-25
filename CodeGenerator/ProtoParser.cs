@@ -60,7 +60,7 @@ namespace ProtocolBuffers
         
         static void ParseMessages(TokenReader tr, ProtoCollection p)
         {
-            string package = null;
+            string package = "Example";
 
             while (true)
             {

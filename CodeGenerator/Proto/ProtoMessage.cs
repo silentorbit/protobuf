@@ -37,12 +37,8 @@ namespace ProtocolBuffers
             }
         }
 
-        public ProtoMessage(ProtoMessage parent, string package)
+        public ProtoMessage(ProtoMessage parent, string package) : base(parent, package)
         {
-            if ((parent == null) && (this is ProtoCollection == false))
-                throw new ArgumentNullException("parent");
-            this.Parent = parent;
-            this.Package = package;
             this.OptionType = "class";
         }
         

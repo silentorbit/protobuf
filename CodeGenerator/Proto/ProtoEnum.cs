@@ -14,12 +14,8 @@ namespace ProtocolBuffers
         public Dictionary<string,int> Enums = new Dictionary<string, int>();
         public Dictionary<string,string> EnumsComments = new Dictionary<string, string>();
         
-        public ProtoEnum(ProtoMessage parent, string package)
+        public ProtoEnum(ProtoMessage parent, string package) : base(parent, package)
         {
-            this.Parent = parent;
-            if ((parent == null))
-                throw new ArgumentNullException("parent");
-            this.Package = package;
         }
     }
 }

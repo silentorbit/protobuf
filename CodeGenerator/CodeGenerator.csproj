@@ -50,7 +50,6 @@
     <Compile Include="Proto\ProtoMessage.cs" />
     <Compile Include="Proto\ProtoEnum.cs" />
     <Compile Include="Proto\ProtoType.cs" />
-    <Compile Include="Proto\ProtoPacked.cs" />
     <Compile Include="Proto\ProtoBuiltin.cs" />
     <Compile Include="CodeGenerator\FieldSerializer.cs" />
     <Compile Include="CodeGenerator\MessageSerializer.cs" />
