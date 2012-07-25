@@ -41,7 +41,14 @@ namespace ProtocolBuffers
                 cw.WriteLine("Deserialize(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
-            
+                
+                cw.Summary("Helper: create a new instance to deserializing into");
+                cw.Bracket(m.OptionAccess + " static " + m.CsType + " DeserializeLengthDelimited(Stream stream)");
+                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
+                cw.WriteLine("DeserializeLengthDelimited(stream, " + refstr + "instance);");
+                cw.WriteLine("return instance;");
+                cw.EndBracketSpace();
+                
                 cw.Summary("Helper: put the buffer into a MemoryStream and create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");

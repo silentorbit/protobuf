@@ -54,7 +54,7 @@ namespace ProtocolBuffers
                     //Parse .csproto
                     if (File.Exists(protoBase + ".csproto"))
                     {
-                        Console.WriteLine("Parsing " + protoPath);
+                        Console.WriteLine("Parsing " + protoBase + ".csproto");
                         CsProtoParser.Parse(protoBase + ".csproto", proto);
                     }
 

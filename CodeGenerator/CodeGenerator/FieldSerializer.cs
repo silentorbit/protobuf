@@ -100,7 +100,7 @@ namespace ProtocolBuffers
             {
                 var m = f.ProtoType as ProtoMessage;
                 if (f.Rule == FieldRule.Repeated || instance == null)
-                    return m.FullSerializerType + ".DeserializeLengthDelimited(" + stream + ", new " + m.FullCsType + "())";
+                    return m.FullSerializerType + ".DeserializeLengthDelimited(" + stream + ")";
                 else
                     return m.FullSerializerType + ".DeserializeLengthDelimited(" + stream + ", " + instance + ")";
             }
