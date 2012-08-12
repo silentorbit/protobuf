@@ -64,13 +64,19 @@ namespace ProtocolBuffers
             prefix = prefix.Substring(0, prefix.Length - indentPrefix.Length);
         }
 
+        public void Bracket()
+        {
+            WriteLine("{");
+            Indent();
+        }
+        
         public void Bracket(string str)
         {
             WriteLine(str);
             WriteLine("{");
             Indent();
         }
-
+        
         public void Using(string str)
         {
             WriteLine("using (" + str + ")");
@@ -138,6 +144,9 @@ namespace ProtocolBuffers
             WriteLine();
         }
 
+        /// <summary>
+        /// Writes a singe line indented.
+        /// </summary>
         public void WriteIndent(string str)
         {
             WriteLine(indentPrefix + str);
@@ -162,6 +171,9 @@ namespace ProtocolBuffers
 
         public void Comment(string code)
         {
+            if(code == null)
+                return;
+
             prefix += "// ";
             foreach (string line in code.Split('\n'))
                 WriteLine(line.TrimEnd(' '));

@@ -5,20 +5,36 @@ namespace ProtocolBuffers
     class Field
     {
         #region .proto data
-        
+
+        /// <summary>
+        /// Comments written before the field in the .proto file.
+        /// These comments will be written into the generated code.
+        /// </summary>
         public string Comments;
-        
+
+        /// <summary>
+        /// required/optional/repeated as read from .proto file
+        /// </summary>
         public FieldRule Rule { get; set; }
         
         /// <summary>
-        /// As read from the .proto file
+        /// Field type as read from the .proto file
         /// </summary>
         public string ProtoTypeName { get; set; }
-        
+
+        /// <summary>
+        /// Field name read from the .proto file
+        /// </summary>
         public string ProtoName { get; set; }
 
+        /// <summary>
+        /// Field name in generated c# code.
+        /// </summary>
         public string CsName { get; set; }
 
+        /// <summary>
+        /// Wire format ID
+        /// </summary>
         public int ID { get; set; }
             
         //Field options

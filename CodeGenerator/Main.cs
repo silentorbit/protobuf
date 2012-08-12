@@ -63,7 +63,6 @@ namespace ProtocolBuffers
 
                     collection.Merge(proto);
                 }
-#if !DEBUG
                 catch (ProtoFormatException pfe)
                 {
                     Console.WriteLine("Format error in " + protoPath);
@@ -72,9 +71,6 @@ namespace ProtocolBuffers
                     Console.Write(pfe.Message);
                     return -1;
                 }
-#else
-                finally {}
-#endif
             }
 
             Console.WriteLine(collection);

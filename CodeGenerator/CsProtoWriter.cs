@@ -8,50 +8,56 @@ namespace ProtocolBuffers
     {
         public static void Save(string path, ProtoCollection proto)
         {
-            using (TextWriter writer = new StreamWriter(path, false, Encoding.UTF8))
+            using (CodeWriter writer = new CodeWriter(path))
             {
-                writer.WriteLine("// Custom features based on " + Path.GetFileNameWithoutExtension(path) + ".proto");
-                writer.WriteLine("// This file will be parsed and rewritten when CodeGenerator is run");
-                writer.WriteLine("// Comments are lost");
-                writer.WriteLine("");
+                writer.Comment("Custom features based on " + Path.GetFileNameWithoutExtension(path) + ".proto");
+                writer.Comment("This file will be parsed and rewritten when CodeGenerator is run");
+                writer.Comment("Comments are lost");
+                writer.WriteLine();
 
                 WriteMessages(proto, writer);
             }
         }
 
-        static void WriteMessages(ProtoMessage message, TextWriter w)
+        static void WriteMessages(ProtoMessage message, CodeWriter w)
         {
             foreach (ProtoMessage m in message.Messages.Values)
             {
                 w.WriteLine("message " + m.FullProtoName);
                 //Options
-                w.WriteLine("\taccess = " + m.OptionAccess + "\t//public, internal");
+                w.Indent();
+                w.WriteLine("access = " + m.OptionAccess + "\t//public or internal");
                 if (m.OptionNamespace == null)
-                    w.WriteLine("\t//namespace = " + m.Package);
+                    w.Comment("namespace = " + m.Package);
                 else
-                    w.WriteLine("\tnamespace = " + m.OptionNamespace);
+                    w.WriteLine("namespace = " + m.OptionNamespace + " // Default from .proto: " + m.Package);
                 if (m.OptionType == null || m.OptionType == "class")
-                    w.WriteLine("\t//type = class\t//class, struct or interface");
+                    w.Comment("type = class\t//class, struct or interface");
                 else
-                    w.WriteLine("\ttype = " + m.OptionType + "\t//class, struct or interface");
-                w.WriteLine("\t" + (m.OptionPreserveUnknown ? "" : "//") + "preserveunknown");
-                w.WriteLine("\t" + (m.OptionTriggers ? "" : "//") + "triggers");
-                w.WriteLine("\t" + (m.OptionExternal ? "" : "//") + "external");
-                w.WriteLine("{");
+                    w.WriteLine("type = " + m.OptionType + "\t//class, struct or interface");
+                w.WriteLine((m.OptionPreserveUnknown ? "" : "//") + "preserveunknown");
+                w.WriteLine((m.OptionTriggers ? "" : "//") + "triggers");
+                w.WriteLine((m.OptionExternal ? "" : "//") + "external");
+                w.Dedent();
+                w.Bracket();
                 //Fields
                 foreach (Field f in m.Fields.Values)
                 {
-                    w.WriteLine("\t" + f.ProtoName);
-                    w.WriteLine("\t\taccess = " + f.OptionAccess + "\t//public, internal, protected or private");
+                    w.Comment(f.Comments);
+                    w.Comment(f.Rule + " " + f.ProtoTypeName + " " + f.ProtoName + " = " + f.ID);
+                    w.WriteLine(f.ProtoName);
+                    w.Indent();
+                    w.WriteLine("access = " + f.OptionAccess + "\t//public, internal, protected or private");
                     if (f.OptionCodeType == null)
-                        w.WriteLine("\t\t//codetype = DateTime or TimeSpan");
+                        w.Comment("codetype = DateTime or TimeSpan");
                     else
-                        w.WriteLine("\t\tcodetype = " + f.OptionCodeType);
-                    w.WriteLine("\t\t" + (f.OptionExternal ? "" : "//") + "external");
-                    w.WriteLine("\t\t" + (f.OptionReadOnly ? "" : "//") + "readonly");
+                        w.WriteLine("codetype = " + f.OptionCodeType);
+                    w.WriteLine((f.OptionExternal ? "" : "//") + "external");
+                    w.WriteLine((f.OptionReadOnly ? "" : "//") + "readonly");
                     w.WriteLine();
+                    w.Dedent();
                 }
-                w.WriteLine("}");
+                w.EndBracket();
                 w.WriteLine();
 
                 WriteMessages(m, w);

@@ -23,6 +23,14 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Person DeserializeLengthDelimited(Stream stream)
+        {
+            Person instance = new Person();
+            DeserializeLengthDelimited(stream, instance);
+            return instance;
+        }
+
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Person Deserialize(byte[] buffer)
         {
@@ -68,7 +76,7 @@ namespace Personal
                     // Field 4 LengthDelimited
                 case 34:
                     // repeated
-                    instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream, new Personal.Person.PhoneNumber()));
+                    instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream));
                     continue;
                 }
 
@@ -125,7 +133,7 @@ namespace Personal
                     // Field 4 LengthDelimited
                 case 34:
                     // repeated
-                    instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream, new Personal.Person.PhoneNumber()));
+                    instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream));
                     continue;
                 }
 
@@ -198,6 +206,14 @@ namespace Personal
             {
                 PhoneNumber instance = new PhoneNumber();
                 Deserialize(stream, instance);
+                return instance;
+            }
+
+            /// <summary>Helper: create a new instance to deserializing into</summary>
+            public static PhoneNumber DeserializeLengthDelimited(Stream stream)
+            {
+                PhoneNumber instance = new PhoneNumber();
+                DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
 
@@ -345,6 +361,14 @@ namespace Personal
             return instance;
         }
 
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static AddressBook DeserializeLengthDelimited(Stream stream)
+        {
+            AddressBook instance = new AddressBook();
+            DeserializeLengthDelimited(stream, instance);
+            return instance;
+        }
+
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static AddressBook Deserialize(byte[] buffer)
         {
@@ -378,7 +402,7 @@ namespace Personal
                     // Field 1 LengthDelimited
                 case 10:
                     // repeated
-                    instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream, new Personal.Person()));
+                    instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream));
                     continue;
                 }
 
@@ -423,7 +447,7 @@ namespace Personal
                     // Field 1 LengthDelimited
                 case 10:
                     // repeated
-                    instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream, new Personal.Person()));
+                    instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream));
                     continue;
                 }
 
@@ -486,6 +510,14 @@ namespace Local
         {
             LocalFeatures instance = new LocalFeatures();
             Deserialize(stream, instance);
+            return instance;
+        }
+
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        internal static LocalFeatures DeserializeLengthDelimited(Stream stream)
+        {
+            LocalFeatures instance = new LocalFeatures();
+            DeserializeLengthDelimited(stream, instance);
             return instance;
         }
 
@@ -569,7 +601,7 @@ namespace Local
                     // Field 12 LengthDelimited
                 case 98:
                     if (instance.MyExtClass == null)
-                        instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, new TestB.ExternalClass());
+                        instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
                     else
                         TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
                     continue;
@@ -668,7 +700,7 @@ namespace Local
                     // Field 12 LengthDelimited
                 case 98:
                     if (instance.MyExtClass == null)
-                        instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, new TestB.ExternalClass());
+                        instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
                     else
                         TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
                     continue;
@@ -912,6 +944,14 @@ namespace LocalFeatureTest
             return instance;
         }
 
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static StructTest DeserializeLengthDelimited(Stream stream)
+        {
+            StructTest instance = new StructTest();
+            DeserializeLengthDelimited(stream, ref instance);
+            return instance;
+        }
+
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static StructTest Deserialize(byte[] buffer)
         {
@@ -1012,6 +1052,14 @@ namespace TestB
         {
             ExternalStruct instance = new ExternalStruct();
             Deserialize(stream, ref instance);
+            return instance;
+        }
+
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static ExternalStruct DeserializeLengthDelimited(Stream stream)
+        {
+            ExternalStruct instance = new ExternalStruct();
+            DeserializeLengthDelimited(stream, ref instance);
             return instance;
         }
 
@@ -1142,6 +1190,14 @@ namespace TestB
             return instance;
         }
 
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static ExternalClass DeserializeLengthDelimited(Stream stream)
+        {
+            ExternalClass instance = new ExternalClass();
+            DeserializeLengthDelimited(stream, instance);
+            return instance;
+        }
+
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalClass Deserialize(byte[] buffer)
         {
@@ -1263,6 +1319,14 @@ namespace Mine
         {
             MyMessageV1 instance = new MyMessageV1();
             Deserialize(stream, instance);
+            return instance;
+        }
+
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static MyMessageV1 DeserializeLengthDelimited(Stream stream)
+        {
+            MyMessageV1 instance = new MyMessageV1();
+            DeserializeLengthDelimited(stream, instance);
             return instance;
         }
 
@@ -1399,6 +1463,14 @@ namespace Yours
         {
             MyMessageV2 instance = new MyMessageV2();
             Deserialize(stream, instance);
+            return instance;
+        }
+
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static MyMessageV2 DeserializeLengthDelimited(Stream stream)
+        {
+            MyMessageV2 instance = new MyMessageV2();
+            DeserializeLengthDelimited(stream, instance);
             return instance;
         }
 
@@ -1550,7 +1622,7 @@ namespace Yours
                     if(key.WireType != Wire.LengthDelimited)
                         break;
                     if (instance.FieldU == null)
-                        instance.FieldU = Theirs.TheirMessage.DeserializeLengthDelimited(stream, new Theirs.TheirMessage());
+                        instance.FieldU = Theirs.TheirMessage.DeserializeLengthDelimited(stream);
                     else
                         Theirs.TheirMessage.DeserializeLengthDelimited(stream, instance.FieldU);
                     continue;
@@ -1558,7 +1630,7 @@ namespace Yours
                     if(key.WireType != Wire.LengthDelimited)
                         break;
                     // repeated
-                    instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream, new Theirs.TheirMessage()));
+                    instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream));
                     continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
@@ -1709,7 +1781,7 @@ namespace Yours
                     if(key.WireType != Wire.LengthDelimited)
                         break;
                     if (instance.FieldU == null)
-                        instance.FieldU = Theirs.TheirMessage.DeserializeLengthDelimited(stream, new Theirs.TheirMessage());
+                        instance.FieldU = Theirs.TheirMessage.DeserializeLengthDelimited(stream);
                     else
                         Theirs.TheirMessage.DeserializeLengthDelimited(stream, instance.FieldU);
                     continue;
@@ -1717,7 +1789,7 @@ namespace Yours
                     if(key.WireType != Wire.LengthDelimited)
                         break;
                     // repeated
-                    instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream, new Theirs.TheirMessage()));
+                    instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream));
                     continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
@@ -1880,6 +1952,14 @@ namespace Theirs
         {
             TheirMessage instance = new TheirMessage();
             Deserialize(stream, instance);
+            return instance;
+        }
+
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static TheirMessage DeserializeLengthDelimited(Stream stream)
+        {
+            TheirMessage instance = new TheirMessage();
+            DeserializeLengthDelimited(stream, instance);
             return instance;
         }
 
