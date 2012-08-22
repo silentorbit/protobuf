@@ -29,7 +29,7 @@ namespace ProtocolBuffers
                     t += line + "\n";
                 }
             }
-            TokenReader tr = new TokenReader(t);
+            TokenReader tr = new TokenReader(t, path);
 
             try
             {
@@ -125,7 +125,7 @@ namespace ProtocolBuffers
                 rule = tr.ReadNext();
             }
 
-            Field f = new Field();
+            Field f = new Field(tr);
 
             //Rule
             switch (rule)
@@ -232,11 +232,11 @@ namespace ProtocolBuffers
             //Read name
             string key = tr.ReadNext();
             if (tr.ReadNext() != "=")
-                throw new ProtoFormatException("Expected: = got " + tr.NextCharacter);
+                throw new ProtoFormatException("Expected: = got " + tr.NextCharacter, tr);
             //Read value
             string value = tr.ReadNext();
             if (tr.ReadNext() != ";")
-                throw new ProtoFormatException("Expected: ; got " + tr.NextCharacter);
+                throw new ProtoFormatException("Expected: ; got " + tr.NextCharacter, tr);
             
             //null = ignore option
             if (m == null)
@@ -265,7 +265,7 @@ namespace ProtocolBuffers
             parent.Enums.Add(me.ProtoName, me); //must be after .ProtoName is read
 
             if (tr.ReadNext() != "{")
-                throw new ProtoFormatException("Expected: {");
+                throw new ProtoFormatException("Expected: {", tr);
             
             while (true)
             {
@@ -286,7 +286,7 @@ namespace ProtocolBuffers
                 }
                 
                 if (tr.ReadNext() != "=")
-                    throw new ProtoFormatException("Expected: =");
+                    throw new ProtoFormatException("Expected: =", tr);
                 
                 int id = int.Parse(tr.ReadNext());
                 
@@ -296,7 +296,7 @@ namespace ProtocolBuffers
                 lastComment = null;
                 
                 if (tr.ReadNext() != ";")
-                    throw new ProtoFormatException("Expected: ;");
+                    throw new ProtoFormatException("Expected: ;", tr);
             }
             
         }

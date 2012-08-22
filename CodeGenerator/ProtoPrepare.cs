@@ -10,14 +10,14 @@ namespace ProtocolBuffers
         {
             foreach (ProtoMessage m in file.Messages.Values)
             {
-                if(m.OptionNamespace == null)
+                if (m.OptionNamespace == null)
                     m.OptionNamespace = GetCamelCase(m.Package);
                 PrepareMessage(m);
             }
 
             foreach (ProtoEnum e in file.Enums.Values)
             {
-                if(e.OptionNamespace == null)
+                if (e.OptionNamespace == null)
                     e.OptionNamespace = GetCamelCase(e.Package);
                 e.CsType = GetCamelCase(e.ProtoName);
             }
@@ -67,7 +67,7 @@ namespace ProtocolBuffers
                 //this will still return null but we keep it here for debugging purposes
                 f.ProtoType = m.GetProtoType(f.ProtoTypeName);
 #endif
-                throw new ProtoFormatException("Field type \""+f.ProtoTypeName+"\" not found for field " + f.ProtoName + " in message " + m.FullProtoName);
+                throw new ProtoFormatException("Field type \"" + f.ProtoTypeName + "\" not found for field " + f.ProtoName + " in message " + m.FullProtoName, f.Source);
             }
 
             if (f.OptionPacked)
@@ -148,7 +148,7 @@ namespace ProtocolBuffers
             {
                 foreach (string part in name.Split('_'))
                 {
-                    if(part.Length == 0)
+                    if (part.Length == 0)
                         csname += "_";
                     else
                         csname += part.Substring(0, 1).ToUpperInvariant() + part.Substring(1);

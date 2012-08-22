@@ -10,14 +10,14 @@ namespace ProtocolBuffers
     /// </summary>
     class CsProtoReader : IDisposable
     {
-        readonly string path;
+        public readonly string Path;
         readonly TextReader stream;
 
         public int Line { get; private set; }
 
         public CsProtoReader(string path)
         {
-            this.path = path;
+            this.Path = path;
             stream = new StreamReader(path, Encoding.UTF8);
         }
 
@@ -34,7 +34,7 @@ namespace ProtocolBuffers
                 Line += 1;
 
                 line = RemoveComments(line);
-                if(line.Trim() == "")
+                if (line.Trim() == "")
                     continue;
                 line = line.TrimEnd(' ', '\t');
                 return line;
@@ -44,21 +44,21 @@ namespace ProtocolBuffers
         string RemoveComments(string line)
         {
             int pos = line.IndexOf("//");
-            if(pos < 0)
+            if (pos < 0)
                 return line;
 
             line = line.Substring(0, pos);
             return line;
         }
 
-        public void Dispose ()
+        public void Dispose()
         {
             stream.Dispose();
         }
 
         public override string ToString()
         {
-            return "Line " + Line + " @ " + path;
+            return "Line " + Line + " @ " + Path;
         }
     }
 }

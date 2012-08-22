@@ -62,13 +62,10 @@ namespace ProtocolBuffers
                     CsProtoWriter.Save(protoBase + ".csproto", proto);
 
                     collection.Merge(proto);
-                }
-                catch (ProtoFormatException pfe)
+                } catch (ProtoFormatException pfe)
                 {
-                    Console.WriteLine("Format error in " + protoPath);
-                    if (pfe.CsProto != null)
-                        Console.WriteLine(" at line " + pfe.CsProto.Line);
-                    Console.Write(pfe.Message);
+                    Console.WriteLine();
+                    Console.WriteLine(pfe.SourcePath.Path + "(" + pfe.SourcePath.Line + "," + pfe.SourcePath.Column + "): error CS001: " + pfe.Message);
                     return -1;
                 }
             }
@@ -79,11 +76,10 @@ namespace ProtocolBuffers
             try
             {
                 ProtoPrepare.Prepare(collection);
-            }
-            catch (ProtoFormatException pfe)
+            } catch (ProtoFormatException pfe)
             {
-                Console.WriteLine("Error in preparation:");
-                Console.WriteLine("\t" + pfe.Message);
+                Console.WriteLine();
+                Console.WriteLine(pfe.SourcePath.Path + "(" + pfe.SourcePath.Line + "," + pfe.SourcePath.Column + "): error CS001: " + pfe.Message);
                 return -1;
             }
 

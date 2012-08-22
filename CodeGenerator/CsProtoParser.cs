@@ -45,7 +45,7 @@ namespace ProtocolBuffers
                         if (space.StartsWith(prefix [n]))
                             space = space.Substring(prefix [n].Length);
                         else
-                            throw new ProtoFormatException("mismatch in indentation");
+                            throw new ProtoFormatException("mismatch in indentation", reader);
                     }
 
                     //Parse line
@@ -82,7 +82,7 @@ namespace ProtocolBuffers
                         //Parse message options
                         string[] parts = line.Split('=');
                         if (parts.Length > 2)
-                            throw new ProtoFormatException("Bad option format, at most one '=', " + line);
+                            throw new ProtoFormatException("Bad option format, at most one '=', " + line, reader);
                         string key = parts [0].Trim().ToLowerInvariant();
                         string value = (parts.Length == 2) ? parts [1].Trim() : null;
 
@@ -146,7 +146,7 @@ namespace ProtocolBuffers
                         //Parse message options
                         string[] parts = line.Split('=');
                         if (parts.Length > 2)
-                            throw new ProtoFormatException("Bad option format, at most one '=', " + line);
+                            throw new ProtoFormatException("Bad option format, at most one '=', " + line, reader);
                         string key = parts [0].Trim().ToLowerInvariant();
                         string value = (parts.Length == 2) ? parts [1].Trim() : null;
 

@@ -4,6 +4,13 @@ namespace ProtocolBuffers
 {
     class Field
     {
+        public readonly SourcePath Source;
+
+        public Field(TokenReader tr)
+        {
+            Source = new SourcePath(tr);
+        }
+
         #region .proto data
 
         /// <summary>

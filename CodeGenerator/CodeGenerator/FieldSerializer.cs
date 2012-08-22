@@ -143,7 +143,7 @@ namespace ProtocolBuffers
                     case ProtoBuiltin.Bytes:
                         return "ProtocolParser.ReadBytes(" + stream + ")";
                     default:
-                        throw new ProtoFormatException("unknown build in: " + f.ProtoType.ProtoName);
+                        throw new ProtoFormatException("unknown build in: " + f.ProtoType.ProtoName, f.Source);
                 }   
 
             }
@@ -282,11 +282,11 @@ namespace ProtocolBuffers
                 }
                 if (f.ProtoType is ProtoEnum)
                 {
-                    if(f.OptionDefault != null)
+                    if (f.OptionDefault != null)
                         cw.IfBracket("instance." + f.CsName + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
                     GenerateKeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     cw.WriteLine(GenerateFieldTypeWriter(f, "stream", "bw", "instance." + f.CsName));
-                    if(f.OptionDefault != null)
+                    if (f.OptionDefault != null)
                         cw.EndBracket();
                     return;
                 }

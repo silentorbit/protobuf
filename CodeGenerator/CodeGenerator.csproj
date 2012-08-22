@@ -57,6 +57,7 @@
     <Compile Include="CsProtoReader.cs" />
     <Compile Include="CsProtoWriter.cs" />
     <Compile Include="Proto\ProtoCollection.cs" />
+    <Compile Include="SourcePath.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

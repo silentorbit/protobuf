@@ -1,29 +1,30 @@
 using System;
+using System.IO;
 
 namespace ProtocolBuffers
 {
     class ProtoFormatException : Exception
     {
-        public TokenReader Token { get; private set; }
-        public CsProtoReader CsProto { get; private set; }
+        public readonly SourcePath SourcePath;
 
-        public ProtoFormatException(string message) : base(message)
+        public ProtoFormatException(string message, SourcePath s) : base(message)
         {
+            this.SourcePath = s;
+        }
+
+        public ProtoFormatException(string message, TokenReader tr) : base(message)
+        {
+            this.SourcePath = new SourcePath(tr);
         }
         
-        public ProtoFormatException(string message, TokenReader reader) : base(message)
+        public ProtoFormatException(string message, CsProtoReader pr) : base(message)
         {
-            this.Token = reader;
+            this.SourcePath = new SourcePath(pr);
         }
-
-        public ProtoFormatException(string message, CsProtoReader reader) : base(message)
+        
+        public ProtoFormatException(string message, Exception innerException, TokenReader tr) : base(message, innerException)
         {
-            this.CsProto = reader;
-        }        
-
-        public ProtoFormatException(string message, Exception innerException, TokenReader reader) : base(message, innerException)
-        {
-            this.Token = reader;
+            this.SourcePath = new SourcePath(tr);
         }
     }
 }

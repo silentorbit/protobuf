@@ -5,13 +5,15 @@ namespace ProtocolBuffers
 {
     class TokenReader
     {
+        public readonly string Path;
         readonly string whitespace = " \t\r\n";
         readonly string singletoken = "{}=[];,";
         readonly string text;
         
-        public TokenReader(string text)
+        public TokenReader(string text, string path)
         {
             this.text = text;           
+            this.Path = path;
         }
         
         public string Parsed
