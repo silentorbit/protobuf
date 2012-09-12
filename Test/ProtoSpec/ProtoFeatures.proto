@@ -58,5 +58,8 @@ message their_message
 //Message without any low id(< 16) fields
 message longMessage
 {
-    required int32 field_x = 100;
+    required int32 field_x1 = 32;
+    required int32 field_x2 = 64;
+    required int32 field_x3 = 96;
+    required int32 field_x4 = 100;
 }

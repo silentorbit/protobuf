@@ -22,7 +22,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe AddressBook.proto LocalFeatures.proto ProtoFeatures.proto Generated/Generated.cs" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe ProtoSpec/AddressBook.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto Generated/Generated.cs" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -36,7 +36,7 @@
     <ConsolePause>False</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Release/CodeGenerator.exe AddressBook.proto LocalFeatures.proto ProtoFeatures.proto Generated/Generated.cs" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Release/CodeGenerator.exe ProtoSpec/AddressBook.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto Generated/Generated.cs" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -56,22 +56,32 @@
     <Compile Include="Generated\Generated.cs" />
     <Compile Include="Generated\Generated.Serializer.cs" />
     <Compile Include="Generated\ProtocolParser.cs" />
+    <Compile Include="Tests\TestBase.cs" />
+    <Compile Include="Tests\TestReadme.cs" />
+    <Compile Include="Tests\TestZigZag.cs" />
+    <Compile Include="Tests\TestStandardFeatures.cs" />
+    <Compile Include="Tests\TestLocalFeatures.cs" />
+    <Compile Include="Tests\TestProtoBufNet.cs" />
+    <Compile Include="Tests\TestPerformance.cs" />
+    <Compile Include="Tests\TestNonOptimizedCases.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="LocalFeatures.proto" />
-    <None Include="ProtoFeatures.proto" />
-    <None Include="AddressBook.proto">
+    <None Include="ProtoSpec\AddressBook.csproto" />
+    <None Include="ProtoSpec\AddressBook.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="AddressBook.csproto" />
-    <None Include="LocalFeatures.csproto" />
-    <None Include="ProtoFeatures.csproto" />
+    <None Include="ProtoSpec\LocalFeatures.csproto" />
+    <None Include="ProtoSpec\LocalFeatures.proto" />
+    <None Include="ProtoSpec\ProtoFeatures.csproto" />
+    <None Include="ProtoSpec\ProtoFeatures.proto" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated\" />
     <Folder Include="ProtoBuf-Net\" />
     <Folder Include="CustomWritten\" />
+    <Folder Include="Tests\" />
+    <Folder Include="ProtoSpec\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="TestB\TestB.csproj">

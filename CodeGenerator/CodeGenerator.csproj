@@ -29,7 +29,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <Externalconsole>True</Externalconsole>
+    <ConsolePause>False</ConsolePause>
+    <Commandlineparameters>../../../Test/AddressBook.proto ../../../Test/LocalFeatures.proto ../../../Test/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

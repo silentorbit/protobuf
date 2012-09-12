@@ -202,7 +202,13 @@ namespace Proto.test
     /// <summary>Message without any low id(< 16) fields</summary>
     public partial class LongMessage
     {
-        public int FieldX { get; set; }
+        public int FieldX1 { get; set; }
+
+        public int FieldX2 { get; set; }
+
+        public int FieldX3 { get; set; }
+
+        public int FieldX4 { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Theirs;
+using Test;
 
 namespace Yours
 {
@@ -50,48 +51,39 @@ namespace Yours
         {
             MyMessageV2 mm = this;
             MyMessageV2 mo = obj as MyMessageV2;
-            Test.MainClass.Test("FieldA", mm.FieldA == mo.FieldA);
-            Test.MainClass.Test("FieldB", mm.FieldB == mo.FieldB);
-            Test.MainClass.Test("FieldC", mm.FieldC == mo.FieldC);
-            Test.MainClass.Test("FieldD", mm.FieldD == mo.FieldD);
-            Test.MainClass.Test("FieldE", mm.FieldE == mo.FieldE);
-            Test.MainClass.Test("FieldF", mm.FieldF == mo.FieldF);
-            Test.MainClass.Test("FieldG", mm.FieldG == mo.FieldG);
-            Test.MainClass.Test("FieldH", mm.FieldH == mo.FieldH);
-            Test.MainClass.Test("FieldI", mm.FieldI == mo.FieldI);
-            Test.MainClass.Test("FieldJ", mm.FieldJ == mo.FieldJ);
-            Test.MainClass.Test("FieldK", mm.FieldK == mo.FieldK);
-            Test.MainClass.Test("FieldL", mm.FieldL == mo.FieldL);
-            Test.MainClass.Test("FieldM", mm.FieldM == mo.FieldM);
-            Test.MainClass.Test("FieldN", mm.FieldN == mo.FieldN);
-            Test.MainClass.Test("FieldO", mm.FieldO == mo.FieldO);
-            Test.MainClass.Test("FieldP.Length", mm.FieldP.Length == mo.FieldP.Length);
+            TestBase.Test("FieldA", mm.FieldA == mo.FieldA);
+            TestBase.Test("FieldB", mm.FieldB == mo.FieldB);
+            TestBase.Test("FieldC", mm.FieldC == mo.FieldC);
+            TestBase.Test("FieldD", mm.FieldD == mo.FieldD);
+            TestBase.Test("FieldE", mm.FieldE == mo.FieldE);
+            TestBase.Test("FieldF", mm.FieldF == mo.FieldF);
+            TestBase.Test("FieldG", mm.FieldG == mo.FieldG);
+            TestBase.Test("FieldH", mm.FieldH == mo.FieldH);
+            TestBase.Test("FieldI", mm.FieldI == mo.FieldI);
+            TestBase.Test("FieldJ", mm.FieldJ == mo.FieldJ);
+            TestBase.Test("FieldK", mm.FieldK == mo.FieldK);
+            TestBase.Test("FieldL", mm.FieldL == mo.FieldL);
+            TestBase.Test("FieldM", mm.FieldM == mo.FieldM);
+            TestBase.Test("FieldN", mm.FieldN == mo.FieldN);
+            TestBase.Test("FieldO", mm.FieldO == mo.FieldO);
+            TestBase.Test("FieldP.Length", mm.FieldP.Length == mo.FieldP.Length);
             for (int n = 0; n < mm.FieldP.Length; n++)
-                Test.MainClass.Test("FieldP[" + n + "]", mm.FieldP [n] == mo.FieldP [n]);
-            Test.MainClass.Test("FieldQ", mm.FieldQ == mo.FieldQ);
-            Test.MainClass.Test("FieldR", mm.FieldR == mo.FieldR);
-            Test.MainClass.Test("FieldS.Count", mm.FieldS.Count == mo.FieldS.Count);
-            Test.MainClass.Test("FieldS 0", mm.FieldS [0] == mo.FieldS [0]);
-            Test.MainClass.Test("FieldS 1", mm.FieldS [1] == mo.FieldS [1]);
-            Test.MainClass.Test("FieldS 2", mm.FieldS [2] == mo.FieldS [2]);
-            Test.MainClass.Test("FieldT.Count", mm.FieldT.Count == mo.FieldT.Count);
-            Test.MainClass.Test("FieldT 0", mm.FieldT [0] == mo.FieldT [0]);
-            Test.MainClass.Test("FieldT 1", mm.FieldT [1] == mo.FieldT [1]);
-            Test.MainClass.Test("FieldT 2", mm.FieldT [2] == mo.FieldT [2]);
-            Test.MainClass.Test("FieldU", mm.FieldU.FieldA == mo.FieldU.FieldA);
-            Test.MainClass.Test("FieldV.Count", mm.FieldV.Count == mo.FieldV.Count);
-            Test.MainClass.Test(
-                "FieldV 0",
-                mm.FieldV [0].FieldA == mo.FieldV [0].FieldA
-            );
-            Test.MainClass.Test(
-                "FieldV 1",
-                mm.FieldV [1].FieldA == mo.FieldV [1].FieldA
-            );
-            Test.MainClass.Test(
-                "FieldV 2",
-                mm.FieldV [2].FieldA == mo.FieldV [2].FieldA
-            );
+                TestBase.Test("FieldP[" + n + "]", mm.FieldP [n] == mo.FieldP [n]);
+            TestBase.Test("FieldQ", mm.FieldQ == mo.FieldQ);
+            TestBase.Test("FieldR", mm.FieldR == mo.FieldR);
+            TestBase.Test("FieldS.Count", mm.FieldS.Count == mo.FieldS.Count);
+            TestBase.Test("FieldS 0", mm.FieldS [0] == mo.FieldS [0]);
+            TestBase.Test("FieldS 1", mm.FieldS [1] == mo.FieldS [1]);
+            TestBase.Test("FieldS 2", mm.FieldS [2] == mo.FieldS [2]);
+            TestBase.Test("FieldT.Count", mm.FieldT.Count == mo.FieldT.Count);
+            TestBase.Test("FieldT 0", mm.FieldT [0] == mo.FieldT [0]);
+            TestBase.Test("FieldT 1", mm.FieldT [1] == mo.FieldT [1]);
+            TestBase.Test("FieldT 2", mm.FieldT [2] == mo.FieldT [2]);
+            TestBase.Test("FieldU", mm.FieldU.FieldA == mo.FieldU.FieldA);
+            TestBase.Test("FieldV.Count", mm.FieldV.Count == mo.FieldV.Count);
+            TestBase.Test("FieldV 0", mm.FieldV [0].FieldA == mo.FieldV [0].FieldA);
+            TestBase.Test("FieldV 1", mm.FieldV [1].FieldA == mo.FieldV [1].FieldA);
+            TestBase.Test("FieldV 2", mm.FieldV [2].FieldA == mo.FieldV [2].FieldA);
             return true;
         }
 

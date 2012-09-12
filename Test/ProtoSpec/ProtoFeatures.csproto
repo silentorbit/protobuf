@@ -216,8 +216,29 @@ message proto.test.longMessage
     //triggers
     //external
 {
-    // Required int32 field_x = 100
-    field_x
+    // Required int32 field_x1 = 32
+    field_x1
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
+
+    // Required int32 field_x2 = 64
+    field_x2
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
+
+    // Required int32 field_x3 = 96
+    field_x3
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
+
+    // Required int32 field_x4 = 100
+    field_x4
         access = public	//public, internal, protected or private
         // codetype = DateTime or TimeSpan
         //external

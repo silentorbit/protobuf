@@ -2128,10 +2128,25 @@ namespace Proto.test
                 {
                 case 0:
                     throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                case 32:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldX1 = (int)ProtocolParser.ReadUInt32(stream);
+                    continue;
+                case 64:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldX2 = (int)ProtocolParser.ReadUInt32(stream);
+                    continue;
+                case 96:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldX3 = (int)ProtocolParser.ReadUInt32(stream);
+                    continue;
                 case 100:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX4 = (int)ProtocolParser.ReadUInt32(stream);
                     continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
@@ -2166,10 +2181,25 @@ namespace Proto.test
                 {
                 case 0:
                     throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                case 32:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldX1 = (int)ProtocolParser.ReadUInt32(stream);
+                    continue;
+                case 64:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldX2 = (int)ProtocolParser.ReadUInt32(stream);
+                    continue;
+                case 96:
+                    if(key.WireType != Wire.Varint)
+                        break;
+                    instance.FieldX3 = (int)ProtocolParser.ReadUInt32(stream);
+                    continue;
                 case 100:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX4 = (int)ProtocolParser.ReadUInt32(stream);
                     continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
@@ -2183,10 +2213,22 @@ namespace Proto.test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, LongMessage instance)
         {
+            // Key for field: 32, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(2);
+            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX1);
+            // Key for field: 64, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(4);
+            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX2);
+            // Key for field: 96, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(6);
+            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX3);
             // Key for field: 100, Varint
             stream.WriteByte(160);
             stream.WriteByte(6);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX);
+            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX4);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
