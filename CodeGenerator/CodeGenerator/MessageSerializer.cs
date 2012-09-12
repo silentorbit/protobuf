@@ -167,11 +167,8 @@ namespace ProtocolBuffers
                     }
                     cw.EndBracket();
                     cw.WriteLine();
-
-                    cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);");
                 }
-                else
-                    cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey(stream);");
+                cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);");
 
                 cw.WriteLine();
 

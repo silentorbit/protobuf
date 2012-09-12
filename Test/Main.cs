@@ -9,6 +9,7 @@ using Yours;
 using Mine;
 using ProtocolBuffers;
 using Local;
+using Proto.test;
 
 namespace Test
 {
@@ -25,7 +26,9 @@ namespace Test
             TestStandardFeatures();
             
             TestLocalFeatures();
-            
+
+            TestNonOptimizedCases();
+
             TestProtoBufNet();
 
             TestPerformance();
@@ -358,6 +361,25 @@ namespace Test
                 TimeSpan deserialize = DateTime.Now - start;
                 Console.WriteLine("Protobuf-net: Deserialize " + dab.List.Count + " posts in " + deserialize.TotalSeconds + " s");
             }
+        }
+
+        /// <summary>
+        /// Test serializing a message without any low id fields.
+        /// </summary>
+        static void TestNonOptimizedCases()
+        {
+            Random r = new Random();
+            LongMessage l1 = new LongMessage();
+            l1.FieldX = r.Next();
+
+            MemoryStream ms1 = new MemoryStream();
+            LongMessage.Serialize(ms1, l1);
+
+            MemoryStream ms2 = new MemoryStream(ms1.ToArray());
+            LongMessage l2 = LongMessage.Deserialize(ms2);
+
+            //Test
+            Test("LongMessage FieldX", l1.FieldX == l2.FieldX);
         }
 
         public static void Test(string message, bool result)

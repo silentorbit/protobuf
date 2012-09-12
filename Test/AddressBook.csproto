@@ -3,74 +3,81 @@
 // Comments are lost
 
 message Personal.Person
-	access = public	//public, internal
-	//namespace = Personal
-	//type = class	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    // namespace = Personal
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
-	name
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required string name = 1
+    name
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	id
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required int32 id = 2
+    id
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	email
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional string email = 3
+    email
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	phone
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Repeated PhoneNumber phone = 4
+    phone
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 
 message Personal.Person.PhoneNumber
-	access = public	//public, internal
-	//namespace = Personal.Person
-	//type = class	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    // namespace = Personal.Person
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
-	number
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required string number = 1
+    number
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	type
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional PhoneType type = 2
+    type
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 
 message Personal.AddressBook
-	access = public	//public, internal
-	//namespace = Personal
-	//type = class	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    // namespace = Personal
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
-	List
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Repeated Person List = 1
+    List
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 

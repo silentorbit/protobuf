@@ -11,14 +11,14 @@
     <AssemblyName>Test</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>..\bin\Test\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
@@ -27,16 +27,16 @@
     </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>..\bin\Test\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Release/CodeGenerator.exe ExampleA.proto Generated/ExampleA.cs TestB/ExampleB.proto TestB/Generated/ExampleB.cs" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Release/CodeGenerator.exe AddressBook.proto LocalFeatures.proto ProtoFeatures.proto Generated/Generated.cs" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>

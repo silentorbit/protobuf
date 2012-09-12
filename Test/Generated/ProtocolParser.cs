@@ -37,6 +37,19 @@ namespace ProtocolBuffers
             return buffer;
         }
 
+        /// <summary>
+        /// Skip the next varint length prefixed bytes.
+        /// Alternative to ReadBytes when the data is not of interest.
+        /// </summary>
+        public static void SkipBytes(Stream stream)
+        {   
+            int length = (int)ReadUInt32(stream);
+            if (stream.CanSeek)
+                stream.Seek(length, SeekOrigin.Current);
+            else
+                ReadBytes(stream);
+        }
+
         public static void WriteString(Stream stream, string val)
         {
             WriteBytes(stream, Encoding.UTF8.GetBytes(val));

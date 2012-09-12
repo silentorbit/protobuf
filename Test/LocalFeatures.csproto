@@ -3,142 +3,163 @@
 // Comments are lost
 
 message local_feature_test.local_features
-	access = internal	//public, internal
-	namespace = Local
-	//type = class	//class, struct or interface
-	//preserveunknown
-	triggers
-	//external
+    access = internal	//public or internal
+    namespace = Local // Default from .proto: local_feature_test
+    // type = class	//class, struct or interface
+    //preserveunknown
+    triggers
+    //external
 {
-	Uptime
-		access = public	//public, internal, protected or private
-		codetype = TimeSpan
-		//external
-		//readonly
+    // Make class field of type TimeSpan, serialized to Ticks
+    // Required int64 Uptime = 1
+    Uptime
+        access = public	//public, internal, protected or private
+        codetype = TimeSpan
+        //external
+        //readonly
 
-	DueDate
-		access = public	//public, internal, protected or private
-		codetype = DateTime
-		//external
-		//readonly
+    // Make class field of type DateTime, serialized to Ticks
+    // Required int64 DueDate = 2
+    DueDate
+        access = public	//public, internal, protected or private
+        codetype = DateTime
+        //external
+        //readonly
 
-	Amount
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		external
-		//readonly
+    // Do not generate class field, must be implemented in other partial class
+    // Required double Amount = 3
+    Amount
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        external
+        //readonly
 
-	Denial
-		access = private	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Custom field access types. Default: public
+    // Optional string Denial = 4
+    Denial
+        access = private	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	Secret
-		access = protected	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional string Secret = 5
+    Secret
+        access = protected	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	Internal
-		access = internal	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional string Internal = 6
+    Internal
+        access = internal	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	PR
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional string PR = 7
+    PR
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	testing_read_only
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		readonly
+    // Generate a c# readonly field
+    // Optional proto.test.my_message_v1 testing_read_only = 8
+    testing_read_only
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        readonly
 
-	MyInterface
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // When deserializing this one must be set to a class before
+    // Required interface_test MyInterface = 9
+    MyInterface
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	MyStruct
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional struct_test MyStruct = 10
+    MyStruct
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	MyExtStruct
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional external_struct MyExtStruct = 11
+    MyExtStruct
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	MyExtClass
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional external_class MyExtClass = 12
+    MyExtClass
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	MyEnum
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional top_enum MyEnum = 13
+    MyEnum
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 
 message local_feature_test.interface_test
-	access = public	//public, internal
-	//namespace = local_feature_test
-	type = interface	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    // namespace = local_feature_test
+    type = interface	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
 }
 
 message local_feature_test.struct_test
-	access = public	//public, internal
-	//namespace = local_feature_test
-	type = struct	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    // namespace = local_feature_test
+    type = struct	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
 }
 
 message local_feature_test.external_struct
-	access = public	//public, internal
-	namespace = TestB
-	type = struct	//class, struct or interface
-	//preserveunknown
-	//triggers
-	external
+    access = public	//public or internal
+    namespace = TestB // Default from .proto: local_feature_test
+    type = struct	//class, struct or interface
+    //preserveunknown
+    //triggers
+    external
 {
-	X
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional double X = 1
+    X
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 
 message local_feature_test.external_class
-	access = public	//public, internal
-	namespace = TestB
-	//type = class	//class, struct or interface
-	//preserveunknown
-	//triggers
-	external
+    access = public	//public or internal
+    namespace = TestB // Default from .proto: local_feature_test
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    external
 {
-	A
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional int32 A = 1
+    A
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 

@@ -3,182 +3,225 @@
 // Comments are lost
 
 message proto.test.my_message_v1
-	access = public	//public, internal
-	namespace = Mine
-	//type = class	//class, struct or interface
-	preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    namespace = Mine // Default from .proto: proto.test
+    // type = class	//class, struct or interface
+    preserveunknown
+    //triggers
+    //external
 {
-	field_a
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // This field is important to comment as we just did here
+    // Required int32 field_a = 1
+    field_a
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 
 message proto.test.my_message_v2
-	access = public	//public, internal
-	namespace = Yours
-	//type = class	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    namespace = Yours // Default from .proto: proto.test
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
-	field_a
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required int32 field_a = 1
+    field_a
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_b
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required double field_b = 2
+    field_b
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_c
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required float field_c = 3
+    field_c
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_d
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required int32 field_d = 4
+    field_d
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_e
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required int64 field_e = 5
+    field_e
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_f
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required uint32 field_f = 6
+    field_f
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_g
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required uint64 field_g = 7
+    field_g
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_h
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required sint32 field_h = 8
+    field_h
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_i
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required sint64 field_i = 9
+    field_i
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_j
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required fixed32 field_j = 10
+    field_j
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_k
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required fixed64 field_k = 11
+    field_k
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_l
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required sfixed32 field_l = 12
+    field_l
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_m
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required sfixed64 field_m = 13
+    field_m
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_n
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required bool field_n = 14
+    field_n
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_o
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required string field_o = 15
+    field_o
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_p
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required bytes field_p = 16
+    field_p
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_q
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required my_enum field_q = 17
+    field_q
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_r
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional my_enum field_r = 18
+    field_r
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	dummy
-		access = protected	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional string dummy = 19
+    dummy
+        access = protected	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_t
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Repeated fixed32 field_t = 20
+    field_t
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_s
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Repeated uint32 field_s = 21
+    field_s
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_u
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Optional their_message field_u = 22
+    field_u
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
-	field_v
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Repeated their_message field_v = 23
+    field_v
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 
 message proto.test.their_message
-	access = public	//public, internal
-	namespace = Theirs
-	//type = class	//class, struct or interface
-	//preserveunknown
-	//triggers
-	//external
+    access = public	//public or internal
+    namespace = Theirs // Default from .proto: proto.test
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
 {
-	field_a
-		access = public	//public, internal, protected or private
-		//codetype = DateTime or TimeSpan
-		//external
-		//readonly
+    // Required int32 field_a = 1
+    field_a
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
+
+}
+
+message proto.test.longMessage
+    access = public	//public or internal
+    // namespace = proto.test
+    // type = class	//class, struct or interface
+    //preserveunknown
+    //triggers
+    //external
+{
+    // Required int32 field_x = 100
+    field_x
+        access = public	//public, internal, protected or private
+        // codetype = DateTime or TimeSpan
+        //external
+        //readonly
 
 }
 

@@ -68,8 +68,8 @@ namespace ProtocolBuffers
         {
             if (firstByte < 128)
                 return new Key((uint)(firstByte >> 3), (Wire)(firstByte & 0x07));
-            uint n = ReadUInt32(stream) << 7 | firstByte;
-            return new Key(n >> 3, (Wire)(n & 0x07));
+            uint fieldID = ((uint)ReadUInt32(stream) << 4) | ((uint)(firstByte >> 3) & 0x0F);
+            return new Key(fieldID, (Wire)(firstByte & 0x07));
         }
         
         public static void WriteKey(Stream stream, Key key)
