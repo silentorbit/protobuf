@@ -1855,32 +1855,27 @@ namespace Yours
             if (instance.FieldP == null)
                 throw new ArgumentNullException("FieldP", "Required by proto specification.");
             // Key for field: 16, LengthDelimited
-            stream.WriteByte(130);
-            stream.WriteByte(1);
+            stream.Write(new byte[]{130, 1}, 0, 2);
             ProtocolParser.WriteBytes(stream, instance.FieldP);
             // Key for field: 17, Varint
-            stream.WriteByte(136);
-            stream.WriteByte(1);
+            stream.Write(new byte[]{136, 1}, 0, 2);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldQ);
             if (instance.FieldR != MyEnum.ETest2)
             {
                 // Key for field: 18, Varint
-                stream.WriteByte(144);
-                stream.WriteByte(1);
+                stream.Write(new byte[]{144, 1}, 0, 2);
                 ProtocolParser.WriteUInt32(stream,(uint)instance.FieldR);
             }
             if (instance.Dummy != null)
             {
                 // Key for field: 19, LengthDelimited
-                stream.WriteByte(154);
-                stream.WriteByte(1);
+                stream.Write(new byte[]{154, 1}, 0, 2);
                 ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
             }
             if (instance.FieldT != null)
             {
                 // Key for field: 20, LengthDelimited
-                stream.WriteByte(162);
-                stream.WriteByte(1);
+                stream.Write(new byte[]{162, 1}, 0, 2);
                 ProtocolParser.WriteUInt32(stream, 4u * (uint)instance.FieldT.Count);
                 foreach (var i20 in instance.FieldT)
                 {
@@ -1892,16 +1887,14 @@ namespace Yours
                 foreach (var i21 in instance.FieldS)
                 {
                     // Key for field: 21, Varint
-                    stream.WriteByte(168);
-                    stream.WriteByte(1);
+                    stream.Write(new byte[]{168, 1}, 0, 2);
                     ProtocolParser.WriteUInt32(stream, i21);
                 }
             }
             if (instance.FieldU != null)
             {
                 // Key for field: 22, LengthDelimited
-                stream.WriteByte(178);
-                stream.WriteByte(1);
+                stream.Write(new byte[]{178, 1}, 0, 2);
                 ﻿using (MemoryStream ms22 = new MemoryStream())
                 {
                     Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
@@ -1917,8 +1910,7 @@ namespace Yours
                 foreach (var i23 in instance.FieldV)
                 {
                     // Key for field: 23, LengthDelimited
-                    stream.WriteByte(186);
-                    stream.WriteByte(1);
+                    stream.Write(new byte[]{186, 1}, 0, 2);
                     ﻿using (MemoryStream ms23 = new MemoryStream())
                     {
                         Theirs.TheirMessage.Serialize(ms23, i23);
@@ -2214,20 +2206,16 @@ namespace Proto.test
         public static void Serialize(Stream stream, LongMessage instance)
         {
             // Key for field: 32, Varint
-            stream.WriteByte(128);
-            stream.WriteByte(2);
+            stream.Write(new byte[]{128, 2}, 0, 2);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX1);
             // Key for field: 64, Varint
-            stream.WriteByte(128);
-            stream.WriteByte(4);
+            stream.Write(new byte[]{128, 4}, 0, 2);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX2);
             // Key for field: 96, Varint
-            stream.WriteByte(128);
-            stream.WriteByte(6);
+            stream.Write(new byte[]{128, 6}, 0, 2);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX3);
             // Key for field: 100, Varint
-            stream.WriteByte(160);
-            stream.WriteByte(6);
+            stream.Write(new byte[]{160, 6}, 0, 2);
             ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX4);
         }
 

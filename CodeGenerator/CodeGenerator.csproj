@@ -20,7 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
-    <Commandlineparameters>../../../Test/AddressBook.proto ../../../Test/LocalFeatures.proto ../../../Test/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
+    <Commandlineparameters>../../../Test/ProtoSpec/AddressBook.proto ../../../Test/ProtoSpec/LocalFeatures.proto ../../../Test/ProtoSpec/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
-    <Commandlineparameters>../../../Test/AddressBook.proto ../../../Test/LocalFeatures.proto ../../../Test/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
+    <Commandlineparameters>../../../Test/ProtoSpec/AddressBook.proto ../../../Test/ProtoSpec/LocalFeatures.proto ../../../Test/ProtoSpec/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -93,24 +93,4 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup>
-    <None Include="..\Test\AddressBook.csproto">
-      <Link>ProtoSpec\AddressBook.csproto</Link>
-    </None>
-    <None Include="..\Test\AddressBook.proto">
-      <Link>ProtoSpec\AddressBook.proto</Link>
-    </None>
-    <None Include="..\Test\LocalFeatures.csproto">
-      <Link>ProtoSpec\LocalFeatures.csproto</Link>
-    </None>
-    <None Include="..\Test\LocalFeatures.proto">
-      <Link>ProtoSpec\LocalFeatures.proto</Link>
-    </None>
-    <None Include="..\Test\ProtoFeatures.csproto">
-      <Link>ProtoSpec\ProtoFeatures.csproto</Link>
-    </None>
-    <None Include="..\Test\ProtoFeatures.proto">
-      <Link>ProtoSpec\ProtoFeatures.proto</Link>
-    </None>
-  </ItemGroup>
 </Project>

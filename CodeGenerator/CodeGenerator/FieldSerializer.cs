@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
@@ -170,21 +171,36 @@ namespace ProtocolBuffers
         /// </summary>
         static void GenerateVarintWriter(string stream, uint value, CodeWriter cw)
         {
+            List<byte> bytes = new List<byte>();
+
             while (true)
             {
                 byte b = (byte)(value & 0x7F);
                 value = value >> 7;
                 if (value == 0)
                 {
-                    //Write final byte
-                    cw.WriteLine(stream + ".WriteByte(" + b + ");");
-                    return;
+                    bytes.Add(b);
+                    break;
                 }
 
                 //Write part of value
                 b |= 0x80;
-                cw.WriteLine(stream + ".WriteByte(" + b + ");");
+                bytes.Add(b);
             }
+
+            //Write final byte
+            if (bytes.Count == 1)
+            {
+                cw.WriteLine(stream + ".WriteByte(" + bytes[0] + ");");
+                return;
+            }
+
+            string line = stream + ".Write(new byte[]{";
+            foreach(byte v in bytes)
+                line += v + ", ";
+            line = line.TrimEnd(new char[]{' ', ','});
+            line += "}, 0, " + bytes.Count + ");";
+            cw.WriteLine(line);
         }
         
         /// <summary>
