@@ -76,6 +76,9 @@ namespace ProtocolBuffers
         {
             foreach (Field f in m.Fields.Values)
             {
+                //Wire format field ID
+                cw.WriteLine("public const int " + f.CsName + "FieldID = " + f.ID + ";");
+
                 if (f.OptionExternal)
                     cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
                 else

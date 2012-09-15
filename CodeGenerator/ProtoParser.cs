@@ -108,9 +108,14 @@ namespace ProtocolBuffers
             msg.ProtoName = tr.ReadNext();
             
             tr.ReadNextOrThrow("{");
-            
+
+            try{
             while (ParseField (tr, msg))
                 continue;
+            }catch(Exception e)
+            {
+                throw new ProtoFormatException(e.Message, e, tr);
+            }
 
             parent.Messages.Add(msg.ProtoName, msg);
         }

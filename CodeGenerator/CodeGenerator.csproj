@@ -19,18 +19,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
     <Commandlineparameters>../../../Test/ProtoSpec/AddressBook.proto ../../../Test/ProtoSpec/LocalFeatures.proto ../../../Test/ProtoSpec/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>..\bin\CodeGenerator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
     <Commandlineparameters>../../../Test/ProtoSpec/AddressBook.proto ../../../Test/ProtoSpec/LocalFeatures.proto ../../../Test/ProtoSpec/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
+    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
