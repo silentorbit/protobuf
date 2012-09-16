@@ -349,9 +349,6 @@ namespace Personal
 
     }
 
-}
-namespace Personal
-{
     public partial class AddressBook
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -932,9 +929,6 @@ namespace LocalFeatureTest
         }
     }
 
-}
-namespace LocalFeatureTest
-{
     public partial struct StructTest
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1178,9 +1172,6 @@ namespace TestB
         }
     }
 
-}
-namespace TestB
-{
     public static class ExternalClassSerializer
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
