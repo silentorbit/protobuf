@@ -22,35 +22,38 @@ namespace Personal
             WORK = 2,
         }
 
-        public const int NameFieldID = 1;
         public string Name { get; set; }
 
-        public const int IdFieldID = 2;
         public int Id { get; set; }
 
-        public const int EmailFieldID = 3;
         public string Email { get; set; }
 
-        public const int PhoneFieldID = 4;
         public List<Personal.Person.PhoneNumber> Phone { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int NameFieldID = 1;
+        public const int IdFieldID = 2;
+        public const int EmailFieldID = 3;
+        public const int PhoneFieldID = 4;
         public partial class PhoneNumber
         {
-            public const int NumberFieldID = 1;
             public string Number { get; set; }
 
-            public const int TypeFieldID = 2;
             public Personal.Person.PhoneType Type { get; set; }
 
+            // ProtocolBuffers wire field id
+            public const int NumberFieldID = 1;
+            public const int TypeFieldID = 2;
         }
 
     }
 
     public partial class AddressBook
     {
-        public const int ListFieldID = 1;
         public List<Personal.Person> List { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int ListFieldID = 1;
     }
 
 }
@@ -59,49 +62,50 @@ namespace Local
     /// <summary>This is a demonstration of features only present in ProtoBuf Code Generator</summary>
     internal partial class LocalFeatures
     {
-        public const int UptimeFieldID = 1;
         /// <summary>Make class field of type TimeSpan, serialized to Ticks</summary>
         public TimeSpan Uptime { get; set; }
 
-        public const int DueDateFieldID = 2;
         /// <summary>Make class field of type DateTime, serialized to Ticks</summary>
         public DateTime DueDate { get; set; }
 
-        public const int AmountFieldID = 3;
         //public double Amount { get; set; } // Implemented by user elsewhere
-        public const int DenialFieldID = 4;
         /// <summary>Custom field access types. Default: public</summary>
         private string Denial { get; set; }
 
-        public const int SecretFieldID = 5;
         protected string Secret { get; set; }
 
-        public const int InternalFieldID = 6;
         internal string Internal { get; set; }
 
-        public const int PRFieldID = 7;
         public string PR { get; set; }
 
-        public const int TestingReadOnlyFieldID = 8;
         /// <summary>Generate a c# readonly field</summary>
         public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
 
-        public const int MyInterfaceFieldID = 9;
         /// <summary>When deserializing this one must be set to a class before</summary>
         public LocalFeatureTest.InterfaceTest MyInterface { get; set; }
 
-        public const int MyStructFieldID = 10;
         public LocalFeatureTest.StructTest MyStruct;
 
-        public const int MyExtStructFieldID = 11;
         public TestB.ExternalStruct MyExtStruct;
 
-        public const int MyExtClassFieldID = 12;
         public TestB.ExternalClass MyExtClass { get; set; }
 
-        public const int MyEnumFieldID = 13;
         public LocalFeatureTest.TopEnum MyEnum { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int UptimeFieldID = 1;
+        public const int DueDateFieldID = 2;
+        public const int AmountFieldID = 3;
+        public const int DenialFieldID = 4;
+        public const int SecretFieldID = 5;
+        public const int InternalFieldID = 6;
+        public const int PRFieldID = 7;
+        public const int TestingReadOnlyFieldID = 8;
+        public const int MyInterfaceFieldID = 9;
+        public const int MyStructFieldID = 10;
+        public const int MyExtStructFieldID = 11;
+        public const int MyExtClassFieldID = 12;
+        public const int MyEnumFieldID = 13;
         // protected virtual void BeforeSerialize() {}
         // protected virtual void AfterDeserialize() {}
 
@@ -113,11 +117,13 @@ namespace LocalFeatureTest
     /// <summary>Testing local struct serialization</summary>
     public partial interface InterfaceTest
     {
+        // ProtocolBuffers wire field id
     }
 
     /// <summary>Testing local struct serialization</summary>
     public partial struct StructTest
     {
+        // ProtocolBuffers wire field id
     }
 
 }
@@ -138,10 +144,11 @@ namespace Mine
     /// </summary>
     public partial class MyMessageV1
     {
-        public const int FieldAFieldID = 1;
         /// <summary>This field is important to comment as we just did here</summary>
         public int FieldA { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldAFieldID = 1;
         /// <summary>Values for unknown fields.</summary>
         public List<ProtocolBuffers.KeyValue> PreservedFields;
 
@@ -161,75 +168,76 @@ namespace Yours
             ETest3 = 2,
         }
 
-        public const int FieldAFieldID = 1;
         public int FieldA { get; set; }
 
-        public const int FieldBFieldID = 2;
         public double FieldB { get; set; }
 
-        public const int FieldCFieldID = 3;
         public float FieldC { get; set; }
 
-        public const int FieldDFieldID = 4;
         public int FieldD { get; set; }
 
-        public const int FieldEFieldID = 5;
         public long FieldE { get; set; }
 
-        public const int FieldFFieldID = 6;
         public uint FieldF { get; set; }
 
-        public const int FieldGFieldID = 7;
         public ulong FieldG { get; set; }
 
-        public const int FieldHFieldID = 8;
         public int FieldH { get; set; }
 
-        public const int FieldIFieldID = 9;
         public long FieldI { get; set; }
 
-        public const int FieldJFieldID = 10;
         public uint FieldJ { get; set; }
 
-        public const int FieldKFieldID = 11;
         public ulong FieldK { get; set; }
 
-        public const int FieldLFieldID = 12;
         public int FieldL { get; set; }
 
-        public const int FieldMFieldID = 13;
         public long FieldM { get; set; }
 
-        public const int FieldNFieldID = 14;
         public bool FieldN { get; set; }
 
-        public const int FieldOFieldID = 15;
         public string FieldO { get; set; }
 
-        public const int FieldPFieldID = 16;
         public byte[] FieldP { get; set; }
 
-        public const int FieldQFieldID = 17;
         public Yours.MyMessageV2.MyEnum FieldQ { get; set; }
 
-        public const int FieldRFieldID = 18;
         public Yours.MyMessageV2.MyEnum FieldR { get; set; }
 
-        public const int DummyFieldID = 19;
         protected string Dummy { get; set; }
 
-        public const int FieldTFieldID = 20;
         public List<uint> FieldT { get; set; }
 
-        public const int FieldSFieldID = 21;
         public List<uint> FieldS { get; set; }
 
-        public const int FieldUFieldID = 22;
         public Theirs.TheirMessage FieldU { get; set; }
 
-        public const int FieldVFieldID = 23;
         public List<Theirs.TheirMessage> FieldV { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldAFieldID = 1;
+        public const int FieldBFieldID = 2;
+        public const int FieldCFieldID = 3;
+        public const int FieldDFieldID = 4;
+        public const int FieldEFieldID = 5;
+        public const int FieldFFieldID = 6;
+        public const int FieldGFieldID = 7;
+        public const int FieldHFieldID = 8;
+        public const int FieldIFieldID = 9;
+        public const int FieldJFieldID = 10;
+        public const int FieldKFieldID = 11;
+        public const int FieldLFieldID = 12;
+        public const int FieldMFieldID = 13;
+        public const int FieldNFieldID = 14;
+        public const int FieldOFieldID = 15;
+        public const int FieldPFieldID = 16;
+        public const int FieldQFieldID = 17;
+        public const int FieldRFieldID = 18;
+        public const int DummyFieldID = 19;
+        public const int FieldTFieldID = 20;
+        public const int FieldSFieldID = 21;
+        public const int FieldUFieldID = 22;
+        public const int FieldVFieldID = 23;
     }
 
 }
@@ -237,9 +245,10 @@ namespace Theirs
 {
     public partial class TheirMessage
     {
-        public const int FieldAFieldID = 1;
         public int FieldA { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldAFieldID = 1;
     }
 
 }
@@ -248,18 +257,19 @@ namespace Proto.test
     /// <summary>Message without any low id(< 16) fields</summary>
     public partial class LongMessage
     {
-        public const int FieldX1FieldID = 32;
         public int FieldX1 { get; set; }
 
-        public const int FieldX2FieldID = 64;
         public int FieldX2 { get; set; }
 
-        public const int FieldX3FieldID = 96;
         public int FieldX3 { get; set; }
 
-        public const int FieldX4FieldID = 100;
         public int FieldX4 { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldX1FieldID = 32;
+        public const int FieldX2FieldID = 64;
+        public const int FieldX3FieldID = 96;
+        public const int FieldX4FieldID = 100;
     }
 
 }
