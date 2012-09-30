@@ -53,11 +53,10 @@
     <Compile Include="Proto\ProtoBuiltin.cs" />
     <Compile Include="CodeGenerator\FieldSerializer.cs" />
     <Compile Include="CodeGenerator\MessageSerializer.cs" />
-    <Compile Include="CsProtoParser.cs" />
-    <Compile Include="CsProtoReader.cs" />
-    <Compile Include="CsProtoWriter.cs" />
     <Compile Include="Proto\ProtoCollection.cs" />
     <Compile Include="SourcePath.cs" />
+    <Compile Include="LocalParser.cs" />
+    <Compile Include="Proto\IComment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -78,7 +77,6 @@
     <Folder Include="Proto\" />
     <Folder Include="ProtocolParser\" />
     <Folder Include="CodeGenerator\" />
-    <Folder Include="ProtoSpec\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

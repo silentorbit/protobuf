@@ -10,24 +10,35 @@ enum top_enum
 }
 
 //This is a demonstration of features only present in ProtoBuf Code Generator
+//:access = internal   //public or internal
+//:namespace = Local // Default from .proto: local_feature_test
+//:triggers
 message local_features
 {
     //Make class field of type TimeSpan, serialized to Ticks
+    //:codetype = TimeSpan
     required int64 Uptime = 1;
     
     //Make class field of type DateTime, serialized to Ticks
+    //:codetype = DateTime
     required int64 DueDate = 2;
     
     //Do not generate class field, must be implemented in other partial class
+    //:external
     required double Amount = 3;
     
     //Custom field access types. Default: public
+    //:access = private //public, internal, protected or private
     optional string Denial = 4;
+    //:access = protected   //public, internal, protected or private
     optional string Secret = 5;
+    //:access = internal    //public, internal, protected or private
     optional string Internal = 6;
+    
     optional string PR = 7;
     
     //Generate a c# readonly field
+    //:readonly
     optional proto.test.my_message_v1 testing_read_only = 8;
     
     //When deserializing this one must be set to a class before
@@ -40,23 +51,29 @@ message local_features
 }
 
 //Testing local struct serialization
+//:type = interface //class, struct or interface
 message interface_test
 {
 }
 
 //Testing local struct serialization
+//:type = struct    //class, struct or interface
 message struct_test
 {
 }
 
 //Testing external struct serialization
+//:namespace = TestB // Default from .proto: local_feature_test
+//:type = struct   //class, struct or interface
+//:external
 message external_struct
 {
     optional double X = 1;
 }
 
-
 //External sealed class test, we have no posibility to modify this one
+//:namespace = TestB // Default from .proto: local_feature_test
+//:external
 message external_class
 {
     optional int32 A = 1;

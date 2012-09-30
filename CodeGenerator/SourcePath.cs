@@ -15,12 +15,6 @@ namespace ProtocolBuffers
             this.Column = tr.Parsed.Length - tr.Parsed.LastIndexOf('\n') + 1;
         }
         
-        public SourcePath(CsProtoReader pr)
-        {
-            this.Path = System.IO.Path.GetFullPath(pr.Path);
-            this.Line = pr.Line;
-            this.Column = 0;
-        }
     }
 }
 

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace ProtocolBuffers
 {
@@ -14,7 +15,7 @@ namespace ProtocolBuffers
         {   
             //Preparation for parsing
             //Real parsing is done in ParseMessages
-            lastComment = null;
+            lastComment.Clear();
 
             //Read entire file and pass it into a TokenReader
             string t = "";
@@ -41,8 +42,8 @@ namespace ProtocolBuffers
 
         }
 
-        static string lastComment = null;
-        
+        static readonly List<string> lastComment = new List<string>();
+
         /// <summary>
         /// Return true if token was a comment
         /// </summary>
@@ -51,10 +52,7 @@ namespace ProtocolBuffers
             if (token.StartsWith("//") == false)
                 return false;
             token = token.TrimStart('/');
-            if (lastComment == null)
-                lastComment = token;
-            else
-                lastComment += "\r\n" + token;
+            lastComment.Add(token);
             return true;        
         }
         
@@ -103,16 +101,16 @@ namespace ProtocolBuffers
         static void ParseMessage(TokenReader tr, ProtoMessage parent, string package)
         {
             ProtoMessage msg = new ProtoMessage(parent, package);
-            msg.Comments = lastComment;
-            lastComment = null;
+            LocalParser.ParseComments(msg, lastComment, tr);
             msg.ProtoName = tr.ReadNext();
             
             tr.ReadNextOrThrow("{");
 
-            try{
-            while (ParseField (tr, msg))
-                continue;
-            }catch(Exception e)
+            try
+            {
+                while (ParseField (tr, msg))
+                    continue;
+            } catch (Exception e)
             {
                 throw new ProtoFormatException(e.Message, e, tr);
             }
@@ -136,7 +134,7 @@ namespace ProtocolBuffers
             switch (rule)
             {
                 case "}":
-                    lastComment = null;
+                    lastComment.Clear();
                     return false;
                 case "required":
                     f.Rule = FieldRule.Required;
@@ -162,8 +160,7 @@ namespace ProtocolBuffers
             }
 
             //Field comments
-            f.Comments = lastComment;
-            lastComment = null;
+            LocalParser.ParseComments(f, lastComment, tr);
 
             //Type
             f.ProtoTypeName = tr.ReadNext();
@@ -263,8 +260,7 @@ namespace ProtocolBuffers
         {
             ProtoEnum me = new ProtoEnum(parent, package);
 
-            me.Comments = lastComment;
-            lastComment = null;
+            LocalParser.ParseComments(me, lastComment, tr);
             me.ProtoName = tr.ReadNext();
 
             parent.Enums.Add(me.ProtoName, me); //must be after .ProtoName is read
@@ -286,7 +282,7 @@ namespace ProtocolBuffers
                 if (name == "option")
                 {
                     ParseOption(tr, null);
-                    lastComment = null;
+                    lastComment.Clear();
                     continue;
                 }
                 
@@ -297,14 +293,15 @@ namespace ProtocolBuffers
                 
                 me.Enums.Add(name, id);
                 if (lastComment != null)
-                    me.EnumsComments.Add(name, lastComment);
-                lastComment = null;
+                    me.EnumsComments.Add(name, string.Join("\r\n", lastComment));
+                lastComment.Clear();
                 
                 if (tr.ReadNext() != ";")
                     throw new ProtoFormatException("Expected: ;", tr);
             }
             
         }
+
     }
 }
 

@@ -11,7 +11,6 @@ namespace ProtocolBuffers
             if (args.Length == 0)
             {
                 Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe path-to.proto [path-to-second.proto [...]] [output.cs]");
-                Console.Error.WriteLine("Local settings(.csproto) files will be included automatically for mathcing .proto names.");
                 return -1;
             }
 
@@ -51,16 +50,6 @@ namespace ProtocolBuffers
                     Console.WriteLine("Parsing " + protoPath);
                     ProtoParser.Parse(protoPath, proto);
                 
-                    //Parse .csproto
-                    if (File.Exists(protoBase + ".csproto"))
-                    {
-                        Console.WriteLine("Parsing " + protoBase + ".csproto");
-                        CsProtoParser.Parse(protoBase + ".csproto", proto);
-                    }
-
-                    //Save .csproto
-                    CsProtoWriter.Save(protoBase + ".csproto", proto);
-
                     collection.Merge(proto);
                 } catch (ProtoFormatException pfe)
                 {

@@ -16,12 +16,7 @@ namespace ProtocolBuffers
         {
             this.SourcePath = new SourcePath(tr);
         }
-        
-        public ProtoFormatException(string message, CsProtoReader pr) : base(message)
-        {
-            this.SourcePath = new SourcePath(pr);
-        }
-        
+                
         public ProtoFormatException(string message, Exception innerException, TokenReader tr) : base(message, innerException)
         {
             this.SourcePath = new SourcePath(tr);

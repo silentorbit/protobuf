@@ -67,13 +67,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="ProtoSpec\AddressBook.csproto" />
     <None Include="ProtoSpec\AddressBook.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ProtoSpec\LocalFeatures.csproto" />
     <None Include="ProtoSpec\LocalFeatures.proto" />
-    <None Include="ProtoSpec\ProtoFeatures.csproto" />
     <None Include="ProtoSpec\ProtoFeatures.proto" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@ using System;
 
 namespace ProtocolBuffers
 {
-    class Field
+    class Field : IComment
     {
         public readonly SourcePath Source;
 
@@ -17,7 +17,7 @@ namespace ProtocolBuffers
         /// Comments written before the field in the .proto file.
         /// These comments will be written into the generated code.
         /// </summary>
-        public string Comments;
+        public string Comments { get; set; }
 
         /// <summary>
         /// required/optional/repeated as read from .proto file

@@ -3,12 +3,15 @@ package proto.test;
 
 //This class is documented here:
 //With multiple lines
+//:namespace = Mine // Default from .proto: proto.test
+//:preserveunknown
 message my_message_v1
 {
     //This field is important to comment as we just did here
     required int32 field_a = 1;
 }
 
+//:namespace = Yours // Default from .proto: proto.test
 message my_message_v2
 {
     required int32 field_a = 1;
@@ -40,6 +43,7 @@ message my_message_v2
     required my_enum field_q = 17;
     optional my_enum field_r = 18 [default = ETest2];
     
+    //:access = protected  //public, internal, protected or private
     optional string dummy = 19 [deprecated=true];
     
     repeated fixed32 field_t = 20 [packed=true];
@@ -50,6 +54,7 @@ message my_message_v2
     repeated their_message field_v = 23;
 }
 
+//:namespace = Theirs // Default from .proto: proto.test
 message their_message
 {
     required int32 field_a = 1;

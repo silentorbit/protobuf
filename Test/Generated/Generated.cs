@@ -6,7 +6,7 @@
 
 // DO NOT EDIT
 // This file will be overwritten when CodeGenerator is run.
-// To make custom modifications, edit the .csproto file and set external=true
+// To make custom modifications, edit the .proto file and add //:external before the message line
 // then write the code and the changes in a separate file.
 using System;
 using System.Collections.Generic;

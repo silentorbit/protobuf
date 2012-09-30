@@ -32,7 +32,7 @@ Report bugs to: https://silentorbit.com/protobuf/");
                 cw.WriteLine();
                 cw.Comment(@"DO NOT EDIT
 This file will be overwritten when CodeGenerator is run.
-To make custom modifications, edit the .csproto file and set external=true
+To make custom modifications, edit the .proto file and add //:external before the message line
 then write the code and the changes in a separate file.");
 
                 cw.WriteLine("using System;");
@@ -42,9 +42,9 @@ then write the code and the changes in a separate file.");
                 string ns = null; //avoid writing namespace between classes if they belong to the same
                 foreach (ProtoMessage m in file.Messages.Values)
                 {
-                    if(ns != m.CsNamespace)
+                    if (ns != m.CsNamespace)
                     {
-                        if(ns != null) //First time
+                        if (ns != null) //First time
                             cw.EndBracket();
                         cw.Bracket("namespace " + m.CsNamespace);
                         ns = m.CsNamespace;
@@ -55,9 +55,9 @@ then write the code and the changes in a separate file.");
 
                 foreach (ProtoEnum e in file.Enums.Values)
                 {
-                    if(ns != e.CsNamespace)
+                    if (ns != e.CsNamespace)
                     {
-                        if(ns != null) //First time
+                        if (ns != null) //First time
                             cw.EndBracket();
                         cw.Bracket("namespace " + e.CsNamespace);
                         ns = e.CsNamespace;
@@ -92,9 +92,9 @@ This file will be overwritten when CodeGenerator is run.");
                 string ns = null; //avoid writing namespace between classes if they belong to the same
                 foreach (ProtoMessage m in file.Messages.Values)
                 {
-                    if(ns != m.CsNamespace)
+                    if (ns != m.CsNamespace)
                     {
-                        if(ns != null) //First time
+                        if (ns != null) //First time
                             cw.EndBracket();
                         cw.Bracket("namespace " + m.CsNamespace);
                         ns = m.CsNamespace;
