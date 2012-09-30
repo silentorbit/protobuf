@@ -89,11 +89,13 @@ namespace ProtocolBuffers
             }
 
             //Wire format field ID
+#if DEBUG
             cw.Comment("ProtocolBuffers wire field id");
             foreach (Field f in m.Fields.Values)
             {
                 cw.WriteLine("public const int " + f.CsName + "FieldID = " + f.ID + ";");
             }
+#endif
         }
         
         static string GenerateProperty(Field f)
