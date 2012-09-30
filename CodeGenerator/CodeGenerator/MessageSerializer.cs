@@ -162,7 +162,7 @@ namespace ProtocolBuffers
                             continue;
                         cw.Comment("Field " + f.ID + " " + f.WireType);
                         cw.Case(((f.ID << 3) | (int)f.WireType));
-                        if (FieldSerializer.GenerateFieldReader(f, cw))
+                        if (FieldSerializer.FieldReader(f, cw))
                             cw.WriteLine("continue;");
                     }
                     cw.EndBracket();
@@ -184,7 +184,7 @@ namespace ProtocolBuffers
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
                     cw.WriteIndent("break;");
-                    if (FieldSerializer.GenerateFieldReader(f, cw))
+                    if (FieldSerializer.FieldReader(f, cw))
                         cw.WriteLine("continue;");
                 }
                 cw.CaseDefault();
@@ -228,7 +228,7 @@ namespace ProtocolBuffers
                 cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
             
             foreach (Field f in m.Fields.Values)
-                FieldSerializer.GenerateFieldWriter(m, f, cw);
+                FieldSerializer.FieldWriter(m, f, cw);
 
             if (m.OptionPreserveUnknown)
             {
