@@ -10,6 +10,8 @@ namespace Test
     {
         public static void Run()
         {
+            Console.WriteLine("Starting speed test...");
+
             AddressBook ab = new AddressBook();
             NetAddressBook nab = new NetAddressBook();
             ab.List = new List<Person>();

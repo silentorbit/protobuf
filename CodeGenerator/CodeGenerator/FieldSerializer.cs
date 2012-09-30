@@ -83,9 +83,27 @@ namespace ProtocolBuffers
                 switch (f.OptionCodeType)
                 {
                     case "DateTime":
-                        return "new DateTime((long)ProtocolParser.ReadUInt64(" + stream + "))";
+                        switch (f.ProtoType.ProtoName)
+                        {
+                            case ProtoBuiltin.UInt64:
+                            case ProtoBuiltin.Int64:
+                            case ProtoBuiltin.Fixed64:
+                            case ProtoBuiltin.SFixed64:
+                                return "new DateTime((long)" + GenerateFieldTypeReaderPrimitive(f, stream, binaryReader, instance) + ")";
+                        }
+                        throw new FormatException("Local feature, DateTime, must be stored in a 64 bit field");
+
                     case "TimeSpan":
-                        return "new TimeSpan((long)ProtocolParser.ReadUInt64(" + stream + "))";
+                        switch (f.ProtoType.ProtoName)
+                        {
+                            case ProtoBuiltin.UInt64:
+                            case ProtoBuiltin.Int64:
+                            case ProtoBuiltin.Fixed64:
+                            case ProtoBuiltin.SFixed64:
+                                return "new TimeSpan((long)" + GenerateFieldTypeReaderPrimitive(f, stream, binaryReader, instance) + ")";
+                        }
+                        throw new FormatException("Local feature, TimeSpan, must be stored in a 64 bit field");
+
                     default:
                     //Assume enum
                         return "(" + f.OptionCodeType + ")" + GenerateFieldTypeReaderPrimitive(f, stream, binaryReader, instance);
@@ -191,12 +209,12 @@ namespace ProtocolBuffers
             //Write final byte
             if (bytes.Count == 1)
             {
-                cw.WriteLine(stream + ".WriteByte(" + bytes[0] + ");");
+                cw.WriteLine(stream + ".WriteByte(" + bytes [0] + ");");
                 return;
             }
 
             string line = stream + ".Write(new byte[]{";
-            foreach(byte v in bytes)
+            foreach (byte v in bytes)
                 line += v + ", ";
             line = line.TrimEnd(new char[]{' ', ','});
             line += "}, 0, " + bytes.Count + ");";

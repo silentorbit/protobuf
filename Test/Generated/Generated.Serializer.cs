@@ -551,11 +551,11 @@ namespace Local
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64(stream));
+                    instance.Uptime = new TimeSpan((long)(long)ProtocolParser.ReadUInt64(stream));
                     continue;
                     // Field 2 Varint
                 case 16:
-                    instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64(stream));
+                    instance.DueDate = new DateTime((long)(long)ProtocolParser.ReadUInt64(stream));
                     continue;
                     // Field 3 Fixed64
                 case 25:
@@ -650,11 +650,11 @@ namespace Local
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.Uptime = new TimeSpan((long)ProtocolParser.ReadUInt64(stream));
+                    instance.Uptime = new TimeSpan((long)(long)ProtocolParser.ReadUInt64(stream));
                     continue;
                     // Field 2 Varint
                 case 16:
-                    instance.DueDate = new DateTime((long)ProtocolParser.ReadUInt64(stream));
+                    instance.DueDate = new DateTime((long)(long)ProtocolParser.ReadUInt64(stream));
                     continue;
                     // Field 3 Fixed64
                 case 25:
