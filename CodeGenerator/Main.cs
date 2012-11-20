@@ -10,7 +10,7 @@ namespace ProtocolBuffers
         {
             if (args.Length == 0)
             {
-                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe path-to.proto [path-to-second.proto [...]] [output.cs]");
+                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] path-to.proto [path-to-second.proto [...]] [output.cs]");
                 return -1;
             }
 
@@ -18,6 +18,13 @@ namespace ProtocolBuffers
             string outputPath = null;
 
             int argIndex = 0;
+
+            if (args.Length > 0 && args [0] == "--preserve-names")
+            {
+                ProtoPrepare.ConvertToCamelCase = false;
+                argIndex++;
+            }
+
             while (argIndex < args.Length)
             {
                 string protoPath = Path.GetFullPath(args [argIndex]);

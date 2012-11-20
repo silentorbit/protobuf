@@ -6,6 +6,11 @@ namespace ProtocolBuffers
 {
     static class ProtoPrepare
     {
+        /// <summary>
+        /// Convert message/class and field/propery names to CamelCase
+        /// </summary>
+        public static bool ConvertToCamelCase = true;
+
         static public void Prepare(ProtoCollection file)
         {
             foreach (ProtoMessage m in file.Messages.Values)
@@ -140,6 +145,9 @@ namespace ProtocolBuffers
         /// </summary>
         static string GetCamelCase(string name)
         {
+            if (ConvertToCamelCase == false)
+                return name;
+
             string csname = "";
             
             if (name.Contains("_") == false)
