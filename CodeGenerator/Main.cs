@@ -34,7 +34,7 @@ namespace ProtocolBuffers
                 argIndex += 1;
 
                 //First .proto filename is used as output unless specified later
-                if (argIndex == 1)
+                if (outputPath == null)
                     outputPath = protoBase + ".cs";
                 //Handle last argument as the output .cs path
                 if (argIndex == args.Length && protoPath.EndsWith(".cs"))
