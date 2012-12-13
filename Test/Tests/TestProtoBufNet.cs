@@ -15,14 +15,17 @@ namespace Test
         {
             Person p1 = new Person();
             p1.Name = "Alice";
-            p1.Id = 17532;
+            p1.Id = -240;
             p1.Email = "alice@silentorbit.com";
             p1.Phone = new List<Person.PhoneNumber>();
             p1.Phone.Add(new Person.PhoneNumber(){ Type = Person.PhoneType.MOBILE, Number = "+46 11111111111"});
             p1.Phone.Add(new Person.PhoneNumber(){ Type = Person.PhoneType.HOME, Number = "+46 777777777"});
+
+            //Serialize using this(Protobuf code generator)
             MemoryStream ms1 = new MemoryStream();
             Person.Serialize(ms1, p1);
-            
+
+            //Deserialize using ProtoBuf.Net
             MemoryStream ms2 = new MemoryStream(ms1.ToArray());
             NetPerson p2 = ProtoBuf.Serializer.Deserialize<NetPerson>(ms2);
             

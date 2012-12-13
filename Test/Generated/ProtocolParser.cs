@@ -501,24 +501,26 @@ namespace ProtocolBuffers
         
         #region VarInt: int32, uint32, sint32
         
-        [Obsolete("Use (int)ReadUInt32(stream);")]
+        [Obsolete("Use (int)ReadUInt64(stream); //yes 64")]
         /// <summary>
-        /// Since the int32 format is inefficient for negative numbers we have avoided to imlplement.
-        /// The same functionality can be achieved using: (int)ReadUInt32(stream);
+        /// Since the int32 format is inefficient for negative numbers we have avoided to implement it.
+        /// The same functionality can be achieved using: (int)ReadUInt64(stream);
         /// </summary>
         public static int ReadInt32(Stream stream)
         {
-            throw new NotImplementedException("Use (int)ReadUInt32(stream);");
+            return (int)ReadUInt64(stream);
         }
         
         [Obsolete("Use WriteUInt32(stream, (uint)val);")]
         /// <summary>
         /// Since the int32 format is inefficient for negative numbers we have avoided to imlplement.
-        /// The same functionality can be achieved using: WriteUInt32(stream, (uint)val);
+        /// The same functionality can be achieved using: WriteUInt64(stream, (uint)val);
+        /// Note that 64 must always be used for int32 to generate the ten byte wire format.
         /// </summary>
         public static void WriteInt32(Stream stream, int val)
         {
-            throw new NotImplementedException("Use WriteUInt32(stream, (uint)val);");
+            //signed varint is always encoded as 64 but values!
+            WriteUInt64(stream, (ulong)val);
         }
         
         /// <summary>
@@ -540,6 +542,7 @@ namespace ProtocolBuffers
 
         /// <summary>
         /// Unsigned VarInt format
+        /// Do not use to read int32, use ReadUint64 for that.
         /// </summary>
         public static uint ReadUInt32(Stream stream)
         {
@@ -600,7 +603,7 @@ namespace ProtocolBuffers
         /// </summary>
         public static int ReadInt64(Stream stream)
         {
-            throw new NotImplementedException("Use (int)ReadUInt64 (stream); instead");
+            return (int)ReadUInt64(stream);
         }
         
         [Obsolete("Use WriteUInt64 (stream, (ulong)val); instead")]
@@ -610,7 +613,7 @@ namespace ProtocolBuffers
         /// </summary>
         public static void WriteInt64(Stream stream, int val)
         {
-            throw new NotImplementedException("Use WriteUInt64(stream, (ulong)val); instead");
+            WriteUInt64(stream, (ulong)val);
         }
 
         /// <summary>

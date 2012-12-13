@@ -125,7 +125,7 @@ namespace ProtocolBuffers
             }
 
             if (f.ProtoType is ProtoEnum)
-                return "(" + f.ProtoType.FullCsType + ")ProtocolParser.ReadUInt32(" + stream + ")";
+                return "(" + f.ProtoType.FullCsType + ")ProtocolParser.ReadUInt64(" + stream + ")";
             
             if (f.ProtoType is ProtoBuiltin)
             {
@@ -135,8 +135,8 @@ namespace ProtocolBuffers
                         return binaryReader + ".ReadDouble()";
                     case ProtoBuiltin.Float:
                         return binaryReader + ".ReadSingle()";
-                    case ProtoBuiltin.Int32:
-                        return "(int)ProtocolParser.ReadUInt32(" + stream + ")";
+                    case ProtoBuiltin.Int32: //Wire format is 64 bit varint
+                        return "(int)ProtocolParser.ReadUInt64(" + stream + ")";
                     case ProtoBuiltin.Int64:
                         return "(long)ProtocolParser.ReadUInt64(" + stream + ")";
                     case ProtoBuiltin.UInt32:
@@ -363,7 +363,7 @@ namespace ProtocolBuffers
         {
 
             if (f.ProtoType is ProtoEnum)
-                return "ProtocolParser.WriteUInt32(" + stream + ",(uint)" + instance + ");";
+                return "ProtocolParser.WriteUInt64(" + stream + ",(ulong)" + instance + ");";
 
             if (f.ProtoType is ProtoMessage)
             {
@@ -385,8 +385,8 @@ namespace ProtocolBuffers
                 case ProtoBuiltin.SFixed32:
                 case ProtoBuiltin.SFixed64:
                     return binaryWriter + ".Write(" + instance + ");";
-                case ProtoBuiltin.Int32:
-                    return "ProtocolParser.WriteUInt32(" + stream + ",(uint)" + instance + ");";
+                case ProtoBuiltin.Int32: //Serialized as 64 bit varint
+                    return "ProtocolParser.WriteUInt64(" + stream + ",(ulong)" + instance + ");";
                 case ProtoBuiltin.Int64:
                     return "ProtocolParser.WriteUInt64(" + stream + ",(ulong)" + instance + ");";
                 case ProtoBuiltin.UInt32:

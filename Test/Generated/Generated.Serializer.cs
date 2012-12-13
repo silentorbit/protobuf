@@ -68,7 +68,7 @@ namespace Personal
                     continue;
                     // Field 2 Varint
                 case 16:
-                    instance.Id = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.Id = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                     // Field 3 LengthDelimited
                 case 26:
@@ -125,7 +125,7 @@ namespace Personal
                     continue;
                     // Field 2 Varint
                 case 16:
-                    instance.Id = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.Id = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                     // Field 3 LengthDelimited
                 case 26:
@@ -164,7 +164,7 @@ namespace Personal
             ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
             // Key for field: 2, Varint
             stream.WriteByte(16);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.Id);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.Id);
             if (instance.Email != null)
             {
                 // Key for field: 3, LengthDelimited
@@ -253,7 +253,7 @@ namespace Personal
                         continue;
                         // Field 2 Varint
                     case 16:
-                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt64(stream);
                         continue;
                     }
 
@@ -300,7 +300,7 @@ namespace Personal
                         continue;
                         // Field 2 Varint
                     case 16:
-                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt32(stream);
+                        instance.Type = (Personal.Person.PhoneType)ProtocolParser.ReadUInt64(stream);
                         continue;
                     }
 
@@ -605,7 +605,7 @@ namespace Local
                     continue;
                     // Field 13 Varint
                 case 104:
-                    instance.MyEnum = (LocalFeatureTest.TopEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.MyEnum = (LocalFeatureTest.TopEnum)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -704,7 +704,7 @@ namespace Local
                     continue;
                     // Field 13 Varint
                 case 104:
-                    instance.MyEnum = (LocalFeatureTest.TopEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.MyEnum = (LocalFeatureTest.TopEnum)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -1220,7 +1220,7 @@ namespace TestB
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.A = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.A = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -1262,7 +1262,7 @@ namespace TestB
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.A = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.A = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -1287,7 +1287,7 @@ namespace TestB
         {
             // Key for field: 1, Varint
             stream.WriteByte(8);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.A);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.A);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -1352,7 +1352,7 @@ namespace Mine
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldA = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -1396,7 +1396,7 @@ namespace Mine
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldA = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -1423,7 +1423,7 @@ namespace Mine
         {
             // Key for field: 1, Varint
             stream.WriteByte(8);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
             if (instance.PreservedFields != null)
             {
                 foreach (KeyValue kv in instance.PreservedFields)
@@ -1504,7 +1504,7 @@ namespace Yours
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldA = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                     // Field 2 Fixed64
                 case 17:
@@ -1516,7 +1516,7 @@ namespace Yours
                     continue;
                     // Field 4 Varint
                 case 32:
-                    instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldD = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                     // Field 5 Varint
                 case 40:
@@ -1579,12 +1579,12 @@ namespace Yours
                 case 17:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 18:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 19:
                     if(key.WireType != Wire.LengthDelimited)
@@ -1663,7 +1663,7 @@ namespace Yours
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldA = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                     // Field 2 Fixed64
                 case 17:
@@ -1675,7 +1675,7 @@ namespace Yours
                     continue;
                     // Field 4 Varint
                 case 32:
-                    instance.FieldD = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldD = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                     // Field 5 Varint
                 case 40:
@@ -1738,12 +1738,12 @@ namespace Yours
                 case 17:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldQ = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 18:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldR = (Yours.MyMessageV2.MyEnum)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 19:
                     if(key.WireType != Wire.LengthDelimited)
@@ -1798,7 +1798,7 @@ namespace Yours
             BinaryWriter bw = new BinaryWriter(stream);
             // Key for field: 1, Varint
             stream.WriteByte(8);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
             // Key for field: 2, Fixed64
             stream.WriteByte(17);
             bw.Write(instance.FieldB);
@@ -1807,7 +1807,7 @@ namespace Yours
             bw.Write(instance.FieldC);
             // Key for field: 4, Varint
             stream.WriteByte(32);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldD);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldD);
             // Key for field: 5, Varint
             stream.WriteByte(40);
             ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldE);
@@ -1977,7 +1977,7 @@ namespace Theirs
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldA = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -2019,7 +2019,7 @@ namespace Theirs
                 {
                     // Field 1 Varint
                 case 8:
-                    instance.FieldA = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldA = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
 
@@ -2044,7 +2044,7 @@ namespace Theirs
         {
             // Key for field: 1, Varint
             stream.WriteByte(8);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldA);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -2114,22 +2114,22 @@ namespace Proto.test
                 case 32:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX1 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX1 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 64:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX2 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX2 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 96:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX3 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX3 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 100:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX4 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX4 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
@@ -2167,22 +2167,22 @@ namespace Proto.test
                 case 32:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX1 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX1 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 64:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX2 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX2 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 96:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX3 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX3 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 case 100:
                     if(key.WireType != Wire.Varint)
                         break;
-                    instance.FieldX4 = (int)ProtocolParser.ReadUInt32(stream);
+                    instance.FieldX4 = (int)ProtocolParser.ReadUInt64(stream);
                     continue;
                 default:
                     ProtocolParser.SkipKey(stream, key);
@@ -2198,16 +2198,16 @@ namespace Proto.test
         {
             // Key for field: 32, Varint
             stream.Write(new byte[]{128, 2}, 0, 2);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX1);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX1);
             // Key for field: 64, Varint
             stream.Write(new byte[]{128, 4}, 0, 2);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX2);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX2);
             // Key for field: 96, Varint
             stream.Write(new byte[]{128, 6}, 0, 2);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX3);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX3);
             // Key for field: 100, Varint
             stream.Write(new byte[]{160, 6}, 0, 2);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldX4);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX4);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
