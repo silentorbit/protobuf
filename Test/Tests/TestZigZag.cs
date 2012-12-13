@@ -30,10 +30,10 @@ namespace Test
             for (int n = 0; n < test32.Length; n++)
             {
                 MemoryStream ms1 = new MemoryStream();
-                ProtocolParser.WriteSInt32(ms1, test32 [n]);
+                ProtocolParser.WriteZInt32(ms1, test32 [n]);
                 
                 MemoryStream ms2 = new MemoryStream(ms1.ToArray());
-                if (ProtocolParser.ReadSInt32(ms2) != test32 [n])
+                if (ProtocolParser.ReadZInt32(ms2) != test32 [n])
                     throw new InvalidDataException("Test failed");
                 
                 MemoryStream ms3 = new MemoryStream(ms1.ToArray());
@@ -65,10 +65,10 @@ namespace Test
             for (int n = 0; n < test32.Length; n++)
             {
                 MemoryStream ms1 = new MemoryStream();
-                ProtocolParser.WriteSInt64(ms1, test64 [n]);
+                ProtocolParser.WriteZInt64(ms1, test64 [n]);
                 
                 MemoryStream ms2 = new MemoryStream(ms1.ToArray());
-                if (ProtocolParser.ReadSInt64(ms2) != test64 [n])
+                if (ProtocolParser.ReadZInt64(ms2) != test64 [n])
                     throw new InvalidDataException("Test failed");
                 
                 MemoryStream ms3 = new MemoryStream(ms1.ToArray());

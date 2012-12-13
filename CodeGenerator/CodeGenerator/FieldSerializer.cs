@@ -144,9 +144,9 @@ namespace ProtocolBuffers
                     case ProtoBuiltin.UInt64:
                         return "ProtocolParser.ReadUInt64(" + stream + ")";
                     case ProtoBuiltin.SInt32:
-                        return "ProtocolParser.ReadSInt32(" + stream + ")";
+                        return "ProtocolParser.ReadZInt32(" + stream + ")";
                     case ProtoBuiltin.SInt64:
-                        return "ProtocolParser.ReadSInt64(" + stream + ")";
+                        return "ProtocolParser.ReadZInt64(" + stream + ")";
                     case ProtoBuiltin.Fixed32:
                         return binaryReader + ".ReadUInt32()";
                     case ProtoBuiltin.Fixed64:
@@ -394,9 +394,9 @@ namespace ProtocolBuffers
                 case ProtoBuiltin.UInt64:
                     return "ProtocolParser.WriteUInt64(" + stream + ", " + instance + ");";
                 case ProtoBuiltin.SInt32:
-                    return "ProtocolParser.WriteSInt32(" + stream + ", " + instance + ");";
+                    return "ProtocolParser.WriteZInt32(" + stream + ", " + instance + ");";
                 case ProtoBuiltin.SInt64:
-                    return "ProtocolParser.WriteSInt64(" + stream + ", " + instance + ");";
+                    return "ProtocolParser.WriteZInt64(" + stream + ", " + instance + ");";
                 case ProtoBuiltin.Bool:
                     return "ProtocolParser.WriteBool(" + stream + ", " + instance + ");";
                 case ProtoBuiltin.String:

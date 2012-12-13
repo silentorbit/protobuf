@@ -69,7 +69,7 @@ namespace ProtocolBuffers
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
-        public static int ReadSInt32(Stream stream)
+        public static int ReadZInt32(Stream stream)
         {
             uint val = ReadUInt32(stream);
             return (int)(val >> 1) ^ ((int)(val << 31) >> 31);
@@ -78,7 +78,7 @@ namespace ProtocolBuffers
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
-        public static void WriteSInt32(Stream stream, int val)
+        public static void WriteZInt32(Stream stream, int val)
         {
             WriteUInt32(stream, (uint)((val << 1) ^ (val >> 31)));
         }
@@ -162,7 +162,7 @@ namespace ProtocolBuffers
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
-        public static long ReadSInt64(Stream stream)
+        public static long ReadZInt64(Stream stream)
         {
             ulong val = ReadUInt64(stream);
             return (long)(val >> 1) ^ ((long)(val << 63) >> 63);
@@ -171,7 +171,7 @@ namespace ProtocolBuffers
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
-        public static void WriteSInt64(Stream stream, long val)
+        public static void WriteZInt64(Stream stream, long val)
         {
             WriteUInt64(stream, (ulong)((val << 1) ^ (val >> 63)));
         }

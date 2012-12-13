@@ -332,7 +332,7 @@ namespace Personal
                 {
                     // Key for field: 2, Varint
                     stream.WriteByte(16);
-                    ProtocolParser.WriteUInt32(stream,(uint)instance.Type);
+                    ProtocolParser.WriteUInt64(stream,(ulong)instance.Type);
                 }
             }
 
@@ -829,7 +829,7 @@ namespace Local
             }
             // Key for field: 13, Varint
             stream.WriteByte(104);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.MyEnum);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.MyEnum);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -1532,11 +1532,11 @@ namespace Yours
                     continue;
                     // Field 8 Varint
                 case 64:
-                    instance.FieldH = ProtocolParser.ReadSInt32(stream);
+                    instance.FieldH = ProtocolParser.ReadZInt32(stream);
                     continue;
                     // Field 9 Varint
                 case 72:
-                    instance.FieldI = ProtocolParser.ReadSInt64(stream);
+                    instance.FieldI = ProtocolParser.ReadZInt64(stream);
                     continue;
                     // Field 10 Fixed32
                 case 85:
@@ -1691,11 +1691,11 @@ namespace Yours
                     continue;
                     // Field 8 Varint
                 case 64:
-                    instance.FieldH = ProtocolParser.ReadSInt32(stream);
+                    instance.FieldH = ProtocolParser.ReadZInt32(stream);
                     continue;
                     // Field 9 Varint
                 case 72:
-                    instance.FieldI = ProtocolParser.ReadSInt64(stream);
+                    instance.FieldI = ProtocolParser.ReadZInt64(stream);
                     continue;
                     // Field 10 Fixed32
                 case 85:
@@ -1819,10 +1819,10 @@ namespace Yours
             ProtocolParser.WriteUInt64(stream, instance.FieldG);
             // Key for field: 8, Varint
             stream.WriteByte(64);
-            ProtocolParser.WriteSInt32(stream, instance.FieldH);
+            ProtocolParser.WriteZInt32(stream, instance.FieldH);
             // Key for field: 9, Varint
             stream.WriteByte(72);
-            ProtocolParser.WriteSInt64(stream, instance.FieldI);
+            ProtocolParser.WriteZInt64(stream, instance.FieldI);
             // Key for field: 10, Fixed32
             stream.WriteByte(85);
             bw.Write(instance.FieldJ);
@@ -1850,12 +1850,12 @@ namespace Yours
             ProtocolParser.WriteBytes(stream, instance.FieldP);
             // Key for field: 17, Varint
             stream.Write(new byte[]{136, 1}, 0, 2);
-            ProtocolParser.WriteUInt32(stream,(uint)instance.FieldQ);
+            ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldQ);
             if (instance.FieldR != MyEnum.ETest2)
             {
                 // Key for field: 18, Varint
                 stream.Write(new byte[]{144, 1}, 0, 2);
-                ProtocolParser.WriteUInt32(stream,(uint)instance.FieldR);
+                ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldR);
             }
             if (instance.Dummy != null)
             {
