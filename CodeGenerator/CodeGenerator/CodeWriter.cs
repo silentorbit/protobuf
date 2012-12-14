@@ -10,7 +10,7 @@ namespace SilentOrbit.ProtocolBuffers
     class CodeWriter : IDisposable
     {   
         readonly TextWriter w;
-        const string indentPrefix = "    ";
+        public static string IndentPrefix = "    ";
         MemoryStream ms = new MemoryStream();
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace SilentOrbit.ProtocolBuffers
         public void Indent()
         {
             indent += 1;
-            prefix += indentPrefix;
+            prefix += IndentPrefix;
         }
 
         public void Dedent()
@@ -62,7 +62,7 @@ namespace SilentOrbit.ProtocolBuffers
             indent -= 1;
             if (indent < 0)
                 throw new InvalidOperationException("Indent error");
-            prefix = prefix.Substring(0, prefix.Length - indentPrefix.Length);
+            prefix = prefix.Substring(0, prefix.Length - IndentPrefix.Length);
         }
 
         public void Bracket()
@@ -150,7 +150,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public void WriteIndent(string str)
         {
-            WriteLine(indentPrefix + str);
+            WriteLine(IndentPrefix + str);
         }
 
         public void WriteLine(string line)

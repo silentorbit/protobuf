@@ -10,7 +10,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (args.Length == 0)
             {
-                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] path-to.proto [path-to-second.proto [...]] [output.cs]");
+                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] [--use-tabs] path-to.proto [path-to-second.proto [...]] [output.cs]");
                 return -1;
             }
 
@@ -19,9 +19,20 @@ namespace SilentOrbit.ProtocolBuffers
 
             int argIndex = 0;
 
-            if (args.Length > 0 && args [0] == "--preserve-names")
+            while (args.Length > argIndex && args [argIndex].StartsWith("--"))
             {
-                ProtoPrepare.ConvertToCamelCase = false;
+                switch (args [argIndex])
+                {
+                    case "--preserve-names":
+                        ProtoPrepare.ConvertToCamelCase = false;
+                        break;
+                    case "--use-tabs":
+                        CodeWriter.IndentPrefix = "\t";
+                        break;
+                    default:
+                        Console.Error.WriteLine("Unknown option: " + args [argIndex]);
+                        return -1;
+                }
                 argIndex++;
             }
 

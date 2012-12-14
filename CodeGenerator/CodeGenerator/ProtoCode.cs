@@ -128,7 +128,9 @@ This file will be overwritten when CodeGenerator is run.");
                         break;
                     if (includeUsing == false && line.StartsWith("using"))
                         continue;
-                    
+
+                    if (CodeWriter.IndentPrefix == "\t")
+                        line = line.Replace("    ", "\t");
                     code.Write(line + "\r\n");
                 }
             }
