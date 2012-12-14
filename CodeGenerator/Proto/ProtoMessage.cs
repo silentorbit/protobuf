@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     class ProtoMessage : ProtoType, IComment
     {

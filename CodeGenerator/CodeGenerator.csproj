@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{108DF716-5E86-4515-836F-1AC211CA648B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ProtocolBuffers</RootNamespace>
+    <RootNamespace>SilentOrbit.ProtocolBuffers</RootNamespace>
     <AssemblyName>CodeGenerator</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

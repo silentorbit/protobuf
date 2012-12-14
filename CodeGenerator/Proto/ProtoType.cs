@@ -1,6 +1,6 @@
 using System;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     /// <summary>
     /// A protobuf message or enum

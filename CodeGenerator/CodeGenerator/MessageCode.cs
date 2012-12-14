@@ -1,6 +1,6 @@
 using System;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     static class MessageCode
     {
@@ -25,7 +25,7 @@ namespace ProtocolBuffers
             if (m.OptionPreserveUnknown)
             {
                 cw.Summary("Values for unknown fields.");
-                cw.WriteLine("public List<ProtocolBuffers.KeyValue> PreservedFields;");
+                cw.WriteLine("public List<global::SilentOrbit.ProtocolBuffers.KeyValue> PreservedFields;");
                 cw.WriteLine();
             }
             

@@ -2,7 +2,7 @@ using System;
 using Personal;
 using System.Collections.Generic;
 using System.IO;
-using ProtocolBuffers;
+using SilentOrbit.ProtocolBuffers;
 
 namespace Test
 {

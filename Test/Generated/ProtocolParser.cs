@@ -6,7 +6,7 @@ using System.Text;
 // 
 //  Read/Write string and byte arrays 
 // 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
@@ -180,7 +180,7 @@ namespace ProtocolBuffers
 //  fixed integers and float/double.
 //  
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
@@ -309,7 +309,7 @@ namespace ProtocolBuffers
 //  Reader/Writer for field key
 //
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public enum Wire
     {
@@ -432,7 +432,7 @@ namespace ProtocolBuffers
                 case Wire.LengthDelimited:
                     //Read and include length in value buffer
                     uint length = ProtocolParser.ReadUInt32(stream);
-                    using (MemoryStream ms = new MemoryStream ())
+                    using (var ms = new MemoryStream ())
                     {
                         //TODO: pass b directly to MemoryStream constructor or skip usage of it completely
                         ProtocolParser.WriteUInt32(ms, length);
@@ -458,7 +458,7 @@ namespace ProtocolBuffers
 #endregion
 #region ProtocolParserVarInt
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {

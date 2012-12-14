@@ -1,6 +1,6 @@
 using System;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     static class MessageSerializer
     {
@@ -52,7 +52,7 @@ namespace ProtocolBuffers
                 cw.Summary("Helper: put the buffer into a MemoryStream and create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
-                cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+                cw.WriteLine("using (var ms = new MemoryStream(buffer))");
                 cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
@@ -60,7 +60,7 @@ namespace ProtocolBuffers
 
             cw.Summary("Helper: put the buffer into a MemoryStream before deserializing");
             cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " Deserialize(byte[] buffer, " + refstr + m.FullCsType + " instance)");
-            cw.WriteLine("using (MemoryStream ms = new MemoryStream(buffer))");
+            cw.WriteLine("using (var ms = new MemoryStream(buffer))");
             cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
             cw.WriteLine("return instance;");
             cw.EndBracketSpace();
@@ -118,7 +118,7 @@ namespace ProtocolBuffers
                 if (method == "DeserializeLengthDelimited")
                 {
                     //Important to read stream position after we have read the length field
-                    cw.WriteLine("long limit = ProtocolParser.ReadUInt32(stream);");
+                    cw.WriteLine("long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);");
                     cw.WriteLine("limit += stream.Position;");
                 }
 
@@ -152,7 +152,7 @@ namespace ProtocolBuffers
                     }
                 }
 
-                if(hasLowID)
+                if (hasLowID)
                 {
                     cw.Comment("Optimized reading of known fields with field ID < 16");
                     cw.Switch("keyByte");
@@ -168,7 +168,7 @@ namespace ProtocolBuffers
                     cw.EndBracket();
                     cw.WriteLine();
                 }
-                cw.WriteLine("ProtocolBuffers.Key key = ProtocolParser.ReadKey((byte)keyByte, stream);");
+                cw.WriteLine("var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);");
 
                 cw.WriteLine();
 
@@ -182,8 +182,8 @@ namespace ProtocolBuffers
                         continue;
                     cw.Case(f.ID);
                     //Makes sure we got the right wire type
-                    cw.WriteLine("if(key.WireType != Wire." + f.WireType + ")");
-                    cw.WriteIndent("break;");
+                    cw.WriteLine("if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire." + f.WireType + ")");
+                    cw.WriteIndent("break;"); //This can be changed to throw an exception for unknown formats.
                     if (FieldSerializer.FieldReader(f, cw))
                         cw.WriteLine("continue;");
                 }
@@ -191,11 +191,11 @@ namespace ProtocolBuffers
                 if (m.OptionPreserveUnknown)
                 {
                     cw.WriteLine("if (instance.PreservedFields == null)");
-                    cw.WriteIndent("instance.PreservedFields = new List<KeyValue>();");
-                    cw.WriteLine("instance.PreservedFields.Add(new KeyValue(key, ProtocolParser.ReadValueBytes(stream, key)));");
+                    cw.WriteIndent("instance.PreservedFields = new List<global::SilentOrbit.ProtocolBuffers.KeyValue>();");
+                    cw.WriteLine("instance.PreservedFields.Add(new global::SilentOrbit.ProtocolBuffers.KeyValue(key, global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadValueBytes(stream, key)));");
                 } else
                 {
-                    cw.WriteLine("ProtocolParser.SkipKey(stream, key);");
+                    cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);");
                 }
                 cw.WriteLine("break;");
                 cw.EndBracket();
@@ -233,8 +233,8 @@ namespace ProtocolBuffers
             if (m.OptionPreserveUnknown)
             {
                 cw.IfBracket("instance.PreservedFields != null");
-                cw.ForeachBracket("KeyValue kv in instance.PreservedFields");
-                cw.WriteLine("ProtocolParser.WriteKey(stream, kv.Key);");
+                cw.ForeachBracket("var kv in instance.PreservedFields");
+                cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteKey(stream, kv.Key);");
                 cw.WriteLine("stream.Write(kv.Value, 0, kv.Value.Length);");
                 cw.EndBracket();
                 cw.EndBracket();
@@ -244,7 +244,7 @@ namespace ProtocolBuffers
 
             cw.Summary("Helper: Serialize into a MemoryStream and return its byte array");
             cw.Bracket(m.OptionAccess + " static byte[] SerializeToBytes(" + m.CsType + " instance)");
-            cw.Using("MemoryStream ms = new MemoryStream()");
+            cw.Using("var ms = new MemoryStream()");
             cw.WriteLine("Serialize(ms, instance);");
             cw.WriteLine("return ms.ToArray();");
             cw.EndBracket();

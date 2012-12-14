@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using ProtocolBuffers;
+using SilentOrbit.ProtocolBuffers;
 
 namespace Test
 {

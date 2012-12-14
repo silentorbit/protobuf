@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     static class ProtoParser
     {
@@ -100,7 +100,7 @@ namespace ProtocolBuffers
 
         static void ParseMessage(TokenReader tr, ProtoMessage parent, string package)
         {
-            ProtoMessage msg = new ProtoMessage(parent, package);
+            var msg = new ProtoMessage(parent, package);
             LocalParser.ParseComments(msg, lastComment, tr);
             msg.ProtoName = tr.ReadNext();
             

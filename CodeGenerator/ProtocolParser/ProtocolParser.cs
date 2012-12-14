@@ -5,7 +5,7 @@ using System.Text;
 // 
 //  Read/Write string and byte arrays 
 // 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {

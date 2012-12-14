@@ -1,6 +1,6 @@
 using System;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     /// <summary>
     /// Rules for fields in .proto files

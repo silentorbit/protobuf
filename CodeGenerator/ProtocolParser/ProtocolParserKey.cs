@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public enum Wire
     {
@@ -127,7 +127,7 @@ namespace ProtocolBuffers
                 case Wire.LengthDelimited:
                     //Read and include length in value buffer
                     uint length = ProtocolParser.ReadUInt32(stream);
-                    using (MemoryStream ms = new MemoryStream ())
+                    using (var ms = new MemoryStream ())
                     {
                         //TODO: pass b directly to MemoryStream constructor or skip usage of it completely
                         ProtocolParser.WriteUInt32(ms, length);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     /// <summary>
     /// Parses local feature setting from the comments of the .proto file.

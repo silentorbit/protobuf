@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     static class ProtoPrepare
     {

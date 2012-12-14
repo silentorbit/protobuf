@@ -30,12 +30,20 @@ namespace Personal
 
         public List<Personal.Person.PhoneNumber> Phone { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int NameFieldID = 1;
+        public const int IdFieldID = 2;
+        public const int EmailFieldID = 3;
+        public const int PhoneFieldID = 4;
         public partial class PhoneNumber
         {
             public string Number { get; set; }
 
             public Personal.Person.PhoneType Type { get; set; }
 
+            // ProtocolBuffers wire field id
+            public const int NumberFieldID = 1;
+            public const int TypeFieldID = 2;
         }
 
     }
@@ -44,6 +52,8 @@ namespace Personal
     {
         public List<Personal.Person> List { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int ListFieldID = 1;
     }
 
 }
@@ -82,6 +92,20 @@ namespace Local
 
         public LocalFeatureTest.TopEnum MyEnum { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int UptimeFieldID = 1;
+        public const int DueDateFieldID = 2;
+        public const int AmountFieldID = 3;
+        public const int DenialFieldID = 4;
+        public const int SecretFieldID = 5;
+        public const int InternalFieldID = 6;
+        public const int PRFieldID = 7;
+        public const int TestingReadOnlyFieldID = 8;
+        public const int MyInterfaceFieldID = 9;
+        public const int MyStructFieldID = 10;
+        public const int MyExtStructFieldID = 11;
+        public const int MyExtClassFieldID = 12;
+        public const int MyEnumFieldID = 13;
         // protected virtual void BeforeSerialize() {}
         // protected virtual void AfterDeserialize() {}
 
@@ -93,11 +117,13 @@ namespace LocalFeatureTest
     /// <summary>Testing local struct serialization</summary>
     public partial interface InterfaceTest
     {
+        // ProtocolBuffers wire field id
     }
 
     /// <summary>Testing local struct serialization</summary>
     public partial struct StructTest
     {
+        // ProtocolBuffers wire field id
     }
 
 }
@@ -121,8 +147,10 @@ namespace Mine
         /// <summary>This field is important to comment as we just did here</summary>
         public int FieldA { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldAFieldID = 1;
         /// <summary>Values for unknown fields.</summary>
-        public List<ProtocolBuffers.KeyValue> PreservedFields;
+        public List<global::SilentOrbit.ProtocolBuffers.KeyValue> PreservedFields;
 
     }
 
@@ -186,6 +214,30 @@ namespace Yours
 
         public List<Theirs.TheirMessage> FieldV { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldAFieldID = 1;
+        public const int FieldBFieldID = 2;
+        public const int FieldCFieldID = 3;
+        public const int FieldDFieldID = 4;
+        public const int FieldEFieldID = 5;
+        public const int FieldFFieldID = 6;
+        public const int FieldGFieldID = 7;
+        public const int FieldHFieldID = 8;
+        public const int FieldIFieldID = 9;
+        public const int FieldJFieldID = 10;
+        public const int FieldKFieldID = 11;
+        public const int FieldLFieldID = 12;
+        public const int FieldMFieldID = 13;
+        public const int FieldNFieldID = 14;
+        public const int FieldOFieldID = 15;
+        public const int FieldPFieldID = 16;
+        public const int FieldQFieldID = 17;
+        public const int FieldRFieldID = 18;
+        public const int DummyFieldID = 19;
+        public const int FieldTFieldID = 20;
+        public const int FieldSFieldID = 21;
+        public const int FieldUFieldID = 22;
+        public const int FieldVFieldID = 23;
     }
 
 }
@@ -195,6 +247,8 @@ namespace Theirs
     {
         public int FieldA { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldAFieldID = 1;
     }
 
 }
@@ -211,6 +265,11 @@ namespace Proto.test
 
         public int FieldX4 { get; set; }
 
+        // ProtocolBuffers wire field id
+        public const int FieldX1FieldID = 32;
+        public const int FieldX2FieldID = 64;
+        public const int FieldX3FieldID = 96;
+        public const int FieldX4FieldID = 100;
     }
 
 }

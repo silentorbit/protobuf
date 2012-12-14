@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     class MainClass
     {
@@ -51,7 +51,7 @@ namespace ProtocolBuffers
 
                 try
                 {
-                    ProtoCollection proto = new ProtoCollection();
+                    var proto = new ProtoCollection();
 
                     //Parse .proto
                     Console.WriteLine("Parsing " + protoPath);

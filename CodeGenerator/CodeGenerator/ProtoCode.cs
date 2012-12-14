@@ -2,10 +2,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Reflection;
-using ProtocolBuffers;
 using System.Collections.Generic;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     static class ProtoCode
     {
@@ -22,7 +21,7 @@ namespace ProtocolBuffers
                 Directory.CreateDirectory(csDir);
 
             //Basic structures
-            using (CodeWriter cw = new CodeWriter(csPath))
+            using (var cw = new CodeWriter(csPath))
             {
                 cw.Comment(@"Classes and structures being serialized");
                 cw.WriteLine();
@@ -68,10 +67,10 @@ then write the code and the changes in a separate file.");
 
                 cw.EndBracket();
             }
-            
+
             //.Serializer.cs
             //Code for Reading/Writing 
-            using (CodeWriter cw = new CodeWriter(prefix + ".Serializer" + ext))
+            using (var cw = new CodeWriter(prefix + ".Serializer" + ext))
             {
                 cw.Comment(@"This is the backend code for reading and writing");
                 cw.WriteLine();
@@ -86,7 +85,6 @@ This file will be overwritten when CodeGenerator is run.");
                 cw.WriteLine("using System.IO;");
                 cw.WriteLine("using System.Text;");
                 cw.WriteLine("using System.Collections.Generic;");
-                cw.WriteLine("using ProtocolBuffers;");
                 cw.WriteLine();
 
                 string ns = null; //avoid writing namespace between classes if they belong to the same

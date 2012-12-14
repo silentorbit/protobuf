@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace ProtocolBuffers
+namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
