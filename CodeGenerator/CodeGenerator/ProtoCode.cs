@@ -129,7 +129,7 @@ This file will be overwritten when CodeGenerator is run.");
                     if (includeUsing == false && line.StartsWith("using"))
                         continue;
                     
-                    code.WriteLine(line);
+                    code.Write(line + "\r\n");
                 }
             }
             code.WriteLine("#endregion");

@@ -22,7 +22,7 @@ namespace Personal
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Person DeserializeLengthDelimited(Stream stream)
         {
@@ -30,7 +30,7 @@ namespace Personal
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Person Deserialize(byte[] buffer)
         {
@@ -39,7 +39,7 @@ namespace Personal
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Personal.Person Deserialize(byte[] buffer, Personal.Person instance)
         {
@@ -47,7 +47,7 @@ namespace Personal
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Personal.Person Deserialize(Stream stream, Personal.Person instance)
         {
@@ -79,9 +79,9 @@ namespace Personal
                     instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream));
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -92,10 +92,10 @@ namespace Personal
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Personal.Person DeserializeLengthDelimited(Stream stream, Personal.Person instance)
         {
@@ -136,9 +136,9 @@ namespace Personal
                     instance.Phone.Add(Personal.Person.PhoneNumber.DeserializeLengthDelimited(stream));
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -149,10 +149,10 @@ namespace Personal
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Person instance)
         {
@@ -176,19 +176,19 @@ namespace Personal
                 {
                     // Key for field: 4, LengthDelimited
                     stream.WriteByte(34);
-                    ﻿using (var ms4 = new MemoryStream())
-                    {
-                        Personal.Person.PhoneNumber.Serialize(ms4, i4);
-                        // Length delimited byte array
-                        uint ms4Length = (uint)ms4.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms4Length);
-                        stream.Write(ms4.GetBuffer(), 0, (int)ms4Length);
-                    }
+                    ﻿using (var ms4 = new MemoryStream())
+                    {
+                        Personal.Person.PhoneNumber.Serialize(ms4, i4);
+                        // Length delimited byte array
+                        uint ms4Length = (uint)ms4.Length;
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms4Length);
+                        stream.Write(ms4.GetBuffer(), 0, (int)ms4Length);
+                    }
                     
                 }
             }
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(Person instance)
         {
@@ -198,7 +198,7 @@ namespace Personal
                 return ms.ToArray();
             }
         }
-
+        
         public partial class PhoneNumber
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -208,7 +208,7 @@ namespace Personal
                 Deserialize(stream, instance);
                 return instance;
             }
-
+            
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static PhoneNumber DeserializeLengthDelimited(Stream stream)
             {
@@ -216,7 +216,7 @@ namespace Personal
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
-
+            
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static PhoneNumber Deserialize(byte[] buffer)
             {
@@ -225,7 +225,7 @@ namespace Personal
                     Deserialize(ms, instance);
                 return instance;
             }
-
+            
             /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
             public static Personal.Person.PhoneNumber Deserialize(byte[] buffer, Personal.Person.PhoneNumber instance)
             {
@@ -233,7 +233,7 @@ namespace Personal
                     Deserialize(ms, instance);
                 return instance;
             }
-
+            
             /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
             public static Personal.Person.PhoneNumber Deserialize(Stream stream, Personal.Person.PhoneNumber instance)
             {
@@ -255,9 +255,9 @@ namespace Personal
                         instance.Type = (Personal.Person.PhoneType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     }
-
+                    
                     var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                    
                     // Reading field ID > 16 and unknown field ID/wire type combinations
                     switch (key.Field)
                     {
@@ -268,10 +268,10 @@ namespace Personal
                         break;
                     }
                 }
-
+                
                 return instance;
             }
-
+            
             /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
             public static Personal.Person.PhoneNumber DeserializeLengthDelimited(Stream stream, Personal.Person.PhoneNumber instance)
             {
@@ -302,9 +302,9 @@ namespace Personal
                         instance.Type = (Personal.Person.PhoneType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     }
-
+                    
                     var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                    
                     // Reading field ID > 16 and unknown field ID/wire type combinations
                     switch (key.Field)
                     {
@@ -315,10 +315,10 @@ namespace Personal
                         break;
                     }
                 }
-
+                
                 return instance;
             }
-
+            
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, PhoneNumber instance)
             {
@@ -334,7 +334,7 @@ namespace Personal
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Type);
                 }
             }
-
+            
             /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
             public static byte[] SerializeToBytes(PhoneNumber instance)
             {
@@ -345,9 +345,9 @@ namespace Personal
                 }
             }
         }
-
+        
     }
-
+    
     public partial class AddressBook
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -357,7 +357,7 @@ namespace Personal
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static AddressBook DeserializeLengthDelimited(Stream stream)
         {
@@ -365,7 +365,7 @@ namespace Personal
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static AddressBook Deserialize(byte[] buffer)
         {
@@ -374,7 +374,7 @@ namespace Personal
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Personal.AddressBook Deserialize(byte[] buffer, Personal.AddressBook instance)
         {
@@ -382,7 +382,7 @@ namespace Personal
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Personal.AddressBook Deserialize(Stream stream, Personal.AddressBook instance)
         {
@@ -402,9 +402,9 @@ namespace Personal
                     instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream));
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -415,10 +415,10 @@ namespace Personal
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Personal.AddressBook DeserializeLengthDelimited(Stream stream, Personal.AddressBook instance)
         {
@@ -447,9 +447,9 @@ namespace Personal
                     instance.List.Add(Personal.Person.DeserializeLengthDelimited(stream));
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -460,10 +460,10 @@ namespace Personal
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, AddressBook instance)
         {
@@ -473,19 +473,19 @@ namespace Personal
                 {
                     // Key for field: 1, LengthDelimited
                     stream.WriteByte(10);
-                    ﻿using (var ms1 = new MemoryStream())
-                    {
-                        Personal.Person.Serialize(ms1, i1);
-                        // Length delimited byte array
-                        uint ms1Length = (uint)ms1.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms1Length);
-                        stream.Write(ms1.GetBuffer(), 0, (int)ms1Length);
-                    }
+                    ﻿using (var ms1 = new MemoryStream())
+                    {
+                        Personal.Person.Serialize(ms1, i1);
+                        // Length delimited byte array
+                        uint ms1Length = (uint)ms1.Length;
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms1Length);
+                        stream.Write(ms1.GetBuffer(), 0, (int)ms1Length);
+                    }
                     
                 }
             }
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(AddressBook instance)
         {
@@ -496,7 +496,7 @@ namespace Personal
             }
         }
     }
-
+    
 }
 namespace Local
 {
@@ -509,7 +509,7 @@ namespace Local
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         internal static LocalFeatures DeserializeLengthDelimited(Stream stream)
         {
@@ -517,7 +517,7 @@ namespace Local
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         internal static LocalFeatures Deserialize(byte[] buffer)
         {
@@ -526,7 +526,7 @@ namespace Local
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         internal static Local.LocalFeatures Deserialize(byte[] buffer, Local.LocalFeatures instance)
         {
@@ -534,7 +534,7 @@ namespace Local
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures Deserialize(Stream stream, Local.LocalFeatures instance)
         {
@@ -607,9 +607,9 @@ namespace Local
                     instance.MyEnum = (LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -620,11 +620,11 @@ namespace Local
                     break;
                 }
             }
-
+            
             instance.AfterDeserialize();
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures DeserializeLengthDelimited(Stream stream, Local.LocalFeatures instance)
         {
@@ -706,9 +706,9 @@ namespace Local
                     instance.MyEnum = (LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -719,16 +719,16 @@ namespace Local
                     break;
                 }
             }
-
+            
             instance.AfterDeserialize();
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         internal static void Serialize(Stream stream, LocalFeatures instance)
         {
             instance.BeforeSerialize();
-
+            
             BinaryWriter bw = new BinaryWriter(stream);
             // Key for field: 1, Varint
             stream.WriteByte(8);
@@ -767,70 +767,70 @@ namespace Local
             {
                 // Key for field: 8, LengthDelimited
                 stream.WriteByte(66);
-                ﻿using (var ms8 = new MemoryStream())
-                {
-                    Mine.MyMessageV1.Serialize(ms8, instance.TestingReadOnly);
-                    // Length delimited byte array
-                    uint ms8Length = (uint)ms8.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms8Length);
-                    stream.Write(ms8.GetBuffer(), 0, (int)ms8Length);
-                }
+                ﻿using (var ms8 = new MemoryStream())
+                {
+                    Mine.MyMessageV1.Serialize(ms8, instance.TestingReadOnly);
+                    // Length delimited byte array
+                    uint ms8Length = (uint)ms8.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms8Length);
+                    stream.Write(ms8.GetBuffer(), 0, (int)ms8Length);
+                }
                 
             }
             if (instance.MyInterface == null)
                 throw new ArgumentNullException("MyInterface", "Required by proto specification.");
             // Key for field: 9, LengthDelimited
             stream.WriteByte(74);
-            ﻿using (var ms9 = new MemoryStream())
-            {
-                LocalFeatureTest.InterfaceTestSerializer.Serialize(ms9, instance.MyInterface);
-                // Length delimited byte array
-                uint ms9Length = (uint)ms9.Length;
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms9Length);
-                stream.Write(ms9.GetBuffer(), 0, (int)ms9Length);
-            }
+            ﻿using (var ms9 = new MemoryStream())
+            {
+                LocalFeatureTest.InterfaceTestSerializer.Serialize(ms9, instance.MyInterface);
+                // Length delimited byte array
+                uint ms9Length = (uint)ms9.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms9Length);
+                stream.Write(ms9.GetBuffer(), 0, (int)ms9Length);
+            }
             
             // Key for field: 10, LengthDelimited
             stream.WriteByte(82);
-            ﻿using (var ms10 = new MemoryStream())
-            {
-                LocalFeatureTest.StructTest.Serialize(ms10, instance.MyStruct);
-                // Length delimited byte array
-                uint ms10Length = (uint)ms10.Length;
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms10Length);
-                stream.Write(ms10.GetBuffer(), 0, (int)ms10Length);
-            }
+            ﻿using (var ms10 = new MemoryStream())
+            {
+                LocalFeatureTest.StructTest.Serialize(ms10, instance.MyStruct);
+                // Length delimited byte array
+                uint ms10Length = (uint)ms10.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms10Length);
+                stream.Write(ms10.GetBuffer(), 0, (int)ms10Length);
+            }
             
             // Key for field: 11, LengthDelimited
             stream.WriteByte(90);
-            ﻿using (var ms11 = new MemoryStream())
-            {
-                TestB.ExternalStructSerializer.Serialize(ms11, instance.MyExtStruct);
-                // Length delimited byte array
-                uint ms11Length = (uint)ms11.Length;
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms11Length);
-                stream.Write(ms11.GetBuffer(), 0, (int)ms11Length);
-            }
+            ﻿using (var ms11 = new MemoryStream())
+            {
+                TestB.ExternalStructSerializer.Serialize(ms11, instance.MyExtStruct);
+                // Length delimited byte array
+                uint ms11Length = (uint)ms11.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms11Length);
+                stream.Write(ms11.GetBuffer(), 0, (int)ms11Length);
+            }
             
             if (instance.MyExtClass != null)
             {
                 // Key for field: 12, LengthDelimited
                 stream.WriteByte(98);
-                ﻿using (var ms12 = new MemoryStream())
-                {
-                    TestB.ExternalClassSerializer.Serialize(ms12, instance.MyExtClass);
-                    // Length delimited byte array
-                    uint ms12Length = (uint)ms12.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms12Length);
-                    stream.Write(ms12.GetBuffer(), 0, (int)ms12Length);
-                }
+                ﻿using (var ms12 = new MemoryStream())
+                {
+                    TestB.ExternalClassSerializer.Serialize(ms12, instance.MyExtClass);
+                    // Length delimited byte array
+                    uint ms12Length = (uint)ms12.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms12Length);
+                    stream.Write(ms12.GetBuffer(), 0, (int)ms12Length);
+                }
                 
             }
             // Key for field: 13, Varint
             stream.WriteByte(104);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.MyEnum);
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         internal static byte[] SerializeToBytes(LocalFeatures instance)
         {
@@ -841,7 +841,7 @@ namespace Local
             }
         }
     }
-
+    
 }
 namespace LocalFeatureTest
 {
@@ -854,7 +854,7 @@ namespace LocalFeatureTest
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.InterfaceTest Deserialize(Stream stream, LocalFeatureTest.InterfaceTest instance)
         {
@@ -864,7 +864,7 @@ namespace LocalFeatureTest
                 if (keyByte == -1)
                     break;
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -875,10 +875,10 @@ namespace LocalFeatureTest
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.InterfaceTest DeserializeLengthDelimited(Stream stream, LocalFeatureTest.InterfaceTest instance)
         {
@@ -897,7 +897,7 @@ namespace LocalFeatureTest
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -908,15 +908,15 @@ namespace LocalFeatureTest
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, InterfaceTest instance)
         {
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(InterfaceTest instance)
         {
@@ -927,7 +927,7 @@ namespace LocalFeatureTest
             }
         }
     }
-
+    
     public partial struct StructTest
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -937,7 +937,7 @@ namespace LocalFeatureTest
             Deserialize(stream, ref instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static StructTest DeserializeLengthDelimited(Stream stream)
         {
@@ -945,7 +945,7 @@ namespace LocalFeatureTest
             DeserializeLengthDelimited(stream, ref instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static StructTest Deserialize(byte[] buffer)
         {
@@ -954,7 +954,7 @@ namespace LocalFeatureTest
                 Deserialize(ms, ref instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static LocalFeatureTest.StructTest Deserialize(byte[] buffer, ref LocalFeatureTest.StructTest instance)
         {
@@ -962,7 +962,7 @@ namespace LocalFeatureTest
                 Deserialize(ms, ref instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.StructTest Deserialize(Stream stream, ref LocalFeatureTest.StructTest instance)
         {
@@ -972,7 +972,7 @@ namespace LocalFeatureTest
                 if (keyByte == -1)
                     break;
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -983,10 +983,10 @@ namespace LocalFeatureTest
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static LocalFeatureTest.StructTest DeserializeLengthDelimited(Stream stream, ref LocalFeatureTest.StructTest instance)
         {
@@ -1005,7 +1005,7 @@ namespace LocalFeatureTest
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1016,15 +1016,15 @@ namespace LocalFeatureTest
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, StructTest instance)
         {
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(StructTest instance)
         {
@@ -1035,7 +1035,7 @@ namespace LocalFeatureTest
             }
         }
     }
-
+    
 }
 namespace TestB
 {
@@ -1048,7 +1048,7 @@ namespace TestB
             Deserialize(stream, ref instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalStruct DeserializeLengthDelimited(Stream stream)
         {
@@ -1056,7 +1056,7 @@ namespace TestB
             DeserializeLengthDelimited(stream, ref instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalStruct Deserialize(byte[] buffer)
         {
@@ -1065,7 +1065,7 @@ namespace TestB
                 Deserialize(ms, ref instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static TestB.ExternalStruct Deserialize(byte[] buffer, ref TestB.ExternalStruct instance)
         {
@@ -1073,7 +1073,7 @@ namespace TestB
                 Deserialize(ms, ref instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct Deserialize(Stream stream, ref TestB.ExternalStruct instance)
         {
@@ -1091,9 +1091,9 @@ namespace TestB
                     instance.X = br.ReadDouble();
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1104,10 +1104,10 @@ namespace TestB
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct DeserializeLengthDelimited(Stream stream, ref TestB.ExternalStruct instance)
         {
@@ -1134,9 +1134,9 @@ namespace TestB
                     instance.X = br.ReadDouble();
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1147,10 +1147,10 @@ namespace TestB
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalStruct instance)
         {
@@ -1159,7 +1159,7 @@ namespace TestB
             stream.WriteByte(9);
             bw.Write(instance.X);
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(ExternalStruct instance)
         {
@@ -1170,7 +1170,7 @@ namespace TestB
             }
         }
     }
-
+    
     public static class ExternalClassSerializer
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1180,7 +1180,7 @@ namespace TestB
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalClass DeserializeLengthDelimited(Stream stream)
         {
@@ -1188,7 +1188,7 @@ namespace TestB
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalClass Deserialize(byte[] buffer)
         {
@@ -1197,7 +1197,7 @@ namespace TestB
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static TestB.ExternalClass Deserialize(byte[] buffer, TestB.ExternalClass instance)
         {
@@ -1205,7 +1205,7 @@ namespace TestB
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalClass Deserialize(Stream stream, TestB.ExternalClass instance)
         {
@@ -1222,9 +1222,9 @@ namespace TestB
                     instance.A = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1235,10 +1235,10 @@ namespace TestB
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalClass DeserializeLengthDelimited(Stream stream, TestB.ExternalClass instance)
         {
@@ -1264,9 +1264,9 @@ namespace TestB
                     instance.A = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1277,10 +1277,10 @@ namespace TestB
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalClass instance)
         {
@@ -1288,7 +1288,7 @@ namespace TestB
             stream.WriteByte(8);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.A);
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(ExternalClass instance)
         {
@@ -1299,7 +1299,7 @@ namespace TestB
             }
         }
     }
-
+    
 }
 namespace Mine
 {
@@ -1312,7 +1312,7 @@ namespace Mine
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 DeserializeLengthDelimited(Stream stream)
         {
@@ -1320,7 +1320,7 @@ namespace Mine
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(byte[] buffer)
         {
@@ -1329,7 +1329,7 @@ namespace Mine
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Mine.MyMessageV1 Deserialize(byte[] buffer, Mine.MyMessageV1 instance)
         {
@@ -1337,7 +1337,7 @@ namespace Mine
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Mine.MyMessageV1 Deserialize(Stream stream, Mine.MyMessageV1 instance)
         {
@@ -1354,9 +1354,9 @@ namespace Mine
                     instance.FieldA = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1369,10 +1369,10 @@ namespace Mine
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Mine.MyMessageV1 DeserializeLengthDelimited(Stream stream, Mine.MyMessageV1 instance)
         {
@@ -1398,9 +1398,9 @@ namespace Mine
                     instance.FieldA = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1413,10 +1413,10 @@ namespace Mine
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV1 instance)
         {
@@ -1432,7 +1432,7 @@ namespace Mine
                 }
             }
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(MyMessageV1 instance)
         {
@@ -1443,7 +1443,7 @@ namespace Mine
             }
         }
     }
-
+    
 }
 namespace Yours
 {
@@ -1456,7 +1456,7 @@ namespace Yours
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 DeserializeLengthDelimited(Stream stream)
         {
@@ -1464,7 +1464,7 @@ namespace Yours
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(byte[] buffer)
         {
@@ -1473,7 +1473,7 @@ namespace Yours
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Yours.MyMessageV2 Deserialize(byte[] buffer, Yours.MyMessageV2 instance)
         {
@@ -1481,7 +1481,7 @@ namespace Yours
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
         {
@@ -1562,9 +1562,9 @@ namespace Yours
                     instance.FieldO = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1628,10 +1628,10 @@ namespace Yours
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 DeserializeLengthDelimited(Stream stream, Yours.MyMessageV2 instance)
         {
@@ -1721,9 +1721,9 @@ namespace Yours
                     instance.FieldO = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1787,10 +1787,10 @@ namespace Yours
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
@@ -1885,14 +1885,14 @@ namespace Yours
             {
                 // Key for field: 22, LengthDelimited
                 stream.Write(new byte[]{178, 1}, 0, 2);
-                ﻿using (var ms22 = new MemoryStream())
-                {
-                    Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
-                    // Length delimited byte array
-                    uint ms22Length = (uint)ms22.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms22Length);
-                    stream.Write(ms22.GetBuffer(), 0, (int)ms22Length);
-                }
+                ﻿using (var ms22 = new MemoryStream())
+                {
+                    Theirs.TheirMessage.Serialize(ms22, instance.FieldU);
+                    // Length delimited byte array
+                    uint ms22Length = (uint)ms22.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms22Length);
+                    stream.Write(ms22.GetBuffer(), 0, (int)ms22Length);
+                }
                 
             }
             if (instance.FieldV != null)
@@ -1901,19 +1901,19 @@ namespace Yours
                 {
                     // Key for field: 23, LengthDelimited
                     stream.Write(new byte[]{186, 1}, 0, 2);
-                    ﻿using (var ms23 = new MemoryStream())
-                    {
-                        Theirs.TheirMessage.Serialize(ms23, i23);
-                        // Length delimited byte array
-                        uint ms23Length = (uint)ms23.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms23Length);
-                        stream.Write(ms23.GetBuffer(), 0, (int)ms23Length);
-                    }
+                    ﻿using (var ms23 = new MemoryStream())
+                    {
+                        Theirs.TheirMessage.Serialize(ms23, i23);
+                        // Length delimited byte array
+                        uint ms23Length = (uint)ms23.Length;
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms23Length);
+                        stream.Write(ms23.GetBuffer(), 0, (int)ms23Length);
+                    }
                     
                 }
             }
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(MyMessageV2 instance)
         {
@@ -1924,7 +1924,7 @@ namespace Yours
             }
         }
     }
-
+    
 }
 namespace Theirs
 {
@@ -1937,7 +1937,7 @@ namespace Theirs
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage DeserializeLengthDelimited(Stream stream)
         {
@@ -1945,7 +1945,7 @@ namespace Theirs
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(byte[] buffer)
         {
@@ -1954,7 +1954,7 @@ namespace Theirs
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Theirs.TheirMessage Deserialize(byte[] buffer, Theirs.TheirMessage instance)
         {
@@ -1962,7 +1962,7 @@ namespace Theirs
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Theirs.TheirMessage Deserialize(Stream stream, Theirs.TheirMessage instance)
         {
@@ -1979,9 +1979,9 @@ namespace Theirs
                     instance.FieldA = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -1992,10 +1992,10 @@ namespace Theirs
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Theirs.TheirMessage DeserializeLengthDelimited(Stream stream, Theirs.TheirMessage instance)
         {
@@ -2021,9 +2021,9 @@ namespace Theirs
                     instance.FieldA = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                     continue;
                 }
-
+                
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -2034,10 +2034,10 @@ namespace Theirs
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, TheirMessage instance)
         {
@@ -2045,7 +2045,7 @@ namespace Theirs
             stream.WriteByte(8);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(TheirMessage instance)
         {
@@ -2056,7 +2056,7 @@ namespace Theirs
             }
         }
     }
-
+    
 }
 namespace Proto.test
 {
@@ -2069,7 +2069,7 @@ namespace Proto.test
             Deserialize(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage DeserializeLengthDelimited(Stream stream)
         {
@@ -2077,7 +2077,7 @@ namespace Proto.test
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static LongMessage Deserialize(byte[] buffer)
         {
@@ -2086,7 +2086,7 @@ namespace Proto.test
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
         public static Proto.test.LongMessage Deserialize(byte[] buffer, Proto.test.LongMessage instance)
         {
@@ -2094,7 +2094,7 @@ namespace Proto.test
                 Deserialize(ms, instance);
             return instance;
         }
-
+        
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Proto.test.LongMessage Deserialize(Stream stream, Proto.test.LongMessage instance)
         {
@@ -2104,7 +2104,7 @@ namespace Proto.test
                 if (keyByte == -1)
                     break;
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -2135,10 +2135,10 @@ namespace Proto.test
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Proto.test.LongMessage DeserializeLengthDelimited(Stream stream, Proto.test.LongMessage instance)
         {
@@ -2157,7 +2157,7 @@ namespace Proto.test
                 if (keyByte == -1)
                     throw new System.IO.EndOfStreamException();
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
-
+                
                 // Reading field ID > 16 and unknown field ID/wire type combinations
                 switch (key.Field)
                 {
@@ -2188,10 +2188,10 @@ namespace Proto.test
                     break;
                 }
             }
-
+            
             return instance;
         }
-
+        
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, LongMessage instance)
         {
@@ -2208,7 +2208,7 @@ namespace Proto.test
             stream.Write(new byte[]{160, 6}, 0, 2);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX4);
         }
-
+        
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
         public static byte[] SerializeToBytes(LongMessage instance)
         {
@@ -2219,5 +2219,5 @@ namespace Proto.test
             }
         }
     }
-
+    
 }

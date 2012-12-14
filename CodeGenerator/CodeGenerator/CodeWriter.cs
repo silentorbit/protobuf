@@ -20,6 +20,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             ms = new MemoryStream();
             w = new StreamWriter(ms, Encoding.UTF8);
+            //w.NewLine = "\r\n"; // does not appear to work
         }
 
         public string Code
@@ -157,21 +158,18 @@ namespace SilentOrbit.ProtocolBuffers
             string[] lines = line.Split('\n');
             foreach (string l in lines)
             {
-                w.Write(prefix);
-                w.WriteLine(l);
+                w.Write(prefix + l + "\r\n");
             }
         }
 
         public void WriteLine()
         {
-            if (prefix.Trim() != "")
-                w.Write(prefix.TrimEnd(' '));
-            w.WriteLine();
+            WriteLine(prefix.TrimEnd(' '));
         }
 
         public void Comment(string code)
         {
-            if(code == null)
+            if (code == null)
                 return;
 
             prefix += "// ";
@@ -182,7 +180,7 @@ namespace SilentOrbit.ProtocolBuffers
         
         public void Summary(string summary)
         {
-            if(summary == null || summary.Trim() == "")
+            if (summary == null || summary.Trim() == "")
                 return;
 
             string[] lines = summary.Replace("\r\n", "\n").Split('\n');
