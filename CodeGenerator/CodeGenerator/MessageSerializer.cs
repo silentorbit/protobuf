@@ -49,6 +49,13 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
                 
+                cw.Summary("Helper: create a new instance to deserializing into");
+                cw.Bracket(m.OptionAccess + " static " + m.CsType + " DeserializeLength(Stream stream, int length)");
+                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
+                cw.WriteLine("DeserializeLength(stream, length, " + refstr + "instance);");
+                cw.WriteLine("return instance;");
+                cw.EndBracketSpace();
+                
                 cw.Summary("Helper: put the buffer into a MemoryStream and create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
@@ -69,6 +76,7 @@ namespace SilentOrbit.ProtocolBuffers
             string[] methods = new string[]{
                 "Deserialize", //Default old one
                 "DeserializeLengthDelimited", //Start by reading length prefix and stay within that limit
+                "DeserializeLength", //Read at most length bytes given by argument
             };
 
             //Main Deserialize
@@ -78,11 +86,16 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     cw.Summary("Takes the remaining content of the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
-                } else
+                } else if (method == "DeserializeLengthDelimited")
                 {
                     cw.Summary("Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
-                }
+                } else if (method == "DeserializeLength")
+                {
+                    cw.Summary("Read the given number of bytes from the stream and deserialze it into the instance.");
+                    cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, int length, " + refstr + m.FullCsType + " instance)");
+                } else
+                    throw new NotImplementedException();
 
                 if (m.IsUsingBinaryWriter)
                     cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
@@ -121,10 +134,15 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);");
                     cw.WriteLine("limit += stream.Position;");
                 }
+                if (method == "DeserializeLength")
+                {
+                    //Important to read stream position after we have read the length field
+                    cw.WriteLine("long limit = stream.Position + length;");
+                }
 
                 cw.WhileBracket("true");
 
-                if (method == "DeserializeLengthDelimited")
+                if (method == "DeserializeLengthDelimited" || method == "DeserializeLength")
                 {
                     cw.IfBracket("stream.Position >= limit");
                     cw.WriteLine("if(stream.Position == limit)");
