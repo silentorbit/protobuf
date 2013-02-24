@@ -54,6 +54,22 @@ namespace SilentOrbit.ProtocolBuffers
                     break;
                 }
 
+                // Handle custom output directory
+                else if (argIndex == args.Length && protoPath.EndsWith("\\"))
+                {
+                    string outputDir = Path.GetDirectoryName(protoPath);
+
+                    // Create the output directory if it doesn't exist
+                    if (Directory.Exists(outputDir) == false)
+                        Directory.CreateDirectory(outputDir);
+
+                    // Replace the original output directory with the custom one
+                    outputPath = Path.Combine(
+                            outputDir,
+                            Path.GetFileName(outputPath));
+                    break;
+                }
+
                 if (File.Exists(protoPath) == false)
                 {
                     Console.Error.WriteLine("File not found: " + protoPath);
