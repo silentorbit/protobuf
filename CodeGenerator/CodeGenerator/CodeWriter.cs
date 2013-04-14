@@ -7,7 +7,7 @@ namespace SilentOrbit.ProtocolBuffers
     /// <summary>
     /// Static and instance helpers for code generation
     /// </summary>
-    class CodeWriter : IDisposable
+    public class CodeWriter : IDisposable
     {   
         readonly TextWriter w;
         public static string IndentPrefix = "    ";
@@ -42,7 +42,7 @@ namespace SilentOrbit.ProtocolBuffers
             w = new StreamWriter(csPath, false, Encoding.UTF8);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             w.Close();
         }
@@ -65,12 +65,20 @@ namespace SilentOrbit.ProtocolBuffers
             prefix = prefix.Substring(0, prefix.Length - IndentPrefix.Length);
         }
 
+        /// <summary>
+        /// Write leading bracket and indent
+        /// </summary>
+        /// <param name="str">String.</param>
         public void Bracket()
         {
             WriteLine("{");
             Indent();
         }
-        
+
+        /// <summary>
+        /// Write leading bracket and indent
+        /// </summary>
+        /// <param name="str">Line before bracket</param>
         public void Bracket(string str)
         {
             WriteLine(str);
