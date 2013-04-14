@@ -47,6 +47,7 @@ namespace SilentOrbit.ProtocolBuffers
                 //First .proto filename is used as output unless specified later
                 if (outputPath == null)
                     outputPath = protoBase + ".cs";
+
                 //Handle last argument as the output .cs path
                 if (argIndex == args.Length && protoPath.EndsWith(".cs"))
                 {
@@ -54,19 +55,14 @@ namespace SilentOrbit.ProtocolBuffers
                     break;
                 }
 
-                // Handle custom output directory
-                else if (argIndex == args.Length && protoPath.EndsWith("\\"))
+                //Handle last argument as the output path
+                //Filename is taken from first .proto argument
+                if (argIndex == args.Length && protoPath.EndsWith(Path.DirectorySeparatorChar.ToString()))
                 {
-                    string outputDir = Path.GetDirectoryName(protoPath);
-
-                    // Create the output directory if it doesn't exist
-                    if (Directory.Exists(outputDir) == false)
-                        Directory.CreateDirectory(outputDir);
+                    Directory.CreateDirectory(protoPath);
 
                     // Replace the original output directory with the custom one
-                    outputPath = Path.Combine(
-                            outputDir,
-                            Path.GetFileName(outputPath));
+                    outputPath = Path.Combine(protoPath, Path.GetFileName(outputPath));
                     break;
                 }
 
