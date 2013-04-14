@@ -21,7 +21,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             while (args.Length > argIndex && args [argIndex].StartsWith("--"))
             {
-                switch (args [argIndex])
+                switch (args[argIndex])
                 {
                     case "--preserve-names":
                         ProtoPrepare.ConvertToCamelCase = false;
@@ -30,7 +30,7 @@ namespace SilentOrbit.ProtocolBuffers
                         CodeWriter.IndentPrefix = "\t";
                         break;
                     default:
-                        Console.Error.WriteLine("Unknown option: " + args [argIndex]);
+                        Console.Error.WriteLine("Unknown option: " + args[argIndex]);
                         return -1;
                 }
                 argIndex++;
@@ -38,7 +38,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             while (argIndex < args.Length)
             {
-                string protoPath = Path.GetFullPath(args [argIndex]);
+                string protoPath = Path.GetFullPath(args[argIndex]);
                 string protoBase = Path.Combine(
                         Path.GetDirectoryName(protoPath),
                         Path.GetFileNameWithoutExtension(protoPath));

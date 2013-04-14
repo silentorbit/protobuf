@@ -59,7 +59,7 @@ namespace SilentOrbit.ProtocolBuffers
             foreach (var epair in me.Enums)
             {
                 if (me.EnumsComments.ContainsKey(epair.Key))
-                    cw.Summary(me.EnumsComments [epair.Key]);
+                    cw.Summary(me.EnumsComments[epair.Key]);
                 cw.WriteLine(epair.Key + " = " + epair.Value + ",");
             }
             cw.EndBracket();
