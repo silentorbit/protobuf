@@ -45,6 +45,7 @@
     <Reference Include="protobuf-net">
       <HintPath>Library\ProtoBuf-NET\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

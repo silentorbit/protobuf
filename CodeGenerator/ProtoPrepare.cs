@@ -65,12 +65,12 @@ namespace SilentOrbit.ProtocolBuffers
             
             f.ProtoType = GetBuiltinProtoType(f.ProtoTypeName);
             if (f.ProtoType == null)
-                f.ProtoType = m.GetProtoType(f.ProtoTypeName);
+                f.ProtoType = Search.GetProtoType(m, f.ProtoTypeName);
             if (f.ProtoType == null)
             {
 #if DEBUG
                 //this will still return null but we keep it here for debugging purposes
-                f.ProtoType = m.GetProtoType(f.ProtoTypeName);
+                f.ProtoType = Search.GetProtoType(m, f.ProtoTypeName);
 #endif
                 throw new ProtoFormatException("Field type \"" + f.ProtoTypeName + "\" not found for field " + f.ProtoName + " in message " + m.FullProtoName, f.Source);
             }

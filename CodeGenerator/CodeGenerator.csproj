@@ -57,6 +57,7 @@
     <Compile Include="SourcePath.cs" />
     <Compile Include="LocalParser.cs" />
     <Compile Include="Proto\IComment.cs" />
+    <Compile Include="Proto\Search.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

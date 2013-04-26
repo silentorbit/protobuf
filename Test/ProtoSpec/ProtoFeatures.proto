@@ -68,3 +68,17 @@ message longMessage
     required int32 field_x3 = 96;
     required int32 field_x4 = 100;
 }
+
+//Nested testing
+message Data {
+    optional double somefield = 1;
+}
+
+message Container {
+    message Nested {
+        optional Data nestedData = 1;
+    }
+
+    optional Nested myNestedMessage = 1;
+}
+

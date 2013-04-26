@@ -76,64 +76,6 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
-        #region Name searching
-
-        /// <summary>
-        /// Search for message in hierarchy
-        /// </summary>
-        public ProtoType GetProtoType(string path)
-        {
-            if (this is ProtoCollection)
-                return SearchMessage(this, path);
-
-            //Get protocollection, top parent
-            ProtoMessage topParent = Parent;
-            while (topParent is ProtoCollection == false)
-                topParent = topParent.Parent;
-
-            //Search for message or enum
-            ProtoType pt;
-
-            //First search down current message hierarchy
-            pt = SearchMessage(topParent, Package + "." + ProtoName + "." + path);
-            if (pt != null)
-                return pt;
-
-            //Second Search local namespace
-            pt = SearchMessage(topParent, Package + "." + path);
-            if (pt != null)
-                return pt;
-
-            //Finally search for global namespace
-            return SearchMessage(topParent, path);
-        }
-
-        ProtoType SearchMessage(ProtoMessage msg, string fullPath)
-        {
-            foreach (ProtoMessage sub in msg.Messages.Values)
-            {
-                if (fullPath == sub.FullProtoName)
-                    return sub;
-
-                if (fullPath.StartsWith(sub.FullProtoName + "."))
-                {
-                    ProtoType pt = SearchMessage(sub, fullPath);
-                    if (pt != null)
-                        return pt;
-                }
-            }
-
-            foreach (ProtoEnum subEnum in msg.Enums.Values)
-            {
-                if (fullPath == subEnum.FullProtoName)
-                    return subEnum;
-            }
-
-            return null;
-        }
-
-        #endregion
-
     }
 }
 

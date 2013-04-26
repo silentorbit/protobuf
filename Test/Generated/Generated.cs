@@ -272,6 +272,31 @@ namespace Proto.test
         public const int FieldX4FieldID = 100;
     }
     
+    /// <summary>Nested testing</summary>
+    public partial class Data
+    {
+        public double Somefield { get; set; }
+        
+        // ProtocolBuffers wire field id
+        public const int SomefieldFieldID = 1;
+    }
+    
+    public partial class Container
+    {
+        public Proto.test.Container.Nested MyNestedMessage { get; set; }
+        
+        // ProtocolBuffers wire field id
+        public const int MyNestedMessageFieldID = 1;
+        public partial class Nested
+        {
+            public Proto.test.Data NestedData { get; set; }
+            
+            // ProtocolBuffers wire field id
+            public const int NestedDataFieldID = 1;
+        }
+        
+    }
+    
 }
 namespace LocalFeatureTest
 {

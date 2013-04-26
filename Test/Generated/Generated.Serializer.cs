@@ -2993,4 +2993,583 @@ namespace Proto.test
         }
     }
     
+    public partial class Data
+    {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Data Deserialize(Stream stream)
+        {
+            Data instance = new Data();
+            Deserialize(stream, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Data DeserializeLengthDelimited(Stream stream)
+        {
+            Data instance = new Data();
+            DeserializeLengthDelimited(stream, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Data DeserializeLength(Stream stream, int length)
+        {
+            Data instance = new Data();
+            DeserializeLength(stream, length, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
+        public static Data Deserialize(byte[] buffer)
+        {
+            Data instance = new Data();
+            using (var ms = new MemoryStream(buffer))
+                Deserialize(ms, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
+        public static Proto.test.Data Deserialize(byte[] buffer, Proto.test.Data instance)
+        {
+            using (var ms = new MemoryStream(buffer))
+                Deserialize(ms, instance);
+            return instance;
+        }
+        
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
+        public static Proto.test.Data Deserialize(Stream stream, Proto.test.Data instance)
+        {
+            BinaryReader br = new BinaryReader(stream);
+            while (true)
+            {
+                int keyByte = stream.ReadByte();
+                if (keyByte == -1)
+                    break;
+                // Optimized reading of known fields with field ID < 16
+                switch (keyByte)
+                {
+                    // Field 1 Fixed64
+                case 9:
+                    instance.Somefield = br.ReadDouble();
+                    continue;
+                }
+                
+                var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                
+                // Reading field ID > 16 and unknown field ID/wire type combinations
+                switch (key.Field)
+                {
+                case 0:
+                    throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                default:
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                    break;
+                }
+            }
+            
+            return instance;
+        }
+        
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
+        public static Proto.test.Data DeserializeLengthDelimited(Stream stream, Proto.test.Data instance)
+        {
+            BinaryReader br = new BinaryReader(stream);
+            long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+            limit += stream.Position;
+            while (true)
+            {
+                if (stream.Position >= limit)
+                {
+                    if(stream.Position == limit)
+                        break;
+                    else
+                        throw new InvalidOperationException("Read past max limit");
+                }
+                int keyByte = stream.ReadByte();
+                if (keyByte == -1)
+                    throw new System.IO.EndOfStreamException();
+                // Optimized reading of known fields with field ID < 16
+                switch (keyByte)
+                {
+                    // Field 1 Fixed64
+                case 9:
+                    instance.Somefield = br.ReadDouble();
+                    continue;
+                }
+                
+                var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                
+                // Reading field ID > 16 and unknown field ID/wire type combinations
+                switch (key.Field)
+                {
+                case 0:
+                    throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                default:
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                    break;
+                }
+            }
+            
+            return instance;
+        }
+        
+        /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
+        public static Proto.test.Data DeserializeLength(Stream stream, int length, Proto.test.Data instance)
+        {
+            BinaryReader br = new BinaryReader(stream);
+            long limit = stream.Position + length;
+            while (true)
+            {
+                if (stream.Position >= limit)
+                {
+                    if(stream.Position == limit)
+                        break;
+                    else
+                        throw new InvalidOperationException("Read past max limit");
+                }
+                int keyByte = stream.ReadByte();
+                if (keyByte == -1)
+                    throw new System.IO.EndOfStreamException();
+                // Optimized reading of known fields with field ID < 16
+                switch (keyByte)
+                {
+                    // Field 1 Fixed64
+                case 9:
+                    instance.Somefield = br.ReadDouble();
+                    continue;
+                }
+                
+                var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                
+                // Reading field ID > 16 and unknown field ID/wire type combinations
+                switch (key.Field)
+                {
+                case 0:
+                    throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                default:
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                    break;
+                }
+            }
+            
+            return instance;
+        }
+        
+        /// <summary>Serialize the instance into the stream</summary>
+        public static void Serialize(Stream stream, Data instance)
+        {
+            BinaryWriter bw = new BinaryWriter(stream);
+            // Key for field: 1, Fixed64
+            stream.WriteByte(9);
+            bw.Write(instance.Somefield);
+        }
+        
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
+        public static byte[] SerializeToBytes(Data instance)
+        {
+            using (var ms = new MemoryStream())
+            {
+                Serialize(ms, instance);
+                return ms.ToArray();
+            }
+        }
+    }
+    
+    public partial class Container
+    {
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Container Deserialize(Stream stream)
+        {
+            Container instance = new Container();
+            Deserialize(stream, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Container DeserializeLengthDelimited(Stream stream)
+        {
+            Container instance = new Container();
+            DeserializeLengthDelimited(stream, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: create a new instance to deserializing into</summary>
+        public static Container DeserializeLength(Stream stream, int length)
+        {
+            Container instance = new Container();
+            DeserializeLength(stream, length, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
+        public static Container Deserialize(byte[] buffer)
+        {
+            Container instance = new Container();
+            using (var ms = new MemoryStream(buffer))
+                Deserialize(ms, instance);
+            return instance;
+        }
+        
+        /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
+        public static Proto.test.Container Deserialize(byte[] buffer, Proto.test.Container instance)
+        {
+            using (var ms = new MemoryStream(buffer))
+                Deserialize(ms, instance);
+            return instance;
+        }
+        
+        /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
+        public static Proto.test.Container Deserialize(Stream stream, Proto.test.Container instance)
+        {
+            while (true)
+            {
+                int keyByte = stream.ReadByte();
+                if (keyByte == -1)
+                    break;
+                // Optimized reading of known fields with field ID < 16
+                switch (keyByte)
+                {
+                    // Field 1 LengthDelimited
+                case 10:
+                    if (instance.MyNestedMessage == null)
+                        instance.MyNestedMessage = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                    else
+                        Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
+                    continue;
+                }
+                
+                var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                
+                // Reading field ID > 16 and unknown field ID/wire type combinations
+                switch (key.Field)
+                {
+                case 0:
+                    throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                default:
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                    break;
+                }
+            }
+            
+            return instance;
+        }
+        
+        /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
+        public static Proto.test.Container DeserializeLengthDelimited(Stream stream, Proto.test.Container instance)
+        {
+            long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+            limit += stream.Position;
+            while (true)
+            {
+                if (stream.Position >= limit)
+                {
+                    if(stream.Position == limit)
+                        break;
+                    else
+                        throw new InvalidOperationException("Read past max limit");
+                }
+                int keyByte = stream.ReadByte();
+                if (keyByte == -1)
+                    throw new System.IO.EndOfStreamException();
+                // Optimized reading of known fields with field ID < 16
+                switch (keyByte)
+                {
+                    // Field 1 LengthDelimited
+                case 10:
+                    if (instance.MyNestedMessage == null)
+                        instance.MyNestedMessage = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                    else
+                        Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
+                    continue;
+                }
+                
+                var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                
+                // Reading field ID > 16 and unknown field ID/wire type combinations
+                switch (key.Field)
+                {
+                case 0:
+                    throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                default:
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                    break;
+                }
+            }
+            
+            return instance;
+        }
+        
+        /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
+        public static Proto.test.Container DeserializeLength(Stream stream, int length, Proto.test.Container instance)
+        {
+            long limit = stream.Position + length;
+            while (true)
+            {
+                if (stream.Position >= limit)
+                {
+                    if(stream.Position == limit)
+                        break;
+                    else
+                        throw new InvalidOperationException("Read past max limit");
+                }
+                int keyByte = stream.ReadByte();
+                if (keyByte == -1)
+                    throw new System.IO.EndOfStreamException();
+                // Optimized reading of known fields with field ID < 16
+                switch (keyByte)
+                {
+                    // Field 1 LengthDelimited
+                case 10:
+                    if (instance.MyNestedMessage == null)
+                        instance.MyNestedMessage = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                    else
+                        Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
+                    continue;
+                }
+                
+                var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                
+                // Reading field ID > 16 and unknown field ID/wire type combinations
+                switch (key.Field)
+                {
+                case 0:
+                    throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                default:
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                    break;
+                }
+            }
+            
+            return instance;
+        }
+        
+        /// <summary>Serialize the instance into the stream</summary>
+        public static void Serialize(Stream stream, Container instance)
+        {
+            if (instance.MyNestedMessage != null)
+            {
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                ﻿using (var ms1 = new MemoryStream())
+                {
+                    Proto.test.Container.Nested.Serialize(ms1, instance.MyNestedMessage);
+                    // Length delimited byte array
+                    uint ms1Length = (uint)ms1.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms1Length);
+                    stream.Write(ms1.GetBuffer(), 0, (int)ms1Length);
+                }
+                
+            }
+        }
+        
+        /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
+        public static byte[] SerializeToBytes(Container instance)
+        {
+            using (var ms = new MemoryStream())
+            {
+                Serialize(ms, instance);
+                return ms.ToArray();
+            }
+        }
+        
+        public partial class Nested
+        {
+            /// <summary>Helper: create a new instance to deserializing into</summary>
+            public static Nested Deserialize(Stream stream)
+            {
+                Nested instance = new Nested();
+                Deserialize(stream, instance);
+                return instance;
+            }
+            
+            /// <summary>Helper: create a new instance to deserializing into</summary>
+            public static Nested DeserializeLengthDelimited(Stream stream)
+            {
+                Nested instance = new Nested();
+                DeserializeLengthDelimited(stream, instance);
+                return instance;
+            }
+            
+            /// <summary>Helper: create a new instance to deserializing into</summary>
+            public static Nested DeserializeLength(Stream stream, int length)
+            {
+                Nested instance = new Nested();
+                DeserializeLength(stream, length, instance);
+                return instance;
+            }
+            
+            /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
+            public static Nested Deserialize(byte[] buffer)
+            {
+                Nested instance = new Nested();
+                using (var ms = new MemoryStream(buffer))
+                    Deserialize(ms, instance);
+                return instance;
+            }
+            
+            /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
+            public static Proto.test.Container.Nested Deserialize(byte[] buffer, Proto.test.Container.Nested instance)
+            {
+                using (var ms = new MemoryStream(buffer))
+                    Deserialize(ms, instance);
+                return instance;
+            }
+            
+            /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
+            public static Proto.test.Container.Nested Deserialize(Stream stream, Proto.test.Container.Nested instance)
+            {
+                while (true)
+                {
+                    int keyByte = stream.ReadByte();
+                    if (keyByte == -1)
+                        break;
+                    // Optimized reading of known fields with field ID < 16
+                    switch (keyByte)
+                    {
+                        // Field 1 LengthDelimited
+                    case 10:
+                        if (instance.NestedData == null)
+                            instance.NestedData = Proto.test.Data.DeserializeLengthDelimited(stream);
+                        else
+                            Proto.test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
+                        continue;
+                    }
+                    
+                    var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                    
+                    // Reading field ID > 16 and unknown field ID/wire type combinations
+                    switch (key.Field)
+                    {
+                    case 0:
+                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                    default:
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                        break;
+                    }
+                }
+                
+                return instance;
+            }
+            
+            /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
+            public static Proto.test.Container.Nested DeserializeLengthDelimited(Stream stream, Proto.test.Container.Nested instance)
+            {
+                long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                limit += stream.Position;
+                while (true)
+                {
+                    if (stream.Position >= limit)
+                    {
+                        if(stream.Position == limit)
+                            break;
+                        else
+                            throw new InvalidOperationException("Read past max limit");
+                    }
+                    int keyByte = stream.ReadByte();
+                    if (keyByte == -1)
+                        throw new System.IO.EndOfStreamException();
+                    // Optimized reading of known fields with field ID < 16
+                    switch (keyByte)
+                    {
+                        // Field 1 LengthDelimited
+                    case 10:
+                        if (instance.NestedData == null)
+                            instance.NestedData = Proto.test.Data.DeserializeLengthDelimited(stream);
+                        else
+                            Proto.test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
+                        continue;
+                    }
+                    
+                    var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                    
+                    // Reading field ID > 16 and unknown field ID/wire type combinations
+                    switch (key.Field)
+                    {
+                    case 0:
+                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                    default:
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                        break;
+                    }
+                }
+                
+                return instance;
+            }
+            
+            /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
+            public static Proto.test.Container.Nested DeserializeLength(Stream stream, int length, Proto.test.Container.Nested instance)
+            {
+                long limit = stream.Position + length;
+                while (true)
+                {
+                    if (stream.Position >= limit)
+                    {
+                        if(stream.Position == limit)
+                            break;
+                        else
+                            throw new InvalidOperationException("Read past max limit");
+                    }
+                    int keyByte = stream.ReadByte();
+                    if (keyByte == -1)
+                        throw new System.IO.EndOfStreamException();
+                    // Optimized reading of known fields with field ID < 16
+                    switch (keyByte)
+                    {
+                        // Field 1 LengthDelimited
+                    case 10:
+                        if (instance.NestedData == null)
+                            instance.NestedData = Proto.test.Data.DeserializeLengthDelimited(stream);
+                        else
+                            Proto.test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
+                        continue;
+                    }
+                    
+                    var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
+                    
+                    // Reading field ID > 16 and unknown field ID/wire type combinations
+                    switch (key.Field)
+                    {
+                    case 0:
+                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                    default:
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
+                        break;
+                    }
+                }
+                
+                return instance;
+            }
+            
+            /// <summary>Serialize the instance into the stream</summary>
+            public static void Serialize(Stream stream, Nested instance)
+            {
+                if (instance.NestedData != null)
+                {
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
+                    ﻿using (var ms1 = new MemoryStream())
+                    {
+                        Proto.test.Data.Serialize(ms1, instance.NestedData);
+                        // Length delimited byte array
+                        uint ms1Length = (uint)ms1.Length;
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms1Length);
+                        stream.Write(ms1.GetBuffer(), 0, (int)ms1Length);
+                    }
+                    
+                }
+            }
+            
+            /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
+            public static byte[] SerializeToBytes(Nested instance)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    Serialize(ms, instance);
+                    return ms.ToArray();
+                }
+            }
+        }
+        
+    }
+    
 }
