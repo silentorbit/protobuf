@@ -9,7 +9,6 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static ProtoType GetProtoType(ProtoMessage msg, string path)
         {
-            Console.WriteLine("GetProtoType(" + msg + ", " + path);
             //Search for message or enum
             ProtoType pt;
 
@@ -35,8 +34,6 @@ namespace SilentOrbit.ProtocolBuffers
 
         static ProtoType SearchSubMessages(ProtoMessage msg, string fullPath)
         {
-            Console.WriteLine("SearchSubMessages(" + msg + ", " + fullPath);
-
             foreach (ProtoMessage sub in msg.Messages.Values)
             {
                 if (fullPath == sub.FullProtoName)

@@ -26,6 +26,9 @@ namespace SilentOrbit.ProtocolBuffers
                     case "--preserve-names":
                         ProtoPrepare.ConvertToCamelCase = false;
                         break;
+                    case ProtoPrepare.FixNameclashArgument:
+                        ProtoPrepare.FixNameclash = true;
+                        break;
                     case "--use-tabs":
                         CodeWriter.IndentPrefix = "\t";
                         break;

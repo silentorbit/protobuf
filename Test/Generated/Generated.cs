@@ -285,8 +285,12 @@ namespace Proto.test
     {
         public Proto.test.Container.Nested MyNestedMessage { get; set; }
         
+        /// <summary>Name collision test</summary>
+        public Proto.test.Container.Nested NestedField { get; set; }
+        
         // ProtocolBuffers wire field id
         public const int MyNestedMessageFieldID = 1;
+        public const int NestedFieldFieldID = 2;
         public partial class Nested
         {
             public Proto.test.Data NestedData { get; set; }

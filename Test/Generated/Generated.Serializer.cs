@@ -3236,6 +3236,13 @@ namespace Proto.test
                     else
                         Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
                     continue;
+                    // Field 2 LengthDelimited
+                case 18:
+                    if (instance.NestedField == null)
+                        instance.NestedField = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                    else
+                        Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
+                    continue;
                 }
                 
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
@@ -3281,6 +3288,13 @@ namespace Proto.test
                     else
                         Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
                     continue;
+                    // Field 2 LengthDelimited
+                case 18:
+                    if (instance.NestedField == null)
+                        instance.NestedField = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                    else
+                        Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
+                    continue;
                 }
                 
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
@@ -3325,6 +3339,13 @@ namespace Proto.test
                     else
                         Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
                     continue;
+                    // Field 2 LengthDelimited
+                case 18:
+                    if (instance.NestedField == null)
+                        instance.NestedField = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                    else
+                        Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
+                    continue;
                 }
                 
                 var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);
@@ -3357,6 +3378,20 @@ namespace Proto.test
                     uint ms1Length = (uint)ms1.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms1Length);
                     stream.Write(ms1.GetBuffer(), 0, (int)ms1Length);
+                }
+                
+            }
+            if (instance.NestedField != null)
+            {
+                // Key for field: 2, LengthDelimited
+                stream.WriteByte(18);
+                ﻿using (var ms2 = new MemoryStream())
+                {
+                    Proto.test.Container.Nested.Serialize(ms2, instance.NestedField);
+                    // Length delimited byte array
+                    uint ms2Length = (uint)ms2.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, ms2Length);
+                    stream.Write(ms2.GetBuffer(), 0, (int)ms2Length);
                 }
                 
             }

@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <Commandlineparameters>../../../Test/ProtoSpec/AddressBook.proto ../../../Test/ProtoSpec/LocalFeatures.proto ../../../Test/ProtoSpec/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
+    <Commandlineparameters>--fix-nameclash ../../../Test/ProtoSpec/AddressBook.proto ../../../Test/ProtoSpec/LocalFeatures.proto ../../../Test/ProtoSpec/ProtoFeatures.proto ../../../Test/Generated/Generated.cs</Commandlineparameters>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>

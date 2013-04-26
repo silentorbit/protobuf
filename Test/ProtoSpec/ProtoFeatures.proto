@@ -80,5 +80,8 @@ message Container {
     }
 
     optional Nested myNestedMessage = 1;
+    
+    //Name collision test
+    optional Nested Nested = 2;
 }
 

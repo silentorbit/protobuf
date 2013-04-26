@@ -11,6 +11,13 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static bool ConvertToCamelCase = true;
 
+        /// <summary>
+        /// If the name clashes between a property and subclass, the property will be renamed.
+        /// If false, an error will occur.
+        /// </summary>
+        public static bool FixNameclash = false;
+        public const string FixNameclashArgument = "--fix-nameclash";
+
         static public void Prepare(ProtoCollection file)
         {
             foreach (ProtoMessage m in file.Messages.Values)
@@ -44,6 +51,9 @@ namespace SilentOrbit.ProtocolBuffers
             foreach (Field f in m.Fields.Values)
             {
                 PrepareProtoType(m, f);
+
+                DetectNameClash(m, f);
+
                 if (f.OptionDefault != null)
                 {
                     if (f.ProtoType is ProtoBuiltin && ((ProtoBuiltin)f.ProtoType).ProtoName == "bytes")
@@ -53,6 +63,49 @@ namespace SilentOrbit.ProtocolBuffers
                 }
             }   
 
+        }
+
+        /// <summary>
+        /// Detect field which have the same name as a submessage in the same message.
+        /// </summary>
+        /// <param name="m">Parent message</param>
+        /// <param name="f">Field to check</param>
+        static void DetectNameClash(ProtoMessage m, Field f)
+        {  
+            bool nameclash = false;
+            foreach (var tm in m.Messages.Values)
+                if (tm.CsType == f.CsName)
+                    nameclash = true;
+            foreach (var te in m.Enums.Values)
+                if (te.CsType == f.CsName)
+                    nameclash = true;
+            foreach (var tf in m.Fields.Values)
+            {
+                if (tf == f)
+                    continue;
+                if (tf.CsName == f.CsName)
+                    nameclash = true;
+            }
+            if (nameclash == false)
+                return;
+
+            //Name clash
+            if (FixNameclash)
+            {
+                if (ConvertToCamelCase)
+                    f.CsName += "Field";
+                else
+                    f.CsName += "_field";
+
+
+                Console.Error.WriteLine("Warning: renamed field: " + m.FullCsType + "." + f.CsName);
+
+                //Make sure our change did not result in another name collission
+                DetectNameClash(m, f);
+            } else
+                throw new ProtoFormatException("The field: " + m.FullCsType + "." + f.CsName + 
+                    " has the same name as a sibling class/enum type which is not allowed in C#. " +
+                    "Use " + FixNameclashArgument + " to automatically rename the field.", f.Source);
         }
         
         /// <summary>
