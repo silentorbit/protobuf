@@ -10,7 +10,6 @@ namespace SilentOrbit.ProtocolBuffers
         /// Convert message/class and field/propery names to CamelCase
         /// </summary>
         public static bool ConvertToCamelCase = true;
-
         /// <summary>
         /// If the name clashes between a property and subclass, the property will be renamed.
         /// If false, an error will occur.
@@ -64,7 +63,6 @@ namespace SilentOrbit.ProtocolBuffers
             }   
 
         }
-
         /// <summary>
         /// Detect field which have the same name as a submessage in the same message.
         /// </summary>
@@ -107,7 +105,6 @@ namespace SilentOrbit.ProtocolBuffers
                     " has the same name as a sibling class/enum type which is not allowed in C#. " +
                     "Use " + FixNameclashArgument + " to automatically rename the field.", f.Source);
         }
-        
         /// <summary>
         /// Prepare: ProtoType, WireType and CSType
         /// </summary>
@@ -134,7 +131,6 @@ namespace SilentOrbit.ProtocolBuffers
                     throw new InvalidOperationException("Length delimited types cannot be packed");
             }
         }
-
         /// <summary>
         /// Return the type given the name from a .proto file.
         /// Return Unknonw if it is a message or an enum.
@@ -177,7 +173,6 @@ namespace SilentOrbit.ProtocolBuffers
                     return null;
             }
         }
-
         /// <summary>
         /// Gets the C# CamelCase version of a given name.
         /// Name collisions with enums are avoided.
@@ -192,7 +187,6 @@ namespace SilentOrbit.ProtocolBuffers
             
             return csname;          
         }
-        
         /// <summary>
         /// Gets the CamelCase version of a given name.
         /// </summary>
@@ -201,24 +195,8 @@ namespace SilentOrbit.ProtocolBuffers
             if (ConvertToCamelCase == false)
                 return name;
 
-            string csname = "";
-            
-            if (name.Contains("_") == false)
-                csname += name.Substring(0, 1).ToUpperInvariant() + name.Substring(1);
-            else
-            {
-                foreach (string part in name.Split('_'))
-                {
-                    if (part.Length == 0)
-                        csname += "_";
-                    else
-                        csname += part.Substring(0, 1).ToUpperInvariant() + part.Substring(1);
-                }
-            }       
-            
-            return csname;          
+            return SilentOrbit.Code.Name.ToCamelCase(name);
         }
-
     }
 }
 

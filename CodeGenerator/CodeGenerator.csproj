@@ -46,7 +46,6 @@
     <Compile Include="CodeGenerator\ProtoCode.cs" />
     <Compile Include="Proto\FieldRule.cs" />
     <Compile Include="Proto\ProtoFormatException.cs" />
-    <Compile Include="CodeGenerator\CodeWriter.cs" />
     <Compile Include="Proto\ProtoMessage.cs" />
     <Compile Include="Proto\ProtoEnum.cs" />
     <Compile Include="Proto\ProtoType.cs" />
@@ -91,4 +90,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeWriter\CodeWriter.csproj">
+      <Project>{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}</Project>
+      <Name>CodeWriter</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
