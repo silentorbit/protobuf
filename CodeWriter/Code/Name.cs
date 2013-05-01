@@ -13,7 +13,7 @@ namespace SilentOrbit.Code
                 csname += name.Substring(0, 1).ToUpperInvariant() + name.Substring(1);
             else
             {
-                foreach (string part in name.Split('_'))
+                foreach(string part in name.Split('_'))
                 {
                     if (part.Length == 0)
                         csname += "_";

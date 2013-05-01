@@ -45,6 +45,11 @@ namespace SilentOrbit.ProtocolBuffers
             w = new StreamWriter(csPath, false, Encoding.UTF8);
         }
 
+        public virtual void Flush()
+        {
+            w.Flush();
+        }
+
         public virtual void Dispose()
         {
             w.Close();
@@ -174,7 +179,7 @@ namespace SilentOrbit.ProtocolBuffers
         public void WriteLine(string line)
         {
             string[] lines = line.Split('\n');
-            foreach (string l in lines)
+            foreach(string l in lines)
             {
                 w.Write(prefix + l + "\r\n");
             }
@@ -192,7 +197,7 @@ namespace SilentOrbit.ProtocolBuffers
                 return;
 
             prefix += "// ";
-            foreach (string line in code.Split('\n'))
+            foreach(string line in code.Split('\n'))
                 WriteLine(line.TrimEnd(' '));
             prefix = prefix.Substring(0, prefix.Length - 3);
         }
@@ -211,7 +216,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             prefix += "/// ";
             WriteLine("<summary>");
-            foreach (string line in lines)
+            foreach(string line in lines)
                 WriteLine("<para>" + line.TrimEnd(' ') + "</para>");
             WriteLine("</summary>");
             prefix = prefix.Substring(0, prefix.Length - 4);
