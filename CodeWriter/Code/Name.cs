@@ -7,6 +7,9 @@ namespace SilentOrbit.Code
     {
         public static string ToCamelCase(string name)
         {
+            if (name == "")
+                throw new ArgumentException("Empty name");
+
             string csname = "";
 
             if (name.Contains("_") == false)
