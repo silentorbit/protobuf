@@ -168,6 +168,15 @@ namespace Yours
             ETest3 = 2,
         }
         
+        public enum AliasedEnum
+        {
+            Nothing = 0,
+            Zero = 0,
+            Nada = 0,
+            Some = 1,
+            ALot = 2,
+        }
+        
         public int FieldA { get; set; }
         
         public double FieldB { get; set; }
@@ -301,6 +310,17 @@ namespace Proto.test
         
     }
     
+    public partial class MyMessage
+    {
+        public int Foo { get; set; }
+        
+        public string Bar { get; set; }
+        
+        // ProtocolBuffers wire field id
+        public const int FooFieldID = 1;
+        public const int BarFieldID = 2;
+    }
+    
 }
 namespace LocalFeatureTest
 {
@@ -308,6 +328,16 @@ namespace LocalFeatureTest
     {
         First = 1,
         Last = 1000000,
+    }
+    
+    
+}
+namespace Proto.test
+{
+    public enum MyEnum
+    {
+        FOO = 1,
+        BAR = 2,
     }
     
     

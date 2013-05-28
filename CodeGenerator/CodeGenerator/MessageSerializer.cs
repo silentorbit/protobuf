@@ -121,7 +121,7 @@ namespace SilentOrbit.ProtocolBuffers
                             //the default value is the first value listed in the enum's type definition
                             foreach (var kvp in pe.Enums)
                             {
-                                cw.WriteLine("instance." + f.CsName + " = " + pe.FullCsType + "." + kvp.Key + ";");
+                                cw.WriteLine("instance." + f.CsName + " = " + pe.FullCsType + "." + kvp.Name + ";");
                                 break;
                             }
                         }

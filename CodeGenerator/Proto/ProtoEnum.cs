@@ -11,11 +11,25 @@ namespace SilentOrbit.ProtocolBuffers
         }
 
         public string Comments { get; set; }
-        public Dictionary<string,int> Enums = new Dictionary<string, int>();
-        public Dictionary<string,string> EnumsComments = new Dictionary<string, string>();
-        
+        public List<ProtoEnumValue> Enums = new List<ProtoEnumValue>();
+
         public ProtoEnum(ProtoMessage parent, string package) : base(parent, package)
         {
+        }
+    }
+
+    public class ProtoEnumValue
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
+        public string Comment { get; set; }
+
+        public ProtoEnumValue(string name, int value, List<string> comments)
+        {
+            this.Name = name;
+            this.Value = value;
+            this.Comment = string.Join("\r\n", comments);
+            comments.Clear();
         }
     }
 }

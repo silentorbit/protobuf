@@ -91,6 +91,9 @@ namespace SilentOrbit.ProtocolBuffers
                             package = tr.ReadNext();
                             tr.ReadNextOrThrow(";");
                             break;
+                        case "extend":
+                            ParseExtend(tr, p, package);
+                            break;
                         default:
                             throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
                     }
@@ -106,7 +109,7 @@ namespace SilentOrbit.ProtocolBuffers
             var msg = new ProtoMessage(parent, package);
             LocalParser.ParseComments(msg, lastComment, tr);
             msg.ProtoName = tr.ReadNext();
-            
+
             tr.ReadNextOrThrow("{");
 
             try
@@ -119,6 +122,27 @@ namespace SilentOrbit.ProtocolBuffers
             }
 
             parent.Messages.Add(msg.ProtoName, msg);
+        }
+
+        static void ParseExtend(TokenReader tr, ProtoMessage parent, string package)
+        {
+            var msg = new ProtoMessage(parent, package);
+            LocalParser.ParseComments(msg, lastComment, tr);
+            msg.ProtoName = tr.ReadNext();
+
+            tr.ReadNextOrThrow("{");
+
+            try
+            {
+                while (ParseField (tr, msg))
+                    continue;
+            } catch (Exception e)
+            {
+                throw new ProtoFormatException(e.Message, e, tr);
+            }
+
+            //Not implemented
+            //parent.Messages.Add(msg.ProtoName, msg);
         }
 
         static bool ParseField(TokenReader tr, ProtoMessage m)
@@ -197,12 +221,18 @@ namespace SilentOrbit.ProtocolBuffers
             if (extra != "[")
                 throw new ProtoFormatException("Expected: [ got " + extra, tr);
             
+            ParseFieldOptions(tr, f);
+            return true;
+        }
+
+        static void ParseFieldOptions(TokenReader tr, Field f)
+        {
             while (true)
             {
                 string key = tr.ReadNext();
                 tr.ReadNextOrThrow("=");
                 string val = tr.ReadNext();
-                
+
                 ParseFieldOption(key, val, f);
                 string optionSep = tr.ReadNext();
                 if (optionSep == "]")
@@ -212,8 +242,6 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new ProtoFormatException(@"Expected "","" or ""]"" got " + tr.NextCharacter, tr);
             }
             tr.ReadNextOrThrow(";");
-            
-            return true;
         }
 
         static void ParseFieldOption(string key, string val, Field f)
@@ -294,21 +322,55 @@ namespace SilentOrbit.ProtocolBuffers
                     lastComment.Clear();
                     continue;
                 }
-                
-                if (tr.ReadNext() != "=")
-                    throw new ProtoFormatException("Expected: =", tr);
-                
-                int id = int.Parse(tr.ReadNext());
-                
-                me.Enums.Add(name, id);
-                if (lastComment != null)
-                    me.EnumsComments.Add(name, string.Join("\r\n", lastComment));
-                lastComment.Clear();
-                
-                if (tr.ReadNext() != ";")
-                    throw new ProtoFormatException("Expected: ;", tr);
+
+                ParseEnumValue(tr, me, name);
             }
             
+        }
+
+        static void ParseEnumValue(TokenReader tr, ProtoEnum parent, string name)
+        {
+            if (tr.ReadNext() != "=")
+                throw new ProtoFormatException("Expected: =", tr);
+
+            int id = int.Parse(tr.ReadNext());
+
+            var value = new ProtoEnumValue(name, id, lastComment);
+            parent.Enums.Add(value);
+
+            string extra = tr.ReadNext();
+
+            if (extra == ";")
+                return;
+
+            if (extra != "[")
+                throw new ProtoFormatException("Expected: ; or [", tr);
+
+            ParseEnumValueOptions(tr, value);
+        }
+
+        static void ParseEnumValueOptions(TokenReader tr, ProtoEnumValue evalue)
+        {
+            while (true)
+            {
+                string key = tr.ReadNext();
+                tr.ReadNextOrThrow("=");
+                string val = tr.ReadNext();
+
+                ParseEnumValueOptions(key, val, evalue);
+                string optionSep = tr.ReadNext();
+                if (optionSep == "]")
+                    break;
+                if (optionSep == ",")
+                    continue;
+                throw new ProtoFormatException(@"Expected "","" or ""]"" got " + tr.NextCharacter, tr);
+            }
+            tr.ReadNextOrThrow(";");
+        }
+
+        static void ParseEnumValueOptions(string key, string val, ProtoEnumValue f)
+        {
+            //TODO
         }
 
         static void ParseExtensions(TokenReader tr, ProtoMessage m)
