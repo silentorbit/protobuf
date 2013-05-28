@@ -73,6 +73,7 @@
     </None>
     <None Include="ProtoSpec\LocalFeatures.proto" />
     <None Include="ProtoSpec\ProtoFeatures.proto" />
+    <None Include="ProtoSpec\descriptor.proto" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated\" />

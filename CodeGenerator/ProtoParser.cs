@@ -70,6 +70,9 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     switch (token)
                     {
+                        case ";":
+                            lastComment.Clear();
+                            continue;
                         case "message":
                             ParseMessage(tr, p, package);
                             break;
@@ -133,6 +136,9 @@ namespace SilentOrbit.ProtocolBuffers
             //Rule
             switch (rule)
             {
+                case ";":
+                    lastComment.Clear();
+                    return true;
                 case "}":
                     lastComment.Clear();
                     return false;
@@ -154,6 +160,9 @@ namespace SilentOrbit.ProtocolBuffers
                     return true;
                 case "enum":
                     ParseEnum(tr, m, m.Package + "." + m.ProtoName);
+                    return true;
+                case "extensions":
+                    ParseExtensions(tr, m);
                     return true;
                 default:
                     throw new ProtoFormatException("unknown rule: " + rule, tr);
@@ -302,6 +311,14 @@ namespace SilentOrbit.ProtocolBuffers
             
         }
 
+        static void ParseExtensions(TokenReader tr, ProtoMessage m)
+        {
+            //extensions 100 to max;
+            tr.ReadNext(); //100
+            tr.ReadNextOrThrow("to");
+            tr.ReadNext(); //number or max
+            tr.ReadNextOrThrow(";");
+        }
     }
 }
 
