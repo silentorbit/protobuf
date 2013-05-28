@@ -2,14 +2,8 @@ package proto.options.test;
 
 import "OptionsDescriptor.proto";
 
-enum opt_top_enum
-{
-    First = 1;
-    Last = 1000000;
-}
-
 //This is a demonstration of features only present in ProtoBuf Code Generator
-message opt_local_features
+message local_features
 {
 	option (access) = Internal;
 
@@ -34,7 +28,8 @@ message opt_local_features
     optional struct_test MyStruct = 10;
     optional external_struct MyExtStruct = 11;
     optional external_class MyExtClass = 12;
-    optional top_enum MyEnum = 13;
+
+    optional int64 InternalDueDate = 14 [(field_access) = Internal, (codetype) = "DateTime"];
 }
 
 //Testing local struct serialization
