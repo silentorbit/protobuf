@@ -1,0 +1,32 @@
+import "descriptor.proto";
+
+enum MessageType
+{
+    Class = 1;
+    Struct = 2;
+    Interface = 3;
+}
+
+enum Access
+{
+    Public = 1;
+    Private = 2;
+    Internal = 3;
+    Protected = 4;
+}
+
+extend google.protobuf.MessageOptions {
+    optional bool triggers = 50001;
+    optional bool preserveunknown = 50002;
+    optional bool external = 50003;
+    optional string namespace = 50004;
+    optional Access access = 50005 [default=Public];
+    optional MessageType type = 50006 [default=Class];
+}
+
+extend google.protobuf.FieldOptions {
+    optional bool field_external = 50001;
+    optional bool readonly = 50002;
+    optional Access field_access = 50003 [default=Public];
+    optional string codetype = 50004;
+}

@@ -1,0 +1,63 @@
+package proto.options.test;
+
+import "OptionsDescriptor.proto";
+
+//This is a demonstration of features only present in ProtoBuf Code Generator
+message local_features
+{
+	option (access) = Internal;
+
+    //Make class field of type TimeSpan, serialized to Ticks
+    required int64 Uptime = 1 [(codetype) = "TimeSpan"];
+    
+    //Make class field of type DateTime, serialized to Ticks
+    required int64 DueDate = 2 [(codetype) = "DateTime"];
+    
+    //Do not generate class field, must be implemented in other partial class
+    required double Amount = 3 [(field_external) = true];
+    
+    //Custom field access types. Default: public
+    optional string Denial = 4 [(field_access) = Private];
+    optional string Secret = 5 [(field_access) = Protected];
+    optional string Internal = 6 [(field_access) = Internal];
+    
+    optional string PR = 7;
+        
+    //When deserializing this one must be set to a class before
+    required interface_test MyInterface = 9;
+    optional struct_test MyStruct = 10;
+    optional external_struct MyExtStruct = 11;
+    optional external_class MyExtClass = 12;
+
+    optional int64 InternalDueDate = 14 [(field_access) = Internal, (codetype) = "DateTime"];
+}
+
+//Testing local struct serialization
+message interface_test
+{
+	option (access) = Internal;
+}
+
+//Testing local struct serialization
+message struct_test
+{
+	option (type) = Struct;
+}
+
+//Testing external struct serialization
+message external_struct
+{
+	option (type) = Struct;
+	option (external) = true;
+	option (namespace) = "TestB";
+
+    optional double X = 1;
+}
+
+//External sealed class test, we have no posibility to modify this one
+message external_class
+{
+	option (external) = true;
+	option (namespace) = "TestB";
+	optional int32 A = 1;
+}

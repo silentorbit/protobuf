@@ -74,6 +74,8 @@
     <None Include="ProtoSpec\LocalFeatures.proto" />
     <None Include="ProtoSpec\ProtoFeatures.proto" />
     <None Include="ProtoSpec\descriptor.proto" />
+    <None Include="ProtoSpec\OptionsDescriptor.proto" />
+    <None Include="ProtoSpec\OptionsTest.proto" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated\" />

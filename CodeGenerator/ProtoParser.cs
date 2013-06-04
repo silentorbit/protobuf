@@ -246,6 +246,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         static void ParseFieldOption(string key, string val, Field f)
         {
+            key = key.Trim('(', ')');
             switch (key)
             {
                 case "default":
@@ -257,6 +258,19 @@ namespace SilentOrbit.ProtocolBuffers
                 case "deprecated":
                     f.OptionDeprecated = Boolean.Parse(val);
                     break;
+                case "field_external":
+                    f.OptionExternal = Boolean.Parse(val);
+                    break;
+                case "readonly":
+                    f.OptionReadOnly = Boolean.Parse(val);
+                    break;
+                case "field_access":
+                    f.OptionAccess = val.ToLowerInvariant();
+                    break;
+                case "codetype":
+                    f.OptionCodeType = val;
+                    break;
+
                 default:
                     Console.WriteLine("Warning: Unknown field option: " + key);
                     break;
@@ -280,13 +294,28 @@ namespace SilentOrbit.ProtocolBuffers
             //null = ignore option
             if (m == null)
                 return;
-            
+            key = key.Trim('(', ')');
+
             switch (key)
             {
-            //None at the moment
-            //case "namespace":
-            //    m.OptionNamespace = value;
-            //    break;
+                case "namespace":
+                    m.OptionNamespace = value;
+                    break;
+                case "type":
+                    m.OptionType = value.ToLowerInvariant();
+                    break;
+                case "access":
+                    m.OptionAccess = value.ToLowerInvariant();
+                    break;
+                case "external":
+                    m.OptionExternal = Boolean.Parse(value);
+                    break;
+                case "preserveunknown":
+                    m.OptionPreserveUnknown = Boolean.Parse(value);
+                    break;
+                case "triggers":
+                    m.OptionTriggers = Boolean.Parse(value);
+                    break;
                 default:
                     Console.WriteLine("Warning: Unknown option: " + key + " = " + value);
                     break;
