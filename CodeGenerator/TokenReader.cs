@@ -90,10 +90,19 @@ namespace SilentOrbit.ProtocolBuffers
                 token = "";
             }
             
+            bool escapeNextChar = false;
             while (true)
             {
                 c = GetChar();
-                if (parseComment)
+                if (escapeNextChar)
+                {
+                    escapeNextChar = false;
+                }
+                else if (c == "\\")
+                {
+                    escapeNextChar = true;
+                }
+                else if (parseComment)
                 {
                     if (c == "\r" || c == "\n")
                         return token;
