@@ -9,13 +9,13 @@ namespace SilentOrbit.ProtocolBuffers
         readonly string whitespace = " \t\r\n";
         readonly string singletoken = "{}=[];,";
         readonly string text;
-        
+
         public TokenReader(string text, string path)
         {
             this.text = text;           
             this.Path = path;
         }
-        
+
         public string Parsed
         {
             get
@@ -28,22 +28,22 @@ namespace SilentOrbit.ProtocolBuffers
         {
             get
             {
-                return text [offset];
+                return text[offset];
             }
         }
-        
+
         int offset;
-        
+
         private string GetChar()
         {
             if (offset >= text.Length)
                 throw new EndOfStreamException();
             
-            char c = text [offset];
+            char c = text[offset];
             offset += 1;
             return c.ToString();
         }
-        
+
         /// <summary>
         /// Read next token and throw a ProtoFormatException if the token was not the expected one.
         /// </summary>
@@ -59,7 +59,7 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new ProtoFormatException("Expected: " + expect + " got EOF", this);
             }
         }
-        
+
         public string ReadNext()
         {
             string c;   //Character
@@ -97,12 +97,10 @@ namespace SilentOrbit.ProtocolBuffers
                 if (escapeNextChar)
                 {
                     escapeNextChar = false;
-                }
-                else if (c == "\\")
+                } else if (c == "\\")
                 {
                     escapeNextChar = true;
-                }
-                else if (parseComment)
+                } else if (parseComment)
                 {
                     if (c == "\r" || c == "\n")
                         return token;
