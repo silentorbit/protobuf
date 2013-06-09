@@ -55,7 +55,6 @@ namespace SilentOrbit.ProtocolBuffers
 
             return null;
         }
-
     }
 }
 

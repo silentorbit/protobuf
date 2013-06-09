@@ -12,10 +12,10 @@ namespace SilentOrbit.ProtocolBuffers
                 //Make separate static class for them
                 cw.Bracket(m.OptionAccess + " static class " + m.SerializerType);
             } else
-              {
-                  cw.Attribute("System.Serializable()");
-                  cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
-              }
+            {
+                cw.Attribute("System.Serializable()");
+                cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
+            }
 
             GenerateReader(m, cw);
 
@@ -32,7 +32,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         static void GenerateReader(ProtoMessage m, CodeWriter cw)
         {
-#region Helper Deserialize Methods
+            #region Helper Deserialize Methods
             string refstr = (m.OptionType == "struct") ? "ref " : "";
             if (m.OptionType != "interface")
             {
@@ -42,21 +42,21 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine("Deserialize(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
-
+                
                 cw.Summary("Helper: create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " DeserializeLengthDelimited(Stream stream)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("DeserializeLengthDelimited(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
-
+                
                 cw.Summary("Helper: create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " DeserializeLength(Stream stream, int length)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
                 cw.WriteLine("DeserializeLength(stream, length, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
-
+                
                 cw.Summary("Helper: put the buffer into a MemoryStream and create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
                 cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
@@ -72,9 +72,10 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
             cw.WriteLine("return instance;");
             cw.EndBracketSpace();
-#endregion
+            #endregion
 
-            string[] methods = new string[]{
+            string[] methods = new string[]
+            {
                 "Deserialize", //Default old one
                 "DeserializeLengthDelimited", //Start by reading length prefix and stay within that limit
                 "DeserializeLength", //Read at most length bytes given by argument
@@ -88,15 +89,15 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.Summary("Takes the remaining content of the stream and deserialze it into the instance.");
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
                 } else if (method == "DeserializeLengthDelimited")
-                  {
-                      cw.Summary("Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.");
-                      cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
-                  } else if (method == "DeserializeLength")
-                    {
-                        cw.Summary("Read the given number of bytes from the stream and deserialze it into the instance.");
-                        cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, int length, " + refstr + m.FullCsType + " instance)");
-                    } else
-                          throw new NotImplementedException();
+                {
+                    cw.Summary("Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.");
+                    cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, " + refstr + m.FullCsType + " instance)");
+                } else if (method == "DeserializeLength")
+                {
+                    cw.Summary("Read the given number of bytes from the stream and deserialze it into the instance.");
+                    cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, int length, " + refstr + m.FullCsType + " instance)");
+                } else
+                    throw new NotImplementedException();
 
                 if (m.IsUsingBinaryWriter)
                     cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
@@ -109,24 +110,24 @@ namespace SilentOrbit.ProtocolBuffers
                         cw.WriteLine("if (instance." + f.CsName + " == null)");
                         cw.WriteIndent("instance." + f.CsName + " = new List<" + f.ProtoType.FullCsType + ">();");
                     } else if (f.OptionDefault != null)
-                      {
-                          if (f.ProtoType is ProtoEnum)
-                              cw.WriteLine("instance." + f.CsName + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
-                          else
-                              cw.WriteLine("instance." + f.CsName + " = " + f.OptionDefault + ";");
-                      } else if (f.Rule == FieldRule.Optional)
+                    {
+                        if (f.ProtoType is ProtoEnum)
+                            cw.WriteLine("instance." + f.CsName + " = " + f.ProtoType.FullCsType + "." + f.OptionDefault + ";");
+                        else
+                            cw.WriteLine("instance." + f.CsName + " = " + f.OptionDefault + ";");
+                    } else if (f.Rule == FieldRule.Optional)
+                    {
+                        if (f.ProtoType is ProtoEnum)
                         {
-                            if (f.ProtoType is ProtoEnum)
+                            ProtoEnum pe = f.ProtoType as ProtoEnum;
+                            //the default value is the first value listed in the enum's type definition
+                            foreach (var kvp in pe.Enums)
                             {
-                                ProtoEnum pe = f.ProtoType as ProtoEnum;
-                                //the default value is the first value listed in the enum's type definition
-                                foreach (var kvp in pe.Enums)
-                                {
-                                    cw.WriteLine("instance." + f.CsName + " = " + pe.FullCsType + "." + kvp.Name + ";");
-                                    break;
-                                }
+                                cw.WriteLine("instance." + f.CsName + " = " + pe.FullCsType + "." + kvp.Name + ";");
+                                break;
                             }
                         }
+                    }
                 }
 
                 if (method == "DeserializeLengthDelimited")
@@ -213,9 +214,9 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteIndent("instance.PreservedFields = new List<global::SilentOrbit.ProtocolBuffers.KeyValue>();");
                     cw.WriteLine("instance.PreservedFields.Add(new global::SilentOrbit.ProtocolBuffers.KeyValue(key, global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadValueBytes(stream, key)));");
                 } else
-                  {
-                      cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);");
-                  }
+                {
+                    cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);");
+                }
                 cw.WriteLine("break;");
                 cw.EndBracket();
                 cw.EndBracket();
@@ -245,7 +246,7 @@ namespace SilentOrbit.ProtocolBuffers
             }
             if (m.IsUsingBinaryWriter)
                 cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
-
+            
             foreach (Field f in m.Fields.Values)
                 FieldSerializer.FieldWriter(m, f, cw);
 
@@ -271,3 +272,4 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
+

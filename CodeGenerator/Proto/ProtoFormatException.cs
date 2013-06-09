@@ -16,7 +16,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             this.SourcePath = new SourcePath(tr);
         }
-                
+
         public ProtoFormatException(string message, Exception innerException, TokenReader tr) : base(message, innerException)
         {
             this.SourcePath = new SourcePath(tr);

@@ -52,7 +52,7 @@ namespace SilentOrbit.ProtocolBuffers
                 GenerateEnum(me, cw);
             }
         }
-        
+
         public static void GenerateEnum(ProtoEnum me, CodeWriter cw)
         {
             cw.Bracket("public enum " + me.CsType);
@@ -64,7 +64,7 @@ namespace SilentOrbit.ProtocolBuffers
             cw.EndBracket();
             cw.WriteLine();
         }
-        
+
         /// <summary>
         /// Generates the properties.
         /// </summary>
@@ -96,7 +96,7 @@ namespace SilentOrbit.ProtocolBuffers
             }
 #endif
         }
-        
+
         static string GenerateProperty(Field f)
         {
             string type = f.ProtoType.FullCsType;

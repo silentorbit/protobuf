@@ -10,7 +10,6 @@ namespace SilentOrbit.ProtocolBuffers
     public static partial class ProtocolParser
     {
         #region Fixed Int, Only for reference
-        
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -28,6 +27,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return reader.ReadInt64();
         }
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -45,7 +45,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return reader.ReadInt32();
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -63,7 +63,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -81,11 +81,8 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-        
         #endregion
-        
         #region Fixed: float, double. Only for reference
-
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -94,7 +91,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return reader.ReadSingle();
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -112,7 +109,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -121,10 +118,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-
-
         #endregion
-        
     }
 }
 

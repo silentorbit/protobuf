@@ -11,7 +11,7 @@ namespace SilentOrbit.ProtocolBuffers
         static void ParseMessageFlags(ProtoMessage message, string flag)
         {
             switch (flag)
-            {
+            { 
                 case "triggers":
                     message.OptionTriggers = true;
                     break;
@@ -25,7 +25,7 @@ namespace SilentOrbit.ProtocolBuffers
                     throw new NotImplementedException("Unknown option: " + flag);
             }
         }
-        
+
         static void ParseMessageOption(ProtoMessage message, string key, string value)
         {
             //Parse value
@@ -44,7 +44,7 @@ namespace SilentOrbit.ProtocolBuffers
                     throw new  NotImplementedException("Unknown option: " + key);
             }
         }
-        
+
         static void ParseFieldFlags(Field field, string flag)
         {
             switch (flag)
@@ -59,7 +59,7 @@ namespace SilentOrbit.ProtocolBuffers
                     throw new  NotImplementedException("Unknown field option: " + flag);
             }
         }
-        
+
         static void ParseFieldOption(Field field, string key, string value)
         {
             switch (key)
@@ -74,7 +74,7 @@ namespace SilentOrbit.ProtocolBuffers
                     throw new NotImplementedException("Unknown field option: " + key);
             }
         }
-        
+
         public static void ParseComments(IComment message, List<string> comments, TokenReader tr)
         {
             message.Comments = "";
@@ -94,7 +94,7 @@ namespace SilentOrbit.ProtocolBuffers
                         string[] parts = line.Split('=');
                         if (parts.Length > 2)
                             throw new ProtoFormatException("Bad option format, at most one '=', " + s, tr);
-                        string key = parts [0].Trim().ToLowerInvariant();
+                        string key = parts[0].Trim().ToLowerInvariant();
                         if (parts.Length == 1)
                         {
                             //Parse flag
@@ -108,7 +108,7 @@ namespace SilentOrbit.ProtocolBuffers
                             continue;
                         } else
                         {
-                            string value = (parts.Length == 2) ? parts [1].Trim() : null;
+                            string value = (parts.Length == 2) ? parts[1].Trim() : null;
 
                             if (message is ProtoMessage)
                                 ParseMessageOption((ProtoMessage)message, key, value);
@@ -128,10 +128,9 @@ namespace SilentOrbit.ProtocolBuffers
                     message.Comments += s + "\n";
                 }
             }
-            message.Comments = message.Comments.Trim(new char[]{'\n'}).Replace("\n", "\r\n");
+            message.Comments = message.Comments.Trim(new char[] { '\n' }).Replace("\n", "\r\n");
             comments.Clear();
         }
-
     }
 }
 

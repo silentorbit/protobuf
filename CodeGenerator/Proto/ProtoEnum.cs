@@ -11,6 +11,7 @@ namespace SilentOrbit.ProtocolBuffers
         }
 
         public string Comments { get; set; }
+
         public List<ProtoEnumValue> Enums = new List<ProtoEnumValue>();
 
         public ProtoEnum(ProtoMessage parent, string package) : base(parent, package)
@@ -21,7 +22,9 @@ namespace SilentOrbit.ProtocolBuffers
     public class ProtoEnumValue
     {
         public string Name { get; set; }
+
         public int Value { get; set; }
+
         public string Comment { get; set; }
 
         public ProtoEnumValue(string name, int value, List<string> comments)

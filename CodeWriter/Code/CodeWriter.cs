@@ -8,15 +8,16 @@ namespace SilentOrbit.ProtocolBuffers
     /// Static and instance helpers for code generation
     /// </summary>
     public class CodeWriter : IDisposable
-    {
-#region Settings
+    { 
+        #region Settings
         public static string IndentPrefix = "    ";
-#endregion
+        public static string NewLine = "\r\n";
+        #endregion
 
-#region Constructors
-
+        #region Constructors
         readonly TextWriter w;
         MemoryStream ms = new MemoryStream();
+
         /// <summary>
         /// Writes to memory, get the code using the "Code" property
         /// </summary>
@@ -24,8 +25,9 @@ namespace SilentOrbit.ProtocolBuffers
         {
             ms = new MemoryStream();
             w = new StreamWriter(ms, Encoding.UTF8);
-            //w.NewLine = "\r\n"; // does not appear to work
+            //w.NewLine = NewLine; // does not appear to work
         }
+
         /// <summary>
         /// Return the generated code as a string.
         /// </summary>
@@ -37,6 +39,7 @@ namespace SilentOrbit.ProtocolBuffers
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
+
         /// <summary>
         /// Writes code directly to file
         /// </summary>
@@ -54,14 +57,14 @@ namespace SilentOrbit.ProtocolBuffers
         {
             w.Close();
         }
-#endregion
+        #endregion
 
-#region Indentation
-
+        #region Indentation
         /// <summary>
         /// Level of indentation
         /// </summary>
         public int IndentLevel { get; private set; }
+
         /// <summary>
         /// Accumulated prefixes over indentations
         /// </summary>
@@ -80,11 +83,11 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new InvalidOperationException("Indent error");
             prefix = prefix.Substring(0, prefix.Length - IndentPrefix.Length);
         }
-#endregion
+        #endregion
 
-        public void Attribute(string str)
+        public void Attribute(string attributeConstructor)
         {
-            WriteLine("[" + str + "]");
+           WriteLine("[" + attributeConstructor + "]");
         }
 
         /// <summary>
@@ -96,6 +99,7 @@ namespace SilentOrbit.ProtocolBuffers
             WriteLine("{");
             Indent();
         }
+
         /// <summary>
         /// Write leading bracket and indent
         /// </summary>
@@ -173,6 +177,7 @@ namespace SilentOrbit.ProtocolBuffers
             WriteLine("}");
             WriteLine();
         }
+
         /// <summary>
         /// Writes a singe line indented.
         /// </summary>
@@ -186,7 +191,7 @@ namespace SilentOrbit.ProtocolBuffers
             string[] lines = line.Split('\n');
             foreach (string l in lines)
             {
-                w.Write(prefix + l + "\r\n");
+                w.Write(prefix + l + NewLine);
             }
         }
 
@@ -194,8 +199,8 @@ namespace SilentOrbit.ProtocolBuffers
         {
             WriteLine(prefix.TrimEnd(' '));
         }
-#region Comments
 
+        #region Comments
         public void Comment(string code)
         {
             if (code == null)
@@ -226,6 +231,7 @@ namespace SilentOrbit.ProtocolBuffers
             WriteLine("</summary>");
             prefix = prefix.Substring(0, prefix.Length - 4);
         }
-#endregion
+        #endregion
     }
 }
+

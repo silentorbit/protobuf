@@ -8,8 +8,7 @@ using System.Text;
 namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
-    {
-        
+    {   
         public static string ReadString(Stream stream)
         {
             return Encoding.UTF8.GetString(ReadBytes(stream));
@@ -62,7 +61,6 @@ namespace SilentOrbit.ProtocolBuffers
             WriteUInt32(stream, (uint)val.Length);
             stream.Write(val, 0, val.Length);
         }
-        
     }
 
     /// <summary>
@@ -71,6 +69,7 @@ namespace SilentOrbit.ProtocolBuffers
     public class StreamRead : Stream
     {
         Stream stream;
+
         /// <summary>
         /// Bytes left to read
         /// </summary>
@@ -168,7 +167,5 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
     }
-
-
 }
 

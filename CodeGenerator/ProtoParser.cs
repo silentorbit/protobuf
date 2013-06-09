@@ -12,7 +12,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Return true if successful/no errors.
         /// </summary>
         public static void Parse(string path, ProtoCollection p)
-        {   
+        {    
             //Preparation for parsing
             //Real parsing is done in ParseMessages
             lastComment.Clear();
@@ -55,7 +55,7 @@ namespace SilentOrbit.ProtocolBuffers
             lastComment.Add(token);
             return true;        
         }
-        
+
         static void ParseMessages(TokenReader tr, ProtoCollection p)
         {
             string package = "Example";
@@ -262,7 +262,7 @@ namespace SilentOrbit.ProtocolBuffers
                     break;
             }
         }
-        
+
         /// <summary>
         /// File or Message options
         /// </summary>
