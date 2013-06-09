@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    
     /// <summary>
     /// Representation content of on or more .proto files
     /// </summary>
@@ -46,6 +45,5 @@ namespace SilentOrbit.ProtocolBuffers
             return t;
         }
     }
-    
 }
 

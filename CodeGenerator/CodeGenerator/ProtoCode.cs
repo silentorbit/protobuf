@@ -111,7 +111,7 @@ This file will be overwritten when CodeGenerator is run.");
                 ReadCode(codeWriter, "ProtocolParserVarInt", false);
             }
         }
-        
+
         /// <summary>
         /// Read c# code from sourcePath and write it on code without the initial using statements.
         /// </summary>
@@ -136,7 +136,6 @@ This file will be overwritten when CodeGenerator is run.");
             }
             code.WriteLine("#endregion");
         }
-        
     }
 }
 

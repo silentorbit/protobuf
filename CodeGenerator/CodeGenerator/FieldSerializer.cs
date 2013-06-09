@@ -6,7 +6,6 @@ namespace SilentOrbit.ProtocolBuffers
     static class FieldSerializer
     {
         #region Reader
-
         /// <summary>
         /// Return true for normal code and false for generated throw.
         /// In the later case a break is not needed to be generated afterwards.
@@ -169,13 +168,8 @@ namespace SilentOrbit.ProtocolBuffers
 
             throw new NotImplementedException();
         }
-
         #endregion
-        
-        
-        
         #region Writer
-
         static void KeyWriter(string stream, int id, Wire wire, CodeWriter cw)
         {
             uint n = ((uint)id << 3) | ((uint)wire);
@@ -209,18 +203,18 @@ namespace SilentOrbit.ProtocolBuffers
             //Write final byte
             if (bytes.Count == 1)
             {
-                cw.WriteLine(stream + ".WriteByte(" + bytes [0] + ");");
+                cw.WriteLine(stream + ".WriteByte(" + bytes[0] + ");");
                 return;
             }
 
             string line = stream + ".Write(new byte[]{";
             foreach (byte v in bytes)
                 line += v + ", ";
-            line = line.TrimEnd(new char[]{' ', ','});
+            line = line.TrimEnd(new char[] { ' ', ',' });
             line += "}, 0, " + bytes.Count + ");";
             cw.WriteLine(line);
         }
-        
+
         /// <summary>
         /// Generates inline writer of a length delimited byte array
         /// </summary>
@@ -342,7 +336,7 @@ namespace SilentOrbit.ProtocolBuffers
             }
             throw new NotImplementedException("Unknown rule: " + f.Rule);
         }
-                    
+
         static string FieldWriterType(Field f, string stream, string binaryWriter, string instance)
         {
             if (f.OptionCodeType != null)
@@ -407,7 +401,6 @@ namespace SilentOrbit.ProtocolBuffers
 
             throw new NotImplementedException();
         }
-
         #endregion
     }
 }

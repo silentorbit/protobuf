@@ -10,9 +10,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             Source = new SourcePath(tr);
         }
-
         #region .proto data
-
         /// <summary>
         /// Comments written before the field in the .proto file.
         /// These comments will be written into the generated code.
@@ -23,7 +21,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// required/optional/repeated as read from .proto file
         /// </summary>
         public FieldRule Rule { get; set; }
-        
+
         /// <summary>
         /// Field type as read from the .proto file
         /// </summary>
@@ -43,7 +41,6 @@ namespace SilentOrbit.ProtocolBuffers
         /// Wire format ID
         /// </summary>
         public int ID { get; set; }
-            
         //Field options
         public bool OptionPacked = false;
         public bool OptionDeprecated = false;
@@ -60,37 +57,28 @@ namespace SilentOrbit.ProtocolBuffers
                 return false;
             }
         }
-        
         #region Locally used fields
-        
         //These options are not the build in ones and have a meaning in the code generation
-        
         /// <summary>
         /// Define the access of the field: public, protected, private or internal
         /// </summary>
         public string OptionAccess = "public";
-        
         /// <summary>
         /// <para>Define the type of the property that is not a primitive or class derived from a message.</para>
         /// <para>This can be one of the build in (see method MessageCode.GenerateFieldTypeWriter()) or a custom class that implements the static Serialize and Deserialize functions;</para>
         /// </summary>
         public string OptionCodeType = null;
-        
         /// <summary>
         /// Property is written elsewhere, in another file using partial, code will not be generated for this field
         /// </summary>
         public bool OptionExternal = false;
-        
         /// <summary>
         /// Field is (c#)readonly.
         /// Can be set to true if OptionGenerate=false and your own code 
         /// </summary>
         public bool OptionReadOnly = false;
-        
-        #endregion //Local options
-        
-        #endregion //.proto data
-
+        #endregion
+        #endregion
         public Wire WireType
         {
             get
@@ -100,19 +88,14 @@ namespace SilentOrbit.ProtocolBuffers
                 return ProtoType.WireType;
             }
         }
-        
         #region Code Generation Properties
-        
         //These are generated as a second stage parsing of the .proto file.
         //They are used in the code generation.
-        
         /// <summary>
         /// .proto type including enum and message.
         /// </summary>
         public ProtoType ProtoType { get; set; }
-
         #endregion
-        
         public override string ToString()
         {
             return string.Format("{0} {1} {2} = {3}", Rule, ProtoTypeName, ProtoName, ID);

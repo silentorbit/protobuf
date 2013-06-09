@@ -13,6 +13,7 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.Bracket(m.OptionAccess + " static class " + m.SerializerType);
             } else
             {
+                cw.Attribute("System.Serializable()");
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
 
@@ -28,7 +29,7 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteLine();
             return;
         }
-        
+
         static void GenerateReader(ProtoMessage m, CodeWriter cw)
         {
             #region Helper Deserialize Methods
@@ -73,7 +74,8 @@ namespace SilentOrbit.ProtocolBuffers
             cw.EndBracketSpace();
             #endregion
 
-            string[] methods = new string[]{
+            string[] methods = new string[]
+            {
                 "Deserialize", //Default old one
                 "DeserializeLengthDelimited", //Start by reading length prefix and stay within that limit
                 "DeserializeLength", //Read at most length bytes given by argument

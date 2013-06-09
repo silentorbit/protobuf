@@ -270,7 +270,6 @@ namespace SilentOrbit.ProtocolBuffers
                 case "codetype":
                     f.OptionCodeType = val;
                     break;
-
                 default:
                     Console.WriteLine("Warning: Unknown field option: " + key);
                     break;
@@ -294,6 +293,7 @@ namespace SilentOrbit.ProtocolBuffers
             //null = ignore option
             if (m == null)
                 return;
+
             key = key.Trim('(', ')');
 
             switch (key)

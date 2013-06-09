@@ -12,7 +12,7 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] [--use-tabs] path-to.proto [path-to-second.proto [...]] [output.cs]");
                 return -1;
-            }
+            } 
 
             ProtoCollection collection = new ProtoCollection();
             string outputPath = null;
@@ -43,8 +43,8 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 string protoPath = Path.GetFullPath(args[argIndex]);
                 string protoBase = Path.Combine(
-                        Path.GetDirectoryName(protoPath),
-                        Path.GetFileNameWithoutExtension(protoPath));
+                    Path.GetDirectoryName(protoPath),
+                    Path.GetFileNameWithoutExtension(protoPath));
                 argIndex += 1;
 
                 //First .proto filename is used as output unless specified later

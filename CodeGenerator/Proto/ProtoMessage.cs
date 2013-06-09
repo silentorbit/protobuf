@@ -11,6 +11,7 @@ namespace SilentOrbit.ProtocolBuffers
         }
 
         public string Comments { get; set; }
+
         public Dictionary<int, Field> Fields = new  Dictionary<int, Field>();
         public Dictionary<string,ProtoMessage> Messages = new Dictionary<string, ProtoMessage>();
         public Dictionary<string,ProtoEnum> Enums = new Dictionary<string, ProtoEnum>();
@@ -41,7 +42,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             this.OptionType = "class";
         }
-        
+
         public override string ToString()
         {
             return "message " + FullProtoName;
@@ -75,7 +76,6 @@ namespace SilentOrbit.ProtocolBuffers
                 return totalSize;
             }
         }
-
     }
 }
 

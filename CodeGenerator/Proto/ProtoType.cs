@@ -13,7 +13,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Name used in the .proto file, 
         /// </summary>
         public string ProtoName { get; set; }
-    
+
         /// <summary>
         /// Based on ProtoType and Rule according to the protocol buffers specification
         /// </summary>
@@ -64,16 +64,14 @@ namespace SilentOrbit.ProtocolBuffers
         /// .proto package option
         /// </summary>
         public string Package { get; set; }
-
         #region Local options
-
         public string OptionNamespace { get; set; }
 
         /// <summary>
         /// (C#) access modifier: public(default)/protected/private
         /// </summary>
         public string OptionAccess  { get; set; }
-        
+
         /// <summary>
         /// Call triggers before/after serialization.
         /// </summary>
@@ -94,9 +92,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Can be "class", "struct" or "interface"
         /// </summary>
         public string OptionType { get; set; }
-
         #endregion
-
         /// <summary>
         /// Used by types within a namespace
         /// </summary>
@@ -112,7 +108,7 @@ namespace SilentOrbit.ProtocolBuffers
             this.Parent = parent;
             this.Package = package;
         }
-        
+
         public ProtoType()
         {
             this.OptionNamespace = null;
@@ -122,7 +118,7 @@ namespace SilentOrbit.ProtocolBuffers
             this.OptionExternal = false;
             this.OptionType = null;
         }
-        
+
         public bool Nullable
         {
             get
