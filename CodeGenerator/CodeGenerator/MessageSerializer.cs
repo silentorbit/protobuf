@@ -269,6 +269,13 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteLine("return ms.ToArray();");
             cw.EndBracket();
             cw.EndBracket();
+
+            cw.Summary("Helper: Serialize with a varint length prefix");
+            cw.Bracket(m.OptionAccess + " static void SerializeLengthDelimited(Stream stream, " + m.CsType + " instance)");
+            cw.WriteLine("var data = SerializeToBytes(instance);");
+            cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, (uint)data.Length);");
+            cw.WriteLine("stream.Write(data, 0, data.Length);");
+            cw.EndBracket();
         }
     }
 }
