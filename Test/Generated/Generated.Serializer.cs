@@ -5536,7 +5536,7 @@ namespace Google.protobuf
                     {
                         // Field 1 LengthDelimited
                         case 10:
-                            instance.NamePart = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
+                            instance.NamePartField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                             continue;
                         // Field 2 Varint
                         case 16:
@@ -5582,7 +5582,7 @@ namespace Google.protobuf
                     {
                         // Field 1 LengthDelimited
                         case 10:
-                            instance.NamePart = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
+                            instance.NamePartField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                             continue;
                         // Field 2 Varint
                         case 16:
@@ -5627,7 +5627,7 @@ namespace Google.protobuf
                     {
                         // Field 1 LengthDelimited
                         case 10:
-                            instance.NamePart = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
+                            instance.NamePartField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                             continue;
                         // Field 2 Varint
                         case 16:
@@ -5654,11 +5654,11 @@ namespace Google.protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, NamePart instance)
             {
-                if (instance.NamePart == null)
-                    throw new ArgumentNullException("NamePart", "Required by proto specification.");
+                if (instance.NamePartField == null)
+                    throw new ArgumentNullException("NamePartField", "Required by proto specification.");
                 // Key for field: 1, LengthDelimited
                 stream.WriteByte(10);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.NamePart));
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.NamePartField));
                 // Key for field: 2, Varint
                 stream.WriteByte(16);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.IsExtension);

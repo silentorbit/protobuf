@@ -72,6 +72,8 @@ namespace SilentOrbit.ProtocolBuffers
         static void DetectNameClash(ProtoMessage m, Field f)
         {
             bool nameclash = false;
+            if (m.CsType == f.CsName)
+                nameclash = true;
             foreach (var tm in m.Messages.Values)
                 if (tm.CsType == f.CsName)
                     nameclash = true;

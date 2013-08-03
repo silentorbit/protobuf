@@ -732,12 +732,12 @@ namespace Google.protobuf
         /// </summary>
         public partial class NamePart
         {
-            public string NamePart { get; set; }
+            public string NamePartField { get; set; }
 
             public bool IsExtension { get; set; }
 
             // ProtocolBuffers wire field id
-            public const int NamePartFieldID = 1;
+            public const int NamePartFieldFieldID = 1;
             public const int IsExtensionFieldID = 2;
         }
 
