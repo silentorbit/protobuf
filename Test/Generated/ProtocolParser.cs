@@ -10,7 +10,7 @@ namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
-        
+
         public static string ReadString(Stream stream)
         {
             return Encoding.UTF8.GetString(ReadBytes(stream));
@@ -23,7 +23,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             //VarInt length
             int length = (int)ReadUInt32(stream);
-            
+
             //Bytes
             byte[] buffer = new byte[length];
             int read = 0;
@@ -42,7 +42,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Alternative to ReadBytes when the data is not of interest.
         /// </summary>
         public static void SkipBytes(Stream stream)
-        {   
+        {
             int length = (int)ReadUInt32(stream);
             if (stream.CanSeek)
                 stream.Seek(length, SeekOrigin.Current);
@@ -63,7 +63,7 @@ namespace SilentOrbit.ProtocolBuffers
             WriteUInt32(stream, (uint)val.Length);
             stream.Write(val, 0, val.Length);
         }
-        
+
     }
 
     /// <summary>
@@ -185,7 +185,7 @@ namespace SilentOrbit.ProtocolBuffers
     public static partial class ProtocolParser
     {
         #region Fixed Int, Only for reference
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -220,7 +220,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return reader.ReadInt32();
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -238,7 +238,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -256,9 +256,9 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-        
+
         #endregion
-        
+
         #region Fixed: float, double. Only for reference
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return reader.ReadSingle();
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -287,7 +287,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
-        
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -299,7 +299,7 @@ namespace SilentOrbit.ProtocolBuffers
 
 
         #endregion
-        
+
     }
 }
 
@@ -326,11 +326,11 @@ namespace SilentOrbit.ProtocolBuffers
         public uint Field { get; set; }
 
         public Wire WireType { get; set; }
-        
+
         public Key(uint field, Wire wireType)
         {
             this.Field = field;
-            this.WireType = wireType;               
+            this.WireType = wireType;
         }
 
         public override string ToString()
@@ -347,7 +347,7 @@ namespace SilentOrbit.ProtocolBuffers
         public Key Key { get; set; }
 
         public byte[] Value { get; set; }
-        
+
         public KeyValue(Key key, byte[] value)
         {
             this.Key = key;
@@ -362,13 +362,13 @@ namespace SilentOrbit.ProtocolBuffers
 
     public static partial class ProtocolParser
     {
-        
+
         public static Key ReadKey(Stream stream)
         {
             uint n = ReadUInt32(stream);
             return new Key(n >> 3, (Wire)(n & 0x07));
         }
-        
+
         public static Key ReadKey(byte firstByte, Stream stream)
         {
             if (firstByte < 128)
@@ -376,7 +376,7 @@ namespace SilentOrbit.ProtocolBuffers
             uint fieldID = ((uint)ReadUInt32(stream) << 4) | ((uint)(firstByte >> 3) & 0x0F);
             return new Key(fieldID, (Wire)(firstByte & 0x07));
         }
-        
+
         public static void WriteKey(Stream stream, Key key)
         {
             uint n = (key.Field << 3) | ((uint)key.WireType);
@@ -416,7 +416,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             byte[] b;
             int offset = 0;
-                
+
             switch (key.WireType)
             {
                 case Wire.Fixed32:
@@ -432,7 +432,7 @@ namespace SilentOrbit.ProtocolBuffers
                 case Wire.LengthDelimited:
                     //Read and include length in value buffer
                     uint length = ProtocolParser.ReadUInt32(stream);
-                    using (var ms = new MemoryStream ())
+                    using (var ms = new MemoryStream())
                     {
                         //TODO: pass b directly to MemoryStream constructor or skip usage of it completely
                         ProtocolParser.WriteUInt32(ms, length);
@@ -472,12 +472,12 @@ namespace SilentOrbit.ProtocolBuffers
                 int b = stream.ReadByte();
                 if (b < 0)
                     throw new IOException("Stream ended too early");
-                
+
                 if ((b & 0x80) == 0)
                     return; //end of varint
             }
         }
-        
+
         public static byte[] ReadVarIntBytes(Stream stream)
         {
             byte[] buffer = new byte[10];
@@ -487,7 +487,7 @@ namespace SilentOrbit.ProtocolBuffers
                 int b = stream.ReadByte();
                 if (b < 0)
                     throw new IOException("Stream ended too early");
-                buffer [offset] = (byte)b;
+                buffer[offset] = (byte)b;
                 offset += 1;
                 if ((b & 0x80) == 0)
                     break; //end of varint
@@ -498,9 +498,9 @@ namespace SilentOrbit.ProtocolBuffers
             Array.Copy(buffer, ret, ret.Length);
             return ret;
         }
-        
+
         #region VarInt: int32, uint32, sint32
-        
+
         [Obsolete("Use (int)ReadUInt64(stream); //yes 64")]
         /// <summary>
         /// Since the int32 format is inefficient for negative numbers we have avoided to implement it.
@@ -510,7 +510,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return (int)ReadUInt64(stream);
         }
-        
+
         [Obsolete("Use WriteUInt64(stream, (ulong)val); //yes 64, negative numbers are encoded that way")]
         /// <summary>
         /// Since the int32 format is inefficient for negative numbers we have avoided to imlplement.
@@ -522,7 +522,7 @@ namespace SilentOrbit.ProtocolBuffers
             //signed varint is always encoded as 64 but values!
             WriteUInt64(stream, (ulong)val);
         }
-        
+
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
@@ -531,7 +531,7 @@ namespace SilentOrbit.ProtocolBuffers
             uint val = ReadUInt32(stream);
             return (int)(val >> 1) ^ ((int)(val << 31) >> 31);
         }
-        
+
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
@@ -548,27 +548,27 @@ namespace SilentOrbit.ProtocolBuffers
         {
             int b;
             uint val = 0;
-            
+
             for (int n = 0; n < 5; n++)
             {
                 b = stream.ReadByte();
                 if (b < 0)
                     throw new IOException("Stream ended too early");
-                
+
                 //Check that it fits in 32 bits
                 if ((n == 4) && (b & 0xF0) != 0)
                     throw new InvalidDataException("Got larger VarInt than 32bit unsigned");
                 //End of check
-                
+
                 if ((b & 0x80) == 0)
                     return val | (uint)b << (7 * n);
-                
+
                 val |= (uint)(b & 0x7F) << (7 * n);
             }
-            
+
             throw new InvalidDataException("Got larger VarInt than 32bit unsigned");
         }
-        
+
         /// <summary>
         /// Unsigned VarInt format
         /// </summary>
@@ -576,26 +576,26 @@ namespace SilentOrbit.ProtocolBuffers
         {
             byte[] buffer = new byte[5];
             int count = 0;
-            
+
             while (true)
             {
-                buffer [count] = (byte)(val & 0x7F);
+                buffer[count] = (byte)(val & 0x7F);
                 val = val >> 7;
                 if (val == 0)
                     break;
-                
-                buffer [count] |= 0x80;
-                
+
+                buffer[count] |= 0x80;
+
                 count += 1;
             }
-            
+
             stream.Write(buffer, 0, count + 1);
         }
-        
+
         #endregion
-        
+
         #region VarInt: int64, UInt64, SInt64
-        
+
         [Obsolete("Use (long)ReadUInt64(stream); instead")]
         /// <summary>
         /// Since the int64 format is inefficient for negative numbers we have avoided to implement it.
@@ -605,7 +605,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return (int)ReadUInt64(stream);
         }
-        
+
         [Obsolete("Use WriteUInt64 (stream, (ulong)val); instead")]
         /// <summary>
         /// Since the int64 format is inefficient for negative numbers we have avoided to implement.
@@ -624,7 +624,7 @@ namespace SilentOrbit.ProtocolBuffers
             ulong val = ReadUInt64(stream);
             return (long)(val >> 1) ^ ((long)(val << 63) >> 63);
         }
-        
+
         /// <summary>
         /// Zig-zag signed VarInt format
         /// </summary>
@@ -640,27 +640,27 @@ namespace SilentOrbit.ProtocolBuffers
         {
             int b;
             ulong val = 0;
-            
+
             for (int n = 0; n < 10; n++)
             {
                 b = stream.ReadByte();
                 if (b < 0)
                     throw new IOException("Stream ended too early");
-                
+
                 //Check that it fits in 64 bits
                 if ((n == 9) && (b & 0xFE) != 0)
                     throw new InvalidDataException("Got larger VarInt than 64 bit unsigned");
                 //End of check
-                
+
                 if ((b & 0x80) == 0)
                     return val | (ulong)b << (7 * n);
-                
+
                 val |= (ulong)(b & 0x7F) << (7 * n);
             }
-            
+
             throw new InvalidDataException("Got larger VarInt than 64 bit unsigned");
         }
-        
+
         /// <summary>
         /// Unsigned VarInt format
         /// </summary>
@@ -668,26 +668,26 @@ namespace SilentOrbit.ProtocolBuffers
         {
             byte[] buffer = new byte[10];
             int count = 0;
-            
+
             while (true)
             {
-                buffer [count] = (byte)(val & 0x7F);
+                buffer[count] = (byte)(val & 0x7F);
                 val = val >> 7;
                 if (val == 0)
                     break;
-                
-                buffer [count] |= 0x80;
-                
+
+                buffer[count] |= 0x80;
+
                 count += 1;
             }
-            
+
             stream.Write(buffer, 0, count + 1);
         }
-        
+
         #endregion
-        
+
         #region Varint: bool
-        
+
         public static bool ReadBool(Stream stream)
         {
             int b = stream.ReadByte();
@@ -699,12 +699,12 @@ namespace SilentOrbit.ProtocolBuffers
                 return false;
             throw new InvalidDataException("Invalid boolean value");
         }
-        
+
         public static void WriteBool(Stream stream, bool val)
         {
             stream.WriteByte(val ? (byte)1 : (byte)0);
         }
-        
+
         #endregion
     }
 }
