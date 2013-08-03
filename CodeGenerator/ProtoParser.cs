@@ -12,7 +12,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Return true if successful/no errors.
         /// </summary>
         public static void Parse(string path, ProtoCollection p)
-        {    
+        {
             //Preparation for parsing
             //Real parsing is done in ParseMessages
             lastComment.Clear();
@@ -26,7 +26,7 @@ namespace SilentOrbit.ProtocolBuffers
                     string line = reader.ReadLine();
                     if (line == null)
                         break;
-                    
+
                     t += line + "\n";
                 }
             }
@@ -35,7 +35,8 @@ namespace SilentOrbit.ProtocolBuffers
             try
             {
                 ParseMessages(tr, p);
-            } catch (EndOfStreamException)
+            }
+            catch (EndOfStreamException)
             {
                 return;
             }
@@ -53,7 +54,7 @@ namespace SilentOrbit.ProtocolBuffers
                 return false;
             token = token.TrimStart('/');
             lastComment.Add(token);
-            return true;        
+            return true;
         }
 
         static void ParseMessages(TokenReader tr, ProtoCollection p)
@@ -80,7 +81,7 @@ namespace SilentOrbit.ProtocolBuffers
                             ParseEnum(tr, p, package);
                             break;
                         case "option":
-                        //Save options
+                            //Save options
                             ParseOption(tr, p);
                             break;
                         case "import": //Ignored
@@ -91,13 +92,19 @@ namespace SilentOrbit.ProtocolBuffers
                             package = tr.ReadNext();
                             tr.ReadNextOrThrow(";");
                             break;
+                        case "syntax":
+                            tr.ReadNextOrThrow("=");
+                            tr.ReadNext();
+                            tr.ReadNextOrThrow(";");
+                            break;
                         case "extend":
                             ParseExtend(tr, p, package);
                             break;
                         default:
                             throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
                     }
-                } catch (EndOfStreamException)
+                }
+                catch (EndOfStreamException)
                 {
                     throw new ProtoFormatException("Unexpected EOF", tr);
                 }
@@ -114,9 +121,10 @@ namespace SilentOrbit.ProtocolBuffers
 
             try
             {
-                while (ParseField (tr, msg))
+                while (ParseField(tr, msg))
                     continue;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new ProtoFormatException(e.Message, e, tr);
             }
@@ -134,9 +142,10 @@ namespace SilentOrbit.ProtocolBuffers
 
             try
             {
-                while (ParseField (tr, msg))
+                while (ParseField(tr, msg))
                     continue;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new ProtoFormatException(e.Message, e, tr);
             }
@@ -176,7 +185,7 @@ namespace SilentOrbit.ProtocolBuffers
                     f.Rule = FieldRule.Repeated;
                     break;
                 case "option":
-                //Save options
+                    //Save options
                     ParseOption(tr, m);
                     return true;
                 case "message":
@@ -197,10 +206,10 @@ namespace SilentOrbit.ProtocolBuffers
 
             //Type
             f.ProtoTypeName = tr.ReadNext();
-            
+
             //Name
             f.ProtoName = tr.ReadNext();
-            
+
             //ID
             tr.ReadNextOrThrow("=");
             f.ID = int.Parse(tr.ReadNext());
@@ -211,16 +220,16 @@ namespace SilentOrbit.ProtocolBuffers
 
             //Add Field to message
             m.Fields.Add(f.ID, f);
-            
+
             //Determine if extra options
             string extra = tr.ReadNext();
             if (extra == ";")
                 return true;
-            
+
             //Field options
             if (extra != "[")
                 throw new ProtoFormatException("Expected: [ got " + extra, tr);
-            
+
             ParseFieldOptions(tr, f);
             return true;
         }
@@ -276,17 +285,17 @@ namespace SilentOrbit.ProtocolBuffers
             string value = tr.ReadNext();
             if (tr.ReadNext() != ";")
                 throw new ProtoFormatException("Expected: ; got " + tr.NextCharacter, tr);
-            
+
             //null = ignore option
             if (m == null)
                 return;
-            
+
             switch (key)
             {
-            //None at the moment
-            //case "namespace":
-            //    m.OptionNamespace = value;
-            //    break;
+                //None at the moment
+                //case "namespace":
+                //    m.OptionNamespace = value;
+                //    break;
                 default:
                     Console.WriteLine("Warning: Unknown option: " + key + " = " + value);
                     break;
@@ -304,17 +313,17 @@ namespace SilentOrbit.ProtocolBuffers
 
             if (tr.ReadNext() != "{")
                 throw new ProtoFormatException("Expected: {", tr);
-            
+
             while (true)
             {
                 string name = tr.ReadNext();
 
                 if (ParseComment(name))
                     continue;
-                
+
                 if (name == "}")
                     return;
-                
+
                 //Ignore options
                 if (name == "option")
                 {
@@ -325,7 +334,7 @@ namespace SilentOrbit.ProtocolBuffers
 
                 ParseEnumValue(tr, me, name);
             }
-            
+
         }
 
         static void ParseEnumValue(TokenReader tr, ProtoEnum parent, string name)
