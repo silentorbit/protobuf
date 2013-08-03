@@ -92,6 +92,11 @@ namespace SilentOrbit.ProtocolBuffers
                             package = tr.ReadNext();
                             tr.ReadNextOrThrow(";");
                             break;
+                        case "syntax":
+                            tr.ReadNextOrThrow("=");
+                            tr.ReadNext();
+                            tr.ReadNextOrThrow(";");
+                            break;
                         case "extend":
                             ParseExtend(tr, p, package);
                             break;
