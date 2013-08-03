@@ -8,7 +8,7 @@ namespace SilentOrbit.ProtocolBuffers
     /// Static and instance helpers for code generation
     /// </summary>
     public class CodeWriter : IDisposable
-    { 
+    {
         #region Settings
         public static string IndentPrefix = "    ";
         public static string NewLine = "\r\n";
@@ -87,7 +87,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void Attribute(string attributeConstructor)
         {
-           WriteLine("[" + attributeConstructor + "]");
+            WriteLine("[" + attributeConstructor + "]");
         }
 
         /// <summary>

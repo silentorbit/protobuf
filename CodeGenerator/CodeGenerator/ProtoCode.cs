@@ -101,7 +101,7 @@ This file will be overwritten when CodeGenerator is run.");
                 }
                 cw.EndBracket();
             }
-                
+
             string libPath = Path.Combine(Path.GetDirectoryName(csPath), "ProtocolParser.cs");
             using (TextWriter codeWriter = new StreamWriter(libPath, false, Encoding.UTF8))
             {
@@ -118,8 +118,8 @@ This file will be overwritten when CodeGenerator is run.");
         private static void ReadCode(TextWriter code, string name, bool includeUsing)
         {
             code.WriteLine("#region " + name);
-            
-            using (TextReader tr = new StreamReader(Assembly.GetExecutingAssembly ().GetManifestResourceStream (name), Encoding.UTF8))
+
+            using (TextReader tr = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(name), Encoding.UTF8))
             {
                 while (true)
                 {

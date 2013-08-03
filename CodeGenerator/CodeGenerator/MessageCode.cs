@@ -28,14 +28,14 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine("public List<global::SilentOrbit.ProtocolBuffers.KeyValue> PreservedFields;");
                 cw.WriteLine();
             }
-            
+
             if (m.OptionTriggers)
             {
                 cw.Comment("protected virtual void BeforeSerialize() {}");
                 cw.Comment("protected virtual void AfterDeserialize() {}");
                 cw.WriteLine();
             }
-            
+
             foreach (ProtoMessage sub in m.Messages.Values)
             {
                 GenerateClass(sub, cw);
@@ -79,12 +79,12 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
                 else
                 {
-                    if (f.Comments != null) 
+                    if (f.Comments != null)
                         cw.Summary(f.Comments);
                     cw.WriteLine(GenerateProperty(f));
                     cw.WriteLine();
-                } 
-                
+                }
+
             }
 
             //Wire format field ID

@@ -8,7 +8,7 @@ using System.Text;
 namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
-    {   
+    {
         public static string ReadString(Stream stream)
         {
             return Encoding.UTF8.GetString(ReadBytes(stream));
@@ -21,7 +21,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             //VarInt length
             int length = (int)ReadUInt32(stream);
-            
+
             //Bytes
             byte[] buffer = new byte[length];
             int read = 0;
@@ -40,7 +40,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Alternative to ReadBytes when the data is not of interest.
         /// </summary>
         public static void SkipBytes(Stream stream)
-        {   
+        {
             int length = (int)ReadUInt32(stream);
             if (stream.CanSeek)
                 stream.Seek(length, SeekOrigin.Current);

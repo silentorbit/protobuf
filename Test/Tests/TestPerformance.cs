@@ -25,28 +25,28 @@ namespace Test
                 p.Email = "Alice@silentobit.com";
                 p.Phone = new List<Person.PhoneNumber>();
                 ab.List.Add(p);
-                
+
                 NetPerson np = new NetPerson();
                 np.Name = p.Name;
                 np.Id = p.Id;
                 np.Email = p.Email;
                 np.Phone = new List<NetPerson.NetPhoneNumber>();
                 nab.List.Add(np);
-                
+
                 for (int m = 0; m < 1000; m++)
                 {
                     Person.PhoneNumber pn = new Person.PhoneNumber();
                     pn.Type = Person.PhoneType.MOBILE;
                     pn.Number = m.ToString();
                     p.Phone.Add(pn);
-                    
+
                     NetPerson.NetPhoneNumber npn = new NetPerson.NetPhoneNumber();
                     npn.Type = Person.PhoneType.MOBILE;
                     npn.Number = pn.Number;
                     np.Phone.Add(npn);
                 }
             }
-            
+
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize
@@ -54,7 +54,7 @@ namespace Test
                 AddressBook.Serialize(ms, ab);
                 TimeSpan serialize = DateTime.Now - start;
                 Console.WriteLine("Speed test: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
-                
+
                 //Deserialize
                 ms.Seek(0, SeekOrigin.Begin);
                 start = DateTime.Now;
@@ -62,7 +62,7 @@ namespace Test
                 TimeSpan deserialize = DateTime.Now - start;
                 Console.WriteLine("Speed test: Deserialize " + dab.List.Count + " posts in " + deserialize.TotalSeconds + " s");
             }
-            
+
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize 
@@ -70,7 +70,7 @@ namespace Test
                 ProtoBuf.Serializer.Serialize(ms, nab);
                 TimeSpan serialize = DateTime.Now - start;
                 Console.WriteLine("Protobuf-net: Serialize " + nab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
-                
+
                 //Deserialize
                 ms.Seek(0, SeekOrigin.Begin);
                 start = DateTime.Now;

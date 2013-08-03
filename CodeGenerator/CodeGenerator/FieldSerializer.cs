@@ -32,13 +32,15 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("instance." + f.CsName + ".Add(" + FieldReaderType(f, "ms" + f.ID, "br" + f.ID, null) + ");");
                     cw.EndBracket();
                     cw.EndBracket();
-                } else
+                }
+                else
                 {
                     cw.Comment("repeated");
                     cw.WriteLine("instance." + f.CsName + ".Add(" + FieldReaderType(f, "stream", "br", null) + ");");
                 }
-            } else
-            {   
+            }
+            else
+            {
                 if (f.OptionReadOnly)
                 {
                     //The only "readonly" fields we can modify
@@ -51,7 +53,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("throw new InvalidOperationException(\"Can't deserialize into a readonly primitive field\");");
                     return false;
                 }
-                
+
                 if (f.ProtoType is ProtoMessage)
                 {
                     if (f.ProtoType.OptionType == "struct")
@@ -68,7 +70,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("else");
                     cw.WriteIndent(FieldReaderType(f, "stream", "br", "instance." + f.CsName) + ";");
                     return true;
-                } 
+                }
 
                 cw.WriteLine("instance." + f.CsName + " = " + FieldReaderType(f, "stream", "br", "instance." + f.CsName) + ";");
             }
@@ -104,11 +106,11 @@ namespace SilentOrbit.ProtocolBuffers
                         throw new FormatException("Local feature, TimeSpan, must be stored in a 64 bit field");
 
                     default:
-                    //Assume enum
+                        //Assume enum
                         return "(" + f.OptionCodeType + ")" + FieldReaderPrimitive(f, stream, binaryReader, instance);
                 }
             }
-            
+
             return FieldReaderPrimitive(f, stream, binaryReader, instance);
         }
 
@@ -125,7 +127,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             if (f.ProtoType is ProtoEnum)
                 return "(" + f.ProtoType.FullCsType + ")global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(" + stream + ")";
-            
+
             if (f.ProtoType is ProtoBuiltin)
             {
                 switch (f.ProtoType.ProtoName)
@@ -162,7 +164,7 @@ namespace SilentOrbit.ProtocolBuffers
                         return "global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(" + stream + ")";
                     default:
                         throw new ProtoFormatException("unknown build in: " + f.ProtoType.ProtoName, f.Source);
-                }   
+                }
 
             }
 
@@ -270,7 +272,8 @@ namespace SilentOrbit.ProtocolBuffers
 
                         BytesWriter("stream", "ms" + f.ID, cw);
                         cw.EndBracket();
-                    } else
+                    }
+                    else
                     {
                         //Optimized with known size
                         //No memorystream buffering, write size first at once
@@ -283,7 +286,8 @@ namespace SilentOrbit.ProtocolBuffers
                         cw.EndBracket();
                     }
                     cw.EndBracket();
-                } else
+                }
+                else
                 {
                     //Repeated not packet
                     cw.IfBracket("instance." + f.CsName + " != null");
@@ -294,9 +298,10 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.EndBracket();
                 }
                 return;
-            } else if (f.Rule == FieldRule.Optional)
-            {           
-                if (f.ProtoType is ProtoMessage || 
+            }
+            else if (f.Rule == FieldRule.Optional)
+            {
+                if (f.ProtoType is ProtoMessage ||
                     f.ProtoType.ProtoName == ProtoBuiltin.String ||
                     f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
                 {
@@ -321,9 +326,10 @@ namespace SilentOrbit.ProtocolBuffers
                 KeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                 cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName));
                 return;
-            } else if (f.Rule == FieldRule.Required)
-            {   
-                if (f.ProtoType is ProtoMessage && f.ProtoType.OptionType != "struct" || 
+            }
+            else if (f.Rule == FieldRule.Required)
+            {
+                if (f.ProtoType is ProtoMessage && f.ProtoType.OptionType != "struct" ||
                     f.ProtoType.ProtoName == ProtoBuiltin.String ||
                     f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
                 {

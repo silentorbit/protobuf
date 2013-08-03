@@ -13,8 +13,7 @@ namespace Test
     class NetPerson
     {
         [ProtoMember(1)]
-        public string
-            Name;
+        public string Name;
 
         [ProtoMember(2)]
         public int Id { get; set; }
@@ -24,7 +23,7 @@ namespace Test
 
         [ProtoMember(4)]
         public List<NetPhoneNumber> Phone { get; set; }
-        
+
         [ProtoContract]
         public class NetPhoneNumber
         {

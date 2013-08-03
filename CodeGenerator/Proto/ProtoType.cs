@@ -37,14 +37,15 @@ namespace SilentOrbit.ProtocolBuffers
                         return Parent.CsNamespace;
                     else
                         return Parent.CsNamespace + "." + Parent.CsType;
-                } else 
+                }
+                else
                     return OptionNamespace;
             }
         }
 
         public virtual string FullCsType
         {
-            get { return CsNamespace + "." + CsType;}
+            get { return CsNamespace + "." + CsType; }
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// (C#) access modifier: public(default)/protected/private
         /// </summary>
-        public string OptionAccess  { get; set; }
+        public string OptionAccess { get; set; }
 
         /// <summary>
         /// Call triggers before/after serialization.
@@ -96,7 +97,8 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Used by types within a namespace
         /// </summary>
-        public ProtoType(ProtoMessage parent, string package) : this()
+        public ProtoType(ProtoMessage parent, string package)
+            : this()
         {
             if (this is ProtoCollection == false)
             {

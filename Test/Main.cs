@@ -17,13 +17,13 @@ namespace Test
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello Binary World!");
-            
+
             TestReadme.Run();
-            
+
             TestZigZag.Run();
-            
+
             TestStandardFeatures.Run();
-            
+
             TestLocalFeatures.Run();
 
             TestNonOptimizedCases.Run();

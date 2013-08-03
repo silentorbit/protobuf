@@ -12,7 +12,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public TokenReader(string text, string path)
         {
-            this.text = text;           
+            this.text = text;
             this.Path = path;
         }
 
@@ -38,7 +38,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (offset >= text.Length)
                 throw new EndOfStreamException();
-            
+
             char c = text[offset];
             offset += 1;
             return c.ToString();
@@ -54,7 +54,8 @@ namespace SilentOrbit.ProtocolBuffers
                 string n = ReadNext();
                 if (n != expect)
                     throw new ProtoFormatException("Expected: " + expect + " got " + n, this);
-            } catch (EndOfStreamException)
+            }
+            catch (EndOfStreamException)
             {
                 throw new ProtoFormatException("Expected: " + expect + " got EOF", this);
             }
@@ -63,7 +64,7 @@ namespace SilentOrbit.ProtocolBuffers
         public string ReadNext()
         {
             string c;   //Character
-            
+
             //Skip whitespace characters
             while (true)
             {
@@ -72,16 +73,16 @@ namespace SilentOrbit.ProtocolBuffers
                     continue;
                 break;
             }
-            
+
             //Determine token type
             if (singletoken.Contains(c))
                 return c.ToString();
-        
+
             //Follow token
             string token = c;
             bool parseString = false;
             bool parseComment = false;
-            
+
             if (token == "/")
                 parseComment = true;
             if (token == "\"")
@@ -89,7 +90,7 @@ namespace SilentOrbit.ProtocolBuffers
                 parseString = true;
                 token = "";
             }
-            
+
             while (true)
             {
                 c = GetChar();
@@ -97,19 +98,21 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     if (c == "\r" || c == "\n")
                         return token;
-                } else if (parseString)
+                }
+                else if (parseString)
                 {
                     if (c == "\"")
                         return token;
-                } else if (whitespace.Contains(c) || singletoken.Contains(c))
+                }
+                else if (whitespace.Contains(c) || singletoken.Contains(c))
                 {
                     offset -= 1;
                     return token;
                 }
-                
+
                 token += c;
             }
-            
+
         }
     }
 }

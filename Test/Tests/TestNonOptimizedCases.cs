@@ -25,7 +25,7 @@ namespace Test
 
             MemoryStream ms2 = new MemoryStream(ms1.ToArray());
             LongMessage l2 = LongMessage.Deserialize(ms2);
-            
+
             //Test
             Test("LongMessage FieldX1", l1.FieldX1 == l2.FieldX1);
             Test("LongMessage FieldX2", l1.FieldX2 == l2.FieldX2);

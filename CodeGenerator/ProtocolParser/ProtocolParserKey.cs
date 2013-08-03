@@ -29,7 +29,7 @@ namespace SilentOrbit.ProtocolBuffers
         public Key(uint field, Wire wireType)
         {
             this.Field = field;
-            this.WireType = wireType;               
+            this.WireType = wireType;
         }
 
         public override string ToString()
@@ -61,7 +61,7 @@ namespace SilentOrbit.ProtocolBuffers
 
     public static partial class ProtocolParser
     {
-        
+
         public static Key ReadKey(Stream stream)
         {
             uint n = ReadUInt32(stream);
@@ -115,7 +115,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             byte[] b;
             int offset = 0;
-                
+
             switch (key.WireType)
             {
                 case Wire.Fixed32:
@@ -131,7 +131,7 @@ namespace SilentOrbit.ProtocolBuffers
                 case Wire.LengthDelimited:
                     //Read and include length in value buffer
                     uint length = ProtocolParser.ReadUInt32(stream);
-                    using (var ms = new MemoryStream ())
+                    using (var ms = new MemoryStream())
                     {
                         //TODO: pass b directly to MemoryStream constructor or skip usage of it completely
                         ProtocolParser.WriteUInt32(ms, length);

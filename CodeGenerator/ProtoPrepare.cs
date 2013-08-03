@@ -42,10 +42,10 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 e.CsType = GetCamelCase(e.ProtoName);
             }
-            
+
             foreach (ProtoMessage sub in m.Messages.Values)
                 PrepareMessage(sub);
-            
+
             //Prepare fields
             foreach (Field f in m.Fields.Values)
             {
@@ -60,7 +60,7 @@ namespace SilentOrbit.ProtocolBuffers
                     if (f.ProtoType is ProtoMessage)
                         throw new InvalidDataException("Message can't have a default");
                 }
-            }   
+            }
 
         }
 
@@ -70,7 +70,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <param name="m">Parent message</param>
         /// <param name="f">Field to check</param>
         static void DetectNameClash(ProtoMessage m, Field f)
-        {  
+        {
             bool nameclash = false;
             foreach (var tm in m.Messages.Values)
                 if (tm.CsType == f.CsName)
@@ -101,8 +101,9 @@ namespace SilentOrbit.ProtocolBuffers
 
                 //Make sure our change did not result in another name collission
                 DetectNameClash(m, f);
-            } else
-                throw new ProtoFormatException("The field: " + m.FullCsType + "." + f.CsName + 
+            }
+            else
+                throw new ProtoFormatException("The field: " + m.FullCsType + "." + f.CsName +
                     " has the same name as a sibling class/enum type which is not allowed in C#. " +
                     "Use " + FixNameclashArgument + " to automatically rename the field.", f.Source);
         }
@@ -114,7 +115,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             //Change property name to C# style, CamelCase.
             f.CsName = GetCSPropertyName(m, f.ProtoName);
-            
+
             f.ProtoType = GetBuiltinProtoType(f.ProtoTypeName);
             if (f.ProtoType == null)
                 f.ProtoType = Search.GetProtoType(m, f.ProtoTypeName);
@@ -139,7 +140,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Return Unknonw if it is a message or an enum.
         /// </summary>
         static ProtoBuiltin GetBuiltinProtoType(string type)
-        {     
+        {
             switch (type)
             {
                 case "double":
@@ -183,13 +184,13 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         static string GetCSPropertyName(ProtoMessage m, string name)
         {
-            string csname = GetCamelCase(name); 
-            
+            string csname = GetCamelCase(name);
+
             foreach (ProtoEnum me in m.Enums.Values)
                 if (me.CsType == csname)
                     return name;
-            
-            return csname;          
+
+            return csname;
         }
 
         /// <summary>

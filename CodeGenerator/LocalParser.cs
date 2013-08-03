@@ -11,7 +11,7 @@ namespace SilentOrbit.ProtocolBuffers
         static void ParseMessageFlags(ProtoMessage message, string flag)
         {
             switch (flag)
-            { 
+            {
                 case "triggers":
                     message.OptionTriggers = true;
                     break;
@@ -41,7 +41,7 @@ namespace SilentOrbit.ProtocolBuffers
                     message.OptionType = value;
                     break;
                 default:
-                    throw new  NotImplementedException("Unknown option: " + key);
+                    throw new NotImplementedException("Unknown option: " + key);
             }
         }
 
@@ -56,7 +56,7 @@ namespace SilentOrbit.ProtocolBuffers
                     field.OptionReadOnly = true;
                     break;
                 default:
-                    throw new  NotImplementedException("Unknown field option: " + flag);
+                    throw new NotImplementedException("Unknown field option: " + flag);
             }
         }
 
@@ -104,9 +104,10 @@ namespace SilentOrbit.ProtocolBuffers
                                 ParseFieldFlags((Field)message, key);
                             else
                                 throw new NotImplementedException();
-                        
+
                             continue;
-                        } else
+                        }
+                        else
                         {
                             string value = (parts.Length == 2) ? parts[1].Trim() : null;
 
@@ -119,11 +120,13 @@ namespace SilentOrbit.ProtocolBuffers
 
                             continue;
                         }
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         throw new ProtoFormatException(e.Message, e, tr);
                     }
-                } else
+                }
+                else
                 {
                     message.Comments += s + "\n";
                 }

@@ -8,7 +8,7 @@ namespace Test
 {
     public class TestLocalFeatures : TestBase
     {
-        
+
         /// <summary>
         /// Test wire format of the person example against protobuf-net - another c# protocol buffers library
         /// </summary>
@@ -31,35 +31,35 @@ namespace Test
             //Since this property is an interface AND required we must set it before calling Deserialize
             l2.MyInterface = new MyImplementeInterface();
             LocalFeatures.Deserialize(ms2, l2);
-            
+
             //Test in Equals to have access to all fields
             Test("Local Features", local.Equals(l2));
-            
-            
+
+
             //Test preservation of unknown fields
             byte[] streamBuffer;
             byte[] streamBufferV2Orig;
             byte[] streamBufferV1Mod;
             MyMessageV2 v2original = MyMessageV2.TestInstance();
-            
+
             //Write
-            using (MemoryStream ms = new MemoryStream ())
+            using (MemoryStream ms = new MemoryStream())
             {
                 MyMessageV2.Serialize(ms, v2original);
                 streamBuffer = ms.ToArray();
                 streamBufferV2Orig = streamBuffer;
             }
-            
+
             //Read V1, modify and write back
             MyMessageV1 v1 = MyMessageV1.Deserialize(new MemoryStream(streamBuffer));
             v1.FieldA = 42;
-            using (MemoryStream ms = new MemoryStream ())
+            using (MemoryStream ms = new MemoryStream())
             {
                 MyMessageV1.Serialize(ms, v1);
                 streamBuffer = ms.ToArray();
                 streamBufferV1Mod = streamBuffer;
             }
-            
+
             //Compare stream buffers
             //Test (
             //  "Stream buffer length",
@@ -69,10 +69,10 @@ namespace Test
             {
                 if (n == 1)
                     continue; //expected difference for FieldA
-                if (streamBufferV2Orig [n] != streamBufferV1Mod [n])
+                if (streamBufferV2Orig[n] != streamBufferV1Mod[n])
                     throw new InvalidDataException("Stream buffers do not match at byte " + n);
             }
-            
+
             //Read V2 and test
             MyMessageV2 v2test = MyMessageV2.Deserialize(new MemoryStream(streamBuffer));
             //Test FieldA

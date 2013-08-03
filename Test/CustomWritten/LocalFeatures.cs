@@ -9,14 +9,14 @@ namespace Local
         /// So we have to implement it ourself here
         ///</summary>
         public double Amount { get; set; }
-            
+
         /// <summary>
         /// The serializer requires a constructor with zero arguments.
         /// But it can be private.
         /// </summary>
         private LocalFeatures()
         {
-                
+
         }
 
         public LocalFeatures(string secret)
@@ -36,7 +36,7 @@ namespace Local
         {
             this.Denial = trolls;
         }
-        
+
         public override bool Equals(object obj)
         {
             LocalFeatures l = obj as LocalFeatures;
@@ -57,11 +57,11 @@ namespace Local
                 return false;
             if (l.PR != this.PR)
                 return false;
-            if(l.MyEnum != this.MyEnum)
+            if (l.MyEnum != this.MyEnum)
                 return false;
             return true;
         }
-        
+
         public override int GetHashCode()
         {
             throw new NotImplementedException();

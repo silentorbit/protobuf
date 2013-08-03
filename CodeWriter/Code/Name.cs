@@ -19,8 +19,8 @@ namespace SilentOrbit.Code
                 else
                     csname += part.Substring(0, 1).ToUpperInvariant() + part.Substring(1);
             }
-		
-            return csname;          
+
+            return csname;
         }
     }
 }

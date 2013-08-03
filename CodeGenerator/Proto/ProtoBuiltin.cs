@@ -45,7 +45,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public override string FullCsType
         {
-            get { return CsType;}
+            get { return CsType; }
         }
 
         readonly Wire wireType;
