@@ -10,16 +10,16 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (args.Length == 0)
             {
-                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] [--use-tabs] path-to.proto [path-to-second.proto [...]] [output.cs]");
+                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] [--use-tabs] [--fix-nameclash] path-to.proto [path-to-second.proto [...]] [output.cs]");
                 return -1;
-            } 
+            }
 
             ProtoCollection collection = new ProtoCollection();
             string outputPath = null;
 
             int argIndex = 0;
 
-            while (args.Length > argIndex && args [argIndex].StartsWith("--"))
+            while (args.Length > argIndex && args[argIndex].StartsWith("--"))
             {
                 switch (args[argIndex])
                 {
@@ -82,9 +82,10 @@ namespace SilentOrbit.ProtocolBuffers
                     //Parse .proto
                     Console.WriteLine("Parsing " + protoPath);
                     ProtoParser.Parse(protoPath, proto);
-                
+
                     collection.Merge(proto);
-                } catch (ProtoFormatException pfe)
+                }
+                catch (ProtoFormatException pfe)
                 {
                     Console.WriteLine();
                     Console.WriteLine(pfe.SourcePath.Path + "(" + pfe.SourcePath.Line + "," + pfe.SourcePath.Column + "): error CS001: " + pfe.Message);
@@ -98,7 +99,8 @@ namespace SilentOrbit.ProtocolBuffers
             try
             {
                 ProtoPrepare.Prepare(collection);
-            } catch (ProtoFormatException pfe)
+            }
+            catch (ProtoFormatException pfe)
             {
                 Console.WriteLine();
                 Console.WriteLine(pfe.SourcePath.Path + "(" + pfe.SourcePath.Line + "," + pfe.SourcePath.Column + "): error CS001: " + pfe.Message);
