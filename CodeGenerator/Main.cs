@@ -10,7 +10,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (args.Length == 0)
             {
-                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] [--use-tabs] path-to.proto [path-to-second.proto [...]] [output.cs]");
+                Console.Error.WriteLine("Usage:\n\tCodeGenerator.exe [--preserve-names] [--use-tabs] [--fix-nameclash] path-to.proto [path-to-second.proto [...]] [output.cs]");
                 return -1;
             }
 
