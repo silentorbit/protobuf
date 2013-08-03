@@ -153,7 +153,7 @@ namespace SilentOrbit.ProtocolBuffers
                 if (method == "DeserializeLengthDelimited" || method == "DeserializeLength")
                 {
                     cw.IfBracket("stream.Position >= limit");
-                    cw.WriteLine("if(stream.Position == limit)");
+                    cw.WriteLine("if (stream.Position == limit)");
                     cw.WriteIndent("break;");
                     cw.WriteLine("else");
                     cw.WriteIndent("throw new InvalidOperationException(\"Read past max limit\");");
@@ -186,12 +186,14 @@ namespace SilentOrbit.ProtocolBuffers
                     {
                         if (f.ID >= 16)
                             continue;
+                        cw.Dedent();
                         cw.Comment("Field " + f.ID + " " + f.WireType);
+                        cw.Indent();
                         cw.Case(((f.ID << 3) | (int)f.WireType));
                         if (FieldSerializer.FieldReader(f, cw))
                             cw.WriteLine("continue;");
                     }
-                    cw.EndBracket();
+                    cw.SwitchEnd();
                     cw.WriteLine();
                 }
                 cw.WriteLine("var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);");
@@ -225,7 +227,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);");
                 }
                 cw.WriteLine("break;");
-                cw.EndBracket();
+                cw.SwitchEnd();
                 cw.EndBracket();
                 cw.WriteLine();
 

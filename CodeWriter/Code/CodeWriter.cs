@@ -135,6 +135,13 @@ namespace SilentOrbit.ProtocolBuffers
         public void Switch(string str)
         {
             Bracket("switch (" + str + ")");
+            Indent();
+        }
+
+        public void SwitchEnd()
+        {
+            Dedent();
+            EndBracket();
         }
 
         public void Case(string str)
@@ -188,16 +195,16 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void WriteLine(string line)
         {
-            string[] lines = line.Split('\n');
-            foreach (string l in lines)
+            foreach (string l in SplitTrimEnd(line))
             {
-                w.Write(prefix + l + NewLine);
+                string pl = (prefix + l).TrimEnd(' ', '\t');
+                w.Write(pl + NewLine);
             }
         }
 
         public void WriteLine()
         {
-            WriteLine(prefix.TrimEnd(' '));
+            WriteLine("");
         }
 
         #region Comments
@@ -206,10 +213,11 @@ namespace SilentOrbit.ProtocolBuffers
             if (code == null)
                 return;
 
-            prefix += "// ";
-            foreach (string line in code.Split('\n'))
-                WriteLine(line.TrimEnd(' '));
-            prefix = prefix.Substring(0, prefix.Length - 3);
+            const string commentPrefix = "// ";
+            prefix += commentPrefix;
+            foreach (string line in SplitTrimEnd(code))
+                WriteLine(line);
+            prefix = prefix.Substring(0, prefix.Length - commentPrefix.Length);
         }
 
         public void Summary(string summary)
@@ -217,21 +225,33 @@ namespace SilentOrbit.ProtocolBuffers
             if (summary == null || summary.Trim() == "")
                 return;
 
-            string[] lines = summary.Replace("\r\n", "\n").Split('\n');
+            string[] lines = SplitTrimEnd(summary);
             if (lines.Length == 1)
             {
-                WriteLine("/// <summary>" + summary.TrimEnd(' ') + "</summary>");
+                WriteLine("/// <summary>" + lines[0] + "</summary>");
                 return;
             }
 
             prefix += "/// ";
             WriteLine("<summary>");
             foreach (string line in lines)
-                WriteLine("<para>" + line.TrimEnd(' ') + "</para>");
+                WriteLine("<para>" + line + "</para>");
             WriteLine("</summary>");
             prefix = prefix.Substring(0, prefix.Length - 4);
         }
+
         #endregion
+
+        /// <summary>
+        /// Split string into an array of lines and trim whitespace at the end
+        /// </summary>
+        static string[] SplitTrimEnd(string text)
+        {
+            var lines = text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+            for (int n = 0; n < lines.Length; n++)
+                lines[n] = lines[n].TrimEnd(' ', '\t');
+            return lines;
+        }
     }
 }
 

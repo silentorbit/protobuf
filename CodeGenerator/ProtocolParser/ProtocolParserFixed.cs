@@ -81,8 +81,11 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
+
         #endregion
+
         #region Fixed: float, double. Only for reference
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -118,6 +121,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             writer.Write(val);
         }
+
         #endregion
     }
 }

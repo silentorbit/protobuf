@@ -41,7 +41,9 @@ namespace SilentOrbit.ProtocolBuffers
             Array.Copy(buffer, ret, ret.Length);
             return ret;
         }
+
         #region VarInt: int32, uint32, sint32
+
         [Obsolete("Use (int)ReadUInt64(stream); //yes 64")]
         /// <summary>
         /// Since the int32 format is inefficient for negative numbers we have avoided to implement it.
@@ -132,8 +134,11 @@ namespace SilentOrbit.ProtocolBuffers
 
             stream.Write(buffer, 0, count + 1);
         }
+
         #endregion
+
         #region VarInt: int64, UInt64, SInt64
+
         [Obsolete("Use (long)ReadUInt64(stream); instead")]
         /// <summary>
         /// Since the int64 format is inefficient for negative numbers we have avoided to implement it.
@@ -221,8 +226,11 @@ namespace SilentOrbit.ProtocolBuffers
 
             stream.Write(buffer, 0, count + 1);
         }
+
         #endregion
+
         #region Varint: bool
+
         public static bool ReadBool(Stream stream)
         {
             int b = stream.ReadByte();
@@ -239,6 +247,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             stream.WriteByte(val ? (byte)1 : (byte)0);
         }
+
         #endregion
     }
 }

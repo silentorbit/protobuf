@@ -105,6 +105,7 @@ This file will be overwritten when CodeGenerator is run.");
             string libPath = Path.Combine(Path.GetDirectoryName(csPath), "ProtocolParser.cs");
             using (TextWriter codeWriter = new StreamWriter(libPath, false, Encoding.UTF8))
             {
+                codeWriter.NewLine = "\r\n";
                 ReadCode(codeWriter, "ProtocolParser", true);
                 ReadCode(codeWriter, "ProtocolParserFixed", false);
                 ReadCode(codeWriter, "ProtocolParserKey", false);
@@ -131,7 +132,7 @@ This file will be overwritten when CodeGenerator is run.");
 
                     if (CodeWriter.IndentPrefix == "\t")
                         line = line.Replace("    ", "\t");
-                    code.Write(line + "\r\n");
+                    code.WriteLine(line);
                 }
             }
             code.WriteLine("#endregion");

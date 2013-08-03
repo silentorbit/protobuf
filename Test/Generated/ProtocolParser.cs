@@ -72,6 +72,7 @@ namespace SilentOrbit.ProtocolBuffers
     public class StreamRead : Stream
     {
         Stream stream;
+
         /// <summary>
         /// Bytes left to read
         /// </summary>
@@ -169,8 +170,6 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
     }
-
-
 }
 
 #endregion
@@ -185,7 +184,6 @@ namespace SilentOrbit.ProtocolBuffers
     public static partial class ProtocolParser
     {
         #region Fixed Int, Only for reference
-
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -203,6 +201,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             return reader.ReadInt64();
         }
+
         /// <summary>
         /// Only for reference
         /// </summary>
@@ -297,9 +296,7 @@ namespace SilentOrbit.ProtocolBuffers
             writer.Write(val);
         }
 
-
         #endregion
-
     }
 }
 
@@ -313,12 +310,12 @@ namespace SilentOrbit.ProtocolBuffers
 {
     public enum Wire
     {
-        Varint = 0,     //int32, int64, UInt32, UInt64, SInt32, SInt64, bool, enum
-        Fixed64 = 1,    //fixed64, sfixed64, double
-        LengthDelimited = 2,    //string, bytes, embedded messages, packed repeated fields
-        //Start = 3,        //  groups (deprecated)
-        //End = 4,      //  groups (deprecated)
-        Fixed32 = 5,    //32-bit    fixed32, SFixed32, float
+        Varint = 0,          //int32, int64, UInt32, UInt64, SInt32, SInt64, bool, enum
+        Fixed64 = 1,         //fixed64, sfixed64, double
+        LengthDelimited = 2, //string, bytes, embedded messages, packed repeated fields
+        //Start = 3,         //  groups (deprecated)
+        //End = 4,           //  groups (deprecated)
+        Fixed32 = 5,         //32-bit    fixed32, SFixed32, float
     }
 
     public class Key
