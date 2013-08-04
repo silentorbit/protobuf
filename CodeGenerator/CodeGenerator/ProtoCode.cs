@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
+using SilentOrbit.Code;
 
 namespace SilentOrbit.ProtocolBuffers
 {

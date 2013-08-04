@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.IO;
 
-namespace SilentOrbit.ProtocolBuffers
+namespace SilentOrbit.Code
 {
     /// <summary>
     /// Static and instance helpers for code generation
