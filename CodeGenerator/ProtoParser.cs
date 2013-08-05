@@ -92,7 +92,7 @@ namespace SilentOrbit.ProtocolBuffers
                             package = tr.ReadNext();
                             tr.ReadNextOrThrow(";");
                             break;
-                        case "syntax":
+                        case "syntax": //This is not a supported protobuf keyword, used in Google internally
                             tr.ReadNextOrThrow("=");
                             tr.ReadNext();
                             tr.ReadNextOrThrow(";");
