@@ -4,20 +4,24 @@ using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    static class ProtoPrepare
+    class ProtoPrepare
     {
+        readonly Options options;
+
         /// <summary>
         /// Convert message/class and field/propery names to CamelCase
         /// </summary>
-        public static bool ConvertToCamelCase = true;
-        /// <summary>
-        /// If the name clashes between a property and subclass, the property will be renamed.
-        /// If false, an error will occur.
-        /// </summary>
-        public static bool FixNameclash = false;
-        public const string FixNameclashArgument = "--fix-nameclash";
+        bool ConvertToCamelCase = true;
 
-        static public void Prepare(ProtoCollection file)
+        public ProtoPrepare(Options options)
+        {
+            if (options.PreserveNames)
+                ConvertToCamelCase = false;
+
+            this.options = options;
+        }
+
+        public void Prepare(ProtoCollection file)
         {
             foreach (ProtoMessage m in file.Messages.Values)
             {
@@ -34,10 +38,10 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
-        static void PrepareMessage(ProtoMessage m)
+        void PrepareMessage(ProtoMessage m)
         {
             //Name of message and enums
-            m.CsType = ProtoPrepare.GetCamelCase(m.ProtoName);
+            m.CsType = GetCamelCase(m.ProtoName);
             foreach (ProtoEnum e in m.Enums.Values)
             {
                 e.CsType = GetCamelCase(e.ProtoName);
@@ -69,7 +73,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         /// <param name="m">Parent message</param>
         /// <param name="f">Field to check</param>
-        static void DetectNameClash(ProtoMessage m, Field f)
+        void DetectNameClash(ProtoMessage m, Field f)
         {
             bool nameclash = false;
             if (m.CsType == f.CsName)
@@ -91,7 +95,7 @@ namespace SilentOrbit.ProtocolBuffers
                 return;
 
             //Name clash
-            if (FixNameclash)
+            if (options.FixNameclash)
             {
                 if (ConvertToCamelCase)
                     f.CsName += "Field";
@@ -107,13 +111,13 @@ namespace SilentOrbit.ProtocolBuffers
             else
                 throw new ProtoFormatException("The field: " + m.FullCsType + "." + f.CsName +
                     " has the same name as a sibling class/enum type which is not allowed in C#. " +
-                    "Use " + FixNameclashArgument + " to automatically rename the field.", f.Source);
+                    "Use --fix-nameclash to automatically rename the field.", f.Source);
         }
 
         /// <summary>
         /// Prepare: ProtoType, WireType and CSType
         /// </summary>
-        static void PrepareProtoType(ProtoMessage m, Field f)
+        void PrepareProtoType(ProtoMessage m, Field f)
         {
             //Change property name to C# style, CamelCase.
             f.CsName = GetCSPropertyName(m, f.ProtoName);
@@ -184,7 +188,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Gets the C# CamelCase version of a given name.
         /// Name collisions with enums are avoided.
         /// </summary>
-        static string GetCSPropertyName(ProtoMessage m, string name)
+        string GetCSPropertyName(ProtoMessage m, string name)
         {
             string csname = GetCamelCase(name);
 
@@ -198,7 +202,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Gets the CamelCase version of a given name.
         /// </summary>
-        static string GetCamelCase(string name)
+        string GetCamelCase(string name)
         {
             if (ConvertToCamelCase == false)
                 return name;

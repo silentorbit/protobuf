@@ -10,8 +10,11 @@ namespace SilentOrbit.ProtocolBuffers
     public class CodeWriter : IDisposable
     {
         #region Settings
-        public static string IndentPrefix = "    ";
-        public static string NewLine = "\r\n";
+        public static string DefaultIndentPrefix = "    ";
+        public static string DefaultNewLine = "\r\n";
+
+        public string IndentPrefix;
+        public string NewLine;
         #endregion
 
         #region Constructors
@@ -23,9 +26,23 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public CodeWriter()
         {
+            this.IndentPrefix = DefaultIndentPrefix;
+            this.NewLine = DefaultNewLine;
+
             ms = new MemoryStream();
             w = new StreamWriter(ms, Encoding.UTF8);
             //w.NewLine = NewLine; // does not appear to work
+        }
+
+        /// <summary>
+        /// Writes code directly to file
+        /// </summary>
+        public CodeWriter(string csPath)
+        {
+            this.IndentPrefix = DefaultIndentPrefix;
+            this.NewLine = DefaultNewLine;
+
+            w = new StreamWriter(csPath, false, Encoding.UTF8);
         }
 
         /// <summary>
@@ -38,14 +55,6 @@ namespace SilentOrbit.ProtocolBuffers
                 w.Flush();
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
-        }
-
-        /// <summary>
-        /// Writes code directly to file
-        /// </summary>
-        public CodeWriter(string csPath)
-        {
-            w = new StreamWriter(csPath, false, Encoding.UTF8);
         }
 
         public virtual void Flush()

@@ -11,8 +11,11 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generate code for reading and writing protocol buffer messages
         /// </summary>
-        public static void Save(ProtoCollection file, string csPath)
+        public static void Save(ProtoCollection file, Options options)
         {
+            string csPath = options.OutputPath;
+            CodeWriter.DefaultIndentPrefix = options.UseTabs ? "\t" : "    ";
+
             string ext = Path.GetExtension(csPath);
             string prefix = csPath.Substring(0, csPath.Length - ext.Length);
 
@@ -130,7 +133,7 @@ This file will be overwritten when CodeGenerator is run.");
                     if (includeUsing == false && line.StartsWith("using"))
                         continue;
 
-                    if (CodeWriter.IndentPrefix == "\t")
+                    if (CodeWriter.DefaultIndentPrefix == "\t")
                         line = line.Replace("    ", "\t");
                     code.WriteLine(line);
                 }
