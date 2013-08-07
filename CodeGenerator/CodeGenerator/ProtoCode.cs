@@ -51,7 +51,7 @@ then write the code and the changes in a separate file.");
                         cw.Bracket("namespace " + m.CsNamespace);
                         ns = m.CsNamespace;
                     }
-                    MessageCode.GenerateClass(m, cw);
+                    MessageCode.GenerateClass(m, cw, options);
                     cw.WriteLine();
                 }
 

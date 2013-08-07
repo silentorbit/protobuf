@@ -4,7 +4,7 @@ namespace SilentOrbit.ProtocolBuffers
 {
     static class MessageCode
     {
-        public static void GenerateClass(ProtoMessage m, CodeWriter cw)
+        public static void GenerateClass(ProtoMessage m, CodeWriter cw, Options options)
         {
             //Do not generate class code for external classes
             if (m.OptionExternal)
@@ -22,6 +22,9 @@ namespace SilentOrbit.ProtocolBuffers
 
             GenerateProperties(m, cw);
 
+            //if(options.GenerateToString...
+            // ...
+
             if (m.OptionPreserveUnknown)
             {
                 cw.Summary("Values for unknown fields.");
@@ -38,7 +41,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             foreach (ProtoMessage sub in m.Messages.Values)
             {
-                GenerateClass(sub, cw);
+                GenerateClass(sub, cw, options);
                 cw.WriteLine();
             }
             cw.EndBracket();
