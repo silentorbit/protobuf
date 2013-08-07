@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -89,6 +90,41 @@ namespace SilentOrbit.ProtocolBuffers
                 }
 
             }
+
+            // Implement ToString
+            cw.Bracket("public override string ToString()");
+            string returnStatement = "return \"\"";
+            Dictionary<int, Field>.ValueCollection fields = m.Fields.Values;
+            if (fields.Count > 0)
+            {
+                List<string> fieldElements = new List<string>();
+                foreach (Field f in fields)
+                {
+                    string fieldHeaderCode = "\"" + f.CsName + ": \" + ";
+                    string fieldToStringCode;
+                    string fieldCommaCode = " + \", \"";
+
+                    if (f.Rule == FieldRule.Optional && f.ProtoType.Nullable)
+                    {
+                        // Hide optional nullable fields: this makes logging cleaner for union types
+                        fieldToStringCode = string.Format("({0} != null ? {1}{0}{2}:  \"\")", f.CsName, fieldHeaderCode, fieldCommaCode);
+                    } 
+                    else if (f.Rule == FieldRule.Repeated)
+                    {
+                        // Always output repeated fields with []
+                        fieldToStringCode = string.Format("{1}\"[\" + ({0} != null ? string.Join(\", \", {0}.ConvertAll<string>(o => o.ToString()).ToArray()) : \"\") + \"]\"{2}", f.CsName, fieldHeaderCode, fieldCommaCode);
+                    } 
+                    else
+                    {
+                        fieldToStringCode = fieldHeaderCode + f.CsName + fieldCommaCode;
+                    }
+                    fieldElements.Add(fieldToStringCode);
+                }
+                returnStatement = "return " + string.Join(" + \n", fieldElements) + ";";
+            }
+            cw.WriteLine(returnStatement);
+            cw.EndBracket();
+
 
             //Wire format field ID
 #if DEBUG
