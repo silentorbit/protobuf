@@ -8,8 +8,8 @@ namespace SilentOrbit.ProtocolBuffers
     {
         #region Reader
         /// <summary>
-        /// Return true for normal code and false for generated throw.
-        /// In the later case a break is not needed to be generated afterwards.
+        /// Return true for normal code and false if generated thrown exception.
+        /// In the latter case a break is not needed to be generated afterwards.
         /// </summary>
         public static bool FieldReader(Field f, CodeWriter cw)
         {
@@ -24,15 +24,15 @@ namespace SilentOrbit.ProtocolBuffers
 
                 if (f.OptionPacked == true)
                 {
-                    //TODO: read without buffering
                     cw.Comment("repeated packed");
-                    cw.Using("var ms" + f.ID + " = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream))");
-                    if (f.IsUsingBinaryWriter)
-                        cw.WriteLine("BinaryReader br" + f.ID + " = new BinaryReader(ms" + f.ID + ");");
-                    cw.WhileBracket("ms" + f.ID + ".Position < ms" + f.ID + ".Length");
-                    cw.WriteLine("instance." + f.CsName + ".Add(" + FieldReaderType(f, "ms" + f.ID, "br" + f.ID, null) + ");");
+                    cw.WriteLine("long end" + f.ID + " = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);");
+                    cw.WriteLine("end" + f.ID + " += stream.Position;");
+                    cw.WhileBracket("stream.Position < end" + f.ID);
+                    cw.WriteLine("instance." + f.CsName + ".Add(" + FieldReaderType(f, "stream", "br", null) + ");");
                     cw.EndBracket();
-                    cw.EndBracket();
+
+                    cw.WriteLine("if (stream.Position != end" + f.ID + ")");
+                    cw.WriteIndent("throw new InvalidDataException(\"Read too many bytes in packed data\");");
                 }
                 else
                 {
@@ -78,6 +78,9 @@ namespace SilentOrbit.ProtocolBuffers
             return true;
         }
 
+        /// <summary>
+        /// Read a primitive from the stream
+        /// </summary>
         static string FieldReaderType(Field f, string stream, string binaryReader, string instance)
         {
             if (f.OptionCodeType != null)

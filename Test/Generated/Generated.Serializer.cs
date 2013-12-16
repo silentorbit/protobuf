@@ -5954,24 +5954,26 @@ namespace Google.protobuf
                         // Field 1 LengthDelimited
                         case 10:
                             // repeated packed
-                            using (var ms1 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                            long end1 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                            end1 += stream.Position;
+                            while (stream.Position < end1)
                             {
-                                while (ms1.Position < ms1.Length)
-                                {
-                                    instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(ms1));
-                                }
+                                instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
+                            if (stream.Position != end1)
+                                throw new InvalidDataException("Read too many bytes in packed data");
                             continue;
                         // Field 2 LengthDelimited
                         case 18:
                             // repeated packed
-                            using (var ms2 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                            long end2 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                            end2 += stream.Position;
+                            while (stream.Position < end2)
                             {
-                                while (ms2.Position < ms2.Length)
-                                {
-                                    instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(ms2));
-                                }
+                                instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
+                            if (stream.Position != end2)
+                                throw new InvalidDataException("Read too many bytes in packed data");
                             continue;
                         // Field 3 LengthDelimited
                         case 26:
@@ -6026,24 +6028,26 @@ namespace Google.protobuf
                         // Field 1 LengthDelimited
                         case 10:
                             // repeated packed
-                            using (var ms1 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                            long end1 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                            end1 += stream.Position;
+                            while (stream.Position < end1)
                             {
-                                while (ms1.Position < ms1.Length)
-                                {
-                                    instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(ms1));
-                                }
+                                instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
+                            if (stream.Position != end1)
+                                throw new InvalidDataException("Read too many bytes in packed data");
                             continue;
                         // Field 2 LengthDelimited
                         case 18:
                             // repeated packed
-                            using (var ms2 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                            long end2 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                            end2 += stream.Position;
+                            while (stream.Position < end2)
                             {
-                                while (ms2.Position < ms2.Length)
-                                {
-                                    instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(ms2));
-                                }
+                                instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
+                            if (stream.Position != end2)
+                                throw new InvalidDataException("Read too many bytes in packed data");
                             continue;
                         // Field 3 LengthDelimited
                         case 26:
@@ -6097,24 +6101,26 @@ namespace Google.protobuf
                         // Field 1 LengthDelimited
                         case 10:
                             // repeated packed
-                            using (var ms1 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                            long end1 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                            end1 += stream.Position;
+                            while (stream.Position < end1)
                             {
-                                while (ms1.Position < ms1.Length)
-                                {
-                                    instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(ms1));
-                                }
+                                instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
+                            if (stream.Position != end1)
+                                throw new InvalidDataException("Read too many bytes in packed data");
                             continue;
                         // Field 2 LengthDelimited
                         case 18:
                             // repeated packed
-                            using (var ms2 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                            long end2 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                            end2 += stream.Position;
+                            while (stream.Position < end2)
                             {
-                                while (ms2.Position < ms2.Length)
-                                {
-                                    instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(ms2));
-                                }
+                                instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
+                            if (stream.Position != end2)
+                                throw new InvalidDataException("Read too many bytes in packed data");
                             continue;
                         // Field 3 LengthDelimited
                         case 26:
@@ -7690,14 +7696,14 @@ namespace Yours
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated packed
-                        using (var ms20 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                        long end20 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                        end20 += stream.Position;
+                        while (stream.Position < end20)
                         {
-                            BinaryReader br20 = new BinaryReader(ms20);
-                            while (ms20.Position < ms20.Length)
-                            {
-                                instance.FieldT.Add(br20.ReadUInt32());
-                            }
+                            instance.FieldT.Add(br.ReadUInt32());
                         }
+                        if (stream.Position != end20)
+                            throw new InvalidDataException("Read too many bytes in packed data");
                         continue;
                     case 21:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
@@ -7849,14 +7855,14 @@ namespace Yours
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated packed
-                        using (var ms20 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                        long end20 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                        end20 += stream.Position;
+                        while (stream.Position < end20)
                         {
-                            BinaryReader br20 = new BinaryReader(ms20);
-                            while (ms20.Position < ms20.Length)
-                            {
-                                instance.FieldT.Add(br20.ReadUInt32());
-                            }
+                            instance.FieldT.Add(br.ReadUInt32());
                         }
+                        if (stream.Position != end20)
+                            throw new InvalidDataException("Read too many bytes in packed data");
                         continue;
                     case 21:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
@@ -8007,14 +8013,14 @@ namespace Yours
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated packed
-                        using (var ms20 = new MemoryStream(global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream)))
+                        long end20 = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
+                        end20 += stream.Position;
+                        while (stream.Position < end20)
                         {
-                            BinaryReader br20 = new BinaryReader(ms20);
-                            while (ms20.Position < ms20.Length)
-                            {
-                                instance.FieldT.Add(br20.ReadUInt32());
-                            }
+                            instance.FieldT.Add(br.ReadUInt32());
                         }
+                        if (stream.Position != end20)
+                            throw new InvalidDataException("Read too many bytes in packed data");
                         continue;
                     case 21:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
