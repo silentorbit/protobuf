@@ -1,7 +1,6 @@
 
 package Personal;
 
-//:buffer=9000
 message Person {
   required string name = 1;
   required int32 id = 2;
@@ -21,7 +20,6 @@ message Person {
   repeated PhoneNumber phone = 4;
 }
 
-//:buffer=75000000
 message AddressBook {
     repeated Person List = 1;
 }

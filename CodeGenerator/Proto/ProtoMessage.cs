@@ -61,6 +61,19 @@ namespace SilentOrbit.ProtocolBuffers
         }
 
         /// <summary>
+        /// Return the buffer size of the largest field specified in the .proto file.
+        /// </summary>
+        public int MaxFieldBufferSize()
+        {
+            if (BufferSize > 0)
+                return BufferSize;
+            int size = 0;
+            foreach (var f in Fields.Values)
+                size = Math.Max(size, f.BufferSizeScan());
+            return size;
+        }
+
+        /// <summary>
         /// If all fields are constant then this messag eis constant too
         /// </summary>
         public override int WireSize

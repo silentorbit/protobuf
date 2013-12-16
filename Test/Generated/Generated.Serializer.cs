@@ -221,7 +221,7 @@ namespace Personal
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Person instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name == null)
                     throw new ArgumentNullException("Name", "Required by proto specification.");
@@ -450,7 +450,7 @@ namespace Personal
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, PhoneNumber instance)
             {
-                using (var msField = new MemoryStream())
+                using (var msField = new MemoryStream(0))
                 {
                     if (instance.Number == null)
                         throw new ArgumentNullException("Number", "Required by proto specification.");
@@ -658,7 +658,7 @@ namespace Personal
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, AddressBook instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.List != null)
                 {
@@ -871,7 +871,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FileDescriptorSet instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.File != null)
                 {
@@ -1273,7 +1273,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FileDescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -1708,7 +1708,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, DescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -1998,7 +1998,7 @@ namespace Google.protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, ExtensionRange instance)
             {
-                using (var msField = new MemoryStream())
+                using (var msField = new MemoryStream(0))
                 {
                     // Key for field: 1, Varint
                     stream.WriteByte(8);
@@ -2291,7 +2291,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FieldDescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -2564,7 +2564,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumDescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -2816,7 +2816,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumValueDescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -3065,7 +3065,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ServiceDescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -3329,7 +3329,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MethodDescriptorProto instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -3695,7 +3695,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FileOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.JavaPackage != null)
                 {
@@ -3977,7 +3977,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MessageOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -4280,7 +4280,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FieldOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Ctype != CType.STRING)
                 {
@@ -4532,7 +4532,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 2, Varint
                 stream.WriteByte(16);
@@ -4733,7 +4733,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumValueOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.UninterpretedOption != null)
                 {
@@ -4931,7 +4931,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ServiceOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.UninterpretedOption != null)
                 {
@@ -5129,7 +5129,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MethodOptions instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.UninterpretedOption != null)
                 {
@@ -5415,7 +5415,7 @@ namespace Google.protobuf
         public static void Serialize(Stream stream, UninterpretedOption instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.Name != null)
                 {
@@ -5654,7 +5654,7 @@ namespace Google.protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, NamePart instance)
             {
-                using (var msField = new MemoryStream())
+                using (var msField = new MemoryStream(0))
                 {
                     if (instance.NamePartField == null)
                         throw new ArgumentNullException("NamePartField", "Required by proto specification.");
@@ -5859,7 +5859,7 @@ namespace Google.protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, SourceCodeInfo instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.LocationField != null)
                 {
@@ -6155,7 +6155,7 @@ namespace Google.protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, Location instance)
             {
-                using (var msField = new MemoryStream())
+                using (var msField = new MemoryStream(0))
                 {
                     if (instance.Path != null)
                     {
@@ -6560,7 +6560,7 @@ namespace Local
             instance.BeforeSerialize();
 
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -6777,7 +6777,7 @@ namespace LocalFeatureTest
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, InterfaceTest instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
             }
         }
@@ -6936,7 +6936,7 @@ namespace LocalFeatureTest
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, StructTest instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
             }
         }
@@ -7128,7 +7128,7 @@ namespace TestB
         public static void Serialize(Stream stream, ExternalStruct instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Fixed64
                 stream.WriteByte(9);
@@ -7316,7 +7316,7 @@ namespace TestB
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalClass instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -7514,7 +7514,7 @@ namespace Mine
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV1 instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -8066,7 +8066,7 @@ namespace Yours
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -8368,7 +8368,7 @@ namespace Theirs
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, TheirMessage instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -8593,7 +8593,7 @@ namespace Proto.test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, LongMessage instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 32, Varint
                 stream.Write(new byte[]{128, 2}, 0, 2);
@@ -8795,7 +8795,7 @@ namespace Proto.test
         public static void Serialize(Stream stream, Data instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Fixed64
                 stream.WriteByte(9);
@@ -9014,7 +9014,7 @@ namespace Proto.test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Container instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 if (instance.MyNestedMessage != null)
                 {
@@ -9232,7 +9232,7 @@ namespace Proto.test
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, Nested instance)
             {
-                using (var msField = new MemoryStream())
+                using (var msField = new MemoryStream(0))
                 {
                     if (instance.NestedData != null)
                     {
@@ -9444,7 +9444,7 @@ namespace Proto.test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessage instance)
         {
-            using (var msField = new MemoryStream())
+            using (var msField = new MemoryStream(0))
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);

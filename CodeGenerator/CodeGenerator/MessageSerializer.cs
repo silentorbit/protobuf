@@ -263,7 +263,7 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
 
             //Shared memorystream for all fields
-            cw.Using("var msField = new MemoryStream()");
+            cw.Using("var msField = new MemoryStream(" + m.MaxFieldBufferSize() + ")");
 
             foreach (Field f in m.Fields.Values)
                 FieldSerializer.FieldWriter(m, f, cw);
