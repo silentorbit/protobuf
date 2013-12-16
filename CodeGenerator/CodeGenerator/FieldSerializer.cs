@@ -228,7 +228,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates inline writer of a length delimited byte array
         /// </summary>
-        static void BytesWriter(string stream, string memoryStream, CodeWriter cw)
+        static void BytesWriter(Field f, string stream, CodeWriter cw)
         {
             cw.Comment("Length delimited byte array");
 
@@ -249,9 +249,9 @@ namespace SilentOrbit.ProtocolBuffers
             */
 
             //10% faster than original using GetBuffer rather than ToArray
-            cw.WriteLine("uint " + memoryStream + "Length = (uint)" + memoryStream + ".Length;");
-            cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(" + stream + ", " + memoryStream + "Length);");
-            cw.WriteLine(stream + ".Write(" + memoryStream + ".GetBuffer(), 0, (int)" + memoryStream + "Length);");
+            cw.WriteLine("uint length" + f.ID + " = (uint)msField.Length;");
+            cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(" + stream + ", length" + f.ID + ");");
+            cw.WriteLine(stream + ".Write(msField.GetBuffer(), 0, (int)length" + f.ID + ");");
         }
 
         /// <summary>
@@ -270,16 +270,15 @@ namespace SilentOrbit.ProtocolBuffers
                     if (f.ProtoType.WireSize < 0)
                     {
                         //Un-optimized, unknown size
-                        cw.Using("var ms" + f.ID + " = new MemoryStream(" + f.BufferSizeScan() + ")");
+                        cw.WriteLine("msField.SetLength(0);");
                         if (f.IsUsingBinaryWriter)
                             cw.WriteLine("BinaryWriter bw" + f.ID + " = new BinaryWriter(ms" + f.ID + ");");
 
                         cw.ForeachBracket("var i" + f.ID + " in instance." + f.CsName);
-                        cw.WriteLine(FieldWriterType(f, "ms" + f.ID, "bw" + f.ID, "i" + f.ID));
+                        cw.WriteLine(FieldWriterType(f, "msField", "bw" + f.ID, "i" + f.ID));
                         cw.EndBracket();
 
-                        BytesWriter("stream", "ms" + f.ID, cw);
-                        cw.EndBracket();
+                        BytesWriter(f, "stream", cw);
                     }
                     else
                     {
@@ -377,10 +376,9 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 ProtoMessage pm = f.ProtoType as ProtoMessage;
                 CodeWriter cw = new CodeWriter();
-                cw.Using("var ms" + f.ID + " = new MemoryStream(" + f.BufferSizeScan() + ")");
-                cw.WriteLine(pm.FullSerializerType + ".Serialize(ms" + f.ID + ", " + instance + ");");
-                BytesWriter(stream, "ms" + f.ID, cw);
-                cw.EndBracket();
+                cw.WriteLine("msField.SetLength(0);");
+                cw.WriteLine(pm.FullSerializerType + ".Serialize(msField, " + instance + ");");
+                BytesWriter(f, stream, cw);
                 return cw.Code;
             }
 
