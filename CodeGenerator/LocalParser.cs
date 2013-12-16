@@ -40,6 +40,9 @@ namespace SilentOrbit.ProtocolBuffers
                 case "type":
                     message.OptionType = value;
                     break;
+                case "buffer":
+                    message.BufferSize = int.Parse(value);
+                    break;
                 default:
                     throw new NotImplementedException("Unknown option: " + key);
             }
@@ -69,6 +72,9 @@ namespace SilentOrbit.ProtocolBuffers
                     break;
                 case "codetype":
                     field.OptionCodeType = value;
+                    break;
+                case "buffer":
+                    field.BufferSize = int.Parse(value);
                     break;
                 default:
                     throw new NotImplementedException("Unknown field option: " + key);

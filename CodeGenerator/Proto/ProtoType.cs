@@ -93,6 +93,12 @@ namespace SilentOrbit.ProtocolBuffers
         /// Can be "class", "struct" or "interface"
         /// </summary>
         public string OptionType { get; set; }
+
+        /// <summary>
+        /// Initial capacity of allocated MemoryStream when Serializing this object.
+        /// Size in bytes.
+        /// </summary>
+        public int BufferSize { get; set; }
         #endregion
         /// <summary>
         /// Used by types within a namespace

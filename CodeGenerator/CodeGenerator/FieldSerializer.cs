@@ -7,6 +7,7 @@ namespace SilentOrbit.ProtocolBuffers
     static class FieldSerializer
     {
         #region Reader
+
         /// <summary>
         /// Return true for normal code and false if generated thrown exception.
         /// In the latter case a break is not needed to be generated afterwards.
@@ -174,8 +175,11 @@ namespace SilentOrbit.ProtocolBuffers
 
             throw new NotImplementedException();
         }
+
         #endregion
+
         #region Writer
+
         static void KeyWriter(string stream, int id, Wire wire, CodeWriter cw)
         {
             uint n = ((uint)id << 3) | ((uint)wire);
@@ -266,7 +270,7 @@ namespace SilentOrbit.ProtocolBuffers
                     if (f.ProtoType.WireSize < 0)
                     {
                         //Un-optimized, unknown size
-                        cw.Using("var ms" + f.ID + " = new MemoryStream()");
+                        cw.Using("var ms" + f.ID + " = new MemoryStream(" + f.BufferSizeScan() + ")");
                         if (f.IsUsingBinaryWriter)
                             cw.WriteLine("BinaryWriter bw" + f.ID + " = new BinaryWriter(ms" + f.ID + ");");
 
@@ -373,7 +377,7 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 ProtoMessage pm = f.ProtoType as ProtoMessage;
                 CodeWriter cw = new CodeWriter();
-                cw.Using("var ms" + f.ID + " = new MemoryStream()");
+                cw.Using("var ms" + f.ID + " = new MemoryStream(" + f.BufferSizeScan() + ")");
                 cw.WriteLine(pm.FullSerializerType + ".Serialize(ms" + f.ID + ", " + instance + ");");
                 BytesWriter(stream, "ms" + f.ID, cw);
                 cw.EndBracket();
@@ -411,6 +415,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             throw new NotImplementedException();
         }
+
         #endregion
     }
 }
