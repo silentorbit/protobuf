@@ -168,6 +168,17 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new NotImplementedException();
             }
         }
+
+        public override void Close()
+        {
+            base.Close();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            stream.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }
 
