@@ -50,11 +50,17 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         static bool ParseComment(string token)
         {
-            if (token.StartsWith("//") == false)
-                return false;
-            token = token.TrimStart('/');
-            lastComment.Add(token);
-            return true;
+            if (token.StartsWith("//"))
+            {
+                lastComment.Add(token.Substring(2));
+                return true;
+            }
+            if (token.StartsWith("/*"))
+            {
+                lastComment.Add(token.Substring(2));
+                return true;
+            }
+            return false;
         }
 
         static void ParseMessages(TokenReader tr, ProtoCollection p)
@@ -63,7 +69,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             while (true)
             {
-                string token = tr.ReadNext();
+                string token = tr.ReadNextComment();
                 if (ParseComment(token))
                     continue;
 
@@ -156,12 +162,12 @@ namespace SilentOrbit.ProtocolBuffers
 
         static bool ParseField(TokenReader tr, ProtoMessage m)
         {
-            string rule = tr.ReadNext();
+            string rule = tr.ReadNextComment();
             while (true)
             {
                 if (ParseComment(rule) == false)
                     break;
-                rule = tr.ReadNext();
+                rule = tr.ReadNextComment();
             }
 
             Field f = new Field(tr);
@@ -292,10 +298,10 @@ namespace SilentOrbit.ProtocolBuffers
 
             switch (key)
             {
-                //None at the moment
-                //case "namespace":
-                //    m.OptionNamespace = value;
-                //    break;
+            //None at the moment
+            //case "namespace":
+            //    m.OptionNamespace = value;
+            //    break;
                 default:
                     Console.WriteLine("Warning: Unknown option: " + key + " = " + value);
                     break;
@@ -316,7 +322,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             while (true)
             {
-                string name = tr.ReadNext();
+                string name = tr.ReadNextComment();
 
                 if (ParseComment(name))
                     continue;

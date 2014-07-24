@@ -1,5 +1,6 @@
 
-package proto.test;
+package /* Other comment style
+ */proto.test;
 
 //This class is documented here:
 //With multiple lines
