@@ -697,7 +697,7 @@ namespace Personal
     }
 
 }
-namespace Google.protobuf
+namespace Google.Protobuf
 {
     [System.Serializable()]
     public partial class FileDescriptorSet
@@ -736,7 +736,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.FileDescriptorSet Deserialize(byte[] buffer, Google.protobuf.FileDescriptorSet instance)
+        public static Google.Protobuf.FileDescriptorSet Deserialize(byte[] buffer, Google.Protobuf.FileDescriptorSet instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -744,10 +744,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileDescriptorSet Deserialize(Stream stream, Google.protobuf.FileDescriptorSet instance)
+        public static Google.Protobuf.FileDescriptorSet Deserialize(Stream stream, Google.Protobuf.FileDescriptorSet instance)
         {
             if (instance.File == null)
-                instance.File = new List<Google.protobuf.FileDescriptorProto>();
+                instance.File = new List<Google.Protobuf.FileDescriptorProto>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -759,7 +759,7 @@ namespace Google.protobuf
                     // Field 1 LengthDelimited
                     case 10:
                         // repeated
-                        instance.File.Add(Google.protobuf.FileDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.File.Add(Google.Protobuf.FileDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                 }
 
@@ -780,10 +780,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileDescriptorSet DeserializeLengthDelimited(Stream stream, Google.protobuf.FileDescriptorSet instance)
+        public static Google.Protobuf.FileDescriptorSet DeserializeLengthDelimited(Stream stream, Google.Protobuf.FileDescriptorSet instance)
         {
             if (instance.File == null)
-                instance.File = new List<Google.protobuf.FileDescriptorProto>();
+                instance.File = new List<Google.Protobuf.FileDescriptorProto>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -804,7 +804,7 @@ namespace Google.protobuf
                     // Field 1 LengthDelimited
                     case 10:
                         // repeated
-                        instance.File.Add(Google.protobuf.FileDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.File.Add(Google.Protobuf.FileDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                 }
 
@@ -825,10 +825,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileDescriptorSet DeserializeLength(Stream stream, int length, Google.protobuf.FileDescriptorSet instance)
+        public static Google.Protobuf.FileDescriptorSet DeserializeLength(Stream stream, int length, Google.Protobuf.FileDescriptorSet instance)
         {
             if (instance.File == null)
-                instance.File = new List<Google.protobuf.FileDescriptorProto>();
+                instance.File = new List<Google.Protobuf.FileDescriptorProto>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -848,7 +848,7 @@ namespace Google.protobuf
                     // Field 1 LengthDelimited
                     case 10:
                         // repeated
-                        instance.File.Add(Google.protobuf.FileDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.File.Add(Google.Protobuf.FileDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                 }
 
@@ -880,7 +880,7 @@ namespace Google.protobuf
                         // Key for field: 1, LengthDelimited
                         stream.WriteByte(10);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.FileDescriptorProto.Serialize(msField, i1);
+                        Google.Protobuf.FileDescriptorProto.Serialize(msField, i1);
                         // Length delimited byte array
                         uint length1 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
@@ -946,7 +946,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.FileDescriptorProto Deserialize(byte[] buffer, Google.protobuf.FileDescriptorProto instance)
+        public static Google.Protobuf.FileDescriptorProto Deserialize(byte[] buffer, Google.Protobuf.FileDescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -954,7 +954,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileDescriptorProto Deserialize(Stream stream, Google.protobuf.FileDescriptorProto instance)
+        public static Google.Protobuf.FileDescriptorProto Deserialize(Stream stream, Google.Protobuf.FileDescriptorProto instance)
         {
             if (instance.Dependency == null)
                 instance.Dependency = new List<string>();
@@ -963,13 +963,13 @@ namespace Google.protobuf
             if (instance.WeakDependency == null)
                 instance.WeakDependency = new List<int>();
             if (instance.MessageType == null)
-                instance.MessageType = new List<Google.protobuf.DescriptorProto>();
+                instance.MessageType = new List<Google.Protobuf.DescriptorProto>();
             if (instance.EnumType == null)
-                instance.EnumType = new List<Google.protobuf.EnumDescriptorProto>();
+                instance.EnumType = new List<Google.Protobuf.EnumDescriptorProto>();
             if (instance.Service == null)
-                instance.Service = new List<Google.protobuf.ServiceDescriptorProto>();
+                instance.Service = new List<Google.Protobuf.ServiceDescriptorProto>();
             if (instance.Extension == null)
-                instance.Extension = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Extension = new List<Google.Protobuf.FieldDescriptorProto>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -1004,36 +1004,36 @@ namespace Google.protobuf
                     // Field 4 LengthDelimited
                     case 34:
                         // repeated
-                        instance.MessageType.Add(Google.protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.MessageType.Add(Google.Protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 5 LengthDelimited
                     case 42:
                         // repeated
-                        instance.EnumType.Add(Google.protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.EnumType.Add(Google.Protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
                         // repeated
-                        instance.Service.Add(Google.protobuf.ServiceDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Service.Add(Google.Protobuf.ServiceDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 7 LengthDelimited
                     case 58:
                         // repeated
-                        instance.Extension.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Extension.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 8 LengthDelimited
                     case 66:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.FileOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.FileOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.FileOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.FileOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                     // Field 9 LengthDelimited
                     case 74:
                         if (instance.SourceCodeInfo == null)
-                            instance.SourceCodeInfo = Google.protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream);
+                            instance.SourceCodeInfo = Google.Protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream, instance.SourceCodeInfo);
+                            Google.Protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream, instance.SourceCodeInfo);
                         continue;
                 }
 
@@ -1054,7 +1054,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileDescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.FileDescriptorProto instance)
+        public static Google.Protobuf.FileDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.FileDescriptorProto instance)
         {
             if (instance.Dependency == null)
                 instance.Dependency = new List<string>();
@@ -1063,13 +1063,13 @@ namespace Google.protobuf
             if (instance.WeakDependency == null)
                 instance.WeakDependency = new List<int>();
             if (instance.MessageType == null)
-                instance.MessageType = new List<Google.protobuf.DescriptorProto>();
+                instance.MessageType = new List<Google.Protobuf.DescriptorProto>();
             if (instance.EnumType == null)
-                instance.EnumType = new List<Google.protobuf.EnumDescriptorProto>();
+                instance.EnumType = new List<Google.Protobuf.EnumDescriptorProto>();
             if (instance.Service == null)
-                instance.Service = new List<Google.protobuf.ServiceDescriptorProto>();
+                instance.Service = new List<Google.Protobuf.ServiceDescriptorProto>();
             if (instance.Extension == null)
-                instance.Extension = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Extension = new List<Google.Protobuf.FieldDescriptorProto>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -1113,36 +1113,36 @@ namespace Google.protobuf
                     // Field 4 LengthDelimited
                     case 34:
                         // repeated
-                        instance.MessageType.Add(Google.protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.MessageType.Add(Google.Protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 5 LengthDelimited
                     case 42:
                         // repeated
-                        instance.EnumType.Add(Google.protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.EnumType.Add(Google.Protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
                         // repeated
-                        instance.Service.Add(Google.protobuf.ServiceDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Service.Add(Google.Protobuf.ServiceDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 7 LengthDelimited
                     case 58:
                         // repeated
-                        instance.Extension.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Extension.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 8 LengthDelimited
                     case 66:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.FileOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.FileOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.FileOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.FileOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                     // Field 9 LengthDelimited
                     case 74:
                         if (instance.SourceCodeInfo == null)
-                            instance.SourceCodeInfo = Google.protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream);
+                            instance.SourceCodeInfo = Google.Protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream, instance.SourceCodeInfo);
+                            Google.Protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream, instance.SourceCodeInfo);
                         continue;
                 }
 
@@ -1163,7 +1163,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileDescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.FileDescriptorProto instance)
+        public static Google.Protobuf.FileDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.FileDescriptorProto instance)
         {
             if (instance.Dependency == null)
                 instance.Dependency = new List<string>();
@@ -1172,13 +1172,13 @@ namespace Google.protobuf
             if (instance.WeakDependency == null)
                 instance.WeakDependency = new List<int>();
             if (instance.MessageType == null)
-                instance.MessageType = new List<Google.protobuf.DescriptorProto>();
+                instance.MessageType = new List<Google.Protobuf.DescriptorProto>();
             if (instance.EnumType == null)
-                instance.EnumType = new List<Google.protobuf.EnumDescriptorProto>();
+                instance.EnumType = new List<Google.Protobuf.EnumDescriptorProto>();
             if (instance.Service == null)
-                instance.Service = new List<Google.protobuf.ServiceDescriptorProto>();
+                instance.Service = new List<Google.Protobuf.ServiceDescriptorProto>();
             if (instance.Extension == null)
-                instance.Extension = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Extension = new List<Google.Protobuf.FieldDescriptorProto>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -1221,36 +1221,36 @@ namespace Google.protobuf
                     // Field 4 LengthDelimited
                     case 34:
                         // repeated
-                        instance.MessageType.Add(Google.protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.MessageType.Add(Google.Protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 5 LengthDelimited
                     case 42:
                         // repeated
-                        instance.EnumType.Add(Google.protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.EnumType.Add(Google.Protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
                         // repeated
-                        instance.Service.Add(Google.protobuf.ServiceDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Service.Add(Google.Protobuf.ServiceDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 7 LengthDelimited
                     case 58:
                         // repeated
-                        instance.Extension.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Extension.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 8 LengthDelimited
                     case 66:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.FileOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.FileOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.FileOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.FileOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                     // Field 9 LengthDelimited
                     case 74:
                         if (instance.SourceCodeInfo == null)
-                            instance.SourceCodeInfo = Google.protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream);
+                            instance.SourceCodeInfo = Google.Protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream, instance.SourceCodeInfo);
+                            Google.Protobuf.SourceCodeInfo.DeserializeLengthDelimited(stream, instance.SourceCodeInfo);
                         continue;
                 }
 
@@ -1321,7 +1321,7 @@ namespace Google.protobuf
                         // Key for field: 4, LengthDelimited
                         stream.WriteByte(34);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.DescriptorProto.Serialize(msField, i4);
+                        Google.Protobuf.DescriptorProto.Serialize(msField, i4);
                         // Length delimited byte array
                         uint length4 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
@@ -1336,7 +1336,7 @@ namespace Google.protobuf
                         // Key for field: 5, LengthDelimited
                         stream.WriteByte(42);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.EnumDescriptorProto.Serialize(msField, i5);
+                        Google.Protobuf.EnumDescriptorProto.Serialize(msField, i5);
                         // Length delimited byte array
                         uint length5 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
@@ -1351,7 +1351,7 @@ namespace Google.protobuf
                         // Key for field: 6, LengthDelimited
                         stream.WriteByte(50);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.ServiceDescriptorProto.Serialize(msField, i6);
+                        Google.Protobuf.ServiceDescriptorProto.Serialize(msField, i6);
                         // Length delimited byte array
                         uint length6 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
@@ -1366,7 +1366,7 @@ namespace Google.protobuf
                         // Key for field: 7, LengthDelimited
                         stream.WriteByte(58);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.FieldDescriptorProto.Serialize(msField, i7);
+                        Google.Protobuf.FieldDescriptorProto.Serialize(msField, i7);
                         // Length delimited byte array
                         uint length7 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
@@ -1379,7 +1379,7 @@ namespace Google.protobuf
                     // Key for field: 8, LengthDelimited
                     stream.WriteByte(66);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.FileOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.FileOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length8 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
@@ -1391,7 +1391,7 @@ namespace Google.protobuf
                     // Key for field: 9, LengthDelimited
                     stream.WriteByte(74);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.SourceCodeInfo.Serialize(msField, instance.SourceCodeInfo);
+                    Google.Protobuf.SourceCodeInfo.Serialize(msField, instance.SourceCodeInfo);
                     // Length delimited byte array
                     uint length9 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
@@ -1456,7 +1456,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.DescriptorProto Deserialize(byte[] buffer, Google.protobuf.DescriptorProto instance)
+        public static Google.Protobuf.DescriptorProto Deserialize(byte[] buffer, Google.Protobuf.DescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -1464,18 +1464,18 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.DescriptorProto Deserialize(Stream stream, Google.protobuf.DescriptorProto instance)
+        public static Google.Protobuf.DescriptorProto Deserialize(Stream stream, Google.Protobuf.DescriptorProto instance)
         {
             if (instance.Field == null)
-                instance.Field = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Field = new List<Google.Protobuf.FieldDescriptorProto>();
             if (instance.Extension == null)
-                instance.Extension = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Extension = new List<Google.Protobuf.FieldDescriptorProto>();
             if (instance.NestedType == null)
-                instance.NestedType = new List<Google.protobuf.DescriptorProto>();
+                instance.NestedType = new List<Google.Protobuf.DescriptorProto>();
             if (instance.EnumType == null)
-                instance.EnumType = new List<Google.protobuf.EnumDescriptorProto>();
+                instance.EnumType = new List<Google.Protobuf.EnumDescriptorProto>();
             if (instance.ExtensionRangeField == null)
-                instance.ExtensionRangeField = new List<Google.protobuf.DescriptorProto.ExtensionRange>();
+                instance.ExtensionRangeField = new List<Google.Protobuf.DescriptorProto.ExtensionRange>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -1491,34 +1491,34 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Field.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Field.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
                         // repeated
-                        instance.Extension.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Extension.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         // repeated
-                        instance.NestedType.Add(Google.protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.NestedType.Add(Google.Protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 4 LengthDelimited
                     case 34:
                         // repeated
-                        instance.EnumType.Add(Google.protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.EnumType.Add(Google.Protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 5 LengthDelimited
                     case 42:
                         // repeated
-                        instance.ExtensionRangeField.Add(Google.protobuf.DescriptorProto.ExtensionRange.DeserializeLengthDelimited(stream));
+                        instance.ExtensionRangeField.Add(Google.Protobuf.DescriptorProto.ExtensionRange.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 7 LengthDelimited
                     case 58:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.MessageOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.MessageOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.MessageOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.MessageOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -1539,18 +1539,18 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.DescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.DescriptorProto instance)
+        public static Google.Protobuf.DescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.DescriptorProto instance)
         {
             if (instance.Field == null)
-                instance.Field = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Field = new List<Google.Protobuf.FieldDescriptorProto>();
             if (instance.Extension == null)
-                instance.Extension = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Extension = new List<Google.Protobuf.FieldDescriptorProto>();
             if (instance.NestedType == null)
-                instance.NestedType = new List<Google.protobuf.DescriptorProto>();
+                instance.NestedType = new List<Google.Protobuf.DescriptorProto>();
             if (instance.EnumType == null)
-                instance.EnumType = new List<Google.protobuf.EnumDescriptorProto>();
+                instance.EnumType = new List<Google.Protobuf.EnumDescriptorProto>();
             if (instance.ExtensionRangeField == null)
-                instance.ExtensionRangeField = new List<Google.protobuf.DescriptorProto.ExtensionRange>();
+                instance.ExtensionRangeField = new List<Google.Protobuf.DescriptorProto.ExtensionRange>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -1575,34 +1575,34 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Field.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Field.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
                         // repeated
-                        instance.Extension.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Extension.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         // repeated
-                        instance.NestedType.Add(Google.protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.NestedType.Add(Google.Protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 4 LengthDelimited
                     case 34:
                         // repeated
-                        instance.EnumType.Add(Google.protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.EnumType.Add(Google.Protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 5 LengthDelimited
                     case 42:
                         // repeated
-                        instance.ExtensionRangeField.Add(Google.protobuf.DescriptorProto.ExtensionRange.DeserializeLengthDelimited(stream));
+                        instance.ExtensionRangeField.Add(Google.Protobuf.DescriptorProto.ExtensionRange.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 7 LengthDelimited
                     case 58:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.MessageOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.MessageOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.MessageOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.MessageOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -1623,18 +1623,18 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.DescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.DescriptorProto instance)
+        public static Google.Protobuf.DescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.DescriptorProto instance)
         {
             if (instance.Field == null)
-                instance.Field = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Field = new List<Google.Protobuf.FieldDescriptorProto>();
             if (instance.Extension == null)
-                instance.Extension = new List<Google.protobuf.FieldDescriptorProto>();
+                instance.Extension = new List<Google.Protobuf.FieldDescriptorProto>();
             if (instance.NestedType == null)
-                instance.NestedType = new List<Google.protobuf.DescriptorProto>();
+                instance.NestedType = new List<Google.Protobuf.DescriptorProto>();
             if (instance.EnumType == null)
-                instance.EnumType = new List<Google.protobuf.EnumDescriptorProto>();
+                instance.EnumType = new List<Google.Protobuf.EnumDescriptorProto>();
             if (instance.ExtensionRangeField == null)
-                instance.ExtensionRangeField = new List<Google.protobuf.DescriptorProto.ExtensionRange>();
+                instance.ExtensionRangeField = new List<Google.Protobuf.DescriptorProto.ExtensionRange>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -1658,34 +1658,34 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Field.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Field.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
                         // repeated
-                        instance.Extension.Add(Google.protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Extension.Add(Google.Protobuf.FieldDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         // repeated
-                        instance.NestedType.Add(Google.protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.NestedType.Add(Google.Protobuf.DescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 4 LengthDelimited
                     case 34:
                         // repeated
-                        instance.EnumType.Add(Google.protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.EnumType.Add(Google.Protobuf.EnumDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 5 LengthDelimited
                     case 42:
                         // repeated
-                        instance.ExtensionRangeField.Add(Google.protobuf.DescriptorProto.ExtensionRange.DeserializeLengthDelimited(stream));
+                        instance.ExtensionRangeField.Add(Google.Protobuf.DescriptorProto.ExtensionRange.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 7 LengthDelimited
                     case 58:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.MessageOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.MessageOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.MessageOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.MessageOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -1723,7 +1723,7 @@ namespace Google.protobuf
                         // Key for field: 2, LengthDelimited
                         stream.WriteByte(18);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.FieldDescriptorProto.Serialize(msField, i2);
+                        Google.Protobuf.FieldDescriptorProto.Serialize(msField, i2);
                         // Length delimited byte array
                         uint length2 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
@@ -1738,7 +1738,7 @@ namespace Google.protobuf
                         // Key for field: 6, LengthDelimited
                         stream.WriteByte(50);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.FieldDescriptorProto.Serialize(msField, i6);
+                        Google.Protobuf.FieldDescriptorProto.Serialize(msField, i6);
                         // Length delimited byte array
                         uint length6 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
@@ -1753,7 +1753,7 @@ namespace Google.protobuf
                         // Key for field: 3, LengthDelimited
                         stream.WriteByte(26);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.DescriptorProto.Serialize(msField, i3);
+                        Google.Protobuf.DescriptorProto.Serialize(msField, i3);
                         // Length delimited byte array
                         uint length3 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
@@ -1768,7 +1768,7 @@ namespace Google.protobuf
                         // Key for field: 4, LengthDelimited
                         stream.WriteByte(34);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.EnumDescriptorProto.Serialize(msField, i4);
+                        Google.Protobuf.EnumDescriptorProto.Serialize(msField, i4);
                         // Length delimited byte array
                         uint length4 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
@@ -1783,7 +1783,7 @@ namespace Google.protobuf
                         // Key for field: 5, LengthDelimited
                         stream.WriteByte(42);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.DescriptorProto.ExtensionRange.Serialize(msField, i5);
+                        Google.Protobuf.DescriptorProto.ExtensionRange.Serialize(msField, i5);
                         // Length delimited byte array
                         uint length5 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
@@ -1796,7 +1796,7 @@ namespace Google.protobuf
                     // Key for field: 7, LengthDelimited
                     stream.WriteByte(58);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.MessageOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.MessageOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length7 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
@@ -1860,7 +1860,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-            public static Google.protobuf.DescriptorProto.ExtensionRange Deserialize(byte[] buffer, Google.protobuf.DescriptorProto.ExtensionRange instance)
+            public static Google.Protobuf.DescriptorProto.ExtensionRange Deserialize(byte[] buffer, Google.Protobuf.DescriptorProto.ExtensionRange instance)
             {
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
@@ -1868,7 +1868,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.DescriptorProto.ExtensionRange Deserialize(Stream stream, Google.protobuf.DescriptorProto.ExtensionRange instance)
+            public static Google.Protobuf.DescriptorProto.ExtensionRange Deserialize(Stream stream, Google.Protobuf.DescriptorProto.ExtensionRange instance)
             {
                 while (true)
                 {
@@ -1905,7 +1905,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.DescriptorProto.ExtensionRange DeserializeLengthDelimited(Stream stream, Google.protobuf.DescriptorProto.ExtensionRange instance)
+            public static Google.Protobuf.DescriptorProto.ExtensionRange DeserializeLengthDelimited(Stream stream, Google.Protobuf.DescriptorProto.ExtensionRange instance)
             {
                 long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
                 limit += stream.Position;
@@ -1951,7 +1951,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.DescriptorProto.ExtensionRange DeserializeLength(Stream stream, int length, Google.protobuf.DescriptorProto.ExtensionRange instance)
+            public static Google.Protobuf.DescriptorProto.ExtensionRange DeserializeLength(Stream stream, int length, Google.Protobuf.DescriptorProto.ExtensionRange instance)
             {
                 long limit = stream.Position + length;
                 while (true)
@@ -2066,7 +2066,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.FieldDescriptorProto Deserialize(byte[] buffer, Google.protobuf.FieldDescriptorProto instance)
+        public static Google.Protobuf.FieldDescriptorProto Deserialize(byte[] buffer, Google.Protobuf.FieldDescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -2074,10 +2074,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FieldDescriptorProto Deserialize(Stream stream, Google.protobuf.FieldDescriptorProto instance)
+        public static Google.Protobuf.FieldDescriptorProto Deserialize(Stream stream, Google.Protobuf.FieldDescriptorProto instance)
         {
-            instance.label = Google.protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-            instance.type = Google.protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
+            instance.label = Google.Protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
+            instance.type = Google.Protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -2096,11 +2096,11 @@ namespace Google.protobuf
                         continue;
                     // Field 4 Varint
                     case 32:
-                        instance.label = (Google.protobuf.FieldDescriptorProto.Label)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.label = (Google.Protobuf.FieldDescriptorProto.Label)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 5 Varint
                     case 40:
-                        instance.type = (Google.protobuf.FieldDescriptorProto.Type)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.type = (Google.Protobuf.FieldDescriptorProto.Type)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
@@ -2117,9 +2117,9 @@ namespace Google.protobuf
                     // Field 8 LengthDelimited
                     case 66:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.FieldOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.FieldOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.FieldOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.FieldOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2140,10 +2140,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FieldDescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.FieldDescriptorProto instance)
+        public static Google.Protobuf.FieldDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.FieldDescriptorProto instance)
         {
-            instance.label = Google.protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-            instance.type = Google.protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
+            instance.label = Google.Protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
+            instance.type = Google.Protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -2171,11 +2171,11 @@ namespace Google.protobuf
                         continue;
                     // Field 4 Varint
                     case 32:
-                        instance.label = (Google.protobuf.FieldDescriptorProto.Label)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.label = (Google.Protobuf.FieldDescriptorProto.Label)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 5 Varint
                     case 40:
-                        instance.type = (Google.protobuf.FieldDescriptorProto.Type)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.type = (Google.Protobuf.FieldDescriptorProto.Type)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
@@ -2192,9 +2192,9 @@ namespace Google.protobuf
                     // Field 8 LengthDelimited
                     case 66:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.FieldOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.FieldOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.FieldOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.FieldOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2215,10 +2215,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FieldDescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.FieldDescriptorProto instance)
+        public static Google.Protobuf.FieldDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.FieldDescriptorProto instance)
         {
-            instance.label = Google.protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-            instance.type = Google.protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
+            instance.label = Google.Protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
+            instance.type = Google.Protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
             long limit = stream.Position + length;
             while (true)
             {
@@ -2245,11 +2245,11 @@ namespace Google.protobuf
                         continue;
                     // Field 4 Varint
                     case 32:
-                        instance.label = (Google.protobuf.FieldDescriptorProto.Label)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.label = (Google.Protobuf.FieldDescriptorProto.Label)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 5 Varint
                     case 40:
-                        instance.type = (Google.protobuf.FieldDescriptorProto.Type)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.type = (Google.Protobuf.FieldDescriptorProto.Type)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 6 LengthDelimited
                     case 50:
@@ -2266,9 +2266,9 @@ namespace Google.protobuf
                     // Field 8 LengthDelimited
                     case 66:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.FieldOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.FieldOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.FieldOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.FieldOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2331,7 +2331,7 @@ namespace Google.protobuf
                     // Key for field: 8, LengthDelimited
                     stream.WriteByte(66);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.FieldOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.FieldOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length8 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
@@ -2396,7 +2396,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.EnumDescriptorProto Deserialize(byte[] buffer, Google.protobuf.EnumDescriptorProto instance)
+        public static Google.Protobuf.EnumDescriptorProto Deserialize(byte[] buffer, Google.Protobuf.EnumDescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -2404,10 +2404,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumDescriptorProto Deserialize(Stream stream, Google.protobuf.EnumDescriptorProto instance)
+        public static Google.Protobuf.EnumDescriptorProto Deserialize(Stream stream, Google.Protobuf.EnumDescriptorProto instance)
         {
             if (instance.Value == null)
-                instance.Value = new List<Google.protobuf.EnumValueDescriptorProto>();
+                instance.Value = new List<Google.Protobuf.EnumValueDescriptorProto>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -2423,14 +2423,14 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Value.Add(Google.protobuf.EnumValueDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Value.Add(Google.Protobuf.EnumValueDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.EnumOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.EnumOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.EnumOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.EnumOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2451,10 +2451,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumDescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.EnumDescriptorProto instance)
+        public static Google.Protobuf.EnumDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.EnumDescriptorProto instance)
         {
             if (instance.Value == null)
-                instance.Value = new List<Google.protobuf.EnumValueDescriptorProto>();
+                instance.Value = new List<Google.Protobuf.EnumValueDescriptorProto>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -2479,14 +2479,14 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Value.Add(Google.protobuf.EnumValueDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Value.Add(Google.Protobuf.EnumValueDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.EnumOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.EnumOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.EnumOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.EnumOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2507,10 +2507,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumDescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.EnumDescriptorProto instance)
+        public static Google.Protobuf.EnumDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.EnumDescriptorProto instance)
         {
             if (instance.Value == null)
-                instance.Value = new List<Google.protobuf.EnumValueDescriptorProto>();
+                instance.Value = new List<Google.Protobuf.EnumValueDescriptorProto>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -2534,14 +2534,14 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Value.Add(Google.protobuf.EnumValueDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Value.Add(Google.Protobuf.EnumValueDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.EnumOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.EnumOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.EnumOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.EnumOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2579,7 +2579,7 @@ namespace Google.protobuf
                         // Key for field: 2, LengthDelimited
                         stream.WriteByte(18);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.EnumValueDescriptorProto.Serialize(msField, i2);
+                        Google.Protobuf.EnumValueDescriptorProto.Serialize(msField, i2);
                         // Length delimited byte array
                         uint length2 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
@@ -2592,7 +2592,7 @@ namespace Google.protobuf
                     // Key for field: 3, LengthDelimited
                     stream.WriteByte(26);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.EnumOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.EnumOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length3 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
@@ -2657,7 +2657,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.EnumValueDescriptorProto Deserialize(byte[] buffer, Google.protobuf.EnumValueDescriptorProto instance)
+        public static Google.Protobuf.EnumValueDescriptorProto Deserialize(byte[] buffer, Google.Protobuf.EnumValueDescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -2665,7 +2665,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumValueDescriptorProto Deserialize(Stream stream, Google.protobuf.EnumValueDescriptorProto instance)
+        public static Google.Protobuf.EnumValueDescriptorProto Deserialize(Stream stream, Google.Protobuf.EnumValueDescriptorProto instance)
         {
             while (true)
             {
@@ -2686,9 +2686,9 @@ namespace Google.protobuf
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.EnumValueOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.EnumValueOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.EnumValueOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.EnumValueOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2709,7 +2709,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumValueDescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.EnumValueDescriptorProto instance)
+        public static Google.Protobuf.EnumValueDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.EnumValueDescriptorProto instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -2739,9 +2739,9 @@ namespace Google.protobuf
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.EnumValueOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.EnumValueOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.EnumValueOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.EnumValueOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2762,7 +2762,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumValueDescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.EnumValueDescriptorProto instance)
+        public static Google.Protobuf.EnumValueDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.EnumValueDescriptorProto instance)
         {
             long limit = stream.Position + length;
             while (true)
@@ -2791,9 +2791,9 @@ namespace Google.protobuf
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.EnumValueOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.EnumValueOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.EnumValueOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.EnumValueOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2832,7 +2832,7 @@ namespace Google.protobuf
                     // Key for field: 3, LengthDelimited
                     stream.WriteByte(26);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.EnumValueOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.EnumValueOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length3 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
@@ -2897,7 +2897,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.ServiceDescriptorProto Deserialize(byte[] buffer, Google.protobuf.ServiceDescriptorProto instance)
+        public static Google.Protobuf.ServiceDescriptorProto Deserialize(byte[] buffer, Google.Protobuf.ServiceDescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -2905,10 +2905,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.ServiceDescriptorProto Deserialize(Stream stream, Google.protobuf.ServiceDescriptorProto instance)
+        public static Google.Protobuf.ServiceDescriptorProto Deserialize(Stream stream, Google.Protobuf.ServiceDescriptorProto instance)
         {
             if (instance.Method == null)
-                instance.Method = new List<Google.protobuf.MethodDescriptorProto>();
+                instance.Method = new List<Google.Protobuf.MethodDescriptorProto>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -2924,14 +2924,14 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Method.Add(Google.protobuf.MethodDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Method.Add(Google.Protobuf.MethodDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.ServiceOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.ServiceOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.ServiceOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.ServiceOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -2952,10 +2952,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.ServiceDescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.ServiceDescriptorProto instance)
+        public static Google.Protobuf.ServiceDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.ServiceDescriptorProto instance)
         {
             if (instance.Method == null)
-                instance.Method = new List<Google.protobuf.MethodDescriptorProto>();
+                instance.Method = new List<Google.Protobuf.MethodDescriptorProto>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -2980,14 +2980,14 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Method.Add(Google.protobuf.MethodDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Method.Add(Google.Protobuf.MethodDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.ServiceOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.ServiceOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.ServiceOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.ServiceOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -3008,10 +3008,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.ServiceDescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.ServiceDescriptorProto instance)
+        public static Google.Protobuf.ServiceDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.ServiceDescriptorProto instance)
         {
             if (instance.Method == null)
-                instance.Method = new List<Google.protobuf.MethodDescriptorProto>();
+                instance.Method = new List<Google.Protobuf.MethodDescriptorProto>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -3035,14 +3035,14 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Method.Add(Google.protobuf.MethodDescriptorProto.DeserializeLengthDelimited(stream));
+                        instance.Method.Add(Google.Protobuf.MethodDescriptorProto.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.ServiceOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.ServiceOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.ServiceOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.ServiceOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -3080,7 +3080,7 @@ namespace Google.protobuf
                         // Key for field: 2, LengthDelimited
                         stream.WriteByte(18);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.MethodDescriptorProto.Serialize(msField, i2);
+                        Google.Protobuf.MethodDescriptorProto.Serialize(msField, i2);
                         // Length delimited byte array
                         uint length2 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
@@ -3093,7 +3093,7 @@ namespace Google.protobuf
                     // Key for field: 3, LengthDelimited
                     stream.WriteByte(26);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.ServiceOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.ServiceOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length3 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
@@ -3158,7 +3158,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.MethodDescriptorProto Deserialize(byte[] buffer, Google.protobuf.MethodDescriptorProto instance)
+        public static Google.Protobuf.MethodDescriptorProto Deserialize(byte[] buffer, Google.Protobuf.MethodDescriptorProto instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -3166,7 +3166,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MethodDescriptorProto Deserialize(Stream stream, Google.protobuf.MethodDescriptorProto instance)
+        public static Google.Protobuf.MethodDescriptorProto Deserialize(Stream stream, Google.Protobuf.MethodDescriptorProto instance)
         {
             while (true)
             {
@@ -3191,9 +3191,9 @@ namespace Google.protobuf
                     // Field 4 LengthDelimited
                     case 34:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.MethodOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.MethodOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.MethodOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.MethodOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -3214,7 +3214,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MethodDescriptorProto DeserializeLengthDelimited(Stream stream, Google.protobuf.MethodDescriptorProto instance)
+        public static Google.Protobuf.MethodDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.MethodDescriptorProto instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -3248,9 +3248,9 @@ namespace Google.protobuf
                     // Field 4 LengthDelimited
                     case 34:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.MethodOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.MethodOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.MethodOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.MethodOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -3271,7 +3271,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MethodDescriptorProto DeserializeLength(Stream stream, int length, Google.protobuf.MethodDescriptorProto instance)
+        public static Google.Protobuf.MethodDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.MethodDescriptorProto instance)
         {
             long limit = stream.Position + length;
             while (true)
@@ -3304,9 +3304,9 @@ namespace Google.protobuf
                     // Field 4 LengthDelimited
                     case 34:
                         if (instance.Options == null)
-                            instance.Options = Google.protobuf.MethodOptions.DeserializeLengthDelimited(stream);
+                            instance.Options = Google.Protobuf.MethodOptions.DeserializeLengthDelimited(stream);
                         else
-                            Google.protobuf.MethodOptions.DeserializeLengthDelimited(stream, instance.Options);
+                            Google.Protobuf.MethodOptions.DeserializeLengthDelimited(stream, instance.Options);
                         continue;
                 }
 
@@ -3354,7 +3354,7 @@ namespace Google.protobuf
                     // Key for field: 4, LengthDelimited
                     stream.WriteByte(34);
                     ﻿msField.SetLength(0);
-                    Google.protobuf.MethodOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.MethodOptions.Serialize(msField, instance.Options);
                     // Length delimited byte array
                     uint length4 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
@@ -3419,7 +3419,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.FileOptions Deserialize(byte[] buffer, Google.protobuf.FileOptions instance)
+        public static Google.Protobuf.FileOptions Deserialize(byte[] buffer, Google.Protobuf.FileOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -3427,16 +3427,16 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileOptions Deserialize(Stream stream, Google.protobuf.FileOptions instance)
+        public static Google.Protobuf.FileOptions Deserialize(Stream stream, Google.Protobuf.FileOptions instance)
         {
             instance.JavaMultipleFiles = false;
             instance.JavaGenerateEqualsAndHash = false;
-            instance.OptimizeFor = Google.protobuf.FileOptions.OptimizeMode.SPEED;
+            instance.OptimizeFor = Google.Protobuf.FileOptions.OptimizeMode.SPEED;
             instance.CcGenericServices = false;
             instance.JavaGenericServices = false;
             instance.PyGenericServices = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -3459,7 +3459,7 @@ namespace Google.protobuf
                         continue;
                     // Field 9 Varint
                     case 72:
-                        instance.OptimizeFor = (Google.protobuf.FileOptions.OptimizeMode)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.OptimizeFor = (Google.Protobuf.FileOptions.OptimizeMode)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
@@ -3498,7 +3498,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -3510,16 +3510,16 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.FileOptions instance)
+        public static Google.Protobuf.FileOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.FileOptions instance)
         {
             instance.JavaMultipleFiles = false;
             instance.JavaGenerateEqualsAndHash = false;
-            instance.OptimizeFor = Google.protobuf.FileOptions.OptimizeMode.SPEED;
+            instance.OptimizeFor = Google.Protobuf.FileOptions.OptimizeMode.SPEED;
             instance.CcGenericServices = false;
             instance.JavaGenericServices = false;
             instance.PyGenericServices = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -3551,7 +3551,7 @@ namespace Google.protobuf
                         continue;
                     // Field 9 Varint
                     case 72:
-                        instance.OptimizeFor = (Google.protobuf.FileOptions.OptimizeMode)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.OptimizeFor = (Google.Protobuf.FileOptions.OptimizeMode)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
@@ -3590,7 +3590,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -3602,16 +3602,16 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FileOptions DeserializeLength(Stream stream, int length, Google.protobuf.FileOptions instance)
+        public static Google.Protobuf.FileOptions DeserializeLength(Stream stream, int length, Google.Protobuf.FileOptions instance)
         {
             instance.JavaMultipleFiles = false;
             instance.JavaGenerateEqualsAndHash = false;
-            instance.OptimizeFor = Google.protobuf.FileOptions.OptimizeMode.SPEED;
+            instance.OptimizeFor = Google.Protobuf.FileOptions.OptimizeMode.SPEED;
             instance.CcGenericServices = false;
             instance.JavaGenericServices = false;
             instance.PyGenericServices = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -3642,7 +3642,7 @@ namespace Google.protobuf
                         continue;
                     // Field 9 Varint
                     case 72:
-                        instance.OptimizeFor = (Google.protobuf.FileOptions.OptimizeMode)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.OptimizeFor = (Google.Protobuf.FileOptions.OptimizeMode)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
@@ -3681,7 +3681,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -3743,7 +3743,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -3809,7 +3809,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.MessageOptions Deserialize(byte[] buffer, Google.protobuf.MessageOptions instance)
+        public static Google.Protobuf.MessageOptions Deserialize(byte[] buffer, Google.Protobuf.MessageOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -3817,12 +3817,12 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MessageOptions Deserialize(Stream stream, Google.protobuf.MessageOptions instance)
+        public static Google.Protobuf.MessageOptions Deserialize(Stream stream, Google.Protobuf.MessageOptions instance)
         {
             instance.MessageSetWireFormat = false;
             instance.NoStandardDescriptorAccessor = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -3852,7 +3852,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -3864,12 +3864,12 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MessageOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.MessageOptions instance)
+        public static Google.Protobuf.MessageOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.MessageOptions instance)
         {
             instance.MessageSetWireFormat = false;
             instance.NoStandardDescriptorAccessor = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -3908,7 +3908,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -3920,12 +3920,12 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MessageOptions DeserializeLength(Stream stream, int length, Google.protobuf.MessageOptions instance)
+        public static Google.Protobuf.MessageOptions DeserializeLength(Stream stream, int length, Google.Protobuf.MessageOptions instance)
         {
             instance.MessageSetWireFormat = false;
             instance.NoStandardDescriptorAccessor = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -3963,7 +3963,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -3992,7 +3992,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -4058,7 +4058,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.FieldOptions Deserialize(byte[] buffer, Google.protobuf.FieldOptions instance)
+        public static Google.Protobuf.FieldOptions Deserialize(byte[] buffer, Google.Protobuf.FieldOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -4066,14 +4066,14 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FieldOptions Deserialize(Stream stream, Google.protobuf.FieldOptions instance)
+        public static Google.Protobuf.FieldOptions Deserialize(Stream stream, Google.Protobuf.FieldOptions instance)
         {
-            instance.Ctype = Google.protobuf.FieldOptions.CType.STRING;
+            instance.Ctype = Google.Protobuf.FieldOptions.CType.STRING;
             instance.Lazy = false;
             instance.Deprecated = false;
             instance.Weak = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -4084,7 +4084,7 @@ namespace Google.protobuf
                 {
                     // Field 1 Varint
                     case 8:
-                        instance.Ctype = (Google.protobuf.FieldOptions.CType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.Ctype = (Google.Protobuf.FieldOptions.CType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 2 Varint
                     case 16:
@@ -4119,7 +4119,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4131,14 +4131,14 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FieldOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.FieldOptions instance)
+        public static Google.Protobuf.FieldOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.FieldOptions instance)
         {
-            instance.Ctype = Google.protobuf.FieldOptions.CType.STRING;
+            instance.Ctype = Google.Protobuf.FieldOptions.CType.STRING;
             instance.Lazy = false;
             instance.Deprecated = false;
             instance.Weak = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -4158,7 +4158,7 @@ namespace Google.protobuf
                 {
                     // Field 1 Varint
                     case 8:
-                        instance.Ctype = (Google.protobuf.FieldOptions.CType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.Ctype = (Google.Protobuf.FieldOptions.CType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 2 Varint
                     case 16:
@@ -4193,7 +4193,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4205,14 +4205,14 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.FieldOptions DeserializeLength(Stream stream, int length, Google.protobuf.FieldOptions instance)
+        public static Google.Protobuf.FieldOptions DeserializeLength(Stream stream, int length, Google.Protobuf.FieldOptions instance)
         {
-            instance.Ctype = Google.protobuf.FieldOptions.CType.STRING;
+            instance.Ctype = Google.Protobuf.FieldOptions.CType.STRING;
             instance.Lazy = false;
             instance.Deprecated = false;
             instance.Weak = false;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -4231,7 +4231,7 @@ namespace Google.protobuf
                 {
                     // Field 1 Varint
                     case 8:
-                        instance.Ctype = (Google.protobuf.FieldOptions.CType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.Ctype = (Google.Protobuf.FieldOptions.CType)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                     // Field 2 Varint
                     case 16:
@@ -4266,7 +4266,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4313,7 +4313,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -4379,7 +4379,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.EnumOptions Deserialize(byte[] buffer, Google.protobuf.EnumOptions instance)
+        public static Google.Protobuf.EnumOptions Deserialize(byte[] buffer, Google.Protobuf.EnumOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -4387,11 +4387,11 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumOptions Deserialize(Stream stream, Google.protobuf.EnumOptions instance)
+        public static Google.Protobuf.EnumOptions Deserialize(Stream stream, Google.Protobuf.EnumOptions instance)
         {
             instance.AllowAlias = true;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -4417,7 +4417,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4429,11 +4429,11 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.EnumOptions instance)
+        public static Google.Protobuf.EnumOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.EnumOptions instance)
         {
             instance.AllowAlias = true;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -4468,7 +4468,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4480,11 +4480,11 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumOptions DeserializeLength(Stream stream, int length, Google.protobuf.EnumOptions instance)
+        public static Google.Protobuf.EnumOptions DeserializeLength(Stream stream, int length, Google.Protobuf.EnumOptions instance)
         {
             instance.AllowAlias = true;
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -4518,7 +4518,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4544,7 +4544,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -4610,7 +4610,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.EnumValueOptions Deserialize(byte[] buffer, Google.protobuf.EnumValueOptions instance)
+        public static Google.Protobuf.EnumValueOptions Deserialize(byte[] buffer, Google.Protobuf.EnumValueOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -4618,10 +4618,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumValueOptions Deserialize(Stream stream, Google.protobuf.EnumValueOptions instance)
+        public static Google.Protobuf.EnumValueOptions Deserialize(Stream stream, Google.Protobuf.EnumValueOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -4638,7 +4638,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4650,10 +4650,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumValueOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.EnumValueOptions instance)
+        public static Google.Protobuf.EnumValueOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.EnumValueOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -4679,7 +4679,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4691,10 +4691,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.EnumValueOptions DeserializeLength(Stream stream, int length, Google.protobuf.EnumValueOptions instance)
+        public static Google.Protobuf.EnumValueOptions DeserializeLength(Stream stream, int length, Google.Protobuf.EnumValueOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -4719,7 +4719,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4742,7 +4742,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -4808,7 +4808,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.ServiceOptions Deserialize(byte[] buffer, Google.protobuf.ServiceOptions instance)
+        public static Google.Protobuf.ServiceOptions Deserialize(byte[] buffer, Google.Protobuf.ServiceOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -4816,10 +4816,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.ServiceOptions Deserialize(Stream stream, Google.protobuf.ServiceOptions instance)
+        public static Google.Protobuf.ServiceOptions Deserialize(Stream stream, Google.Protobuf.ServiceOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -4836,7 +4836,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4848,10 +4848,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.ServiceOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.ServiceOptions instance)
+        public static Google.Protobuf.ServiceOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.ServiceOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -4877,7 +4877,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4889,10 +4889,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.ServiceOptions DeserializeLength(Stream stream, int length, Google.protobuf.ServiceOptions instance)
+        public static Google.Protobuf.ServiceOptions DeserializeLength(Stream stream, int length, Google.Protobuf.ServiceOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -4917,7 +4917,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -4940,7 +4940,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -5006,7 +5006,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.MethodOptions Deserialize(byte[] buffer, Google.protobuf.MethodOptions instance)
+        public static Google.Protobuf.MethodOptions Deserialize(byte[] buffer, Google.Protobuf.MethodOptions instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -5014,10 +5014,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MethodOptions Deserialize(Stream stream, Google.protobuf.MethodOptions instance)
+        public static Google.Protobuf.MethodOptions Deserialize(Stream stream, Google.Protobuf.MethodOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -5034,7 +5034,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -5046,10 +5046,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MethodOptions DeserializeLengthDelimited(Stream stream, Google.protobuf.MethodOptions instance)
+        public static Google.Protobuf.MethodOptions DeserializeLengthDelimited(Stream stream, Google.Protobuf.MethodOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -5075,7 +5075,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -5087,10 +5087,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.MethodOptions DeserializeLength(Stream stream, int length, Google.protobuf.MethodOptions instance)
+        public static Google.Protobuf.MethodOptions DeserializeLength(Stream stream, int length, Google.Protobuf.MethodOptions instance)
         {
             if (instance.UninterpretedOption == null)
-                instance.UninterpretedOption = new List<Google.protobuf.UninterpretedOption>();
+                instance.UninterpretedOption = new List<Google.Protobuf.UninterpretedOption>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -5115,7 +5115,7 @@ namespace Google.protobuf
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
                         // repeated
-                        instance.UninterpretedOption.Add(Google.protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
+                        instance.UninterpretedOption.Add(Google.Protobuf.UninterpretedOption.DeserializeLengthDelimited(stream));
                         continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
@@ -5138,7 +5138,7 @@ namespace Google.protobuf
                         // Key for field: 999, LengthDelimited
                         stream.Write(new byte[]{186, 62}, 0, 2);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.Serialize(msField, i999);
+                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
                         uint length999 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
@@ -5204,7 +5204,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.UninterpretedOption Deserialize(byte[] buffer, Google.protobuf.UninterpretedOption instance)
+        public static Google.Protobuf.UninterpretedOption Deserialize(byte[] buffer, Google.Protobuf.UninterpretedOption instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -5212,11 +5212,11 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.UninterpretedOption Deserialize(Stream stream, Google.protobuf.UninterpretedOption instance)
+        public static Google.Protobuf.UninterpretedOption Deserialize(Stream stream, Google.Protobuf.UninterpretedOption instance)
         {
             BinaryReader br = new BinaryReader(stream);
             if (instance.Name == null)
-                instance.Name = new List<Google.protobuf.UninterpretedOption.NamePart>();
+                instance.Name = new List<Google.Protobuf.UninterpretedOption.NamePart>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -5228,7 +5228,7 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Name.Add(Google.protobuf.UninterpretedOption.NamePart.DeserializeLengthDelimited(stream));
+                        instance.Name.Add(Google.Protobuf.UninterpretedOption.NamePart.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
@@ -5273,11 +5273,11 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.UninterpretedOption DeserializeLengthDelimited(Stream stream, Google.protobuf.UninterpretedOption instance)
+        public static Google.Protobuf.UninterpretedOption DeserializeLengthDelimited(Stream stream, Google.Protobuf.UninterpretedOption instance)
         {
             BinaryReader br = new BinaryReader(stream);
             if (instance.Name == null)
-                instance.Name = new List<Google.protobuf.UninterpretedOption.NamePart>();
+                instance.Name = new List<Google.Protobuf.UninterpretedOption.NamePart>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -5298,7 +5298,7 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Name.Add(Google.protobuf.UninterpretedOption.NamePart.DeserializeLengthDelimited(stream));
+                        instance.Name.Add(Google.Protobuf.UninterpretedOption.NamePart.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
@@ -5343,11 +5343,11 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.UninterpretedOption DeserializeLength(Stream stream, int length, Google.protobuf.UninterpretedOption instance)
+        public static Google.Protobuf.UninterpretedOption DeserializeLength(Stream stream, int length, Google.Protobuf.UninterpretedOption instance)
         {
             BinaryReader br = new BinaryReader(stream);
             if (instance.Name == null)
-                instance.Name = new List<Google.protobuf.UninterpretedOption.NamePart>();
+                instance.Name = new List<Google.Protobuf.UninterpretedOption.NamePart>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -5367,7 +5367,7 @@ namespace Google.protobuf
                     // Field 2 LengthDelimited
                     case 18:
                         // repeated
-                        instance.Name.Add(Google.protobuf.UninterpretedOption.NamePart.DeserializeLengthDelimited(stream));
+                        instance.Name.Add(Google.Protobuf.UninterpretedOption.NamePart.DeserializeLengthDelimited(stream));
                         continue;
                     // Field 3 LengthDelimited
                     case 26:
@@ -5424,7 +5424,7 @@ namespace Google.protobuf
                         // Key for field: 2, LengthDelimited
                         stream.WriteByte(18);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.UninterpretedOption.NamePart.Serialize(msField, i2);
+                        Google.Protobuf.UninterpretedOption.NamePart.Serialize(msField, i2);
                         // Length delimited byte array
                         uint length2 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
@@ -5516,7 +5516,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-            public static Google.protobuf.UninterpretedOption.NamePart Deserialize(byte[] buffer, Google.protobuf.UninterpretedOption.NamePart instance)
+            public static Google.Protobuf.UninterpretedOption.NamePart Deserialize(byte[] buffer, Google.Protobuf.UninterpretedOption.NamePart instance)
             {
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
@@ -5524,7 +5524,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.UninterpretedOption.NamePart Deserialize(Stream stream, Google.protobuf.UninterpretedOption.NamePart instance)
+            public static Google.Protobuf.UninterpretedOption.NamePart Deserialize(Stream stream, Google.Protobuf.UninterpretedOption.NamePart instance)
             {
                 while (true)
                 {
@@ -5561,7 +5561,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.UninterpretedOption.NamePart DeserializeLengthDelimited(Stream stream, Google.protobuf.UninterpretedOption.NamePart instance)
+            public static Google.Protobuf.UninterpretedOption.NamePart DeserializeLengthDelimited(Stream stream, Google.Protobuf.UninterpretedOption.NamePart instance)
             {
                 long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
                 limit += stream.Position;
@@ -5607,7 +5607,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.UninterpretedOption.NamePart DeserializeLength(Stream stream, int length, Google.protobuf.UninterpretedOption.NamePart instance)
+            public static Google.Protobuf.UninterpretedOption.NamePart DeserializeLength(Stream stream, int length, Google.Protobuf.UninterpretedOption.NamePart instance)
             {
                 long limit = stream.Position + length;
                 while (true)
@@ -5724,7 +5724,7 @@ namespace Google.protobuf
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Google.protobuf.SourceCodeInfo Deserialize(byte[] buffer, Google.protobuf.SourceCodeInfo instance)
+        public static Google.Protobuf.SourceCodeInfo Deserialize(byte[] buffer, Google.Protobuf.SourceCodeInfo instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -5732,10 +5732,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.SourceCodeInfo Deserialize(Stream stream, Google.protobuf.SourceCodeInfo instance)
+        public static Google.Protobuf.SourceCodeInfo Deserialize(Stream stream, Google.Protobuf.SourceCodeInfo instance)
         {
             if (instance.LocationField == null)
-                instance.LocationField = new List<Google.protobuf.SourceCodeInfo.Location>();
+                instance.LocationField = new List<Google.Protobuf.SourceCodeInfo.Location>();
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -5747,7 +5747,7 @@ namespace Google.protobuf
                     // Field 1 LengthDelimited
                     case 10:
                         // repeated
-                        instance.LocationField.Add(Google.protobuf.SourceCodeInfo.Location.DeserializeLengthDelimited(stream));
+                        instance.LocationField.Add(Google.Protobuf.SourceCodeInfo.Location.DeserializeLengthDelimited(stream));
                         continue;
                 }
 
@@ -5768,10 +5768,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.SourceCodeInfo DeserializeLengthDelimited(Stream stream, Google.protobuf.SourceCodeInfo instance)
+        public static Google.Protobuf.SourceCodeInfo DeserializeLengthDelimited(Stream stream, Google.Protobuf.SourceCodeInfo instance)
         {
             if (instance.LocationField == null)
-                instance.LocationField = new List<Google.protobuf.SourceCodeInfo.Location>();
+                instance.LocationField = new List<Google.Protobuf.SourceCodeInfo.Location>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -5792,7 +5792,7 @@ namespace Google.protobuf
                     // Field 1 LengthDelimited
                     case 10:
                         // repeated
-                        instance.LocationField.Add(Google.protobuf.SourceCodeInfo.Location.DeserializeLengthDelimited(stream));
+                        instance.LocationField.Add(Google.Protobuf.SourceCodeInfo.Location.DeserializeLengthDelimited(stream));
                         continue;
                 }
 
@@ -5813,10 +5813,10 @@ namespace Google.protobuf
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Google.protobuf.SourceCodeInfo DeserializeLength(Stream stream, int length, Google.protobuf.SourceCodeInfo instance)
+        public static Google.Protobuf.SourceCodeInfo DeserializeLength(Stream stream, int length, Google.Protobuf.SourceCodeInfo instance)
         {
             if (instance.LocationField == null)
-                instance.LocationField = new List<Google.protobuf.SourceCodeInfo.Location>();
+                instance.LocationField = new List<Google.Protobuf.SourceCodeInfo.Location>();
             long limit = stream.Position + length;
             while (true)
             {
@@ -5836,7 +5836,7 @@ namespace Google.protobuf
                     // Field 1 LengthDelimited
                     case 10:
                         // repeated
-                        instance.LocationField.Add(Google.protobuf.SourceCodeInfo.Location.DeserializeLengthDelimited(stream));
+                        instance.LocationField.Add(Google.Protobuf.SourceCodeInfo.Location.DeserializeLengthDelimited(stream));
                         continue;
                 }
 
@@ -5868,7 +5868,7 @@ namespace Google.protobuf
                         // Key for field: 1, LengthDelimited
                         stream.WriteByte(10);
                         ﻿msField.SetLength(0);
-                        Google.protobuf.SourceCodeInfo.Location.Serialize(msField, i1);
+                        Google.Protobuf.SourceCodeInfo.Location.Serialize(msField, i1);
                         // Length delimited byte array
                         uint length1 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
@@ -5933,7 +5933,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-            public static Google.protobuf.SourceCodeInfo.Location Deserialize(byte[] buffer, Google.protobuf.SourceCodeInfo.Location instance)
+            public static Google.Protobuf.SourceCodeInfo.Location Deserialize(byte[] buffer, Google.Protobuf.SourceCodeInfo.Location instance)
             {
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
@@ -5941,7 +5941,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.SourceCodeInfo.Location Deserialize(Stream stream, Google.protobuf.SourceCodeInfo.Location instance)
+            public static Google.Protobuf.SourceCodeInfo.Location Deserialize(Stream stream, Google.Protobuf.SourceCodeInfo.Location instance)
             {
                 if (instance.Path == null)
                     instance.Path = new List<int>();
@@ -6006,7 +6006,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.SourceCodeInfo.Location DeserializeLengthDelimited(Stream stream, Google.protobuf.SourceCodeInfo.Location instance)
+            public static Google.Protobuf.SourceCodeInfo.Location DeserializeLengthDelimited(Stream stream, Google.Protobuf.SourceCodeInfo.Location instance)
             {
                 if (instance.Path == null)
                     instance.Path = new List<int>();
@@ -6080,7 +6080,7 @@ namespace Google.protobuf
             }
 
             /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Google.protobuf.SourceCodeInfo.Location DeserializeLength(Stream stream, int length, Google.protobuf.SourceCodeInfo.Location instance)
+            public static Google.Protobuf.SourceCodeInfo.Location DeserializeLength(Stream stream, int length, Google.Protobuf.SourceCodeInfo.Location instance)
             {
                 if (instance.Path == null)
                     instance.Path = new List<int>();
@@ -8395,7 +8395,7 @@ namespace Theirs
     }
 
 }
-namespace Proto.test
+namespace Proto.Test
 {
     [System.Serializable()]
     public partial class LongMessage
@@ -8434,7 +8434,7 @@ namespace Proto.test
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Proto.test.LongMessage Deserialize(byte[] buffer, Proto.test.LongMessage instance)
+        public static Proto.Test.LongMessage Deserialize(byte[] buffer, Proto.Test.LongMessage instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -8442,7 +8442,7 @@ namespace Proto.test
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Proto.test.LongMessage Deserialize(Stream stream, Proto.test.LongMessage instance)
+        public static Proto.Test.LongMessage Deserialize(Stream stream, Proto.Test.LongMessage instance)
         {
             while (true)
             {
@@ -8486,7 +8486,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.LongMessage DeserializeLengthDelimited(Stream stream, Proto.test.LongMessage instance)
+        public static Proto.Test.LongMessage DeserializeLengthDelimited(Stream stream, Proto.Test.LongMessage instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -8539,7 +8539,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.LongMessage DeserializeLength(Stream stream, int length, Proto.test.LongMessage instance)
+        public static Proto.Test.LongMessage DeserializeLength(Stream stream, int length, Proto.Test.LongMessage instance)
         {
             long limit = stream.Position + length;
             while (true)
@@ -8665,7 +8665,7 @@ namespace Proto.test
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Proto.test.Data Deserialize(byte[] buffer, Proto.test.Data instance)
+        public static Proto.Test.Data Deserialize(byte[] buffer, Proto.Test.Data instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -8673,7 +8673,7 @@ namespace Proto.test
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Proto.test.Data Deserialize(Stream stream, Proto.test.Data instance)
+        public static Proto.Test.Data Deserialize(Stream stream, Proto.Test.Data instance)
         {
             BinaryReader br = new BinaryReader(stream);
             while (true)
@@ -8707,7 +8707,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.Data DeserializeLengthDelimited(Stream stream, Proto.test.Data instance)
+        public static Proto.Test.Data DeserializeLengthDelimited(Stream stream, Proto.Test.Data instance)
         {
             BinaryReader br = new BinaryReader(stream);
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
@@ -8750,7 +8750,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.Data DeserializeLength(Stream stream, int length, Proto.test.Data instance)
+        public static Proto.Test.Data DeserializeLength(Stream stream, int length, Proto.Test.Data instance)
         {
             BinaryReader br = new BinaryReader(stream);
             long limit = stream.Position + length;
@@ -8858,7 +8858,7 @@ namespace Proto.test
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Proto.test.Container Deserialize(byte[] buffer, Proto.test.Container instance)
+        public static Proto.Test.Container Deserialize(byte[] buffer, Proto.Test.Container instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -8866,7 +8866,7 @@ namespace Proto.test
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Proto.test.Container Deserialize(Stream stream, Proto.test.Container instance)
+        public static Proto.Test.Container Deserialize(Stream stream, Proto.Test.Container instance)
         {
             while (true)
             {
@@ -8879,16 +8879,16 @@ namespace Proto.test
                     // Field 1 LengthDelimited
                     case 10:
                         if (instance.MyNestedMessage == null)
-                            instance.MyNestedMessage = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                            instance.MyNestedMessage = Proto.Test.Container.Nested.DeserializeLengthDelimited(stream);
                         else
-                            Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
+                            Proto.Test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
                         continue;
                     // Field 2 LengthDelimited
                     case 18:
                         if (instance.NestedField == null)
-                            instance.NestedField = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                            instance.NestedField = Proto.Test.Container.Nested.DeserializeLengthDelimited(stream);
                         else
-                            Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
+                            Proto.Test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
                         continue;
                 }
 
@@ -8909,7 +8909,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.Container DeserializeLengthDelimited(Stream stream, Proto.test.Container instance)
+        public static Proto.Test.Container DeserializeLengthDelimited(Stream stream, Proto.Test.Container instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -8931,16 +8931,16 @@ namespace Proto.test
                     // Field 1 LengthDelimited
                     case 10:
                         if (instance.MyNestedMessage == null)
-                            instance.MyNestedMessage = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                            instance.MyNestedMessage = Proto.Test.Container.Nested.DeserializeLengthDelimited(stream);
                         else
-                            Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
+                            Proto.Test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
                         continue;
                     // Field 2 LengthDelimited
                     case 18:
                         if (instance.NestedField == null)
-                            instance.NestedField = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                            instance.NestedField = Proto.Test.Container.Nested.DeserializeLengthDelimited(stream);
                         else
-                            Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
+                            Proto.Test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
                         continue;
                 }
 
@@ -8961,7 +8961,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.Container DeserializeLength(Stream stream, int length, Proto.test.Container instance)
+        public static Proto.Test.Container DeserializeLength(Stream stream, int length, Proto.Test.Container instance)
         {
             long limit = stream.Position + length;
             while (true)
@@ -8982,16 +8982,16 @@ namespace Proto.test
                     // Field 1 LengthDelimited
                     case 10:
                         if (instance.MyNestedMessage == null)
-                            instance.MyNestedMessage = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                            instance.MyNestedMessage = Proto.Test.Container.Nested.DeserializeLengthDelimited(stream);
                         else
-                            Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
+                            Proto.Test.Container.Nested.DeserializeLengthDelimited(stream, instance.MyNestedMessage);
                         continue;
                     // Field 2 LengthDelimited
                     case 18:
                         if (instance.NestedField == null)
-                            instance.NestedField = Proto.test.Container.Nested.DeserializeLengthDelimited(stream);
+                            instance.NestedField = Proto.Test.Container.Nested.DeserializeLengthDelimited(stream);
                         else
-                            Proto.test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
+                            Proto.Test.Container.Nested.DeserializeLengthDelimited(stream, instance.NestedField);
                         continue;
                 }
 
@@ -9021,7 +9021,7 @@ namespace Proto.test
                     // Key for field: 1, LengthDelimited
                     stream.WriteByte(10);
                     ﻿msField.SetLength(0);
-                    Proto.test.Container.Nested.Serialize(msField, instance.MyNestedMessage);
+                    Proto.Test.Container.Nested.Serialize(msField, instance.MyNestedMessage);
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
@@ -9033,7 +9033,7 @@ namespace Proto.test
                     // Key for field: 2, LengthDelimited
                     stream.WriteByte(18);
                     ﻿msField.SetLength(0);
-                    Proto.test.Container.Nested.Serialize(msField, instance.NestedField);
+                    Proto.Test.Container.Nested.Serialize(msField, instance.NestedField);
                     // Length delimited byte array
                     uint length2 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
@@ -9097,7 +9097,7 @@ namespace Proto.test
             }
 
             /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-            public static Proto.test.Container.Nested Deserialize(byte[] buffer, Proto.test.Container.Nested instance)
+            public static Proto.Test.Container.Nested Deserialize(byte[] buffer, Proto.Test.Container.Nested instance)
             {
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
@@ -9105,7 +9105,7 @@ namespace Proto.test
             }
 
             /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-            public static Proto.test.Container.Nested Deserialize(Stream stream, Proto.test.Container.Nested instance)
+            public static Proto.Test.Container.Nested Deserialize(Stream stream, Proto.Test.Container.Nested instance)
             {
                 while (true)
                 {
@@ -9118,9 +9118,9 @@ namespace Proto.test
                         // Field 1 LengthDelimited
                         case 10:
                             if (instance.NestedData == null)
-                                instance.NestedData = Proto.test.Data.DeserializeLengthDelimited(stream);
+                                instance.NestedData = Proto.Test.Data.DeserializeLengthDelimited(stream);
                             else
-                                Proto.test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
+                                Proto.Test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
                             continue;
                     }
 
@@ -9141,7 +9141,7 @@ namespace Proto.test
             }
 
             /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Proto.test.Container.Nested DeserializeLengthDelimited(Stream stream, Proto.test.Container.Nested instance)
+            public static Proto.Test.Container.Nested DeserializeLengthDelimited(Stream stream, Proto.Test.Container.Nested instance)
             {
                 long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
                 limit += stream.Position;
@@ -9163,9 +9163,9 @@ namespace Proto.test
                         // Field 1 LengthDelimited
                         case 10:
                             if (instance.NestedData == null)
-                                instance.NestedData = Proto.test.Data.DeserializeLengthDelimited(stream);
+                                instance.NestedData = Proto.Test.Data.DeserializeLengthDelimited(stream);
                             else
-                                Proto.test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
+                                Proto.Test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
                             continue;
                     }
 
@@ -9186,7 +9186,7 @@ namespace Proto.test
             }
 
             /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-            public static Proto.test.Container.Nested DeserializeLength(Stream stream, int length, Proto.test.Container.Nested instance)
+            public static Proto.Test.Container.Nested DeserializeLength(Stream stream, int length, Proto.Test.Container.Nested instance)
             {
                 long limit = stream.Position + length;
                 while (true)
@@ -9207,9 +9207,9 @@ namespace Proto.test
                         // Field 1 LengthDelimited
                         case 10:
                             if (instance.NestedData == null)
-                                instance.NestedData = Proto.test.Data.DeserializeLengthDelimited(stream);
+                                instance.NestedData = Proto.Test.Data.DeserializeLengthDelimited(stream);
                             else
-                                Proto.test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
+                                Proto.Test.Data.DeserializeLengthDelimited(stream, instance.NestedData);
                             continue;
                     }
 
@@ -9239,7 +9239,7 @@ namespace Proto.test
                         // Key for field: 1, LengthDelimited
                         stream.WriteByte(10);
                         ﻿msField.SetLength(0);
-                        Proto.test.Data.Serialize(msField, instance.NestedData);
+                        Proto.Test.Data.Serialize(msField, instance.NestedData);
                         // Length delimited byte array
                         uint length1 = (uint)msField.Length;
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
@@ -9306,7 +9306,7 @@ namespace Proto.test
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static Proto.test.MyMessage Deserialize(byte[] buffer, Proto.test.MyMessage instance)
+        public static Proto.Test.MyMessage Deserialize(byte[] buffer, Proto.Test.MyMessage instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -9314,7 +9314,7 @@ namespace Proto.test
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static Proto.test.MyMessage Deserialize(Stream stream, Proto.test.MyMessage instance)
+        public static Proto.Test.MyMessage Deserialize(Stream stream, Proto.Test.MyMessage instance)
         {
             while (true)
             {
@@ -9351,7 +9351,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.MyMessage DeserializeLengthDelimited(Stream stream, Proto.test.MyMessage instance)
+        public static Proto.Test.MyMessage DeserializeLengthDelimited(Stream stream, Proto.Test.MyMessage instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -9397,7 +9397,7 @@ namespace Proto.test
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static Proto.test.MyMessage DeserializeLength(Stream stream, int length, Proto.test.MyMessage instance)
+        public static Proto.Test.MyMessage DeserializeLength(Stream stream, int length, Proto.Test.MyMessage instance)
         {
             long limit = stream.Position + length;
             while (true)

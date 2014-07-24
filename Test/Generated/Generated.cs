@@ -57,7 +57,7 @@ namespace Personal
     }
 
 }
-namespace Google.protobuf
+namespace Google.Protobuf
 {
     /// <summary>
     /// <para> Protocol Buffers - Google's data interchange format</para>
@@ -103,7 +103,7 @@ namespace Google.protobuf
     /// </summary>
     public partial class FileDescriptorSet
     {
-        public List<Google.protobuf.FileDescriptorProto> File { get; set; }
+        public List<Google.Protobuf.FileDescriptorProto> File { get; set; }
 
         // ProtocolBuffers wire field id
         public const int FileFieldID = 1;
@@ -133,15 +133,15 @@ namespace Google.protobuf
         public List<int> WeakDependency { get; set; }
 
         /// <summary> All top-level definitions in this file.</summary>
-        public List<Google.protobuf.DescriptorProto> MessageType { get; set; }
+        public List<Google.Protobuf.DescriptorProto> MessageType { get; set; }
 
-        public List<Google.protobuf.EnumDescriptorProto> EnumType { get; set; }
+        public List<Google.Protobuf.EnumDescriptorProto> EnumType { get; set; }
 
-        public List<Google.protobuf.ServiceDescriptorProto> Service { get; set; }
+        public List<Google.Protobuf.ServiceDescriptorProto> Service { get; set; }
 
-        public List<Google.protobuf.FieldDescriptorProto> Extension { get; set; }
+        public List<Google.Protobuf.FieldDescriptorProto> Extension { get; set; }
 
-        public Google.protobuf.FileOptions Options { get; set; }
+        public Google.Protobuf.FileOptions Options { get; set; }
 
         /// <summary>
         /// <para> This field contains optional information about the original source code.</para>
@@ -149,7 +149,7 @@ namespace Google.protobuf
         /// <para> functionality of the descriptors -- the information is needed only by</para>
         /// <para> development tools.</para>
         /// </summary>
-        public Google.protobuf.SourceCodeInfo SourceCodeInfo { get; set; }
+        public Google.Protobuf.SourceCodeInfo SourceCodeInfo { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -170,17 +170,17 @@ namespace Google.protobuf
     {
         public string Name { get; set; }
 
-        public List<Google.protobuf.FieldDescriptorProto> Field { get; set; }
+        public List<Google.Protobuf.FieldDescriptorProto> Field { get; set; }
 
-        public List<Google.protobuf.FieldDescriptorProto> Extension { get; set; }
+        public List<Google.Protobuf.FieldDescriptorProto> Extension { get; set; }
 
-        public List<Google.protobuf.DescriptorProto> NestedType { get; set; }
+        public List<Google.Protobuf.DescriptorProto> NestedType { get; set; }
 
-        public List<Google.protobuf.EnumDescriptorProto> EnumType { get; set; }
+        public List<Google.Protobuf.EnumDescriptorProto> EnumType { get; set; }
 
-        public List<Google.protobuf.DescriptorProto.ExtensionRange> ExtensionRangeField { get; set; }
+        public List<Google.Protobuf.DescriptorProto.ExtensionRange> ExtensionRangeField { get; set; }
 
-        public Google.protobuf.MessageOptions Options { get; set; }
+        public Google.Protobuf.MessageOptions Options { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -258,13 +258,13 @@ namespace Google.protobuf
 
         public int Number { get; set; }
 
-        public Google.protobuf.FieldDescriptorProto.Label label { get; set; }
+        public Google.Protobuf.FieldDescriptorProto.Label label { get; set; }
 
         /// <summary>
         /// <para> If type_name is set, this need not be set.  If both this and type_name</para>
         /// <para> are set, this must be either TYPE_ENUM or TYPE_MESSAGE.</para>
         /// </summary>
-        public Google.protobuf.FieldDescriptorProto.Type type { get; set; }
+        public Google.Protobuf.FieldDescriptorProto.Type type { get; set; }
 
         /// <summary>
         /// <para> For message and enum types, this is the name of the type.  If the name</para>
@@ -290,7 +290,7 @@ namespace Google.protobuf
         /// </summary>
         public string DefaultValue { get; set; }
 
-        public Google.protobuf.FieldOptions Options { get; set; }
+        public Google.Protobuf.FieldOptions Options { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -308,9 +308,9 @@ namespace Google.protobuf
     {
         public string Name { get; set; }
 
-        public List<Google.protobuf.EnumValueDescriptorProto> Value { get; set; }
+        public List<Google.Protobuf.EnumValueDescriptorProto> Value { get; set; }
 
-        public Google.protobuf.EnumOptions Options { get; set; }
+        public Google.Protobuf.EnumOptions Options { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -325,7 +325,7 @@ namespace Google.protobuf
 
         public int Number { get; set; }
 
-        public Google.protobuf.EnumValueOptions Options { get; set; }
+        public Google.Protobuf.EnumValueOptions Options { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -338,9 +338,9 @@ namespace Google.protobuf
     {
         public string Name { get; set; }
 
-        public List<Google.protobuf.MethodDescriptorProto> Method { get; set; }
+        public List<Google.Protobuf.MethodDescriptorProto> Method { get; set; }
 
-        public Google.protobuf.ServiceOptions Options { get; set; }
+        public Google.Protobuf.ServiceOptions Options { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -361,7 +361,7 @@ namespace Google.protobuf
 
         public string OutputType { get; set; }
 
-        public Google.protobuf.MethodOptions Options { get; set; }
+        public Google.Protobuf.MethodOptions Options { get; set; }
 
         // ProtocolBuffers wire field id
         public const int NameFieldID = 1;
@@ -452,7 +452,7 @@ namespace Google.protobuf
         public bool JavaGenerateEqualsAndHash { get; set; }
 
         /// <summary> Generate code using MessageLite and the lite runtime.</summary>
-        public Google.protobuf.FileOptions.OptimizeMode OptimizeFor { get; set; }
+        public Google.Protobuf.FileOptions.OptimizeMode OptimizeFor { get; set; }
 
         /// <summary>
         /// <para> Sets the Go package where structs generated from this .proto will be</para>
@@ -479,7 +479,7 @@ namespace Google.protobuf
         public bool PyGenericServices { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int JavaPackageFieldID = 1;
@@ -526,7 +526,7 @@ namespace Google.protobuf
         public bool NoStandardDescriptorAccessor { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int MessageSetWireFormatFieldID = 1;
@@ -550,7 +550,7 @@ namespace Google.protobuf
         /// <para> options below.  This option is not yet implemented in the open source</para>
         /// <para> release -- sorry, we'll try to include it in a future version!</para>
         /// </summary>
-        public Google.protobuf.FieldOptions.CType Ctype { get; set; }
+        public Google.Protobuf.FieldOptions.CType Ctype { get; set; }
 
         /// <summary>
         /// <para> The packed option can be enabled for repeated primitive fields to enable</para>
@@ -620,7 +620,7 @@ namespace Google.protobuf
         public bool Weak { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int CtypeFieldID = 1;
@@ -641,7 +641,7 @@ namespace Google.protobuf
         public bool AllowAlias { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int AllowAliasFieldID = 2;
@@ -651,7 +651,7 @@ namespace Google.protobuf
     public partial class EnumValueOptions
     {
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int UninterpretedOptionFieldID = 999;
@@ -666,7 +666,7 @@ namespace Google.protobuf
         /// <para>   Buffers.</para>
         /// <para> The parser stores options it doesn't recognize here. See above.</para>
         /// </summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int UninterpretedOptionFieldID = 999;
@@ -681,7 +681,7 @@ namespace Google.protobuf
         /// <para>   Buffers.</para>
         /// <para> The parser stores options it doesn't recognize here. See above.</para>
         /// </summary>
-        public List<Google.protobuf.UninterpretedOption> UninterpretedOption { get; set; }
+        public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
         // ProtocolBuffers wire field id
         public const int UninterpretedOptionFieldID = 999;
@@ -697,7 +697,7 @@ namespace Google.protobuf
     /// </summary>
     public partial class UninterpretedOption
     {
-        public List<Google.protobuf.UninterpretedOption.NamePart> Name { get; set; }
+        public List<Google.Protobuf.UninterpretedOption.NamePart> Name { get; set; }
 
         /// <summary>
         /// <para> The value of the uninterpreted option, in whatever type the tokenizer</para>
@@ -796,7 +796,7 @@ namespace Google.protobuf
         /// <para>   ignore those that it doesn't understand, as more types of locations could</para>
         /// <para>   be recorded in the future.</para>
         /// </summary>
-        public List<Google.protobuf.SourceCodeInfo.Location> LocationField { get; set; }
+        public List<Google.Protobuf.SourceCodeInfo.Location> LocationField { get; set; }
 
         // ProtocolBuffers wire field id
         public const int LocationFieldFieldID = 1;
@@ -1092,7 +1092,7 @@ namespace Theirs
     }
 
 }
-namespace Proto.test
+namespace Proto.Test
 {
     /// <summary>Message without any low id(< 16) fields</summary>
     public partial class LongMessage
@@ -1123,17 +1123,17 @@ namespace Proto.test
 
     public partial class Container
     {
-        public Proto.test.Container.Nested MyNestedMessage { get; set; }
+        public Proto.Test.Container.Nested MyNestedMessage { get; set; }
 
         /// <summary>Name collision test</summary>
-        public Proto.test.Container.Nested NestedField { get; set; }
+        public Proto.Test.Container.Nested NestedField { get; set; }
 
         // ProtocolBuffers wire field id
         public const int MyNestedMessageFieldID = 1;
         public const int NestedFieldFieldID = 2;
         public partial class Nested
         {
-            public Proto.test.Data NestedData { get; set; }
+            public Proto.Test.Data NestedData { get; set; }
 
             // ProtocolBuffers wire field id
             public const int NestedDataFieldID = 1;
@@ -1163,7 +1163,7 @@ namespace LocalFeatureTest
 
 
 }
-namespace Proto.test
+namespace Proto.Test
 {
     public enum MyEnum
     {

@@ -1,5 +1,5 @@
 using System;
-using Proto.test;
+using Proto.Test;
 using System.IO;
 
 namespace Test

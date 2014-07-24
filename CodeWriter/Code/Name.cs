@@ -12,6 +12,20 @@ namespace SilentOrbit.Code
 
             string csname = "";
 
+            foreach (string part in name.Split('.'))
+            {
+                if (csname != "")
+                    csname += ".";
+                csname += ToCamelCaseSingleName(part);
+            }
+
+            return csname;
+        }
+
+        static string ToCamelCaseSingleName(string name)
+        {
+            string csname = "";
+
             foreach (string part in name.Split('_', '-'))
             {
                 if (part.Length == 0)

@@ -8,7 +8,7 @@ using Personal;
 using Yours;
 using Mine;
 using Local;
-using Proto.test;
+using Proto.Test;
 
 namespace Test
 {
