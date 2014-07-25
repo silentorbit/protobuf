@@ -117,22 +117,22 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static void WriteUInt32(Stream stream, uint val)
         {
-            byte[] buffer = new byte[5];
-            int count = 0;
-
+            byte b;
             while (true)
             {
-                buffer[count] = (byte)(val & 0x7F);
+                b = (byte)(val & 0x7F);
                 val = val >> 7;
                 if (val == 0)
+                {
+                    stream.WriteByte(b);
                     break;
-
-                buffer[count] |= 0x80;
-
-                count += 1;
+                }
+                else
+                {
+                    b |= 0x80;
+                    stream.WriteByte(b);
+                }
             }
-
-            stream.Write(buffer, 0, count + 1);
         }
 
         #endregion
@@ -209,22 +209,22 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static void WriteUInt64(Stream stream, ulong val)
         {
-            byte[] buffer = new byte[10];
-            int count = 0;
-
+            byte b;
             while (true)
             {
-                buffer[count] = (byte)(val & 0x7F);
+                b = (byte)(val & 0x7F);
                 val = val >> 7;
                 if (val == 0)
+                {
+                    stream.WriteByte(b);
                     break;
-
-                buffer[count] |= 0x80;
-
-                count += 1;
+                }
+                else
+                {
+                    b |= 0x80;
+                    stream.WriteByte(b);
+                }
             }
-
-            stream.Write(buffer, 0, count + 1);
         }
 
         #endregion
