@@ -30,20 +30,12 @@ namespace Personal
 
         public List<Personal.Person.PhoneNumber> Phone { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int IdFieldID = 2;
-        public const int EmailFieldID = 3;
-        public const int PhoneFieldID = 4;
         public partial class PhoneNumber
         {
             public string Number { get; set; }
 
             public Personal.Person.PhoneType Type { get; set; }
 
-            // ProtocolBuffers wire field id
-            public const int NumberFieldID = 1;
-            public const int TypeFieldID = 2;
         }
 
     }
@@ -52,8 +44,6 @@ namespace Personal
     {
         public List<Personal.Person> List { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int ListFieldID = 1;
     }
 
 }
@@ -105,8 +95,6 @@ namespace Google.Protobuf
     {
         public List<Google.Protobuf.FileDescriptorProto> File { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int FileFieldID = 1;
     }
 
     /// <summary> Describes a complete .proto file.</summary>
@@ -151,18 +139,6 @@ namespace Google.Protobuf
         /// </summary>
         public Google.Protobuf.SourceCodeInfo SourceCodeInfo { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int PackageFieldID = 2;
-        public const int DependencyFieldID = 3;
-        public const int PublicDependencyFieldID = 10;
-        public const int WeakDependencyFieldID = 11;
-        public const int MessageTypeFieldID = 4;
-        public const int EnumTypeFieldID = 5;
-        public const int ServiceFieldID = 6;
-        public const int ExtensionFieldID = 7;
-        public const int OptionsFieldID = 8;
-        public const int SourceCodeInfoFieldID = 9;
     }
 
     /// <summary> Describes a message type.</summary>
@@ -182,23 +158,12 @@ namespace Google.Protobuf
 
         public Google.Protobuf.MessageOptions Options { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int FieldFieldID = 2;
-        public const int ExtensionFieldID = 6;
-        public const int NestedTypeFieldID = 3;
-        public const int EnumTypeFieldID = 4;
-        public const int ExtensionRangeFieldFieldID = 5;
-        public const int OptionsFieldID = 7;
         public partial class ExtensionRange
         {
             public int Start { get; set; }
 
             public int End { get; set; }
 
-            // ProtocolBuffers wire field id
-            public const int StartFieldID = 1;
-            public const int EndFieldID = 2;
         }
 
     }
@@ -292,15 +257,6 @@ namespace Google.Protobuf
 
         public Google.Protobuf.FieldOptions Options { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int NumberFieldID = 3;
-        public const int labelFieldID = 4;
-        public const int typeFieldID = 5;
-        public const int TypeNameFieldID = 6;
-        public const int ExtendeeFieldID = 2;
-        public const int DefaultValueFieldID = 7;
-        public const int OptionsFieldID = 8;
     }
 
     /// <summary> Describes an enum type.</summary>
@@ -312,10 +268,6 @@ namespace Google.Protobuf
 
         public Google.Protobuf.EnumOptions Options { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int ValueFieldID = 2;
-        public const int OptionsFieldID = 3;
     }
 
     /// <summary> Describes a value within an enum.</summary>
@@ -327,10 +279,6 @@ namespace Google.Protobuf
 
         public Google.Protobuf.EnumValueOptions Options { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int NumberFieldID = 2;
-        public const int OptionsFieldID = 3;
     }
 
     /// <summary> Describes a service.</summary>
@@ -342,10 +290,6 @@ namespace Google.Protobuf
 
         public Google.Protobuf.ServiceOptions Options { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int MethodFieldID = 2;
-        public const int OptionsFieldID = 3;
     }
 
     /// <summary> Describes a method of a service.</summary>
@@ -363,11 +307,6 @@ namespace Google.Protobuf
 
         public Google.Protobuf.MethodOptions Options { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 1;
-        public const int InputTypeFieldID = 2;
-        public const int OutputTypeFieldID = 3;
-        public const int OptionsFieldID = 4;
     }
 
     /// <summary>
@@ -481,17 +420,6 @@ namespace Google.Protobuf
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int JavaPackageFieldID = 1;
-        public const int JavaOuterClassnameFieldID = 8;
-        public const int JavaMultipleFilesFieldID = 10;
-        public const int JavaGenerateEqualsAndHashFieldID = 20;
-        public const int OptimizeForFieldID = 9;
-        public const int GoPackageFieldID = 11;
-        public const int CcGenericServicesFieldID = 16;
-        public const int JavaGenericServicesFieldID = 17;
-        public const int PyGenericServicesFieldID = 18;
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     public partial class MessageOptions
@@ -528,10 +456,6 @@ namespace Google.Protobuf
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int MessageSetWireFormatFieldID = 1;
-        public const int NoStandardDescriptorAccessorFieldID = 2;
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     public partial class FieldOptions
@@ -622,14 +546,6 @@ namespace Google.Protobuf
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int CtypeFieldID = 1;
-        public const int PackedFieldID = 2;
-        public const int LazyFieldID = 5;
-        public const int DeprecatedFieldID = 3;
-        public const int ExperimentalMapKeyFieldID = 9;
-        public const int WeakFieldID = 10;
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     public partial class EnumOptions
@@ -643,9 +559,6 @@ namespace Google.Protobuf
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int AllowAliasFieldID = 2;
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     public partial class EnumValueOptions
@@ -653,8 +566,6 @@ namespace Google.Protobuf
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     public partial class ServiceOptions
@@ -668,8 +579,6 @@ namespace Google.Protobuf
         /// </summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     public partial class MethodOptions
@@ -683,8 +592,6 @@ namespace Google.Protobuf
         /// </summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int UninterpretedOptionFieldID = 999;
     }
 
     /// <summary>
@@ -715,14 +622,6 @@ namespace Google.Protobuf
 
         public string AggregateValue { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int NameFieldID = 2;
-        public const int IdentifierValueFieldID = 3;
-        public const int PositiveIntValueFieldID = 4;
-        public const int NegativeIntValueFieldID = 5;
-        public const int DoubleValueFieldID = 6;
-        public const int StringValueFieldID = 7;
-        public const int AggregateValueFieldID = 8;
         /// <summary>
         /// <para> The name of the uninterpreted option.  Each string represents a segment in</para>
         /// <para> a dot-separated name.  is_extension is true iff a segment represents an</para>
@@ -736,9 +635,6 @@ namespace Google.Protobuf
 
             public bool IsExtension { get; set; }
 
-            // ProtocolBuffers wire field id
-            public const int NamePartFieldFieldID = 1;
-            public const int IsExtensionFieldID = 2;
         }
 
     }
@@ -798,8 +694,6 @@ namespace Google.Protobuf
         /// </summary>
         public List<Google.Protobuf.SourceCodeInfo.Location> LocationField { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int LocationFieldFieldID = 1;
         public partial class Location
         {
             /// <summary>
@@ -878,11 +772,6 @@ namespace Google.Protobuf
 
             public string TrailingComments { get; set; }
 
-            // ProtocolBuffers wire field id
-            public const int PathFieldID = 1;
-            public const int SpanFieldID = 2;
-            public const int LeadingCommentsFieldID = 3;
-            public const int TrailingCommentsFieldID = 4;
         }
 
     }
@@ -923,20 +812,6 @@ namespace Local
 
         public LocalFeatureTest.TopEnum MyEnum { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int UptimeFieldID = 1;
-        public const int DueDateFieldID = 2;
-        public const int AmountFieldID = 3;
-        public const int DenialFieldID = 4;
-        public const int SecretFieldID = 5;
-        public const int InternalFieldID = 6;
-        public const int PRFieldID = 7;
-        public const int TestingReadOnlyFieldID = 8;
-        public const int MyInterfaceFieldID = 9;
-        public const int MyStructFieldID = 10;
-        public const int MyExtStructFieldID = 11;
-        public const int MyExtClassFieldID = 12;
-        public const int MyEnumFieldID = 13;
         // protected virtual void BeforeSerialize() {}
         // protected virtual void AfterDeserialize() {}
 
@@ -948,13 +823,11 @@ namespace LocalFeatureTest
     /// <summary>Testing local struct serialization</summary>
     public partial interface InterfaceTest
     {
-        // ProtocolBuffers wire field id
     }
 
     /// <summary>Testing local struct serialization</summary>
     public partial struct StructTest
     {
-        // ProtocolBuffers wire field id
     }
 
 }
@@ -978,8 +851,6 @@ namespace Mine
         /// <summary>This field is important to comment as we just did here</summary>
         public int FieldA { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int FieldAFieldID = 1;
         /// <summary>Values for unknown fields.</summary>
         public List<global::SilentOrbit.ProtocolBuffers.KeyValue> PreservedFields;
 
@@ -1054,30 +925,6 @@ namespace Yours
 
         public List<Theirs.TheirMessage> FieldV { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int FieldAFieldID = 1;
-        public const int FieldBFieldID = 2;
-        public const int FieldCFieldID = 3;
-        public const int FieldDFieldID = 4;
-        public const int FieldEFieldID = 5;
-        public const int FieldFFieldID = 6;
-        public const int FieldGFieldID = 7;
-        public const int FieldHFieldID = 8;
-        public const int FieldIFieldID = 9;
-        public const int FieldJFieldID = 10;
-        public const int FieldKFieldID = 11;
-        public const int FieldLFieldID = 12;
-        public const int FieldMFieldID = 13;
-        public const int FieldNFieldID = 14;
-        public const int FieldOFieldID = 15;
-        public const int FieldPFieldID = 16;
-        public const int FieldQFieldID = 17;
-        public const int FieldRFieldID = 18;
-        public const int DummyFieldID = 19;
-        public const int FieldTFieldID = 20;
-        public const int FieldSFieldID = 21;
-        public const int FieldUFieldID = 22;
-        public const int FieldVFieldID = 23;
     }
 
 }
@@ -1087,8 +934,6 @@ namespace Theirs
     {
         public int FieldA { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int FieldAFieldID = 1;
     }
 
 }
@@ -1105,11 +950,6 @@ namespace Proto.Test
 
         public int FieldX4 { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int FieldX1FieldID = 32;
-        public const int FieldX2FieldID = 64;
-        public const int FieldX3FieldID = 96;
-        public const int FieldX4FieldID = 100;
     }
 
     /// <summary>Nested testing</summary>
@@ -1117,8 +957,6 @@ namespace Proto.Test
     {
         public double Somefield { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int SomefieldFieldID = 1;
     }
 
     public partial class Container
@@ -1128,15 +966,10 @@ namespace Proto.Test
         /// <summary>Name collision test</summary>
         public Proto.Test.Container.Nested NestedField { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int MyNestedMessageFieldID = 1;
-        public const int NestedFieldFieldID = 2;
         public partial class Nested
         {
             public Proto.Test.Data NestedData { get; set; }
 
-            // ProtocolBuffers wire field id
-            public const int NestedDataFieldID = 1;
         }
 
     }
@@ -1147,9 +980,6 @@ namespace Proto.Test
 
         public string Bar { get; set; }
 
-        // ProtocolBuffers wire field id
-        public const int FooFieldID = 1;
-        public const int BarFieldID = 2;
     }
 
 }

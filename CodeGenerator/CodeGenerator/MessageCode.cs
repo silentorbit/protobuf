@@ -92,7 +92,7 @@ namespace SilentOrbit.ProtocolBuffers
             }
 
             //Wire format field ID
-#if DEBUG
+#if DEBUGx
             cw.Comment("ProtocolBuffers wire field id");
             foreach (Field f in m.Fields.Values)
             {
