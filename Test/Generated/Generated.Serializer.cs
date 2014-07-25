@@ -3713,7 +3713,8 @@ namespace Google.Protobuf
                 stream.WriteByte(80);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaMultipleFiles);
                 // Key for field: 20, Varint
-                stream.Write(new byte[]{160, 1}, 0, 2);
+                stream.WriteByte(160);
+                stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenerateEqualsAndHash);
                 if (instance.OptimizeFor != OptimizeMode.SPEED)
                 {
@@ -3728,20 +3729,24 @@ namespace Google.Protobuf
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.GoPackage));
                 }
                 // Key for field: 16, Varint
-                stream.Write(new byte[]{128, 1}, 0, 2);
+                stream.WriteByte(128);
+                stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.CcGenericServices);
                 // Key for field: 17, Varint
-                stream.Write(new byte[]{136, 1}, 0, 2);
+                stream.WriteByte(136);
+                stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenericServices);
                 // Key for field: 18, Varint
-                stream.Write(new byte[]{144, 1}, 0, 2);
+                stream.WriteByte(144);
+                stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.PyGenericServices);
                 if (instance.UninterpretedOption != null)
                 {
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -3990,7 +3995,8 @@ namespace Google.Protobuf
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -4311,7 +4317,8 @@ namespace Google.Protobuf
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -4542,7 +4549,8 @@ namespace Google.Protobuf
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -4740,7 +4748,8 @@ namespace Google.Protobuf
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -4938,7 +4947,8 @@ namespace Google.Protobuf
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -5136,7 +5146,8 @@ namespace Google.Protobuf
                     foreach (var i999 in instance.UninterpretedOption)
                     {
                         // Key for field: 999, LengthDelimited
-                        stream.Write(new byte[]{186, 62}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(62);
                         ﻿msField.SetLength(0);
                         Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
                         // Length delimited byte array
@@ -8118,27 +8129,32 @@ namespace Yours
                 if (instance.FieldP == null)
                     throw new ArgumentNullException("FieldP", "Required by proto specification.");
                 // Key for field: 16, LengthDelimited
-                stream.Write(new byte[]{130, 1}, 0, 2);
+                stream.WriteByte(130);
+                stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, instance.FieldP);
                 // Key for field: 17, Varint
-                stream.Write(new byte[]{136, 1}, 0, 2);
+                stream.WriteByte(136);
+                stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldQ);
                 if (instance.FieldR != MyEnum.ETest2)
                 {
                     // Key for field: 18, Varint
-                    stream.Write(new byte[]{144, 1}, 0, 2);
+                    stream.WriteByte(144);
+                    stream.WriteByte(1);
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldR);
                 }
                 if (instance.Dummy != null)
                 {
                     // Key for field: 19, LengthDelimited
-                    stream.Write(new byte[]{154, 1}, 0, 2);
+                    stream.WriteByte(154);
+                    stream.WriteByte(1);
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
                 }
                 if (instance.FieldT != null)
                 {
                     // Key for field: 20, LengthDelimited
-                    stream.Write(new byte[]{162, 1}, 0, 2);
+                    stream.WriteByte(162);
+                    stream.WriteByte(1);
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, 4u * (uint)instance.FieldT.Count);
                     foreach (var i20 in instance.FieldT)
                     {
@@ -8150,14 +8166,16 @@ namespace Yours
                     foreach (var i21 in instance.FieldS)
                     {
                         // Key for field: 21, Varint
-                        stream.Write(new byte[]{168, 1}, 0, 2);
+                        stream.WriteByte(168);
+                        stream.WriteByte(1);
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, i21);
                     }
                 }
                 if (instance.FieldU != null)
                 {
                     // Key for field: 22, LengthDelimited
-                    stream.Write(new byte[]{178, 1}, 0, 2);
+                    stream.WriteByte(178);
+                    stream.WriteByte(1);
                     ﻿msField.SetLength(0);
                     Theirs.TheirMessage.Serialize(msField, instance.FieldU);
                     // Length delimited byte array
@@ -8171,7 +8189,8 @@ namespace Yours
                     foreach (var i23 in instance.FieldV)
                     {
                         // Key for field: 23, LengthDelimited
-                        stream.Write(new byte[]{186, 1}, 0, 2);
+                        stream.WriteByte(186);
+                        stream.WriteByte(1);
                         ﻿msField.SetLength(0);
                         Theirs.TheirMessage.Serialize(msField, i23);
                         // Length delimited byte array
@@ -8596,16 +8615,20 @@ namespace Proto.Test
             using (var msField = new MemoryStream(0))
             {
                 // Key for field: 32, Varint
-                stream.Write(new byte[]{128, 2}, 0, 2);
+                stream.WriteByte(128);
+                stream.WriteByte(2);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX1);
                 // Key for field: 64, Varint
-                stream.Write(new byte[]{128, 4}, 0, 2);
+                stream.WriteByte(128);
+                stream.WriteByte(4);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX2);
                 // Key for field: 96, Varint
-                stream.Write(new byte[]{128, 6}, 0, 2);
+                stream.WriteByte(128);
+                stream.WriteByte(6);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX3);
                 // Key for field: 100, Varint
-                stream.Write(new byte[]{160, 6}, 0, 2);
+                stream.WriteByte(160);
+                stream.WriteByte(6);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX4);
             }
         }

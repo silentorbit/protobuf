@@ -193,36 +193,20 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         static void VarintWriter(string stream, uint value, CodeWriter cw)
         {
-            List<byte> bytes = new List<byte>();
-
             while (true)
             {
                 byte b = (byte)(value & 0x7F);
                 value = value >> 7;
                 if (value == 0)
                 {
-                    bytes.Add(b);
+                    cw.WriteLine(stream + ".WriteByte(" + b + ");");
                     break;
                 }
 
                 //Write part of value
                 b |= 0x80;
-                bytes.Add(b);
+                cw.WriteLine(stream + ".WriteByte(" + b + ");");
             }
-
-            //Write final byte
-            if (bytes.Count == 1)
-            {
-                cw.WriteLine(stream + ".WriteByte(" + bytes[0] + ");");
-                return;
-            }
-
-            string line = stream + ".Write(new byte[]{";
-            foreach (byte v in bytes)
-                line += v + ", ";
-            line = line.TrimEnd(new char[] { ' ', ',' });
-            line += "}, 0, " + bytes.Count + ");";
-            cw.WriteLine(line);
         }
 
         /// <summary>
