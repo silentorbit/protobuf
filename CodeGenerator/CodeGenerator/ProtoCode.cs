@@ -113,6 +113,7 @@ This file will be overwritten when CodeGenerator is run.");
                 ReadCode(codeWriter, "ProtocolParser", true);
                 ReadCode(codeWriter, "ProtocolParserFixed", false);
                 ReadCode(codeWriter, "ProtocolParserKey", false);
+                ReadCode(codeWriter, "ProtocolParserMemory", false);
                 ReadCode(codeWriter, "ProtocolParserVarInt", false);
             }
         }

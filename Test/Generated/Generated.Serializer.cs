@@ -221,38 +221,37 @@ namespace Personal
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Person instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name == null)
+                throw new ArgumentNullException("Name", "Required by proto specification.");
+            // Key for field: 1, LengthDelimited
+            stream.WriteByte(10);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Id);
+            if (instance.Email != null)
             {
-                if (instance.Name == null)
-                    throw new ArgumentNullException("Name", "Required by proto specification.");
-                // Key for field: 1, LengthDelimited
-                stream.WriteByte(10);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                // Key for field: 2, Varint
-                stream.WriteByte(16);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Id);
-                if (instance.Email != null)
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Email));
+            }
+            if (instance.Phone != null)
+            {
+                foreach (var i4 in instance.Phone)
                 {
-                    // Key for field: 3, LengthDelimited
-                    stream.WriteByte(26);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Email));
-                }
-                if (instance.Phone != null)
-                {
-                    foreach (var i4 in instance.Phone)
-                    {
-                        // Key for field: 4, LengthDelimited
-                        stream.WriteByte(34);
-                        ﻿msField.SetLength(0);
-                        Personal.Person.PhoneNumber.Serialize(msField, i4);
-                        // Length delimited byte array
-                        uint length4 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                        stream.Write(msField.GetBuffer(), 0, (int)length4);
+                    // Key for field: 4, LengthDelimited
+                    stream.WriteByte(34);
+                    ﻿msField.SetLength(0);
+                    Personal.Person.PhoneNumber.Serialize(msField, i4);
+                    // Length delimited byte array
+                    uint length4 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
+                    stream.Write(msField.GetBuffer(), 0, (int)length4);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -450,20 +449,19 @@ namespace Personal
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, PhoneNumber instance)
             {
-                using (var msField = new MemoryStream(0))
+                var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+                if (instance.Number == null)
+                    throw new ArgumentNullException("Number", "Required by proto specification.");
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Number));
+                if (instance.Type != PhoneType.HOME)
                 {
-                    if (instance.Number == null)
-                        throw new ArgumentNullException("Number", "Required by proto specification.");
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Number));
-                    if (instance.Type != PhoneType.HOME)
-                    {
-                        // Key for field: 2, Varint
-                        stream.WriteByte(16);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Type);
-                    }
+                    // Key for field: 2, Varint
+                    stream.WriteByte(16);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Type);
                 }
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
             }
 
             /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -658,24 +656,23 @@ namespace Personal
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, AddressBook instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.List != null)
             {
-                if (instance.List != null)
+                foreach (var i1 in instance.List)
                 {
-                    foreach (var i1 in instance.List)
-                    {
-                        // Key for field: 1, LengthDelimited
-                        stream.WriteByte(10);
-                        ﻿msField.SetLength(0);
-                        Personal.Person.Serialize(msField, i1);
-                        // Length delimited byte array
-                        uint length1 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                        stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
+                    ﻿msField.SetLength(0);
+                    Personal.Person.Serialize(msField, i1);
+                    // Length delimited byte array
+                    uint length1 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
+                    stream.Write(msField.GetBuffer(), 0, (int)length1);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -871,24 +868,23 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FileDescriptorSet instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.File != null)
             {
-                if (instance.File != null)
+                foreach (var i1 in instance.File)
                 {
-                    foreach (var i1 in instance.File)
-                    {
-                        // Key for field: 1, LengthDelimited
-                        stream.WriteByte(10);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.FileDescriptorProto.Serialize(msField, i1);
-                        // Length delimited byte array
-                        uint length1 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                        stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.FileDescriptorProto.Serialize(msField, i1);
+                    // Length delimited byte array
+                    uint length1 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
+                    stream.Write(msField.GetBuffer(), 0, (int)length1);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -1273,132 +1269,131 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FileDescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+            }
+            if (instance.Package != null)
+            {
+                // Key for field: 2, LengthDelimited
+                stream.WriteByte(18);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Package));
+            }
+            if (instance.Dependency != null)
+            {
+                foreach (var i3 in instance.Dependency)
                 {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+                    // Key for field: 3, LengthDelimited
+                    stream.WriteByte(26);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(i3));
                 }
-                if (instance.Package != null)
+            }
+            if (instance.PublicDependency != null)
+            {
+                foreach (var i10 in instance.PublicDependency)
                 {
-                    // Key for field: 2, LengthDelimited
-                    stream.WriteByte(18);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Package));
+                    // Key for field: 10, Varint
+                    stream.WriteByte(80);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)i10);
                 }
-                if (instance.Dependency != null)
+            }
+            if (instance.WeakDependency != null)
+            {
+                foreach (var i11 in instance.WeakDependency)
                 {
-                    foreach (var i3 in instance.Dependency)
-                    {
-                        // Key for field: 3, LengthDelimited
-                        stream.WriteByte(26);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(i3));
-                    }
+                    // Key for field: 11, Varint
+                    stream.WriteByte(88);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)i11);
                 }
-                if (instance.PublicDependency != null)
+            }
+            if (instance.MessageType != null)
+            {
+                foreach (var i4 in instance.MessageType)
                 {
-                    foreach (var i10 in instance.PublicDependency)
-                    {
-                        // Key for field: 10, Varint
-                        stream.WriteByte(80);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)i10);
-                    }
-                }
-                if (instance.WeakDependency != null)
-                {
-                    foreach (var i11 in instance.WeakDependency)
-                    {
-                        // Key for field: 11, Varint
-                        stream.WriteByte(88);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)i11);
-                    }
-                }
-                if (instance.MessageType != null)
-                {
-                    foreach (var i4 in instance.MessageType)
-                    {
-                        // Key for field: 4, LengthDelimited
-                        stream.WriteByte(34);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.DescriptorProto.Serialize(msField, i4);
-                        // Length delimited byte array
-                        uint length4 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                        stream.Write(msField.GetBuffer(), 0, (int)length4);
-
-                    }
-                }
-                if (instance.EnumType != null)
-                {
-                    foreach (var i5 in instance.EnumType)
-                    {
-                        // Key for field: 5, LengthDelimited
-                        stream.WriteByte(42);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.EnumDescriptorProto.Serialize(msField, i5);
-                        // Length delimited byte array
-                        uint length5 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
-                        stream.Write(msField.GetBuffer(), 0, (int)length5);
-
-                    }
-                }
-                if (instance.Service != null)
-                {
-                    foreach (var i6 in instance.Service)
-                    {
-                        // Key for field: 6, LengthDelimited
-                        stream.WriteByte(50);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.ServiceDescriptorProto.Serialize(msField, i6);
-                        // Length delimited byte array
-                        uint length6 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
-                        stream.Write(msField.GetBuffer(), 0, (int)length6);
-
-                    }
-                }
-                if (instance.Extension != null)
-                {
-                    foreach (var i7 in instance.Extension)
-                    {
-                        // Key for field: 7, LengthDelimited
-                        stream.WriteByte(58);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.FieldDescriptorProto.Serialize(msField, i7);
-                        // Length delimited byte array
-                        uint length7 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
-                        stream.Write(msField.GetBuffer(), 0, (int)length7);
-
-                    }
-                }
-                if (instance.Options != null)
-                {
-                    // Key for field: 8, LengthDelimited
-                    stream.WriteByte(66);
+                    // Key for field: 4, LengthDelimited
+                    stream.WriteByte(34);
                     ﻿msField.SetLength(0);
-                    Google.Protobuf.FileOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.DescriptorProto.Serialize(msField, i4);
                     // Length delimited byte array
-                    uint length8 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
-                    stream.Write(msField.GetBuffer(), 0, (int)length8);
-
-                }
-                if (instance.SourceCodeInfo != null)
-                {
-                    // Key for field: 9, LengthDelimited
-                    stream.WriteByte(74);
-                    ﻿msField.SetLength(0);
-                    Google.Protobuf.SourceCodeInfo.Serialize(msField, instance.SourceCodeInfo);
-                    // Length delimited byte array
-                    uint length9 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
-                    stream.Write(msField.GetBuffer(), 0, (int)length9);
+                    uint length4 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
+                    stream.Write(msField.GetBuffer(), 0, (int)length4);
 
                 }
             }
+            if (instance.EnumType != null)
+            {
+                foreach (var i5 in instance.EnumType)
+                {
+                    // Key for field: 5, LengthDelimited
+                    stream.WriteByte(42);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.EnumDescriptorProto.Serialize(msField, i5);
+                    // Length delimited byte array
+                    uint length5 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
+                    stream.Write(msField.GetBuffer(), 0, (int)length5);
+
+                }
+            }
+            if (instance.Service != null)
+            {
+                foreach (var i6 in instance.Service)
+                {
+                    // Key for field: 6, LengthDelimited
+                    stream.WriteByte(50);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.ServiceDescriptorProto.Serialize(msField, i6);
+                    // Length delimited byte array
+                    uint length6 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
+                    stream.Write(msField.GetBuffer(), 0, (int)length6);
+
+                }
+            }
+            if (instance.Extension != null)
+            {
+                foreach (var i7 in instance.Extension)
+                {
+                    // Key for field: 7, LengthDelimited
+                    stream.WriteByte(58);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.FieldDescriptorProto.Serialize(msField, i7);
+                    // Length delimited byte array
+                    uint length7 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
+                    stream.Write(msField.GetBuffer(), 0, (int)length7);
+
+                }
+            }
+            if (instance.Options != null)
+            {
+                // Key for field: 8, LengthDelimited
+                stream.WriteByte(66);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.FileOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length8 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
+                stream.Write(msField.GetBuffer(), 0, (int)length8);
+
+            }
+            if (instance.SourceCodeInfo != null)
+            {
+                // Key for field: 9, LengthDelimited
+                stream.WriteByte(74);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.SourceCodeInfo.Serialize(msField, instance.SourceCodeInfo);
+                // Length delimited byte array
+                uint length9 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
+                stream.Write(msField.GetBuffer(), 0, (int)length9);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -1708,102 +1703,101 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, DescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+            }
+            if (instance.Field != null)
+            {
+                foreach (var i2 in instance.Field)
                 {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                }
-                if (instance.Field != null)
-                {
-                    foreach (var i2 in instance.Field)
-                    {
-                        // Key for field: 2, LengthDelimited
-                        stream.WriteByte(18);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.FieldDescriptorProto.Serialize(msField, i2);
-                        // Length delimited byte array
-                        uint length2 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                        stream.Write(msField.GetBuffer(), 0, (int)length2);
-
-                    }
-                }
-                if (instance.Extension != null)
-                {
-                    foreach (var i6 in instance.Extension)
-                    {
-                        // Key for field: 6, LengthDelimited
-                        stream.WriteByte(50);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.FieldDescriptorProto.Serialize(msField, i6);
-                        // Length delimited byte array
-                        uint length6 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
-                        stream.Write(msField.GetBuffer(), 0, (int)length6);
-
-                    }
-                }
-                if (instance.NestedType != null)
-                {
-                    foreach (var i3 in instance.NestedType)
-                    {
-                        // Key for field: 3, LengthDelimited
-                        stream.WriteByte(26);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.DescriptorProto.Serialize(msField, i3);
-                        // Length delimited byte array
-                        uint length3 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                        stream.Write(msField.GetBuffer(), 0, (int)length3);
-
-                    }
-                }
-                if (instance.EnumType != null)
-                {
-                    foreach (var i4 in instance.EnumType)
-                    {
-                        // Key for field: 4, LengthDelimited
-                        stream.WriteByte(34);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.EnumDescriptorProto.Serialize(msField, i4);
-                        // Length delimited byte array
-                        uint length4 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                        stream.Write(msField.GetBuffer(), 0, (int)length4);
-
-                    }
-                }
-                if (instance.ExtensionRangeField != null)
-                {
-                    foreach (var i5 in instance.ExtensionRangeField)
-                    {
-                        // Key for field: 5, LengthDelimited
-                        stream.WriteByte(42);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.DescriptorProto.ExtensionRange.Serialize(msField, i5);
-                        // Length delimited byte array
-                        uint length5 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
-                        stream.Write(msField.GetBuffer(), 0, (int)length5);
-
-                    }
-                }
-                if (instance.Options != null)
-                {
-                    // Key for field: 7, LengthDelimited
-                    stream.WriteByte(58);
+                    // Key for field: 2, LengthDelimited
+                    stream.WriteByte(18);
                     ﻿msField.SetLength(0);
-                    Google.Protobuf.MessageOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.FieldDescriptorProto.Serialize(msField, i2);
                     // Length delimited byte array
-                    uint length7 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
-                    stream.Write(msField.GetBuffer(), 0, (int)length7);
+                    uint length2 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
+                    stream.Write(msField.GetBuffer(), 0, (int)length2);
 
                 }
             }
+            if (instance.Extension != null)
+            {
+                foreach (var i6 in instance.Extension)
+                {
+                    // Key for field: 6, LengthDelimited
+                    stream.WriteByte(50);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.FieldDescriptorProto.Serialize(msField, i6);
+                    // Length delimited byte array
+                    uint length6 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
+                    stream.Write(msField.GetBuffer(), 0, (int)length6);
+
+                }
+            }
+            if (instance.NestedType != null)
+            {
+                foreach (var i3 in instance.NestedType)
+                {
+                    // Key for field: 3, LengthDelimited
+                    stream.WriteByte(26);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.DescriptorProto.Serialize(msField, i3);
+                    // Length delimited byte array
+                    uint length3 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
+                    stream.Write(msField.GetBuffer(), 0, (int)length3);
+
+                }
+            }
+            if (instance.EnumType != null)
+            {
+                foreach (var i4 in instance.EnumType)
+                {
+                    // Key for field: 4, LengthDelimited
+                    stream.WriteByte(34);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.EnumDescriptorProto.Serialize(msField, i4);
+                    // Length delimited byte array
+                    uint length4 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
+                    stream.Write(msField.GetBuffer(), 0, (int)length4);
+
+                }
+            }
+            if (instance.ExtensionRangeField != null)
+            {
+                foreach (var i5 in instance.ExtensionRangeField)
+                {
+                    // Key for field: 5, LengthDelimited
+                    stream.WriteByte(42);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.DescriptorProto.ExtensionRange.Serialize(msField, i5);
+                    // Length delimited byte array
+                    uint length5 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
+                    stream.Write(msField.GetBuffer(), 0, (int)length5);
+
+                }
+            }
+            if (instance.Options != null)
+            {
+                // Key for field: 7, LengthDelimited
+                stream.WriteByte(58);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.MessageOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length7 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
+                stream.Write(msField.GetBuffer(), 0, (int)length7);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -1998,15 +1992,14 @@ namespace Google.Protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, ExtensionRange instance)
             {
-                using (var msField = new MemoryStream(0))
-                {
-                    // Key for field: 1, Varint
-                    stream.WriteByte(8);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Start);
-                    // Key for field: 2, Varint
-                    stream.WriteByte(16);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.End);
-                }
+                var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+                // Key for field: 1, Varint
+                stream.WriteByte(8);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Start);
+                // Key for field: 2, Varint
+                stream.WriteByte(16);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.End);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
             }
 
             /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -2291,54 +2284,53 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FieldDescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
-                {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                }
-                // Key for field: 3, Varint
-                stream.WriteByte(24);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Number);
-                // Key for field: 4, Varint
-                stream.WriteByte(32);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.label);
-                // Key for field: 5, Varint
-                stream.WriteByte(40);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.type);
-                if (instance.TypeName != null)
-                {
-                    // Key for field: 6, LengthDelimited
-                    stream.WriteByte(50);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.TypeName));
-                }
-                if (instance.Extendee != null)
-                {
-                    // Key for field: 2, LengthDelimited
-                    stream.WriteByte(18);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Extendee));
-                }
-                if (instance.DefaultValue != null)
-                {
-                    // Key for field: 7, LengthDelimited
-                    stream.WriteByte(58);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.DefaultValue));
-                }
-                if (instance.Options != null)
-                {
-                    // Key for field: 8, LengthDelimited
-                    stream.WriteByte(66);
-                    ﻿msField.SetLength(0);
-                    Google.Protobuf.FieldOptions.Serialize(msField, instance.Options);
-                    // Length delimited byte array
-                    uint length8 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
-                    stream.Write(msField.GetBuffer(), 0, (int)length8);
-
-                }
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
             }
+            // Key for field: 3, Varint
+            stream.WriteByte(24);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Number);
+            // Key for field: 4, Varint
+            stream.WriteByte(32);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.label);
+            // Key for field: 5, Varint
+            stream.WriteByte(40);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.type);
+            if (instance.TypeName != null)
+            {
+                // Key for field: 6, LengthDelimited
+                stream.WriteByte(50);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.TypeName));
+            }
+            if (instance.Extendee != null)
+            {
+                // Key for field: 2, LengthDelimited
+                stream.WriteByte(18);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Extendee));
+            }
+            if (instance.DefaultValue != null)
+            {
+                // Key for field: 7, LengthDelimited
+                stream.WriteByte(58);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.DefaultValue));
+            }
+            if (instance.Options != null)
+            {
+                // Key for field: 8, LengthDelimited
+                stream.WriteByte(66);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.FieldOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length8 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
+                stream.Write(msField.GetBuffer(), 0, (int)length8);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -2564,42 +2556,41 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumDescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+            }
+            if (instance.Value != null)
+            {
+                foreach (var i2 in instance.Value)
                 {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                }
-                if (instance.Value != null)
-                {
-                    foreach (var i2 in instance.Value)
-                    {
-                        // Key for field: 2, LengthDelimited
-                        stream.WriteByte(18);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.EnumValueDescriptorProto.Serialize(msField, i2);
-                        // Length delimited byte array
-                        uint length2 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                        stream.Write(msField.GetBuffer(), 0, (int)length2);
-
-                    }
-                }
-                if (instance.Options != null)
-                {
-                    // Key for field: 3, LengthDelimited
-                    stream.WriteByte(26);
+                    // Key for field: 2, LengthDelimited
+                    stream.WriteByte(18);
                     ﻿msField.SetLength(0);
-                    Google.Protobuf.EnumOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.EnumValueDescriptorProto.Serialize(msField, i2);
                     // Length delimited byte array
-                    uint length3 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                    stream.Write(msField.GetBuffer(), 0, (int)length3);
+                    uint length2 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
+                    stream.Write(msField.GetBuffer(), 0, (int)length2);
 
                 }
             }
+            if (instance.Options != null)
+            {
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.EnumOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length3 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
+                stream.Write(msField.GetBuffer(), 0, (int)length3);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -2816,30 +2807,29 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumValueDescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
-                {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                }
-                // Key for field: 2, Varint
-                stream.WriteByte(16);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Number);
-                if (instance.Options != null)
-                {
-                    // Key for field: 3, LengthDelimited
-                    stream.WriteByte(26);
-                    ﻿msField.SetLength(0);
-                    Google.Protobuf.EnumValueOptions.Serialize(msField, instance.Options);
-                    // Length delimited byte array
-                    uint length3 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                    stream.Write(msField.GetBuffer(), 0, (int)length3);
-
-                }
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
             }
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Number);
+            if (instance.Options != null)
+            {
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.EnumValueOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length3 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
+                stream.Write(msField.GetBuffer(), 0, (int)length3);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -3065,42 +3055,41 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ServiceDescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
+            }
+            if (instance.Method != null)
+            {
+                foreach (var i2 in instance.Method)
                 {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                }
-                if (instance.Method != null)
-                {
-                    foreach (var i2 in instance.Method)
-                    {
-                        // Key for field: 2, LengthDelimited
-                        stream.WriteByte(18);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.MethodDescriptorProto.Serialize(msField, i2);
-                        // Length delimited byte array
-                        uint length2 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                        stream.Write(msField.GetBuffer(), 0, (int)length2);
-
-                    }
-                }
-                if (instance.Options != null)
-                {
-                    // Key for field: 3, LengthDelimited
-                    stream.WriteByte(26);
+                    // Key for field: 2, LengthDelimited
+                    stream.WriteByte(18);
                     ﻿msField.SetLength(0);
-                    Google.Protobuf.ServiceOptions.Serialize(msField, instance.Options);
+                    Google.Protobuf.MethodDescriptorProto.Serialize(msField, i2);
                     // Length delimited byte array
-                    uint length3 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                    stream.Write(msField.GetBuffer(), 0, (int)length3);
+                    uint length2 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
+                    stream.Write(msField.GetBuffer(), 0, (int)length2);
 
                 }
             }
+            if (instance.Options != null)
+            {
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.ServiceOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length3 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
+                stream.Write(msField.GetBuffer(), 0, (int)length3);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -3329,39 +3318,38 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MethodDescriptorProto instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
-                {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
-                }
-                if (instance.InputType != null)
-                {
-                    // Key for field: 2, LengthDelimited
-                    stream.WriteByte(18);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.InputType));
-                }
-                if (instance.OutputType != null)
-                {
-                    // Key for field: 3, LengthDelimited
-                    stream.WriteByte(26);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.OutputType));
-                }
-                if (instance.Options != null)
-                {
-                    // Key for field: 4, LengthDelimited
-                    stream.WriteByte(34);
-                    ﻿msField.SetLength(0);
-                    Google.Protobuf.MethodOptions.Serialize(msField, instance.Options);
-                    // Length delimited byte array
-                    uint length4 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                    stream.Write(msField.GetBuffer(), 0, (int)length4);
-
-                }
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
             }
+            if (instance.InputType != null)
+            {
+                // Key for field: 2, LengthDelimited
+                stream.WriteByte(18);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.InputType));
+            }
+            if (instance.OutputType != null)
+            {
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.OutputType));
+            }
+            if (instance.Options != null)
+            {
+                // Key for field: 4, LengthDelimited
+                stream.WriteByte(34);
+                ﻿msField.SetLength(0);
+                Google.Protobuf.MethodOptions.Serialize(msField, instance.Options);
+                // Length delimited byte array
+                uint length4 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
+                stream.Write(msField.GetBuffer(), 0, (int)length4);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -3695,68 +3683,67 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FileOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.JavaPackage != null)
             {
-                if (instance.JavaPackage != null)
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.JavaPackage));
+            }
+            if (instance.JavaOuterClassname != null)
+            {
+                // Key for field: 8, LengthDelimited
+                stream.WriteByte(66);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.JavaOuterClassname));
+            }
+            // Key for field: 10, Varint
+            stream.WriteByte(80);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaMultipleFiles);
+            // Key for field: 20, Varint
+            stream.WriteByte(160);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenerateEqualsAndHash);
+            if (instance.OptimizeFor != OptimizeMode.SPEED)
+            {
+                // Key for field: 9, Varint
+                stream.WriteByte(72);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.OptimizeFor);
+            }
+            if (instance.GoPackage != null)
+            {
+                // Key for field: 11, LengthDelimited
+                stream.WriteByte(90);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.GoPackage));
+            }
+            // Key for field: 16, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.CcGenericServices);
+            // Key for field: 17, Varint
+            stream.WriteByte(136);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenericServices);
+            // Key for field: 18, Varint
+            stream.WriteByte(144);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.PyGenericServices);
+            if (instance.UninterpretedOption != null)
+            {
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.JavaPackage));
-                }
-                if (instance.JavaOuterClassname != null)
-                {
-                    // Key for field: 8, LengthDelimited
-                    stream.WriteByte(66);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.JavaOuterClassname));
-                }
-                // Key for field: 10, Varint
-                stream.WriteByte(80);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaMultipleFiles);
-                // Key for field: 20, Varint
-                stream.WriteByte(160);
-                stream.WriteByte(1);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenerateEqualsAndHash);
-                if (instance.OptimizeFor != OptimizeMode.SPEED)
-                {
-                    // Key for field: 9, Varint
-                    stream.WriteByte(72);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.OptimizeFor);
-                }
-                if (instance.GoPackage != null)
-                {
-                    // Key for field: 11, LengthDelimited
-                    stream.WriteByte(90);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.GoPackage));
-                }
-                // Key for field: 16, Varint
-                stream.WriteByte(128);
-                stream.WriteByte(1);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.CcGenericServices);
-                // Key for field: 17, Varint
-                stream.WriteByte(136);
-                stream.WriteByte(1);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenericServices);
-                // Key for field: 18, Varint
-                stream.WriteByte(144);
-                stream.WriteByte(1);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.PyGenericServices);
-                if (instance.UninterpretedOption != null)
-                {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -3982,31 +3969,30 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MessageOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.MessageSetWireFormat);
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.NoStandardDescriptorAccessor);
+            if (instance.UninterpretedOption != null)
             {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.MessageSetWireFormat);
-                // Key for field: 2, Varint
-                stream.WriteByte(16);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.NoStandardDescriptorAccessor);
-                if (instance.UninterpretedOption != null)
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -4286,49 +4272,48 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, FieldOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Ctype != CType.STRING)
             {
-                if (instance.Ctype != CType.STRING)
+                // Key for field: 1, Varint
+                stream.WriteByte(8);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Ctype);
+            }
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Packed);
+            // Key for field: 5, Varint
+            stream.WriteByte(40);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Lazy);
+            // Key for field: 3, Varint
+            stream.WriteByte(24);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Deprecated);
+            if (instance.ExperimentalMapKey != null)
+            {
+                // Key for field: 9, LengthDelimited
+                stream.WriteByte(74);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ExperimentalMapKey));
+            }
+            // Key for field: 10, Varint
+            stream.WriteByte(80);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Weak);
+            if (instance.UninterpretedOption != null)
+            {
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    // Key for field: 1, Varint
-                    stream.WriteByte(8);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Ctype);
-                }
-                // Key for field: 2, Varint
-                stream.WriteByte(16);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Packed);
-                // Key for field: 5, Varint
-                stream.WriteByte(40);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Lazy);
-                // Key for field: 3, Varint
-                stream.WriteByte(24);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Deprecated);
-                if (instance.ExperimentalMapKey != null)
-                {
-                    // Key for field: 9, LengthDelimited
-                    stream.WriteByte(74);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ExperimentalMapKey));
-                }
-                // Key for field: 10, Varint
-                stream.WriteByte(80);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Weak);
-                if (instance.UninterpretedOption != null)
-                {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -4539,28 +4524,27 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.AllowAlias);
+            if (instance.UninterpretedOption != null)
             {
-                // Key for field: 2, Varint
-                stream.WriteByte(16);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.AllowAlias);
-                if (instance.UninterpretedOption != null)
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -4741,25 +4725,24 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, EnumValueOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.UninterpretedOption != null)
             {
-                if (instance.UninterpretedOption != null)
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -4940,25 +4923,24 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ServiceOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.UninterpretedOption != null)
             {
-                if (instance.UninterpretedOption != null)
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -5139,25 +5121,24 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MethodOptions instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.UninterpretedOption != null)
             {
-                if (instance.UninterpretedOption != null)
+                foreach (var i999 in instance.UninterpretedOption)
                 {
-                    foreach (var i999 in instance.UninterpretedOption)
-                    {
-                        // Key for field: 999, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(62);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
-                        // Length delimited byte array
-                        uint length999 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                        stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    // Key for field: 999, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(62);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.Serialize(msField, i999);
+                    // Length delimited byte array
+                    uint length999 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
+                    stream.Write(msField.GetBuffer(), 0, (int)length999);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -5426,51 +5407,50 @@ namespace Google.Protobuf
         public static void Serialize(Stream stream, UninterpretedOption instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.Name != null)
             {
-                if (instance.Name != null)
+                foreach (var i2 in instance.Name)
                 {
-                    foreach (var i2 in instance.Name)
-                    {
-                        // Key for field: 2, LengthDelimited
-                        stream.WriteByte(18);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.UninterpretedOption.NamePart.Serialize(msField, i2);
-                        // Length delimited byte array
-                        uint length2 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                        stream.Write(msField.GetBuffer(), 0, (int)length2);
+                    // Key for field: 2, LengthDelimited
+                    stream.WriteByte(18);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.UninterpretedOption.NamePart.Serialize(msField, i2);
+                    // Length delimited byte array
+                    uint length2 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
+                    stream.Write(msField.GetBuffer(), 0, (int)length2);
 
-                    }
-                }
-                if (instance.IdentifierValue != null)
-                {
-                    // Key for field: 3, LengthDelimited
-                    stream.WriteByte(26);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.IdentifierValue));
-                }
-                // Key for field: 4, Varint
-                stream.WriteByte(32);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream, instance.PositiveIntValue);
-                // Key for field: 5, Varint
-                stream.WriteByte(40);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.NegativeIntValue);
-                // Key for field: 6, Fixed64
-                stream.WriteByte(49);
-                bw.Write(instance.DoubleValue);
-                if (instance.StringValue != null)
-                {
-                    // Key for field: 7, LengthDelimited
-                    stream.WriteByte(58);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, instance.StringValue);
-                }
-                if (instance.AggregateValue != null)
-                {
-                    // Key for field: 8, LengthDelimited
-                    stream.WriteByte(66);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.AggregateValue));
                 }
             }
+            if (instance.IdentifierValue != null)
+            {
+                // Key for field: 3, LengthDelimited
+                stream.WriteByte(26);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.IdentifierValue));
+            }
+            // Key for field: 4, Varint
+            stream.WriteByte(32);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream, instance.PositiveIntValue);
+            // Key for field: 5, Varint
+            stream.WriteByte(40);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.NegativeIntValue);
+            // Key for field: 6, Fixed64
+            stream.WriteByte(49);
+            bw.Write(instance.DoubleValue);
+            if (instance.StringValue != null)
+            {
+                // Key for field: 7, LengthDelimited
+                stream.WriteByte(58);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, instance.StringValue);
+            }
+            if (instance.AggregateValue != null)
+            {
+                // Key for field: 8, LengthDelimited
+                stream.WriteByte(66);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.AggregateValue));
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -5665,17 +5645,16 @@ namespace Google.Protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, NamePart instance)
             {
-                using (var msField = new MemoryStream(0))
-                {
-                    if (instance.NamePartField == null)
-                        throw new ArgumentNullException("NamePartField", "Required by proto specification.");
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.NamePartField));
-                    // Key for field: 2, Varint
-                    stream.WriteByte(16);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.IsExtension);
-                }
+                var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+                if (instance.NamePartField == null)
+                    throw new ArgumentNullException("NamePartField", "Required by proto specification.");
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.NamePartField));
+                // Key for field: 2, Varint
+                stream.WriteByte(16);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.IsExtension);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
             }
 
             /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -5870,24 +5849,23 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, SourceCodeInfo instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.LocationField != null)
             {
-                if (instance.LocationField != null)
+                foreach (var i1 in instance.LocationField)
                 {
-                    foreach (var i1 in instance.LocationField)
-                    {
-                        // Key for field: 1, LengthDelimited
-                        stream.WriteByte(10);
-                        ﻿msField.SetLength(0);
-                        Google.Protobuf.SourceCodeInfo.Location.Serialize(msField, i1);
-                        // Length delimited byte array
-                        uint length1 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                        stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
+                    ﻿msField.SetLength(0);
+                    Google.Protobuf.SourceCodeInfo.Location.Serialize(msField, i1);
+                    // Length delimited byte array
+                    uint length1 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
+                    stream.Write(msField.GetBuffer(), 0, (int)length1);
 
-                    }
                 }
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -6166,49 +6144,48 @@ namespace Google.Protobuf
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, Location instance)
             {
-                using (var msField = new MemoryStream(0))
+                var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+                if (instance.Path != null)
                 {
-                    if (instance.Path != null)
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
+                    msField.SetLength(0);
+                    foreach (var i1 in instance.Path)
                     {
-                        // Key for field: 1, LengthDelimited
-                        stream.WriteByte(10);
-                        msField.SetLength(0);
-                        foreach (var i1 in instance.Path)
-                        {
-                            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(msField,(ulong)i1);
-                        }
-                        // Length delimited byte array
-                        uint length1 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                        stream.Write(msField.GetBuffer(), 0, (int)length1);
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(msField,(ulong)i1);
                     }
-                    if (instance.Span != null)
-                    {
-                        // Key for field: 2, LengthDelimited
-                        stream.WriteByte(18);
-                        msField.SetLength(0);
-                        foreach (var i2 in instance.Span)
-                        {
-                            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(msField,(ulong)i2);
-                        }
-                        // Length delimited byte array
-                        uint length2 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                        stream.Write(msField.GetBuffer(), 0, (int)length2);
-                    }
-                    if (instance.LeadingComments != null)
-                    {
-                        // Key for field: 3, LengthDelimited
-                        stream.WriteByte(26);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.LeadingComments));
-                    }
-                    if (instance.TrailingComments != null)
-                    {
-                        // Key for field: 4, LengthDelimited
-                        stream.WriteByte(34);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.TrailingComments));
-                    }
+                    // Length delimited byte array
+                    uint length1 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
+                    stream.Write(msField.GetBuffer(), 0, (int)length1);
                 }
+                if (instance.Span != null)
+                {
+                    // Key for field: 2, LengthDelimited
+                    stream.WriteByte(18);
+                    msField.SetLength(0);
+                    foreach (var i2 in instance.Span)
+                    {
+                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(msField,(ulong)i2);
+                    }
+                    // Length delimited byte array
+                    uint length2 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
+                    stream.Write(msField.GetBuffer(), 0, (int)length2);
+                }
+                if (instance.LeadingComments != null)
+                {
+                    // Key for field: 3, LengthDelimited
+                    stream.WriteByte(26);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.LeadingComments));
+                }
+                if (instance.TrailingComments != null)
+                {
+                    // Key for field: 4, LengthDelimited
+                    stream.WriteByte(34);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.TrailingComments));
+                }
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
             }
 
             /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -6571,98 +6548,97 @@ namespace Local
             instance.BeforeSerialize();
 
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Uptime.Ticks);
+            // Key for field: 2, Varint
+            stream.WriteByte(16);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
+            // Key for field: 3, Fixed64
+            stream.WriteByte(25);
+            bw.Write(instance.Amount);
+            if (instance.Denial != null)
             {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Uptime.Ticks);
-                // Key for field: 2, Varint
-                stream.WriteByte(16);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
-                // Key for field: 3, Fixed64
-                stream.WriteByte(25);
-                bw.Write(instance.Amount);
-                if (instance.Denial != null)
-                {
-                    // Key for field: 4, LengthDelimited
-                    stream.WriteByte(34);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Denial));
-                }
-                if (instance.Secret != null)
-                {
-                    // Key for field: 5, LengthDelimited
-                    stream.WriteByte(42);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Secret));
-                }
-                if (instance.Internal != null)
-                {
-                    // Key for field: 6, LengthDelimited
-                    stream.WriteByte(50);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Internal));
-                }
-                if (instance.PR != null)
-                {
-                    // Key for field: 7, LengthDelimited
-                    stream.WriteByte(58);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.PR));
-                }
-                if (instance.TestingReadOnly != null)
-                {
-                    // Key for field: 8, LengthDelimited
-                    stream.WriteByte(66);
-                    ﻿msField.SetLength(0);
-                    Mine.MyMessageV1.Serialize(msField, instance.TestingReadOnly);
-                    // Length delimited byte array
-                    uint length8 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
-                    stream.Write(msField.GetBuffer(), 0, (int)length8);
-
-                }
-                if (instance.MyInterface == null)
-                    throw new ArgumentNullException("MyInterface", "Required by proto specification.");
-                // Key for field: 9, LengthDelimited
-                stream.WriteByte(74);
-                ﻿msField.SetLength(0);
-                LocalFeatureTest.InterfaceTestSerializer.Serialize(msField, instance.MyInterface);
-                // Length delimited byte array
-                uint length9 = (uint)msField.Length;
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
-                stream.Write(msField.GetBuffer(), 0, (int)length9);
-
-                // Key for field: 10, LengthDelimited
-                stream.WriteByte(82);
-                ﻿msField.SetLength(0);
-                LocalFeatureTest.StructTest.Serialize(msField, instance.MyStruct);
-                // Length delimited byte array
-                uint length10 = (uint)msField.Length;
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length10);
-                stream.Write(msField.GetBuffer(), 0, (int)length10);
-
-                // Key for field: 11, LengthDelimited
-                stream.WriteByte(90);
-                ﻿msField.SetLength(0);
-                TestB.ExternalStructSerializer.Serialize(msField, instance.MyExtStruct);
-                // Length delimited byte array
-                uint length11 = (uint)msField.Length;
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length11);
-                stream.Write(msField.GetBuffer(), 0, (int)length11);
-
-                if (instance.MyExtClass != null)
-                {
-                    // Key for field: 12, LengthDelimited
-                    stream.WriteByte(98);
-                    ﻿msField.SetLength(0);
-                    TestB.ExternalClassSerializer.Serialize(msField, instance.MyExtClass);
-                    // Length delimited byte array
-                    uint length12 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length12);
-                    stream.Write(msField.GetBuffer(), 0, (int)length12);
-
-                }
-                // Key for field: 13, Varint
-                stream.WriteByte(104);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.MyEnum);
+                // Key for field: 4, LengthDelimited
+                stream.WriteByte(34);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Denial));
             }
+            if (instance.Secret != null)
+            {
+                // Key for field: 5, LengthDelimited
+                stream.WriteByte(42);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Secret));
+            }
+            if (instance.Internal != null)
+            {
+                // Key for field: 6, LengthDelimited
+                stream.WriteByte(50);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Internal));
+            }
+            if (instance.PR != null)
+            {
+                // Key for field: 7, LengthDelimited
+                stream.WriteByte(58);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.PR));
+            }
+            if (instance.TestingReadOnly != null)
+            {
+                // Key for field: 8, LengthDelimited
+                stream.WriteByte(66);
+                ﻿msField.SetLength(0);
+                Mine.MyMessageV1.Serialize(msField, instance.TestingReadOnly);
+                // Length delimited byte array
+                uint length8 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
+                stream.Write(msField.GetBuffer(), 0, (int)length8);
+
+            }
+            if (instance.MyInterface == null)
+                throw new ArgumentNullException("MyInterface", "Required by proto specification.");
+            // Key for field: 9, LengthDelimited
+            stream.WriteByte(74);
+            ﻿msField.SetLength(0);
+            LocalFeatureTest.InterfaceTestSerializer.Serialize(msField, instance.MyInterface);
+            // Length delimited byte array
+            uint length9 = (uint)msField.Length;
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
+            stream.Write(msField.GetBuffer(), 0, (int)length9);
+
+            // Key for field: 10, LengthDelimited
+            stream.WriteByte(82);
+            ﻿msField.SetLength(0);
+            LocalFeatureTest.StructTest.Serialize(msField, instance.MyStruct);
+            // Length delimited byte array
+            uint length10 = (uint)msField.Length;
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length10);
+            stream.Write(msField.GetBuffer(), 0, (int)length10);
+
+            // Key for field: 11, LengthDelimited
+            stream.WriteByte(90);
+            ﻿msField.SetLength(0);
+            TestB.ExternalStructSerializer.Serialize(msField, instance.MyExtStruct);
+            // Length delimited byte array
+            uint length11 = (uint)msField.Length;
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length11);
+            stream.Write(msField.GetBuffer(), 0, (int)length11);
+
+            if (instance.MyExtClass != null)
+            {
+                // Key for field: 12, LengthDelimited
+                stream.WriteByte(98);
+                ﻿msField.SetLength(0);
+                TestB.ExternalClassSerializer.Serialize(msField, instance.MyExtClass);
+                // Length delimited byte array
+                uint length12 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length12);
+                stream.Write(msField.GetBuffer(), 0, (int)length12);
+
+            }
+            // Key for field: 13, Varint
+            stream.WriteByte(104);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.MyEnum);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -6788,9 +6764,8 @@ namespace LocalFeatureTest
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, InterfaceTest instance)
         {
-            using (var msField = new MemoryStream(0))
-            {
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -6947,9 +6922,8 @@ namespace LocalFeatureTest
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, StructTest instance)
         {
-            using (var msField = new MemoryStream(0))
-            {
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -7139,12 +7113,11 @@ namespace TestB
         public static void Serialize(Stream stream, ExternalStruct instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream(0))
-            {
-                // Key for field: 1, Fixed64
-                stream.WriteByte(9);
-                bw.Write(instance.X);
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Fixed64
+            stream.WriteByte(9);
+            bw.Write(instance.X);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -7327,12 +7300,11 @@ namespace TestB
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalClass instance)
         {
-            using (var msField = new MemoryStream(0))
-            {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.A);
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.A);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -7525,12 +7497,11 @@ namespace Mine
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV1 instance)
         {
-            using (var msField = new MemoryStream(0))
-            {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
             if (instance.PreservedFields != null)
             {
                 foreach (var kv in instance.PreservedFields)
@@ -8077,130 +8048,129 @@ namespace Yours
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
+            // Key for field: 2, Fixed64
+            stream.WriteByte(17);
+            bw.Write(instance.FieldB);
+            // Key for field: 3, Fixed32
+            stream.WriteByte(29);
+            bw.Write(instance.FieldC);
+            // Key for field: 4, Varint
+            stream.WriteByte(32);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldD);
+            // Key for field: 5, Varint
+            stream.WriteByte(40);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldE);
+            // Key for field: 6, Varint
+            stream.WriteByte(48);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, instance.FieldF);
+            // Key for field: 7, Varint
+            stream.WriteByte(56);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream, instance.FieldG);
+            // Key for field: 8, Varint
+            stream.WriteByte(64);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteZInt32(stream, instance.FieldH);
+            // Key for field: 9, Varint
+            stream.WriteByte(72);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteZInt64(stream, instance.FieldI);
+            // Key for field: 10, Fixed32
+            stream.WriteByte(85);
+            bw.Write(instance.FieldJ);
+            // Key for field: 11, Fixed64
+            stream.WriteByte(89);
+            bw.Write(instance.FieldK);
+            // Key for field: 12, Fixed32
+            stream.WriteByte(101);
+            bw.Write(instance.FieldL);
+            // Key for field: 13, Fixed64
+            stream.WriteByte(105);
+            bw.Write(instance.FieldM);
+            // Key for field: 14, Varint
+            stream.WriteByte(112);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.FieldN);
+            if (instance.FieldO == null)
+                throw new ArgumentNullException("FieldO", "Required by proto specification.");
+            // Key for field: 15, LengthDelimited
+            stream.WriteByte(122);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.FieldO));
+            if (instance.FieldP == null)
+                throw new ArgumentNullException("FieldP", "Required by proto specification.");
+            // Key for field: 16, LengthDelimited
+            stream.WriteByte(130);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, instance.FieldP);
+            // Key for field: 17, Varint
+            stream.WriteByte(136);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldQ);
+            if (instance.FieldR != MyEnum.ETest2)
             {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
-                // Key for field: 2, Fixed64
-                stream.WriteByte(17);
-                bw.Write(instance.FieldB);
-                // Key for field: 3, Fixed32
-                stream.WriteByte(29);
-                bw.Write(instance.FieldC);
-                // Key for field: 4, Varint
-                stream.WriteByte(32);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldD);
-                // Key for field: 5, Varint
-                stream.WriteByte(40);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldE);
-                // Key for field: 6, Varint
-                stream.WriteByte(48);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, instance.FieldF);
-                // Key for field: 7, Varint
-                stream.WriteByte(56);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream, instance.FieldG);
-                // Key for field: 8, Varint
-                stream.WriteByte(64);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteZInt32(stream, instance.FieldH);
-                // Key for field: 9, Varint
-                stream.WriteByte(72);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteZInt64(stream, instance.FieldI);
-                // Key for field: 10, Fixed32
-                stream.WriteByte(85);
-                bw.Write(instance.FieldJ);
-                // Key for field: 11, Fixed64
-                stream.WriteByte(89);
-                bw.Write(instance.FieldK);
-                // Key for field: 12, Fixed32
-                stream.WriteByte(101);
-                bw.Write(instance.FieldL);
-                // Key for field: 13, Fixed64
-                stream.WriteByte(105);
-                bw.Write(instance.FieldM);
-                // Key for field: 14, Varint
-                stream.WriteByte(112);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.FieldN);
-                if (instance.FieldO == null)
-                    throw new ArgumentNullException("FieldO", "Required by proto specification.");
-                // Key for field: 15, LengthDelimited
-                stream.WriteByte(122);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.FieldO));
-                if (instance.FieldP == null)
-                    throw new ArgumentNullException("FieldP", "Required by proto specification.");
-                // Key for field: 16, LengthDelimited
-                stream.WriteByte(130);
+                // Key for field: 18, Varint
+                stream.WriteByte(144);
                 stream.WriteByte(1);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, instance.FieldP);
-                // Key for field: 17, Varint
-                stream.WriteByte(136);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldR);
+            }
+            if (instance.Dummy != null)
+            {
+                // Key for field: 19, LengthDelimited
+                stream.WriteByte(154);
                 stream.WriteByte(1);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldQ);
-                if (instance.FieldR != MyEnum.ETest2)
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
+            }
+            if (instance.FieldT != null)
+            {
+                // Key for field: 20, LengthDelimited
+                stream.WriteByte(162);
+                stream.WriteByte(1);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, 4u * (uint)instance.FieldT.Count);
+                foreach (var i20 in instance.FieldT)
                 {
-                    // Key for field: 18, Varint
-                    stream.WriteByte(144);
-                    stream.WriteByte(1);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldR);
-                }
-                if (instance.Dummy != null)
-                {
-                    // Key for field: 19, LengthDelimited
-                    stream.WriteByte(154);
-                    stream.WriteByte(1);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
-                }
-                if (instance.FieldT != null)
-                {
-                    // Key for field: 20, LengthDelimited
-                    stream.WriteByte(162);
-                    stream.WriteByte(1);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, 4u * (uint)instance.FieldT.Count);
-                    foreach (var i20 in instance.FieldT)
-                    {
-                        bw.Write(i20);
-                    }
-                }
-                if (instance.FieldS != null)
-                {
-                    foreach (var i21 in instance.FieldS)
-                    {
-                        // Key for field: 21, Varint
-                        stream.WriteByte(168);
-                        stream.WriteByte(1);
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, i21);
-                    }
-                }
-                if (instance.FieldU != null)
-                {
-                    // Key for field: 22, LengthDelimited
-                    stream.WriteByte(178);
-                    stream.WriteByte(1);
-                    ﻿msField.SetLength(0);
-                    Theirs.TheirMessage.Serialize(msField, instance.FieldU);
-                    // Length delimited byte array
-                    uint length22 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length22);
-                    stream.Write(msField.GetBuffer(), 0, (int)length22);
-
-                }
-                if (instance.FieldV != null)
-                {
-                    foreach (var i23 in instance.FieldV)
-                    {
-                        // Key for field: 23, LengthDelimited
-                        stream.WriteByte(186);
-                        stream.WriteByte(1);
-                        ﻿msField.SetLength(0);
-                        Theirs.TheirMessage.Serialize(msField, i23);
-                        // Length delimited byte array
-                        uint length23 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length23);
-                        stream.Write(msField.GetBuffer(), 0, (int)length23);
-
-                    }
+                    bw.Write(i20);
                 }
             }
+            if (instance.FieldS != null)
+            {
+                foreach (var i21 in instance.FieldS)
+                {
+                    // Key for field: 21, Varint
+                    stream.WriteByte(168);
+                    stream.WriteByte(1);
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, i21);
+                }
+            }
+            if (instance.FieldU != null)
+            {
+                // Key for field: 22, LengthDelimited
+                stream.WriteByte(178);
+                stream.WriteByte(1);
+                ﻿msField.SetLength(0);
+                Theirs.TheirMessage.Serialize(msField, instance.FieldU);
+                // Length delimited byte array
+                uint length22 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length22);
+                stream.Write(msField.GetBuffer(), 0, (int)length22);
+
+            }
+            if (instance.FieldV != null)
+            {
+                foreach (var i23 in instance.FieldV)
+                {
+                    // Key for field: 23, LengthDelimited
+                    stream.WriteByte(186);
+                    stream.WriteByte(1);
+                    ﻿msField.SetLength(0);
+                    Theirs.TheirMessage.Serialize(msField, i23);
+                    // Length delimited byte array
+                    uint length23 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length23);
+                    stream.Write(msField.GetBuffer(), 0, (int)length23);
+
+                }
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -8387,12 +8357,11 @@ namespace Theirs
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, TheirMessage instance)
         {
-            using (var msField = new MemoryStream(0))
-            {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldA);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -8612,25 +8581,24 @@ namespace Proto.Test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, LongMessage instance)
         {
-            using (var msField = new MemoryStream(0))
-            {
-                // Key for field: 32, Varint
-                stream.WriteByte(128);
-                stream.WriteByte(2);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX1);
-                // Key for field: 64, Varint
-                stream.WriteByte(128);
-                stream.WriteByte(4);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX2);
-                // Key for field: 96, Varint
-                stream.WriteByte(128);
-                stream.WriteByte(6);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX3);
-                // Key for field: 100, Varint
-                stream.WriteByte(160);
-                stream.WriteByte(6);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX4);
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 32, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(2);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX1);
+            // Key for field: 64, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(4);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX2);
+            // Key for field: 96, Varint
+            stream.WriteByte(128);
+            stream.WriteByte(6);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX3);
+            // Key for field: 100, Varint
+            stream.WriteByte(160);
+            stream.WriteByte(6);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldX4);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -8818,12 +8786,11 @@ namespace Proto.Test
         public static void Serialize(Stream stream, Data instance)
         {
             BinaryWriter bw = new BinaryWriter(stream);
-            using (var msField = new MemoryStream(0))
-            {
-                // Key for field: 1, Fixed64
-                stream.WriteByte(9);
-                bw.Write(instance.Somefield);
-            }
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Fixed64
+            stream.WriteByte(9);
+            bw.Write(instance.Somefield);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -9037,33 +9004,32 @@ namespace Proto.Test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Container instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            if (instance.MyNestedMessage != null)
             {
-                if (instance.MyNestedMessage != null)
-                {
-                    // Key for field: 1, LengthDelimited
-                    stream.WriteByte(10);
-                    ﻿msField.SetLength(0);
-                    Proto.Test.Container.Nested.Serialize(msField, instance.MyNestedMessage);
-                    // Length delimited byte array
-                    uint length1 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                // Key for field: 1, LengthDelimited
+                stream.WriteByte(10);
+                ﻿msField.SetLength(0);
+                Proto.Test.Container.Nested.Serialize(msField, instance.MyNestedMessage);
+                // Length delimited byte array
+                uint length1 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
+                stream.Write(msField.GetBuffer(), 0, (int)length1);
 
-                }
-                if (instance.NestedField != null)
-                {
-                    // Key for field: 2, LengthDelimited
-                    stream.WriteByte(18);
-                    ﻿msField.SetLength(0);
-                    Proto.Test.Container.Nested.Serialize(msField, instance.NestedField);
-                    // Length delimited byte array
-                    uint length2 = (uint)msField.Length;
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                    stream.Write(msField.GetBuffer(), 0, (int)length2);
-
-                }
             }
+            if (instance.NestedField != null)
+            {
+                // Key for field: 2, LengthDelimited
+                stream.WriteByte(18);
+                ﻿msField.SetLength(0);
+                Proto.Test.Container.Nested.Serialize(msField, instance.NestedField);
+                // Length delimited byte array
+                uint length2 = (uint)msField.Length;
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
+                stream.Write(msField.GetBuffer(), 0, (int)length2);
+
+            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -9255,21 +9221,20 @@ namespace Proto.Test
             /// <summary>Serialize the instance into the stream</summary>
             public static void Serialize(Stream stream, Nested instance)
             {
-                using (var msField = new MemoryStream(0))
+                var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+                if (instance.NestedData != null)
                 {
-                    if (instance.NestedData != null)
-                    {
-                        // Key for field: 1, LengthDelimited
-                        stream.WriteByte(10);
-                        ﻿msField.SetLength(0);
-                        Proto.Test.Data.Serialize(msField, instance.NestedData);
-                        // Length delimited byte array
-                        uint length1 = (uint)msField.Length;
-                        global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                        stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    // Key for field: 1, LengthDelimited
+                    stream.WriteByte(10);
+                    ﻿msField.SetLength(0);
+                    Proto.Test.Data.Serialize(msField, instance.NestedData);
+                    // Length delimited byte array
+                    uint length1 = (uint)msField.Length;
+                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
+                    stream.Write(msField.GetBuffer(), 0, (int)length1);
 
-                    }
                 }
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
             }
 
             /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>
@@ -9467,18 +9432,17 @@ namespace Proto.Test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessage instance)
         {
-            using (var msField = new MemoryStream(0))
+            var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Foo);
+            if (instance.Bar != null)
             {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Foo);
-                if (instance.Bar != null)
-                {
-                    // Key for field: 2, LengthDelimited
-                    stream.WriteByte(18);
-                    global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Bar));
-                }
+                // Key for field: 2, LengthDelimited
+                stream.WriteByte(18);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Bar));
             }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
         /// <summary>Helper: Serialize into a MemoryStream and return its byte array</summary>

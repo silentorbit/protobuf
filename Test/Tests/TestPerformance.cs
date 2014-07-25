@@ -50,13 +50,41 @@ namespace Test
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize
-                DateTime start = DateTime.Now;
+                GC.Collect();
+                var start = DateTime.Now;
                 AddressBook.Serialize(ms, ab);
-                TimeSpan serialize = DateTime.Now - start;
-                Console.WriteLine("Speed test: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+                var serialize = DateTime.Now - start;
+                Console.WriteLine("Speed test no stack: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+            }
+
+            ProtocolParser.Stack.Dispose();
+            ProtocolParser.Stack = new ThreadSafeStack();
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //Serialize
+                GC.Collect();
+                var start = DateTime.Now;
+                AddressBook.Serialize(ms, ab);
+                var serialize = DateTime.Now - start;
+                Console.WriteLine("Speed test thread safe: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+            }
+
+            ProtocolParser.Stack.Dispose();
+            ProtocolParser.Stack = new ThreadUnsafeStack();
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //Serialize
+                GC.Collect();
+                var start = DateTime.Now;
+                AddressBook.Serialize(ms, ab);
+                var serialize = DateTime.Now - start;
+                Console.WriteLine("Speed test not thread safe: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
 
                 //Deserialize
                 ms.Seek(0, SeekOrigin.Begin);
+                GC.Collect();
                 start = DateTime.Now;
                 var dab = AddressBook.Deserialize(new StreamRead(ms));
                 TimeSpan deserialize = DateTime.Now - start;
@@ -66,6 +94,7 @@ namespace Test
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize 
+                GC.Collect();
                 DateTime start = DateTime.Now;
                 ProtoBuf.Serializer.Serialize(ms, nab);
                 TimeSpan serialize = DateTime.Now - start;
@@ -73,6 +102,7 @@ namespace Test
 
                 //Deserialize
                 ms.Seek(0, SeekOrigin.Begin);
+                GC.Collect();
                 start = DateTime.Now;
                 var dab = ProtoBuf.Serializer.Deserialize<NetAddressBook>(ms);
                 TimeSpan deserialize = DateTime.Now - start;

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{108DF716-5E86-4515-836F-1AC211CA648B}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -72,6 +72,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProtocolParser\ProtocolParserVarInt.cs">
       <LogicalName>ProtocolParserVarInt</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserMemory.cs">
+      <LogicalName>ProtocolParserMemory</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

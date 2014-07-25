@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 // 
 //  Read/Write string and byte arrays 
@@ -9,7 +10,6 @@ namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
     {
-
         public static string ReadString(Stream stream)
         {
             return Encoding.UTF8.GetString(ReadBytes(stream));
