@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 // 
 //  Read/Write string and byte arrays 

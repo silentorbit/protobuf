@@ -3,6 +3,7 @@ using Personal;
 using System.Collections.Generic;
 using System.IO;
 using SilentOrbit.ProtocolBuffers;
+using System.Threading;
 
 namespace Test
 {
@@ -22,7 +23,7 @@ namespace Test
                 Person p = new Person();
                 p.Name = "Alice" + n;
                 p.Id = 17532;
-                p.Email = "Alice@silentobit.com";
+                p.Email = "Alice" + n + "@silentobit.com";
                 p.Phone = new List<Person.PhoneNumber>();
                 ab.List.Add(p);
 
@@ -47,18 +48,10 @@ namespace Test
                 }
             }
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                //Serialize
-                GC.Collect();
-                var start = DateTime.Now;
-                AddressBook.Serialize(ms, ab);
-                var serialize = DateTime.Now - start;
-                Console.WriteLine("Speed test no stack: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
-            }
-
-            ProtocolParser.Stack.Dispose();
-            ProtocolParser.Stack = new ThreadSafeStack();
+            RunTestSerialize(new AllocationStack(), ab);
+            RunTestSerialize(new ThreadSafeStack(), ab);
+            RunTestSerialize(new ThreadUnsafeStack(), ab);
+            RunTestSerialize(new ConcurrentBagStack(), ab);
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -67,20 +60,7 @@ namespace Test
                 var start = DateTime.Now;
                 AddressBook.Serialize(ms, ab);
                 var serialize = DateTime.Now - start;
-                Console.WriteLine("Speed test thread safe: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
-            }
-
-            ProtocolParser.Stack.Dispose();
-            ProtocolParser.Stack = new ThreadUnsafeStack();
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                //Serialize
-                GC.Collect();
-                var start = DateTime.Now;
-                AddressBook.Serialize(ms, ab);
-                var serialize = DateTime.Now - start;
-                Console.WriteLine("Speed test not thread safe: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+                Console.WriteLine("Speed test ConcurrentBagStack: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
 
                 //Deserialize
                 ms.Seek(0, SeekOrigin.Begin);
@@ -107,6 +87,25 @@ namespace Test
                 var dab = ProtoBuf.Serializer.Deserialize<NetAddressBook>(ms);
                 TimeSpan deserialize = DateTime.Now - start;
                 Console.WriteLine("Protobuf-net: Deserialize " + dab.List.Count + " posts in " + deserialize.TotalSeconds + " s");
+            }
+        }
+
+        static void RunTestSerialize(MemoryStreamStack stack, AddressBook ab)
+        {
+            ProtocolParser.Stack.Dispose();
+            ProtocolParser.Stack = stack;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //Serialize
+                GC.Collect();
+                Thread.Sleep(1000);
+
+                var start = DateTime.Now;
+                AddressBook.Serialize(ms, ab);
+                TimeSpan serialize = DateTime.Now - start;
+
+                Console.WriteLine("Speed test " + stack.GetType().Name + ": Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
             }
         }
     }

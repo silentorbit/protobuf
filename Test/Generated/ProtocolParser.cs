@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 // 
 //  Read/Write string and byte arrays 
@@ -596,11 +597,41 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void Push(MemoryStream stream)
         {
-            stream.Dispose();
+            //No need to Dispose MemoryStream
         }
 
         public void Dispose()
         {
+        }
+    }
+
+    public class ConcurrentBagStack : MemoryStreamStack
+    {
+        ConcurrentBag<MemoryStream> bag = new ConcurrentBag<MemoryStream>();
+
+        /// <summary>
+        /// The returned stream is not reset.
+        /// You must call .SetLength(0) before using it.
+        /// This is done in the generated code.
+        /// </summary>
+        public MemoryStream Pop()
+        {
+            MemoryStream result;
+
+            if (bag.TryTake(out result))
+                return result;
+            else
+                return new MemoryStream();
+        }
+
+        public void Push(MemoryStream stream)
+        {
+            bag.Add(stream);
+        }
+
+        public void Dispose()
+        {
+            throw new ApplicationException("ConcurrentBagStack.Dispose() should not be called.");
         }
     }
 
@@ -609,7 +640,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Experimental stack of MemoryStream
         /// </summary>
-        public static MemoryStreamStack Stack = new ThreadSafeStack();
+        public static MemoryStreamStack Stack = new AllocationStack();
     }
 }
 
