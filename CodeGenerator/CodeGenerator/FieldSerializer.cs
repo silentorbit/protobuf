@@ -19,7 +19,7 @@ namespace SilentOrbit.ProtocolBuffers
                 //Make sure we are not reading a list of interfaces
                 if (f.ProtoType.OptionType == "interface")
                 {
-                    cw.WriteLine("throw new InvalidOperationException(\"Can't deserialize a list of interfaces\");");
+                    cw.WriteLine("throw new NotSupportedException(\"Can't deserialize a list of interfaces\");");
                     return false;
                 }
 
@@ -33,7 +33,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.EndBracket();
 
                     cw.WriteLine("if (stream.Position != end" + f.ID + ")");
-                    cw.WriteIndent("throw new InvalidDataException(\"Read too many bytes in packed data\");");
+                    cw.WriteIndent("throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException(\"Read too many bytes in packed data\");");
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace SilentOrbit.ProtocolBuffers
                             case ProtoBuiltin.SFixed64:
                                 return "new DateTime((long)" + FieldReaderPrimitive(f, stream, binaryReader, instance) + ")";
                         }
-                        throw new FormatException("Local feature, DateTime, must be stored in a 64 bit field");
+                        throw new ProtoFormatException("Local feature, DateTime, must be stored in a 64 bit field", f.Source);
 
                     case "TimeSpan":
                         switch (f.ProtoType.ProtoName)
@@ -108,7 +108,7 @@ namespace SilentOrbit.ProtocolBuffers
                             case ProtoBuiltin.SFixed64:
                                 return "new TimeSpan((long)" + FieldReaderPrimitive(f, stream, binaryReader, instance) + ")";
                         }
-                        throw new FormatException("Local feature, TimeSpan, must be stored in a 64 bit field");
+                        throw new ProtoFormatException("Local feature, TimeSpan, must be stored in a 64 bit field", f.Source);
 
                     default:
                         //Assume enum

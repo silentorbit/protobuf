@@ -162,7 +162,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WriteLine("if (stream.Position == limit)");
                     cw.WriteIndent("break;");
                     cw.WriteLine("else");
-                    cw.WriteIndent("throw new InvalidOperationException(\"Read past max limit\");");
+                    cw.WriteIndent("throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException(\"Read past max limit\");");
                     cw.EndBracket();
                 }
 
@@ -209,7 +209,7 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.Comment("Reading field ID > 16 and unknown field ID/wire type combinations");
                 cw.Switch("key.Field");
                 cw.Case(0);
-                cw.WriteLine("throw new InvalidDataException(\"Invalid field id: 0, something went wrong in the stream\");");
+                cw.WriteLine("throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException(\"Invalid field id: 0, something went wrong in the stream\");");
                 foreach (Field f in m.Fields.Values)
                 {
                     if (f.ID < 16)

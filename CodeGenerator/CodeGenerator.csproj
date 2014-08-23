@@ -76,6 +76,9 @@
     <EmbeddedResource Include="ProtocolParser\ProtocolParserMemory.cs">
       <LogicalName>ProtocolParserMemory</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserExceptions.cs">
+      <LogicalName>ProtocolParserExceptions</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Proto\" />

@@ -62,7 +62,7 @@ namespace SilentOrbit.ProtocolBuffers
                     if (f.ProtoType is ProtoBuiltin && ((ProtoBuiltin)f.ProtoType).ProtoName == "bytes")
                         throw new NotImplementedException();
                     if (f.ProtoType is ProtoMessage)
-                        throw new InvalidDataException("Message can't have a default");
+                        throw new ProtoFormatException("Message can't have a default", f.Source);
                 }
             }
 
@@ -137,7 +137,7 @@ namespace SilentOrbit.ProtocolBuffers
             if (f.OptionPacked)
             {
                 if (f.ProtoType.WireType == Wire.LengthDelimited)
-                    throw new InvalidOperationException("Length delimited types cannot be packed");
+                    throw new ProtoFormatException("Length delimited types cannot be packed", f.Source);
             }
         }
 

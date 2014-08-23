@@ -111,6 +111,7 @@ This file will be overwritten when CodeGenerator is run.");
             {
                 codeWriter.NewLine = "\r\n";
                 ReadCode(codeWriter, "ProtocolParser", true);
+                ReadCode(codeWriter, "ProtocolParserExceptions", false);
                 ReadCode(codeWriter, "ProtocolParserFixed", false);
                 ReadCode(codeWriter, "ProtocolParserKey", false);
                 ReadCode(codeWriter, "ProtocolParserMemory", false);

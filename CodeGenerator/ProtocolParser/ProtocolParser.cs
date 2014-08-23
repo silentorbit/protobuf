@@ -30,7 +30,7 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 int r = stream.Read(buffer, read, length - read);
                 if (r == 0)
-                    throw new InvalidDataException("Expected " + (length - read) + " got " + read);
+                    throw new ProtocolBufferException("Expected " + (length - read) + " got " + read);
                 read += r;
             }
             return buffer;

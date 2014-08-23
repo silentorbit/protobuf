@@ -31,7 +31,7 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 int r = stream.Read(buffer, read, length - read);
                 if (r == 0)
-                    throw new InvalidDataException("Expected " + (length - read) + " got " + read);
+                    throw new ProtocolBufferException("Expected " + (length - read) + " got " + read);
                 read += r;
             }
             return buffer;
@@ -179,6 +179,25 @@ namespace SilentOrbit.ProtocolBuffers
         {
             stream.Dispose();
             base.Dispose(disposing);
+        }
+    }
+}
+
+#endregion
+#region ProtocolParserExceptions
+//
+// Exception used in the generated code
+//
+
+namespace SilentOrbit.ProtocolBuffers
+{
+    ///<summary>>
+    /// This exception is thrown when badly formatted protocol buffer data is read.
+    ///</summary>
+    public class ProtocolBufferException : Exception
+    {
+        public ProtocolBufferException(string message) : base(message)
+        {
         }
     }
 }
@@ -621,7 +640,7 @@ namespace SilentOrbit.ProtocolBuffers
                 if ((b & 0x80) == 0)
                     break; //end of varint
                 if (offset >= buffer.Length)
-                    throw new InvalidDataException("VarInt too long, more than 10 bytes");
+                    throw new ProtocolBufferException("VarInt too long, more than 10 bytes");
             }
             byte[] ret = new byte[offset];
             Array.Copy(buffer, ret, ret.Length);
@@ -686,7 +705,7 @@ namespace SilentOrbit.ProtocolBuffers
 
                 //Check that it fits in 32 bits
                 if ((n == 4) && (b & 0xF0) != 0)
-                    throw new InvalidDataException("Got larger VarInt than 32bit unsigned");
+                    throw new ProtocolBufferException("Got larger VarInt than 32bit unsigned");
                 //End of check
 
                 if ((b & 0x80) == 0)
@@ -695,7 +714,7 @@ namespace SilentOrbit.ProtocolBuffers
                 val |= (uint)(b & 0x7F) << (7 * n);
             }
 
-            throw new InvalidDataException("Got larger VarInt than 32bit unsigned");
+            throw new ProtocolBufferException("Got larger VarInt than 32bit unsigned");
         }
 
         /// <summary>
@@ -778,7 +797,7 @@ namespace SilentOrbit.ProtocolBuffers
 
                 //Check that it fits in 64 bits
                 if ((n == 9) && (b & 0xFE) != 0)
-                    throw new InvalidDataException("Got larger VarInt than 64 bit unsigned");
+                    throw new ProtocolBufferException("Got larger VarInt than 64 bit unsigned");
                 //End of check
 
                 if ((b & 0x80) == 0)
@@ -787,7 +806,7 @@ namespace SilentOrbit.ProtocolBuffers
                 val |= (ulong)(b & 0x7F) << (7 * n);
             }
 
-            throw new InvalidDataException("Got larger VarInt than 64 bit unsigned");
+            throw new ProtocolBufferException("Got larger VarInt than 64 bit unsigned");
         }
 
         /// <summary>
@@ -826,7 +845,7 @@ namespace SilentOrbit.ProtocolBuffers
                 return true;
             if (b == 0)
                 return false;
-            throw new InvalidDataException("Invalid boolean value");
+            throw new ProtocolBufferException("Invalid boolean value");
         }
 
         public static void WriteBool(Stream stream, bool val)

@@ -95,7 +95,7 @@ namespace Personal
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -119,7 +119,7 @@ namespace Personal
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -152,7 +152,7 @@ namespace Personal
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -175,7 +175,7 @@ namespace Personal
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -208,7 +208,7 @@ namespace Personal
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -343,7 +343,7 @@ namespace Personal
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -366,7 +366,7 @@ namespace Personal
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -390,7 +390,7 @@ namespace Personal
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -412,7 +412,7 @@ namespace Personal
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -436,7 +436,7 @@ namespace Personal
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -554,7 +554,7 @@ namespace Personal
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -578,7 +578,7 @@ namespace Personal
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -599,7 +599,7 @@ namespace Personal
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -622,7 +622,7 @@ namespace Personal
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -643,7 +643,7 @@ namespace Personal
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -766,7 +766,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -790,7 +790,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -811,7 +811,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -834,7 +834,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -855,7 +855,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1039,7 +1039,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1075,7 +1075,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -1148,7 +1148,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1183,7 +1183,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -1256,7 +1256,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1523,7 +1523,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1555,7 +1555,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -1607,7 +1607,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1638,7 +1638,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -1690,7 +1690,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -1888,7 +1888,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -1910,7 +1910,7 @@ namespace Google.Protobuf
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -1934,7 +1934,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -1955,7 +1955,7 @@ namespace Google.Protobuf
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -1979,7 +1979,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -2122,7 +2122,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2146,7 +2146,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2197,7 +2197,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2220,7 +2220,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2271,7 +2271,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2432,7 +2432,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2456,7 +2456,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2488,7 +2488,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2511,7 +2511,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2543,7 +2543,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2689,7 +2689,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2711,7 +2711,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2742,7 +2742,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2763,7 +2763,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2794,7 +2794,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2931,7 +2931,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -2955,7 +2955,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -2987,7 +2987,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -3010,7 +3010,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3042,7 +3042,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -3192,7 +3192,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -3214,7 +3214,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3249,7 +3249,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -3270,7 +3270,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3305,7 +3305,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -3461,7 +3461,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -3517,7 +3517,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3553,7 +3553,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -3608,7 +3608,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3644,7 +3644,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -3839,7 +3839,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -3871,7 +3871,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3895,7 +3895,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -3926,7 +3926,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -3950,7 +3950,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4106,7 +4106,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4140,7 +4140,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4180,7 +4180,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4213,7 +4213,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4253,7 +4253,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4404,7 +4404,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4435,7 +4435,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4455,7 +4455,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4485,7 +4485,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4505,7 +4505,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4625,7 +4625,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4655,7 +4655,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4666,7 +4666,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4695,7 +4695,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4706,7 +4706,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4823,7 +4823,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4853,7 +4853,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4864,7 +4864,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -4893,7 +4893,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -4904,7 +4904,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -5021,7 +5021,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -5051,7 +5051,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -5062,7 +5062,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -5091,7 +5091,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -5102,7 +5102,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 999:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -5254,7 +5254,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -5279,7 +5279,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -5324,7 +5324,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -5348,7 +5348,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -5393,7 +5393,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -5541,7 +5541,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -5563,7 +5563,7 @@ namespace Google.Protobuf
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -5587,7 +5587,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -5608,7 +5608,7 @@ namespace Google.Protobuf
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -5632,7 +5632,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -5747,7 +5747,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -5771,7 +5771,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -5792,7 +5792,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -5815,7 +5815,7 @@ namespace Google.Protobuf
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -5836,7 +5836,7 @@ namespace Google.Protobuf
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -5954,7 +5954,7 @@ namespace Google.Protobuf
                                 instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
                             if (stream.Position != end1)
-                                throw new InvalidDataException("Read too many bytes in packed data");
+                                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                             continue;
                         // Field 2 LengthDelimited
                         case 18:
@@ -5966,7 +5966,7 @@ namespace Google.Protobuf
                                 instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
                             if (stream.Position != end2)
-                                throw new InvalidDataException("Read too many bytes in packed data");
+                                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                             continue;
                         // Field 3 LengthDelimited
                         case 26:
@@ -5984,7 +5984,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -6010,7 +6010,7 @@ namespace Google.Protobuf
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -6028,7 +6028,7 @@ namespace Google.Protobuf
                                 instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
                             if (stream.Position != end1)
-                                throw new InvalidDataException("Read too many bytes in packed data");
+                                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                             continue;
                         // Field 2 LengthDelimited
                         case 18:
@@ -6040,7 +6040,7 @@ namespace Google.Protobuf
                                 instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
                             if (stream.Position != end2)
-                                throw new InvalidDataException("Read too many bytes in packed data");
+                                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                             continue;
                         // Field 3 LengthDelimited
                         case 26:
@@ -6058,7 +6058,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -6083,7 +6083,7 @@ namespace Google.Protobuf
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -6101,7 +6101,7 @@ namespace Google.Protobuf
                                 instance.Path.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
                             if (stream.Position != end1)
-                                throw new InvalidDataException("Read too many bytes in packed data");
+                                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                             continue;
                         // Field 2 LengthDelimited
                         case 18:
@@ -6113,7 +6113,7 @@ namespace Google.Protobuf
                                 instance.Span.Add((int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
                             }
                             if (stream.Position != end2)
-                                throw new InvalidDataException("Read too many bytes in packed data");
+                                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                             continue;
                         // Field 3 LengthDelimited
                         case 26:
@@ -6131,7 +6131,7 @@ namespace Google.Protobuf
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -6334,7 +6334,7 @@ namespace Local
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6359,7 +6359,7 @@ namespace Local
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -6433,7 +6433,7 @@ namespace Local
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6457,7 +6457,7 @@ namespace Local
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -6531,7 +6531,7 @@ namespace Local
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6686,7 +6686,7 @@ namespace LocalFeatureTest
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6708,7 +6708,7 @@ namespace LocalFeatureTest
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -6719,7 +6719,7 @@ namespace LocalFeatureTest
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6740,7 +6740,7 @@ namespace LocalFeatureTest
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -6751,7 +6751,7 @@ namespace LocalFeatureTest
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6844,7 +6844,7 @@ namespace LocalFeatureTest
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6866,7 +6866,7 @@ namespace LocalFeatureTest
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -6877,7 +6877,7 @@ namespace LocalFeatureTest
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -6898,7 +6898,7 @@ namespace LocalFeatureTest
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -6909,7 +6909,7 @@ namespace LocalFeatureTest
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7014,7 +7014,7 @@ namespace TestB
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7037,7 +7037,7 @@ namespace TestB
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7057,7 +7057,7 @@ namespace TestB
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7079,7 +7079,7 @@ namespace TestB
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7099,7 +7099,7 @@ namespace TestB
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7204,7 +7204,7 @@ namespace TestB
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7226,7 +7226,7 @@ namespace TestB
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7246,7 +7246,7 @@ namespace TestB
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7267,7 +7267,7 @@ namespace TestB
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7287,7 +7287,7 @@ namespace TestB
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7395,7 +7395,7 @@ namespace Mine
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         if (instance.PreservedFields == null)
                             instance.PreservedFields = new List<global::SilentOrbit.ProtocolBuffers.KeyValue>();
@@ -7419,7 +7419,7 @@ namespace Mine
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7439,7 +7439,7 @@ namespace Mine
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         if (instance.PreservedFields == null)
                             instance.PreservedFields = new List<global::SilentOrbit.ProtocolBuffers.KeyValue>();
@@ -7462,7 +7462,7 @@ namespace Mine
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7482,7 +7482,7 @@ namespace Mine
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         if (instance.PreservedFields == null)
                             instance.PreservedFields = new List<global::SilentOrbit.ProtocolBuffers.KeyValue>();
@@ -7664,7 +7664,7 @@ namespace Yours
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 16:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -7696,7 +7696,7 @@ namespace Yours
                             instance.FieldT.Add(br.ReadUInt32());
                         }
                         if (stream.Position != end20)
-                            throw new InvalidDataException("Read too many bytes in packed data");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                         continue;
                     case 21:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
@@ -7747,7 +7747,7 @@ namespace Yours
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7823,7 +7823,7 @@ namespace Yours
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 16:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -7855,7 +7855,7 @@ namespace Yours
                             instance.FieldT.Add(br.ReadUInt32());
                         }
                         if (stream.Position != end20)
-                            throw new InvalidDataException("Read too many bytes in packed data");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                         continue;
                     case 21:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
@@ -7905,7 +7905,7 @@ namespace Yours
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -7981,7 +7981,7 @@ namespace Yours
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 16:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -8013,7 +8013,7 @@ namespace Yours
                             instance.FieldT.Add(br.ReadUInt32());
                         }
                         if (stream.Position != end20)
-                            throw new InvalidDataException("Read too many bytes in packed data");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read too many bytes in packed data");
                         continue;
                     case 21:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
@@ -8261,7 +8261,7 @@ namespace Theirs
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8283,7 +8283,7 @@ namespace Theirs
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8303,7 +8303,7 @@ namespace Theirs
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8324,7 +8324,7 @@ namespace Theirs
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8344,7 +8344,7 @@ namespace Theirs
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8443,7 +8443,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 32:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -8485,7 +8485,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8496,7 +8496,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 32:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -8537,7 +8537,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8548,7 +8548,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     case 32:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -8687,7 +8687,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8710,7 +8710,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8730,7 +8730,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8752,7 +8752,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8772,7 +8772,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8888,7 +8888,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8910,7 +8910,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8940,7 +8940,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8961,7 +8961,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -8991,7 +8991,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -9119,7 +9119,7 @@ namespace Proto.Test
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -9141,7 +9141,7 @@ namespace Proto.Test
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -9164,7 +9164,7 @@ namespace Proto.Test
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -9185,7 +9185,7 @@ namespace Proto.Test
                         if (stream.Position == limit)
                             break;
                         else
-                            throw new InvalidOperationException("Read past max limit");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                     }
                     int keyByte = stream.ReadByte();
                     if (keyByte == -1)
@@ -9208,7 +9208,7 @@ namespace Proto.Test
                     switch (key.Field)
                     {
                         case 0:
-                            throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                            throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                         default:
                             global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                             break;
@@ -9328,7 +9328,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -9350,7 +9350,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -9374,7 +9374,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -9395,7 +9395,7 @@ namespace Proto.Test
                     if (stream.Position == limit)
                         break;
                     else
-                        throw new InvalidOperationException("Read past max limit");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Read past max limit");
                 }
                 int keyByte = stream.ReadByte();
                 if (keyByte == -1)
@@ -9419,7 +9419,7 @@ namespace Proto.Test
                 switch (key.Field)
                 {
                     case 0:
-                        throw new InvalidDataException("Invalid field id: 0, something went wrong in the stream");
+                        throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
