@@ -101,7 +101,7 @@ This file will be overwritten when CodeGenerator is run.");
                         cw.Bracket("namespace " + m.CsNamespace);
                         ns = m.CsNamespace;
                     }
-                    MessageSerializer.GenerateClassSerializer(m, cw);
+                    MessageSerializer.GenerateClassSerializer(m, cw, options);
                 }
                 cw.EndBracket();
             }

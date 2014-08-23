@@ -5,7 +5,7 @@ namespace SilentOrbit.ProtocolBuffers
 {
     static class MessageSerializer
     {
-        public static void GenerateClassSerializer(ProtoMessage m, CodeWriter cw)
+        public static void GenerateClassSerializer(ProtoMessage m, CodeWriter cw, Options options)
         {
             if (m.OptionExternal || m.OptionType == "interface")
             {
@@ -21,11 +21,11 @@ namespace SilentOrbit.ProtocolBuffers
 
             GenerateReader(m, cw);
 
-            GenerateWriter(m, cw);
+            GenerateWriter(m, cw, options);
             foreach (ProtoMessage sub in m.Messages.Values)
             {
                 cw.WriteLine();
-                GenerateClassSerializer(sub, cw);
+                GenerateClassSerializer(sub, cw, options);
             }
             cw.EndBracket();
             cw.WriteLine();
@@ -250,8 +250,16 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates code for writing a class/message
         /// </summary>
-        static void GenerateWriter(ProtoMessage m, CodeWriter cw)
+        static void GenerateWriter(ProtoMessage m, CodeWriter cw, Options options)
         {
+            string stack = "global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack";
+            if (options.ExperimentalStack != null)
+            {
+                cw.WriteLine("[ThreadStatic]");
+                cw.WriteLine("static global::SilentOrbit.ProtocolBuffers.MemoryStreamStack stack = new " + options.ExperimentalStack + "();");
+                stack = "stack";
+            }
+
             cw.Summary("Serialize the instance into the stream");
             cw.Bracket(m.OptionAccess + " static void Serialize(Stream stream, " + m.CsType + " instance)");
             if (m.OptionTriggers)
@@ -263,12 +271,12 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
 
             //Shared memorystream for all fields
-            cw.WriteLine("var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();");
+            cw.WriteLine("var msField = " + stack + ".Pop();");
 
             foreach (Field f in m.Fields.Values)
                 FieldSerializer.FieldWriter(m, f, cw);
 
-            cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);");
+            cw.WriteLine(stack + ".Push(msField);");
 
             if (m.OptionPreserveUnknown)
             {

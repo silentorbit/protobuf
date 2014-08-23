@@ -38,6 +38,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option('o', "output", Required = false, HelpText = "Path to the generated .cs file.")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Use experimental stack per message type
+        /// </summary>
+        [Option("experimental-message-stack", HelpText = "Assign the name of the stack implementatino to use for each message type, included options are ThreadSafeStack, ThreadUnsafeStack, ConcurrentBagStack or the full namespace to your own implementation.")]
+        public string ExperimentalStack { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);
@@ -79,6 +85,9 @@ namespace SilentOrbit.ProtocolBuffers
                 options.OutputPath = Path.Combine(options.OutputPath, Path.GetFileName(firstPathCs));
             }
             options.OutputPath = Path.GetFullPath(options.OutputPath);
+
+            if (options.ExperimentalStack != null && !options.ExperimentalStack.Contains("."))
+                options.ExperimentalStack = "global::SilentOrbit.ProtocolBuffers." + options.ExperimentalStack;
 
             if(error)
                 return null;
