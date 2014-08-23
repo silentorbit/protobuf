@@ -65,10 +65,20 @@ namespace SilentOrbit.ProtocolBuffers
 
     }
 
+    [Obsolete("Renamed to PositionStream")]
+    public class StreamRead : PositionStream
+    {
+        public StreamRead (Stream baseStream) : base(baseStream)
+        {
+            
+        }
+    }
+
     /// <summary>
-    /// Wrapper for streams that does not support the Position property
+    /// Wrapper for streams that does not support the Position property.
+    /// Adds support for the Position property.
     /// </summary>
-    public class StreamRead : Stream
+    public class PositionStream : Stream
     {
         Stream stream;
 
@@ -86,7 +96,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <param name='maxLength'>
         /// Max length allowed to read from the stream.
         /// </param>
-        public StreamRead(Stream baseStream)
+        public PositionStream(Stream baseStream)
         {
             this.stream = baseStream;
         }

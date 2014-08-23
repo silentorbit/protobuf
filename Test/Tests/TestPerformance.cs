@@ -86,7 +86,7 @@ namespace Test
                 ms.Seek(0, SeekOrigin.Begin);
                 GC.Collect();
                 start = DateTime.Now;
-                var dab = AddressBook.Deserialize(new StreamRead(ms));
+                var dab = AddressBook.Deserialize(new PositionStream(ms));
                 TimeSpan deserialize = DateTime.Now - start;
                 Console.WriteLine("Speed test: Deserialize " + dab.List.Count + " posts in " + deserialize.TotalSeconds + " s");
             }
