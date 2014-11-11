@@ -8,6 +8,16 @@ Parses a .proto file and generates C# source files
 with classes for every message as well as code for
 reading and writing them to the Protocol Buffers binary format.
 
+## Download
+
+Get the [precompiled binaries here](https://github.com/hultqvist/ProtoBuf/releases).
+
+Get the source using git:
+
+    git clone https://github.com/hultqvist/ProtoBuf.git --recursive
+
+*Don't use the "download zip" feature on github as it won't include submodules such as CommandLine*
+
 ## Basic Features
 
  * CodeGenerator - transform a .proto specification directly into complete c# code.
