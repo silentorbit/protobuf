@@ -32,6 +32,10 @@ namespace Personal
 
         public partial class PhoneNumber
         {
+            public PhoneNumber()
+            {
+                Type = Personal.Person.PhoneType.HOME;
+            }
             public string Number { get; set; }
 
             public Personal.Person.PhoneType Type { get; set; }
@@ -343,6 +347,15 @@ namespace Google.Protobuf
     /// </summary>
     public partial class FileOptions
     {
+        public FileOptions()
+        {
+            JavaMultipleFiles = false;
+            JavaGenerateEqualsAndHash = false;
+            OptimizeFor = Google.Protobuf.FileOptions.OptimizeMode.SPEED;
+            CcGenericServices = false;
+            JavaGenericServices = false;
+            PyGenericServices = false;
+        }
         public enum OptimizeMode
         {
             SPEED = 1,
@@ -424,6 +437,11 @@ namespace Google.Protobuf
 
     public partial class MessageOptions
     {
+        public MessageOptions()
+        {
+            MessageSetWireFormat = false;
+            NoStandardDescriptorAccessor = false;
+        }
         /// <summary>
         /// <para> Set true to use the old proto1 MessageSet wire format for extensions.</para>
         /// <para> This is provided for backwards-compatibility with the MessageSet wire</para>
@@ -460,6 +478,13 @@ namespace Google.Protobuf
 
     public partial class FieldOptions
     {
+        public FieldOptions()
+        {
+            Ctype = Google.Protobuf.FieldOptions.CType.STRING;
+            Lazy = false;
+            Deprecated = false;
+            Weak = false;
+        }
         public enum CType
         {
             /// <summary> Default mode.</summary>
@@ -550,6 +575,10 @@ namespace Google.Protobuf
 
     public partial class EnumOptions
     {
+        public EnumOptions()
+        {
+            AllowAlias = true;
+        }
         /// <summary>
         /// <para> Set this option to false to disallow mapping different tag names to a same</para>
         /// <para> value.</para>
@@ -861,6 +890,25 @@ namespace Yours
 {
     public partial class MyMessageV2
     {
+        public MyMessageV2()
+        {
+            FieldA = -1;
+            FieldB = 4.5;
+            FieldC = 5.4f;
+            FieldD = -2;
+            FieldE = -3;
+            FieldF = 4;
+            FieldG = 5;
+            FieldH = -6;
+            FieldI = -7;
+            FieldJ = 8;
+            FieldK = 9;
+            FieldL = -10;
+            FieldM = -11;
+            FieldN = false;
+            FieldO = "test";
+            FieldR = Yours.MyMessageV2.MyEnum.ETest2;
+        }
         public enum MyEnum
         {
             /// <summary>First test</summary>

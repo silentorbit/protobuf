@@ -7581,6 +7581,21 @@ namespace Yours
         public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
         {
             BinaryReader br = new BinaryReader(stream);
+            instance.FieldA = -1;
+            instance.FieldB = 4.5;
+            instance.FieldC = 5.4f;
+            instance.FieldD = -2;
+            instance.FieldE = -3;
+            instance.FieldF = 4;
+            instance.FieldG = 5;
+            instance.FieldH = -6;
+            instance.FieldI = -7;
+            instance.FieldJ = 8;
+            instance.FieldK = 9;
+            instance.FieldL = -10;
+            instance.FieldM = -11;
+            instance.FieldN = false;
+            instance.FieldO = "test";
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
@@ -7731,6 +7746,21 @@ namespace Yours
         public static Yours.MyMessageV2 DeserializeLengthDelimited(Stream stream, Yours.MyMessageV2 instance)
         {
             BinaryReader br = new BinaryReader(stream);
+            instance.FieldA = -1;
+            instance.FieldB = 4.5;
+            instance.FieldC = 5.4f;
+            instance.FieldD = -2;
+            instance.FieldE = -3;
+            instance.FieldF = 4;
+            instance.FieldG = 5;
+            instance.FieldH = -6;
+            instance.FieldI = -7;
+            instance.FieldJ = 8;
+            instance.FieldK = 9;
+            instance.FieldL = -10;
+            instance.FieldM = -11;
+            instance.FieldN = false;
+            instance.FieldO = "test";
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
@@ -7890,6 +7920,21 @@ namespace Yours
         public static Yours.MyMessageV2 DeserializeLength(Stream stream, int length, Yours.MyMessageV2 instance)
         {
             BinaryReader br = new BinaryReader(stream);
+            instance.FieldA = -1;
+            instance.FieldB = 4.5;
+            instance.FieldC = 5.4f;
+            instance.FieldD = -2;
+            instance.FieldE = -3;
+            instance.FieldF = 4;
+            instance.FieldG = 5;
+            instance.FieldH = -6;
+            instance.FieldI = -7;
+            instance.FieldJ = 8;
+            instance.FieldK = 9;
+            instance.FieldL = -10;
+            instance.FieldM = -11;
+            instance.FieldN = false;
+            instance.FieldO = "test";
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();

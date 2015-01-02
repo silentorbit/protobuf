@@ -10,7 +10,9 @@ namespace SilentOrbit.ProtocolBuffers
         {
             Source = new SourcePath(tr);
         }
+
         #region .proto data
+
         /// <summary>
         /// Comments written before the field in the .proto file.
         /// These comments will be written into the generated code.
@@ -57,7 +59,9 @@ namespace SilentOrbit.ProtocolBuffers
                 return false;
             }
         }
+
         #region Locally used fields
+
         //These options are not the build in ones and have a meaning in the code generation
         /// <summary>
         /// Define the access of the field: public, protected, private or internal
@@ -86,7 +90,9 @@ namespace SilentOrbit.ProtocolBuffers
         /// Size in bytes.
         /// </summary>
         public int BufferSize { get; set; }
+
         #endregion
+
         #endregion
 
         /// <summary>
@@ -110,14 +116,40 @@ namespace SilentOrbit.ProtocolBuffers
                 return ProtoType.WireType;
             }
         }
+
         #region Code Generation Properties
+
         //These are generated as a second stage parsing of the .proto file.
         //They are used in the code generation.
         /// <summary>
         /// .proto type including enum and message.
         /// </summary>
         public ProtoType ProtoType { get; set; }
+
         #endregion
+
+        /// <summary>
+        /// Format the specified value according to the field type.
+        /// </summary>
+        /// <returns>String that can be use to assign to field of this field's type.</returns>
+        /// <param name="value">Value.</param>
+        public string FormatForTypeAssignment()
+        {
+            if (OptionDefault == null)
+                throw new InvalidOperationException("Missing default value");
+
+            if (this.ProtoType is ProtoEnum)
+                return this.ProtoType.FullCsType + "." + OptionDefault;
+
+            if (ProtoTypeName == "string")
+                return string.Format("\"{0}\"", OptionDefault);
+
+            if (ProtoTypeName == "float")
+                return OptionDefault + "f";
+
+            return OptionDefault;
+        }
+
         public override string ToString()
         {
             return string.Format("{0} {1} {2} = {3}", Rule, ProtoTypeName, ProtoName, ID);

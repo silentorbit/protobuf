@@ -24,6 +24,8 @@ namespace Test
 
             TestStandardFeatures.Run();
 
+            TestDefaults.Run();
+
             TestLocalFeatures.Run();
 
             TestNonOptimizedCases.Run();

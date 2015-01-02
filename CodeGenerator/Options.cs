@@ -44,6 +44,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("experimental-message-stack", HelpText = "Assign the name of the stack implementatino to use for each message type, included options are ThreadSafeStack, ThreadUnsafeStack, ConcurrentBagStack or the full namespace to your own implementation.")]
         public string ExperimentalStack { get; set; }
 
+        /// <summary>
+        /// If set default constructors will be generated for each message
+        /// </summary>
+        [Option("ctor", HelpText = "Generate constructors with default values.")]
+        public bool GenerateDefaultConstructors { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);
