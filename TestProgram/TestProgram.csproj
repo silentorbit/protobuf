@@ -69,25 +69,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="ProtoSpec\AddressBook.proto">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoSpec\LocalFeatures.proto" />
-    <None Include="ProtoSpec\ProtoFeatures.proto" />
-    <None Include="ProtoSpec\descriptor.proto" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Generated\" />
     <Folder Include="ProtoBuf-Net\" />
     <Folder Include="CustomWritten\" />
     <Folder Include="Tests\" />
     <Folder Include="ProtoSpec\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="TestB\TestB.csproj">
-      <Project>{C068143A-07C2-48BE-9EDB-08A05E8153CF}</Project>
-      <Name>TestB</Name>
-    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -101,4 +87,16 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Include="ProtoSpec\AddressBook.proto" />
+    <None Include="ProtoSpec\LocalFeatures.proto" />
+    <None Include="ProtoSpec\ProtoFeatures.proto" />
+    <None Include="ProtoSpec\descriptor.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestLibrary\TestLibrary.csproj">
+      <Project>{C068143A-07C2-48BE-9EDB-08A05E8153CF}</Project>
+      <Name>TestLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
