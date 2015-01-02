@@ -70,7 +70,7 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.Bracket("public " + m.CsType + "()");
                 foreach (var field in fieldsWithDefaults)
                 {
-                    string formattedValue = field.FormatForTypeAssignment(field.OptionDefault);
+                    string formattedValue = field.FormatForTypeAssignment();
                     string line = string.Format("{0} = {1};", field.CsName, formattedValue);
                     cw.WriteLine(line);
                 }
