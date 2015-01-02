@@ -20,7 +20,8 @@ namespace SilentOrbit.ProtocolBuffers
             cw.Summary(m.Comments);
             cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CsType);
 
-            GenerateCtorForDefaults(m, cw);
+            if(options.GenerateDefaultConstructors)
+                GenerateCtorForDefaults(m, cw);
 
             GenerateEnums(m, cw);
 
