@@ -1,5 +1,6 @@
 ﻿using System;
 using Yours;
+using NUnit.Framework;
 
 namespace Test
 {
@@ -7,9 +8,11 @@ namespace Test
     /// Test that default values are generated,
     /// both in constructor and in deserialization
     /// </summary>
-    public class TestDefaults : TestBase
+    [TestFixture()]
+    public class TestDefaults
     {
-        public static void Run()
+        [Test()]
+        public void Run()
         {
             //Test constuctor values
             var m = new MyMessageV2();
@@ -36,21 +39,21 @@ namespace Test
 
         static void TestDefault(MyMessageV2 m)
         {
-            Test("", m.FieldA == -1);
-            Test("", m.FieldB == 4.5);
-            Test("", m.FieldC == 5.4f);
-            Test("", m.FieldD == -2);
-            Test("", m.FieldE == -3);
-            Test("", m.FieldF == 4);
-            Test("", m.FieldG == 5);
-            Test("", m.FieldH == -6);
-            Test("", m.FieldI == -7);
-            Test("", m.FieldJ == 8);
-            Test("", m.FieldK == 9);
-            Test("", m.FieldL == -10);
-            Test("", m.FieldM == -11);
-            Test("", m.FieldN == false);
-            Test("", m.FieldO == "test");
+            Assert.AreEqual(-1, m.FieldA);
+            Assert.AreEqual(4.5, m.FieldB);
+            Assert.AreEqual(5.4f, m.FieldC);
+            Assert.AreEqual(-2, m.FieldD);
+            Assert.AreEqual(-3, m.FieldE);
+            Assert.AreEqual(4, m.FieldF);
+            Assert.AreEqual(5, m.FieldG);
+            Assert.AreEqual(-6, m.FieldH);
+            Assert.AreEqual(-7, m.FieldI);
+            Assert.AreEqual(8, m.FieldJ);
+            Assert.AreEqual(9, m.FieldK);
+            Assert.AreEqual(-10, m.FieldL);
+            Assert.AreEqual(-11, m.FieldM);
+            Assert.AreEqual(false, m.FieldN);
+            Assert.AreEqual("test", m.FieldO);
         }
     }
 }

@@ -1,15 +1,18 @@
 using System;
 using System.IO;
 using SilentOrbit.ProtocolBuffers;
+using NUnit.Framework;
 
 namespace Test
 {
-    public class TestZigZag : TestBase
+    [TestFixture()]
+    public class TestZigZag
     {
         /// <summary>
         /// There was once an issue with the zigzag encoding
         /// </summary>
-        public static void Run()
+        [Test()]
+        public void Run()
         {
             int[] test32 = new int[] {
                 int.MinValue,

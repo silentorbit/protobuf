@@ -1,15 +1,18 @@
 using System;
 using Proto.Test;
 using System.IO;
+using NUnit.Framework;
 
 namespace Test
 {
-    public class TestNonOptimizedCases : TestBase
+    [TestFixture()]
+    public class TestNonOptimizedCases
     {
         /// <summary>
         /// Test serializing a message without any low id fields.
         /// </summary>
-        public static void Run()
+        [Test()]
+        public void Run()
         {
             Random r = new Random();
             LongMessage l1 = new LongMessage();
@@ -27,10 +30,10 @@ namespace Test
             LongMessage l2 = LongMessage.Deserialize(ms2);
 
             //Test
-            Test("LongMessage FieldX1", l1.FieldX1 == l2.FieldX1);
-            Test("LongMessage FieldX2", l1.FieldX2 == l2.FieldX2);
-            Test("LongMessage FieldX3", l1.FieldX3 == l2.FieldX3);
-            Test("LongMessage FieldX4", l1.FieldX4 == l2.FieldX4);
+            Assert.AreEqual(l1.FieldX1, l2.FieldX1, "LongMessage FieldX1");
+            Assert.AreEqual(l1.FieldX2, l2.FieldX2, "LongMessage FieldX2");
+            Assert.AreEqual(l1.FieldX3, l2.FieldX3, "LongMessage FieldX3");
+            Assert.AreEqual(l1.FieldX4, l2.FieldX4, "LongMessage FieldX4");
         }
     }
 }

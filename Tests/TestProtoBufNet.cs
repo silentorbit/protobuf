@@ -2,16 +2,19 @@ using System;
 using Personal;
 using System.IO;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Test
 {
-    public class TestProtoBufNet : TestBase
+    [TestFixture()]
+    public class TestProtoBufNet
     {
 
         /// <summary>
         /// Test wire format of the person example against protobuf-net - another c# protocol buffers library
         /// </summary>
-        public static void Run()
+        [Test()]
+        public void Run()
         {
             Person p1 = new Person();
             p1.Name = "Alice";
@@ -30,15 +33,15 @@ namespace Test
             NetPerson p2 = ProtoBuf.Serializer.Deserialize<NetPerson>(ms2);
 
             //Test
-            Test("12 Name", p1.Name == p2.Name);
-            Test("12 Id", p1.Id == p2.Id);
-            Test("12 Email", p1.Email == p2.Email);
-            Test("12 Phone", p1.Phone.Count == p2.Phone.Count);
-            Test("12 Phone[0]", p1.Phone[0].Number == p2.Phone[0].Number);
-            Test("12 Phone[0]", (int)p1.Phone[0].Type == (int)p2.Phone[0].Type);
-            Test("12 Phone[1]", p1.Phone[1].Number == p2.Phone[1].Number);
+            Assert.AreEqual(p1.Name, p2.Name);
+            Assert.AreEqual(p1.Id, p2.Id);
+            Assert.AreEqual(p1.Email, p2.Email);
+            Assert.AreEqual(p1.Phone.Count, p2.Phone.Count);
+            Assert.AreEqual(p1.Phone[0].Number, p2.Phone[0].Number);
+            Assert.AreEqual((int)p1.Phone[0].Type, (int)p2.Phone[0].Type);
+            Assert.AreEqual(p1.Phone[1].Number, p2.Phone[1].Number);
             //Disabled test since missing data should return the default value(HOME).
-            //Test ("12 Phone[1]", (int)p1.Phone [1].Type == (int)p2.Phone [1].Type);
+            //Test ("12 Phone[1]", (int)p1.Phone [1].Type, (int)p2.Phone [1].Type);
 
             //Correct invalid data for the next test
             p2.Phone[1].Type = Person.PhoneType.HOME;
@@ -49,34 +52,23 @@ namespace Test
             //Test wire data
             byte[] b1 = ms1.ToArray();
             byte[] b3 = ms3.ToArray();
-            Test("WireLength", b1.Length == b3.Length);
-            if (b1.Length == b3.Length)
-            {
-                for (int n = 0; n < b1.Length; n++)
-                    if (b1[n] != b3[n])
-                        Test("Wire" + n, b1[n] == b3[n]);
-            }
-            else
-            {
-                Console.WriteLine(BitConverter.ToString(b1));
-                Console.WriteLine();
-                Console.WriteLine(BitConverter.ToString(b3));
-            }
+            Assert.AreEqual(b1.Length, b3.Length, "WireLength");
+            for(int n = 0; n < b1.Length; n++)
+                Assert.AreEqual(b1[n], b3[n]);
 
             MemoryStream ms4 = new MemoryStream(ms3.ToArray());
             Person p4 = Person.Deserialize(ms4);
 
             //Test          
-            Test("14 Name", p1.Name == p4.Name);
-            Test("14 Id", p1.Id == p4.Id);
-            Test("14 Email", p1.Email == p4.Email);
-            Test("14 Phone", p1.Phone.Count == p4.Phone.Count);
-            Test("14 Phone[0]", p1.Phone[0].Number == p4.Phone[0].Number);
-            Test("14 Phone[0]", p1.Phone[0].Type == p4.Phone[0].Type);
-            Test("14 Phone[1]", p1.Phone[1].Number == p4.Phone[1].Number);
-            Test("14 Phone[1]", p1.Phone[1].Type == p4.Phone[1].Type);
+            Assert.AreEqual(p1.Name, p4.Name);
+            Assert.AreEqual(p1.Id, p4.Id);
+            Assert.AreEqual(p1.Email, p4.Email);
+            Assert.AreEqual(p1.Phone.Count, p4.Phone.Count);
+            Assert.AreEqual(p1.Phone[0].Number, p4.Phone[0].Number);
+            Assert.AreEqual(p1.Phone[0].Type, p4.Phone[0].Type);
+            Assert.AreEqual(p1.Phone[1].Number, p4.Phone[1].Number);
+            Assert.AreEqual(p1.Phone[1].Type, p4.Phone[1].Type);
         }
-
     }
 }
 

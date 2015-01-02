@@ -18,20 +18,6 @@ namespace Test
         {
             Console.WriteLine("Hello Binary World!");
 
-            TestReadme.Run();
-
-            TestZigZag.Run();
-
-            TestStandardFeatures.Run();
-
-            TestDefaults.Run();
-
-            TestLocalFeatures.Run();
-
-            TestNonOptimizedCases.Run();
-
-            TestProtoBufNet.Run();
-
             TestPerformance.Run();
         }
     }

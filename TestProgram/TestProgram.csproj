@@ -57,15 +57,7 @@
     <Compile Include="Generated\Generated.cs" />
     <Compile Include="Generated\Generated.Serializer.cs" />
     <Compile Include="Generated\ProtocolParser.cs" />
-    <Compile Include="Tests\TestBase.cs" />
-    <Compile Include="Tests\TestReadme.cs" />
-    <Compile Include="Tests\TestZigZag.cs" />
-    <Compile Include="Tests\TestStandardFeatures.cs" />
-    <Compile Include="Tests\TestLocalFeatures.cs" />
-    <Compile Include="Tests\TestProtoBufNet.cs" />
     <Compile Include="Tests\TestPerformance.cs" />
-    <Compile Include="Tests\TestNonOptimizedCases.cs" />
-    <Compile Include="Tests\TestDefaults.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

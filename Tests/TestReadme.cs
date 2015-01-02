@@ -1,15 +1,18 @@
 using System;
 using System.IO;
 using Personal;
+using NUnit.Framework;
 
 namespace Test
 {
-    public class TestReadme : TestBase
+    [TestFixture()]
+    public class TestReadme
     {
         /// <summary>
         /// Example found in the README file
         /// </summary>
-        public static void Run()
+        [Test()]
+        public void Run()
         {
             MemoryStream stream = new MemoryStream();
 
@@ -20,7 +23,7 @@ namespace Test
             stream.Seek(0, SeekOrigin.Begin);
 
             Person person2 = Person.Deserialize(stream);
-            Test("ReadMe Person test", person.Name == person2.Name);
+            Assert.AreEqual(person.Name, person2.Name);
         }
     }
 }

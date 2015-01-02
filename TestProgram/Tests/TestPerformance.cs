@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Test
 {
-    public class TestPerformance : TestBase
+    public class TestPerformance
     {
         public static void Run()
         {

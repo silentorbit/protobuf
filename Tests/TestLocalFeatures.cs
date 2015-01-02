@@ -3,16 +3,19 @@ using Local;
 using System.IO;
 using Yours;
 using Mine;
+using NUnit.Framework;
 
 namespace Test
 {
-    public class TestLocalFeatures : TestBase
+    [TestFixture()]
+    public class TestLocalFeatures
     {
 
         /// <summary>
         /// Test wire format of the person example against protobuf-net - another c# protocol buffers library
         /// </summary>
-        public static void Run()
+        [Test()]
+        public void Run()
         {
             LocalFeatures local = new LocalFeatures("139pt2m7");
             local.Uptime = TimeSpan.FromHours(37.8);
@@ -33,7 +36,7 @@ namespace Test
             LocalFeatures.Deserialize(ms2, l2);
 
             //Test in Equals to have access to all fields
-            Test("Local Features", local.Equals(l2));
+            Assert.IsTrue(local.Equals(l2), "Local Features");
 
 
             //Test preservation of unknown fields
@@ -76,12 +79,11 @@ namespace Test
             //Read V2 and test
             MyMessageV2 v2test = MyMessageV2.Deserialize(new MemoryStream(streamBuffer));
             //Test FieldA
-            Test("Modified in v1", v2test.FieldA == v1.FieldA);
+            Assert.AreEqual(v2test.FieldA, v1.FieldA, "Modified in v1");
             //Restore and test entire v2
             v2test.FieldA = v2original.FieldA;
-            Test("MyMessageV2 WriteRead", v2original.Equals(v2test));
+            Assert.IsTrue(v2original.Equals(v2test), "MyMessageV2 WriteRead");
         }
-
     }
 }
 
