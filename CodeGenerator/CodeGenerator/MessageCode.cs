@@ -1,5 +1,6 @@
 using System;
 using SilentOrbit.Code;
+using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -18,6 +19,8 @@ namespace SilentOrbit.ProtocolBuffers
             //Default class
             cw.Summary(m.Comments);
             cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CsType);
+
+            GenerateCtorForDefaults(m, cw);
 
             GenerateEnums(m, cw);
 
@@ -47,6 +50,31 @@ namespace SilentOrbit.ProtocolBuffers
             }
             cw.EndBracket();
             return;
+        }
+
+        static void GenerateCtorForDefaults(ProtoMessage m, CodeWriter cw)
+        {
+            // Collect all fields with default values.
+            var fieldsWithDefaults = new List<Field>();
+            foreach (Field field in m.Fields.Values)
+            {
+                if (field.OptionDefault != null)
+                {
+                    fieldsWithDefaults.Add(field);
+                }
+            }
+
+            if (fieldsWithDefaults.Count > 0)
+            {
+                cw.Bracket("public " + m.CsType + "()");
+                foreach (var field in fieldsWithDefaults)
+                {
+                    string formattedValue = field.FormatForTypeAssignment(field.OptionDefault);
+                    string line = string.Format("{0} = {1};", field.CsName, formattedValue);
+                    cw.WriteLine(line);
+                }
+                cw.EndBracket();
+            }
         }
 
         static void GenerateEnums(ProtoMessage m, CodeWriter cw)

@@ -118,6 +118,23 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public ProtoType ProtoType { get; set; }
         #endregion
+
+        /// <summary>
+        /// Format the specified value according to the field type.
+        /// </summary>
+        /// <returns>String that can be use to assign to field of this field's type.</returns>
+        /// <param name="value">Value.</param>
+        public string FormatForTypeAssignment(string value)
+        {
+            string formattedValue = value;
+            if (ProtoTypeName == "string")
+            {
+                formattedValue = string.Format("\"{0}\"", value);
+            }
+
+            return formattedValue;
+        }
+
         public override string ToString()
         {
             return string.Format("{0} {1} {2} = {3}", Rule, ProtoTypeName, ProtoName, ID);
