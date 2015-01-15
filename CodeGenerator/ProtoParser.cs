@@ -52,7 +52,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (token.StartsWith("//"))
             {
-                lastComment.Add(token.Substring(2));
+                lastComment.Add(token.TrimStart('/'));
                 return true;
             }
             if (token.StartsWith("/*"))
