@@ -112,13 +112,16 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     if (f.Rule == FieldRule.Repeated)
                     {
-                        //Initialize lists of the custom DateTime or TimeSpan type.
-                        string csType = f.ProtoType.FullCsType;
-                        if (f.OptionCodeType != null)
-                            csType = f.OptionCodeType;
+                        if (f.OptionReadOnly == false)
+                        {
+                            //Initialize lists of the custom DateTime or TimeSpan type.
+                            string csType = f.ProtoType.FullCsType;
+                            if (f.OptionCodeType != null)
+                                csType = f.OptionCodeType;
 
-                        cw.WriteLine("if (instance." + f.CsName + " == null)");
-                        cw.WriteIndent("instance." + f.CsName + " = new List<" + csType + ">();");
+                            cw.WriteLine("if (instance." + f.CsName + " == null)");
+                            cw.WriteIndent("instance." + f.CsName + " = new List<" + csType + ">();");
+                        }
                     }
                     else if (f.OptionDefault != null)
                     {
