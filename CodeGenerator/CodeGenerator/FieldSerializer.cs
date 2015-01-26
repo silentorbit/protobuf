@@ -300,7 +300,8 @@ namespace SilentOrbit.ProtocolBuffers
                     if (f.ProtoType.Nullable || options.Nullable) //Struct always exist, not optional
                         cw.IfBracket("instance." + f.CsName + " != null");
                     KeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                    cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName));
+                    var needValue = !f.ProtoType.Nullable && options.Nullable;
+                    cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName + (needValue ? ".Value" : "")));
                     if (f.ProtoType.Nullable || options.Nullable) //Struct always exist, not optional
                         cw.EndBracket();
                     return;
