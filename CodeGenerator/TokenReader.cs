@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    class TokenReader
+    public class TokenReader
     {
         public readonly string Path;
         readonly string whitespace = " \t\r\n";

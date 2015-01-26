@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,11 +31,14 @@
     <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/AddressBook.proto ../../../TestProgram/ProtoSpec/LocalFeatures.proto ../../../TestProgram/ProtoSpec/ProtoFeatures.proto --output ../../../TestProgram/Generated/Generated.cs</Commandlineparameters>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SilentOrbit.ProtocolBuffers.Builder</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
+    <Compile Include="Builder.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProtoParser.cs" />
     <Compile Include="TokenReader.cs" />
@@ -80,11 +83,7 @@
       <LogicalName>ProtocolParserExceptions</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Proto\" />
-    <Folder Include="ProtocolParser\" />
-    <Folder Include="CodeGenerator\" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
