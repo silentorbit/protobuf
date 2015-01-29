@@ -241,7 +241,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates code for writing one field
         /// </summary>
-        public static void FieldWriter(ProtoMessage m, Field f, CodeWriter cw)
+        public static void FieldWriter(ProtoMessage m, Field f, CodeWriter cw, Options options)
         {
             if (f.Rule == FieldRule.Repeated)
             {
@@ -292,15 +292,17 @@ namespace SilentOrbit.ProtocolBuffers
             }
             else if (f.Rule == FieldRule.Optional)
             {
-                if (f.ProtoType is ProtoMessage ||
+                if (options.Nullable || 
+                    f.ProtoType is ProtoMessage ||
                     f.ProtoType.ProtoName == ProtoBuiltin.String ||
                     f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
                 {
-                    if (f.ProtoType.Nullable) //Struct always exist, not optional
+                    if (f.ProtoType.Nullable || options.Nullable) //Struct always exist, not optional
                         cw.IfBracket("instance." + f.CsName + " != null");
                     KeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                    cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName));
-                    if (f.ProtoType.Nullable) //Struct always exist, not optional
+                    var needValue = !f.ProtoType.Nullable && options.Nullable;
+                    cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName + (needValue ? ".Value" : "")));
+                    if (f.ProtoType.Nullable || options.Nullable) //Struct always exist, not optional
                         cw.EndBracket();
                     return;
                 }

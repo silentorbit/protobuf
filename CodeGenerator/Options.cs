@@ -50,6 +50,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("ctor", HelpText = "Generate constructors with default values.")]
         public bool GenerateDefaultConstructors { get; set; }
 
+        /// <summary>
+        /// If set default constructors will be generated for each message
+        /// </summary>
+        [Option("nullable", Required = false, HelpText = "Generate nullable primitives for optional fields")]
+        public bool Nullable { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);

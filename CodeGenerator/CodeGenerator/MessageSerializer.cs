@@ -274,7 +274,7 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteLine("var msField = " + stack + ".Pop();");
 
             foreach (Field f in m.Fields.Values)
-                FieldSerializer.FieldWriter(m, f, cw);
+                FieldSerializer.FieldWriter(m, f, cw, options);
 
             cw.WriteLine(stack + ".Push(msField);");
 
