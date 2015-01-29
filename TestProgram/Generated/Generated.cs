@@ -38,7 +38,7 @@ namespace Personal
             }
             public string Number { get; set; }
 
-            public Personal.Person.PhoneType Type { get; set; }
+            public Personal.Person.PhoneType? Type { get; set; }
 
         }
 
@@ -164,9 +164,9 @@ namespace Google.Protobuf
 
         public partial class ExtensionRange
         {
-            public int Start { get; set; }
+            public int? Start { get; set; }
 
-            public int End { get; set; }
+            public int? End { get; set; }
 
         }
 
@@ -225,15 +225,15 @@ namespace Google.Protobuf
 
         public string Name { get; set; }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
-        public Google.Protobuf.FieldDescriptorProto.Label label { get; set; }
+        public Google.Protobuf.FieldDescriptorProto.Label? label { get; set; }
 
         /// <summary>
         /// <para> If type_name is set, this need not be set.  If both this and type_name</para>
         /// <para> are set, this must be either TYPE_ENUM or TYPE_MESSAGE.</para>
         /// </summary>
-        public Google.Protobuf.FieldDescriptorProto.Type type { get; set; }
+        public Google.Protobuf.FieldDescriptorProto.Type? type { get; set; }
 
         /// <summary>
         /// <para> For message and enum types, this is the name of the type.  If the name</para>
@@ -279,7 +279,7 @@ namespace Google.Protobuf
     {
         public string Name { get; set; }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
         public Google.Protobuf.EnumValueOptions Options { get; set; }
 
@@ -393,7 +393,7 @@ namespace Google.Protobuf
         /// <para> generated to contain the file's getDescriptor() method as well as any</para>
         /// <para> top-level extensions defined in the file.</para>
         /// </summary>
-        public bool JavaMultipleFiles { get; set; }
+        public bool? JavaMultipleFiles { get; set; }
 
         /// <summary>
         /// <para> If set true, then the Java code generator will generate equals() and</para>
@@ -401,10 +401,10 @@ namespace Google.Protobuf
         /// <para> purely a speed optimization, as the AbstractMessage base class includes</para>
         /// <para> reflection-based implementations of these methods.</para>
         /// </summary>
-        public bool JavaGenerateEqualsAndHash { get; set; }
+        public bool? JavaGenerateEqualsAndHash { get; set; }
 
         /// <summary> Generate code using MessageLite and the lite runtime.</summary>
-        public Google.Protobuf.FileOptions.OptimizeMode OptimizeFor { get; set; }
+        public Google.Protobuf.FileOptions.OptimizeMode? OptimizeFor { get; set; }
 
         /// <summary>
         /// <para> Sets the Go package where structs generated from this .proto will be</para>
@@ -424,11 +424,11 @@ namespace Google.Protobuf
         /// <para> these default to false.  Old code which depends on generic services should</para>
         /// <para> explicitly set them to true.</para>
         /// </summary>
-        public bool CcGenericServices { get; set; }
+        public bool? CcGenericServices { get; set; }
 
-        public bool JavaGenericServices { get; set; }
+        public bool? JavaGenericServices { get; set; }
 
-        public bool PyGenericServices { get; set; }
+        public bool? PyGenericServices { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
@@ -462,14 +462,14 @@ namespace Google.Protobuf
         /// <para> Because this is an option, the above two restrictions are not enforced by</para>
         /// <para> the protocol compiler.</para>
         /// </summary>
-        public bool MessageSetWireFormat { get; set; }
+        public bool? MessageSetWireFormat { get; set; }
 
         /// <summary>
         /// <para> Disables the generation of the standard "descriptor()" accessor, which can</para>
         /// <para> conflict with a field of the same name.  This is meant to make migration</para>
         /// <para> from proto1 easier; new code should avoid fields named "descriptor".</para>
         /// </summary>
-        public bool NoStandardDescriptorAccessor { get; set; }
+        public bool? NoStandardDescriptorAccessor { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
@@ -499,7 +499,7 @@ namespace Google.Protobuf
         /// <para> options below.  This option is not yet implemented in the open source</para>
         /// <para> release -- sorry, we'll try to include it in a future version!</para>
         /// </summary>
-        public Google.Protobuf.FieldOptions.CType Ctype { get; set; }
+        public Google.Protobuf.FieldOptions.CType? Ctype { get; set; }
 
         /// <summary>
         /// <para> The packed option can be enabled for repeated primitive fields to enable</para>
@@ -507,7 +507,7 @@ namespace Google.Protobuf
         /// <para> writing the tag and type for each element, the entire array is encoded as</para>
         /// <para> a single length-delimited blob.</para>
         /// </summary>
-        public bool Packed { get; set; }
+        public bool? Packed { get; set; }
 
         /// <summary>
         /// <para> Should this field be parsed lazily?  Lazy applies only to message-type</para>
@@ -539,7 +539,7 @@ namespace Google.Protobuf
         /// <para> check its required fields, regardless of whether or not the message has</para>
         /// <para> been parsed.</para>
         /// </summary>
-        public bool Lazy { get; set; }
+        public bool? Lazy { get; set; }
 
         /// <summary>
         /// <para> Is this field deprecated?</para>
@@ -547,7 +547,7 @@ namespace Google.Protobuf
         /// <para> for accessors, or it will be completely ignored; in the very least, this</para>
         /// <para> is a formalization for deprecating fields.</para>
         /// </summary>
-        public bool Deprecated { get; set; }
+        public bool? Deprecated { get; set; }
 
         /// <summary>
         /// <para> EXPERIMENTAL.  DO NOT USE.</para>
@@ -566,7 +566,7 @@ namespace Google.Protobuf
         public string ExperimentalMapKey { get; set; }
 
         /// <summary> For Google-internal migration only. Do not use.</summary>
-        public bool Weak { get; set; }
+        public bool? Weak { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
@@ -583,7 +583,7 @@ namespace Google.Protobuf
         /// <para> Set this option to false to disallow mapping different tag names to a same</para>
         /// <para> value.</para>
         /// </summary>
-        public bool AllowAlias { get; set; }
+        public bool? AllowAlias { get; set; }
 
         /// <summary> The parser stores options it doesn't recognize here. See above.</summary>
         public List<Google.Protobuf.UninterpretedOption> UninterpretedOption { get; set; }
@@ -641,11 +641,11 @@ namespace Google.Protobuf
         /// </summary>
         public string IdentifierValue { get; set; }
 
-        public ulong PositiveIntValue { get; set; }
+        public ulong? PositiveIntValue { get; set; }
 
-        public long NegativeIntValue { get; set; }
+        public long? NegativeIntValue { get; set; }
 
-        public double DoubleValue { get; set; }
+        public double? DoubleValue { get; set; }
 
         public byte[] StringValue { get; set; }
 
@@ -833,13 +833,13 @@ namespace Local
         /// <summary>When deserializing this one must be set to a class before</summary>
         public LocalFeatureTest.InterfaceTest MyInterface { get; set; }
 
-        public LocalFeatureTest.StructTest MyStruct;
+        public LocalFeatureTest.StructTest? MyStruct;
 
-        public TestB.ExternalStruct MyExtStruct;
+        public TestB.ExternalStruct? MyExtStruct;
 
         public TestB.ExternalClass MyExtClass { get; set; }
 
-        public LocalFeatureTest.TopEnum MyEnum { get; set; }
+        public LocalFeatureTest.TopEnum? MyEnum { get; set; }
 
         // protected virtual void BeforeSerialize() {}
         // protected virtual void AfterDeserialize() {}
@@ -961,7 +961,7 @@ namespace Yours
 
         public Yours.MyMessageV2.MyEnum FieldQ { get; set; }
 
-        public Yours.MyMessageV2.MyEnum FieldR { get; set; }
+        public Yours.MyMessageV2.MyEnum? FieldR { get; set; }
 
         protected string Dummy { get; set; }
 
@@ -972,6 +972,10 @@ namespace Yours
         public Theirs.TheirMessage FieldU { get; set; }
 
         public List<Theirs.TheirMessage> FieldV { get; set; }
+
+        public int? NullableInt { get; set; }
+
+        public Yours.MyMessageV2.AliasedEnum? NullableEnum { get; set; }
 
     }
 
@@ -1003,7 +1007,7 @@ namespace Proto.Test
     /// <summary>Nested testing</summary>
     public partial class Data
     {
-        public double Somefield { get; set; }
+        public double? Somefield { get; set; }
 
     }
 
@@ -1024,7 +1028,7 @@ namespace Proto.Test
 
     public partial class MyMessage
     {
-        public int Foo { get; set; }
+        public int? Foo { get; set; }
 
         public string Bar { get; set; }
 
