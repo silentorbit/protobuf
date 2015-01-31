@@ -12,7 +12,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Return true for normal code and false if generated thrown exception.
         /// In the latter case a break is not needed to be generated afterwards.
         /// </summary>
-        public static bool FieldReader(Field f, CodeWriter cw)
+        public static bool FieldReader(Field f, CodeWriter cw, Options options)
         {
             if (f.Rule == FieldRule.Repeated)
             {
@@ -60,7 +60,10 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     if (f.ProtoType.OptionType == "struct")
                     {
-                        cw.WriteLine(FieldReaderType(f, "stream", "br", "ref instance." + f.CsName) + ";");
+                        if (options.Nullable)
+                            cw.WriteLine("instance." + f.CsName + " = " + FieldReaderType(f, "stream", "br", null) + ";");     
+                        else
+                            cw.WriteLine(FieldReaderType(f, "stream", "br", "ref instance." + f.CsName) + ";");
                         return true;
                     }
 

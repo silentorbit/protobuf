@@ -196,7 +196,7 @@ namespace SilentOrbit.ProtocolBuffers
                         cw.Comment("Field " + f.ID + " " + f.WireType);
                         cw.Indent();
                         cw.Case(((f.ID << 3) | (int)f.WireType));
-                        if (FieldSerializer.FieldReader(f, cw))
+                        if (FieldSerializer.FieldReader(f, cw, options))
                             cw.WriteLine("continue;");
                     }
                     cw.SwitchEnd();
@@ -218,7 +218,7 @@ namespace SilentOrbit.ProtocolBuffers
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire." + f.WireType + ")");
                     cw.WriteIndent("break;"); //This can be changed to throw an exception for unknown formats.
-                    if (FieldSerializer.FieldReader(f, cw))
+                    if (FieldSerializer.FieldReader(f, cw, options))
                         cw.WriteLine("continue;");
                 }
                 cw.CaseDefault();
