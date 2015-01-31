@@ -2075,8 +2075,6 @@ namespace Google.Protobuf
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Google.Protobuf.FieldDescriptorProto Deserialize(Stream stream, Google.Protobuf.FieldDescriptorProto instance)
         {
-            instance.label = Google.Protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-            instance.type = Google.Protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -2141,8 +2139,6 @@ namespace Google.Protobuf
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Google.Protobuf.FieldDescriptorProto DeserializeLengthDelimited(Stream stream, Google.Protobuf.FieldDescriptorProto instance)
         {
-            instance.label = Google.Protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-            instance.type = Google.Protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -2216,8 +2212,6 @@ namespace Google.Protobuf
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Google.Protobuf.FieldDescriptorProto DeserializeLength(Stream stream, int length, Google.Protobuf.FieldDescriptorProto instance)
         {
-            instance.label = Google.Protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-            instance.type = Google.Protobuf.FieldDescriptorProto.Type.TYPE_DOUBLE;
             long limit = stream.Position + length;
             while (true)
             {
@@ -6322,7 +6316,6 @@ namespace Local
         internal static Local.LocalFeatures Deserialize(Stream stream, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
-            instance.MyEnum = LocalFeatureTest.TopEnum.First;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -6372,11 +6365,11 @@ namespace Local
                         continue;
                     // Field 10 LengthDelimited
                     case 82:
-                        LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
+                        instance.MyStruct = LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
-                        TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
+                        instance.MyExtStruct = TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream);
                         continue;
                     // Field 12 LengthDelimited
                     case 98:
@@ -6412,7 +6405,6 @@ namespace Local
         internal static Local.LocalFeatures DeserializeLengthDelimited(Stream stream, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
-            instance.MyEnum = LocalFeatureTest.TopEnum.First;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -6471,11 +6463,11 @@ namespace Local
                         continue;
                     // Field 10 LengthDelimited
                     case 82:
-                        LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
+                        instance.MyStruct = LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
-                        TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
+                        instance.MyExtStruct = TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream);
                         continue;
                     // Field 12 LengthDelimited
                     case 98:
@@ -6511,7 +6503,6 @@ namespace Local
         internal static Local.LocalFeatures DeserializeLength(Stream stream, int length, Local.LocalFeatures instance)
         {
             BinaryReader br = new BinaryReader(stream);
-            instance.MyEnum = LocalFeatureTest.TopEnum.First;
             long limit = stream.Position + length;
             while (true)
             {
@@ -6569,11 +6560,11 @@ namespace Local
                         continue;
                     // Field 10 LengthDelimited
                     case 82:
-                        LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
+                        instance.MyStruct = LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
-                        TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
+                        instance.MyExtStruct = TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream);
                         continue;
                     // Field 12 LengthDelimited
                     case 98:
@@ -7186,12 +7177,9 @@ namespace TestB
         {
             BinaryWriter bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
-            if (instance.X != null)
-            {
-                // Key for field: 1, Fixed64
-                stream.WriteByte(9);
-                bw.Write(instance.X.Value);
-            }
+            // Key for field: 1, Fixed64
+            stream.WriteByte(9);
+            bw.Write(instance.X);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
@@ -7376,12 +7364,9 @@ namespace TestB
         public static void Serialize(Stream stream, ExternalClass instance)
         {
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
-            if (instance.A != null)
-            {
-                // Key for field: 1, Varint
-                stream.WriteByte(8);
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.A.Value);
-            }
+            // Key for field: 1, Varint
+            stream.WriteByte(8);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.A);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 
@@ -7681,7 +7666,6 @@ namespace Yours
                 instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
-            instance.NullableEnum = Yours.MyMessageV2.AliasedEnum.Nothing;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -7857,7 +7841,6 @@ namespace Yours
                 instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
-            instance.NullableEnum = Yours.MyMessageV2.AliasedEnum.Nothing;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -8042,7 +8025,6 @@ namespace Yours
                 instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
-            instance.NullableEnum = Yours.MyMessageV2.AliasedEnum.Nothing;
             long limit = stream.Position + length;
             while (true)
             {
