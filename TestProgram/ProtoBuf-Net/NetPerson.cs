@@ -32,7 +32,7 @@ namespace Test
 
             [ProtoMember(2)]
             [DefaultValue(Person.PhoneType.HOME)]
-            public Person.PhoneType Type { get; set; }
+            public Person.PhoneType? Type { get; set; }
         }
     }
 
