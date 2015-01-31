@@ -22,7 +22,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor --nullable" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>

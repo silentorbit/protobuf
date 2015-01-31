@@ -5,17 +5,29 @@ using SilentOrbit.Code;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    class MainClass
+    public class Builder
     {
         public static int Main(string[] args)
         {
             var options = Options.Parse(args);
-            if(options == null)
+            if (options == null)
                 return -1;
+            try
+            {
+                Build(options);
+                return 0;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
 
+        public static void Build(Options options)
+        {
             ProtoCollection collection = new ProtoCollection();
 
-            foreach(string protoPath in options.InputProto)
+            foreach (string protoPath in options.InputProto)
             {
                 try
                 {
@@ -29,7 +41,7 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     Console.WriteLine();
                     Console.WriteLine(pfe.SourcePath.Path + "(" + pfe.SourcePath.Line + "," + pfe.SourcePath.Column + "): error CS001: " + pfe.Message);
-                    return -1;
+                    throw;
                 }
             }
 
@@ -45,13 +57,12 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 Console.WriteLine();
                 Console.WriteLine(pfe.SourcePath.Path + "(" + pfe.SourcePath.Line + "," + pfe.SourcePath.Column + "): error CS001: " + pfe.Message);
-                return -1;
+                throw;
             }
 
             //Generate code
             ProtoCode.Save(collection, options);
             Console.WriteLine("Saved: " + options.OutputPath);
-            return 0;
         }
     }
 }

@@ -63,6 +63,10 @@ message my_message_v2
     optional their_message field_u = 22;
     
     repeated their_message field_v = 23;
+
+    optional int32 nullable_int = 24;
+
+    optional aliased_enum nullable_enum = 25;
 }
 
 //:namespace = Theirs // Default from .proto: proto.test

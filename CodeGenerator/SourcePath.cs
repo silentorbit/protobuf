@@ -2,7 +2,7 @@ using System;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    internal class SourcePath
+    public class SourcePath
     {
         public readonly string Path;
         public readonly int Line;

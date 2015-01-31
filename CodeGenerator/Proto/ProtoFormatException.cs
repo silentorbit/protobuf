@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    class ProtoFormatException : Exception
+    public class ProtoFormatException : Exception
     {
         public readonly SourcePath SourcePath;
 
