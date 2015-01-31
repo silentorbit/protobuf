@@ -21,8 +21,12 @@ namespace Test
             p1.Id = -240;
             p1.Email = "alice@silentorbit.com";
             p1.Phone = new List<Person.PhoneNumber>();
+
+            // Pretty sure protobuf-net serializes default optional fields wrong (https://code.google.com/p/protobuf-net/issues/detail?id=136)
+            // Don't set PhoneType.HOME, otherwise tests will fail.
+
             p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.MOBILE, Number = "+46 11111111111" });
-            p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.HOME, Number = "+46 777777777" });
+            p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.WORK, Number = "+46 777777777" });
 
             //Serialize using this(Protobuf code generator)
             MemoryStream ms1 = new MemoryStream();
@@ -42,9 +46,6 @@ namespace Test
             Assert.AreEqual(p1.Phone[1].Number, p2.Phone[1].Number);
             //Disabled test since missing data should return the default value(HOME).
             //Test ("12 Phone[1]", (int)p1.Phone [1].Type, (int)p2.Phone [1].Type);
-
-            //Correct invalid data for the next test
-            p2.Phone[1].Type = Person.PhoneType.HOME;
 
             MemoryStream ms3 = new MemoryStream();
             ProtoBuf.Serializer.Serialize(ms3, p2);
