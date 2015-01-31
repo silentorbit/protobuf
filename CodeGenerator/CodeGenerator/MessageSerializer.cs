@@ -19,7 +19,7 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
 
-            GenerateReader(m, cw);
+            GenerateReader(m, cw, options);
 
             GenerateWriter(m, cw, options);
             foreach (ProtoMessage sub in m.Messages.Values)
@@ -32,7 +32,7 @@ namespace SilentOrbit.ProtocolBuffers
             return;
         }
 
-        static void GenerateReader(ProtoMessage m, CodeWriter cw)
+        static void GenerateReader(ProtoMessage m, CodeWriter cw, Options options)
         {
             #region Helper Deserialize Methods
             string refstr = (m.OptionType == "struct") ? "ref " : "";
@@ -127,7 +127,7 @@ namespace SilentOrbit.ProtocolBuffers
                     {
                         cw.WriteLine("instance." + f.CsName + " = " + f.FormatForTypeAssignment() + ";");
                     }
-                    else if (f.Rule == FieldRule.Optional)
+                    else if ((f.Rule == FieldRule.Optional) && !options.Nullable)
                     {
                         if (f.ProtoType is ProtoEnum)
                         {
