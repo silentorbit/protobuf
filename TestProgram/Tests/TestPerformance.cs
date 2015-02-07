@@ -9,12 +9,8 @@ namespace Test
 {
     public class TestPerformance
     {
-        public static void Run()
+        static void Generate(ref AddressBook ab, ref NetAddressBook nab)
         {
-            Console.WriteLine("Starting speed test...");
-
-            AddressBook ab = new AddressBook();
-            NetAddressBook nab = new NetAddressBook();
             ab.List = new List<Person>();
             nab.List = new List<NetPerson>();
             //Generating structures
@@ -48,6 +44,19 @@ namespace Test
                 }
             }
 
+        }
+
+        public static void Run()
+        {
+
+            AddressBook ab = new AddressBook();
+            NetAddressBook nab = new NetAddressBook();
+            Console.Write("Generating data structures...");
+            Generate(ref ab, ref nab);
+            Console.WriteLine("done");
+
+            Console.WriteLine("Starting speed tests...");
+
             RunTestSerialize(new AllocationStack(), ab);
             RunTestSerialize(new ThreadSafeStack(), ab);
             RunTestSerialize(new ThreadUnsafeStack(), ab);
@@ -56,37 +65,41 @@ namespace Test
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize
+                Console.Write("Speed test ConcurrentBagStack: Serialize " + ab.List.Count + " posts in   ");
                 GC.Collect();
                 var start = DateTime.Now;
                 AddressBook.Serialize(ms, ab);
                 var serialize = DateTime.Now - start;
-                Console.WriteLine("Speed test ConcurrentBagStack: Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+                Console.WriteLine(serialize.TotalSeconds + " s");
 
                 //Deserialize
+                Console.Write("Speed test: Deserialize " + ab.List.Count + " posts in ");
                 ms.Seek(0, SeekOrigin.Begin);
                 GC.Collect();
                 start = DateTime.Now;
-                var dab = AddressBook.Deserialize(new PositionStream(ms));
+                AddressBook.Deserialize(new PositionStream(ms));
                 TimeSpan deserialize = DateTime.Now - start;
-                Console.WriteLine("Speed test: Deserialize " + dab.List.Count + " posts in " + deserialize.TotalSeconds + " s");
+                Console.WriteLine(deserialize.TotalSeconds + " s");
             }
 
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize 
+                Console.Write("Protobuf-net: Serialize " + nab.List.Count + " posts in   ");
                 GC.Collect();
                 DateTime start = DateTime.Now;
                 ProtoBuf.Serializer.Serialize(ms, nab);
                 TimeSpan serialize = DateTime.Now - start;
-                Console.WriteLine("Protobuf-net: Serialize " + nab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+                Console.WriteLine(serialize.TotalSeconds + " s");
 
                 //Deserialize
+                Console.Write("Protobuf-net: Deserialize " + nab.List.Count + " posts in ");
                 ms.Seek(0, SeekOrigin.Begin);
                 GC.Collect();
                 start = DateTime.Now;
-                var dab = ProtoBuf.Serializer.Deserialize<NetAddressBook>(ms);
+                ProtoBuf.Serializer.Deserialize<NetAddressBook>(ms);
                 TimeSpan deserialize = DateTime.Now - start;
-                Console.WriteLine("Protobuf-net: Deserialize " + dab.List.Count + " posts in " + deserialize.TotalSeconds + " s");
+                Console.WriteLine(deserialize.TotalSeconds + " s");
             }
         }
 
@@ -98,6 +111,7 @@ namespace Test
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize
+                Console.Write("Speed test " + stack.GetType().Name + ": Serialize " + ab.List.Count + " posts in   ");
                 GC.Collect();
                 Thread.Sleep(1000);
 
@@ -105,7 +119,7 @@ namespace Test
                 AddressBook.Serialize(ms, ab);
                 TimeSpan serialize = DateTime.Now - start;
 
-                Console.WriteLine("Speed test " + stack.GetType().Name + ": Serialize " + ab.List.Count + " posts in   " + serialize.TotalSeconds + " s");
+                Console.WriteLine(serialize.TotalSeconds + " s");
             }
         }
     }
