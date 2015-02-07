@@ -3,9 +3,20 @@ using SilentOrbit.Code;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    static class MessageSerializer
+    class MessageSerializer
     {
-        public static void GenerateClassSerializer(ProtoMessage m, CodeWriter cw, Options options)
+        readonly CodeWriter cw;
+        readonly Options options;
+        readonly FieldSerializer fieldSerializer;
+
+        public MessageSerializer(CodeWriter cw, Options options)
+        {
+            this.cw = cw;
+            this.options = options;
+            this.fieldSerializer = new FieldSerializer(cw, options);
+        }
+
+        public void GenerateClassSerializer(ProtoMessage m)
         {
             if (m.OptionExternal || m.OptionType == "interface")
             {
@@ -19,20 +30,20 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
 
-            GenerateReader(m, cw, options);
+            GenerateReader(m);
 
-            GenerateWriter(m, cw, options);
+            GenerateWriter(m);
             foreach (ProtoMessage sub in m.Messages.Values)
             {
                 cw.WriteLine();
-                GenerateClassSerializer(sub, cw, options);
+                GenerateClassSerializer(sub);
             }
             cw.EndBracket();
             cw.WriteLine();
             return;
         }
 
-        static void GenerateReader(ProtoMessage m, CodeWriter cw, Options options)
+        void GenerateReader(ProtoMessage m)
         {
             #region Helper Deserialize Methods
             string refstr = (m.OptionType == "struct") ? "ref " : "";
@@ -196,7 +207,7 @@ namespace SilentOrbit.ProtocolBuffers
                         cw.Comment("Field " + f.ID + " " + f.WireType);
                         cw.Indent();
                         cw.Case(((f.ID << 3) | (int)f.WireType));
-                        if (FieldSerializer.FieldReader(f, cw, options))
+                        if (fieldSerializer.FieldReader(f))
                             cw.WriteLine("continue;");
                     }
                     cw.SwitchEnd();
@@ -218,7 +229,7 @@ namespace SilentOrbit.ProtocolBuffers
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire." + f.WireType + ")");
                     cw.WriteIndent("break;"); //This can be changed to throw an exception for unknown formats.
-                    if (FieldSerializer.FieldReader(f, cw, options))
+                    if (fieldSerializer.FieldReader(f))
                         cw.WriteLine("continue;");
                 }
                 cw.CaseDefault();
@@ -250,7 +261,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates code for writing a class/message
         /// </summary>
-        static void GenerateWriter(ProtoMessage m, CodeWriter cw, Options options)
+        void GenerateWriter(ProtoMessage m)
         {
             string stack = "global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack";
             if (options.ExperimentalStack != null)

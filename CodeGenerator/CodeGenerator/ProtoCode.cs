@@ -42,6 +42,8 @@ then write the code and the changes in a separate file.");
                 cw.WriteLine("using System.Collections.Generic;");
                 cw.WriteLine();
 
+                var messageCode = new MessageCode(cw, options);
+
                 string ns = null; //avoid writing namespace between classes if they belong to the same
                 foreach (ProtoMessage m in file.Messages.Values)
                 {
@@ -52,7 +54,7 @@ then write the code and the changes in a separate file.");
                         cw.Bracket("namespace " + m.CsNamespace);
                         ns = m.CsNamespace;
                     }
-                    MessageCode.GenerateClass(m, cw, options);
+                    messageCode.GenerateClass(m);
                     cw.WriteLine();
                 }
 
@@ -65,7 +67,7 @@ then write the code and the changes in a separate file.");
                         cw.Bracket("namespace " + e.CsNamespace);
                         ns = e.CsNamespace;
                     }
-                    MessageCode.GenerateEnum(e, cw);
+                    messageCode.GenerateEnum(e);
                     cw.WriteLine();
                 }
 
@@ -101,7 +103,8 @@ This file will be overwritten when CodeGenerator is run.");
                         cw.Bracket("namespace " + m.CsNamespace);
                         ns = m.CsNamespace;
                     }
-                    MessageSerializer.GenerateClassSerializer(m, cw, options);
+                    var messageSerializer = new MessageSerializer(cw, options);
+                    messageSerializer.GenerateClassSerializer(m);
                 }
                 cw.EndBracket();
             }

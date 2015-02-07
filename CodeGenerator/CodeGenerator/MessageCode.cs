@@ -4,9 +4,18 @@ using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    static class MessageCode
+    class MessageCode
     {
-        public static void GenerateClass(ProtoMessage m, CodeWriter cw, Options options)
+        readonly CodeWriter cw;
+        readonly Options options;
+
+        public MessageCode(CodeWriter cw, Options options)
+        {
+            this.cw = cw;
+            this.options = options;
+        }
+
+        public void GenerateClass(ProtoMessage m)
         {
             //Do not generate class code for external classes
             if (m.OptionExternal)
@@ -21,11 +30,11 @@ namespace SilentOrbit.ProtocolBuffers
             cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CsType);
 
             if(options.GenerateDefaultConstructors)
-                GenerateCtorForDefaults(m, cw);
+                GenerateCtorForDefaults(m);
 
-            GenerateEnums(m, cw);
+            GenerateEnums(m);
 
-            GenerateProperties(m, cw, options);
+            GenerateProperties(m);
 
             //if(options.GenerateToString...
             // ...
@@ -46,14 +55,14 @@ namespace SilentOrbit.ProtocolBuffers
 
             foreach (ProtoMessage sub in m.Messages.Values)
             {
-                GenerateClass(sub, cw, options);
+                GenerateClass(sub);
                 cw.WriteLine();
             }
             cw.EndBracket();
             return;
         }
 
-        static void GenerateCtorForDefaults(ProtoMessage m, CodeWriter cw)
+        void GenerateCtorForDefaults(ProtoMessage m)
         {
             // Collect all fields with default values.
             var fieldsWithDefaults = new List<Field>();
@@ -78,15 +87,15 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
-        static void GenerateEnums(ProtoMessage m, CodeWriter cw)
+        void GenerateEnums(ProtoMessage m)
         {
             foreach (ProtoEnum me in m.Enums.Values)
             {
-                GenerateEnum(me, cw);
+                GenerateEnum(me);
             }
         }
 
-        public static void GenerateEnum(ProtoEnum me, CodeWriter cw)
+        public void GenerateEnum(ProtoEnum me)
         {
             cw.Bracket("public enum " + me.CsType);
             foreach (var epair in me.Enums)
@@ -104,17 +113,17 @@ namespace SilentOrbit.ProtocolBuffers
         /// <param name='template'>
         /// if true it will generate only properties that are not included by default, because of the [generate=false] option.
         /// </param>
-        static void GenerateProperties(ProtoMessage m, CodeWriter cw, Options options)
+        void GenerateProperties(ProtoMessage m)
         {
             foreach (Field f in m.Fields.Values)
             {
                 if (f.OptionExternal)
-                    cw.WriteLine("//" + GenerateProperty(f, options) + " // Implemented by user elsewhere");
+                    cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
                 else
                 {
                     if (f.Comments != null)
                         cw.Summary(f.Comments);
-                    cw.WriteLine(GenerateProperty(f, options));
+                    cw.WriteLine(GenerateProperty(f));
                     cw.WriteLine();
                 }
 
@@ -130,7 +139,7 @@ namespace SilentOrbit.ProtocolBuffers
 #endif
         }
 
-        static string GenerateProperty(Field f, Options options)
+        string GenerateProperty(Field f)
         {
             string type = f.ProtoType.FullCsType;
             if (f.OptionCodeType != null)

@@ -4,15 +4,24 @@ using SilentOrbit.Code;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    static class FieldSerializer
+    class FieldSerializer
     {
+        readonly CodeWriter cw;
+        readonly Options options;
+
+        public FieldSerializer(CodeWriter cw, Options options)
+        {
+            this.cw = cw;
+            this.options = options;
+        }
+
         #region Reader
 
         /// <summary>
         /// Return true for normal code and false if generated thrown exception.
         /// In the latter case a break is not needed to be generated afterwards.
         /// </summary>
-        public static bool FieldReader(Field f, CodeWriter cw, Options options)
+        public bool FieldReader(Field f)
         {
             if (f.Rule == FieldRule.Repeated)
             {
