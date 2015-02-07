@@ -22,7 +22,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor --nullable" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ProtoFeatures.nullable.proto --output Generated/Nullables.cs --ctor --nullable" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -58,6 +59,9 @@
     <Compile Include="Generated\Generated.Serializer.cs" />
     <Compile Include="Generated\ProtocolParser.cs" />
     <Compile Include="Tests\TestPerformance.cs" />
+    <Compile Include="Generated\Nullables.cs" />
+    <Compile Include="Generated\Nullables.Serializer.cs" />
+    <Compile Include="CustomWritten\MyMessageV2.Nullable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -84,6 +88,7 @@
     <None Include="ProtoSpec\LocalFeatures.proto" />
     <None Include="ProtoSpec\ProtoFeatures.proto" />
     <None Include="ProtoSpec\descriptor.proto" />
+    <None Include="ProtoSpec\ProtoFeatures.nullable.proto" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestLibrary\TestLibrary.csproj">
