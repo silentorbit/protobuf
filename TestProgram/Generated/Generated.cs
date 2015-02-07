@@ -973,6 +973,10 @@ namespace Yours
 
         public List<Theirs.TheirMessage> FieldV { get; set; }
 
+        public int NullableInt { get; set; }
+
+        public Yours.MyMessageV2.AliasedEnum NullableEnum { get; set; }
+
     }
 
 }

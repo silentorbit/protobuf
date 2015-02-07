@@ -7603,6 +7603,7 @@ namespace Yours
                 instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
+            instance.NullableEnum = Yours.MyMessageV2.AliasedEnum.Nothing;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -7733,6 +7734,16 @@ namespace Yours
                         // repeated
                         instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream));
                         continue;
+                    case 24:
+                        if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
+                            break;
+                        instance.NullableInt = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 25:
+                        if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
+                            break;
+                        instance.NullableEnum = (Yours.MyMessageV2.AliasedEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7768,6 +7779,7 @@ namespace Yours
                 instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
+            instance.NullableEnum = Yours.MyMessageV2.AliasedEnum.Nothing;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -7907,6 +7919,16 @@ namespace Yours
                         // repeated
                         instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream));
                         continue;
+                    case 24:
+                        if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
+                            break;
+                        instance.NullableInt = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 25:
+                        if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
+                            break;
+                        instance.NullableEnum = (Yours.MyMessageV2.AliasedEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -7942,6 +7964,7 @@ namespace Yours
                 instance.FieldS = new List<uint>();
             if (instance.FieldV == null)
                 instance.FieldV = new List<Theirs.TheirMessage>();
+            instance.NullableEnum = Yours.MyMessageV2.AliasedEnum.Nothing;
             long limit = stream.Position + length;
             while (true)
             {
@@ -8080,6 +8103,16 @@ namespace Yours
                         // repeated
                         instance.FieldV.Add(Theirs.TheirMessage.DeserializeLengthDelimited(stream));
                         continue;
+                    case 24:
+                        if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
+                            break;
+                        instance.NullableInt = (int)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 25:
+                        if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
+                            break;
+                        instance.NullableEnum = (Yours.MyMessageV2.AliasedEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        continue;
                     default:
                         global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);
                         break;
@@ -8215,6 +8248,14 @@ namespace Yours
 
                 }
             }
+            // Key for field: 24, Varint
+            stream.WriteByte(192);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.NullableInt);
+            // Key for field: 25, Varint
+            stream.WriteByte(200);
+            stream.WriteByte(1);
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.NullableEnum);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
         }
 

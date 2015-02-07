@@ -1,10 +1,10 @@
 
 package /* Other comment style
- */proto.test;
+ */proto.test.nullables;
 
 //This class is documented here:
 //With multiple lines
-//:namespace = Mine // Default from .proto: proto.test
+//:namespace = Mine.Nullables // Default from .proto: proto.test
 //:preserveunknown
 message my_message_v1
 {
@@ -12,7 +12,7 @@ message my_message_v1
     required int32 field_a = 1;
 }
 
-//:namespace = Yours // Default from .proto: proto.test
+//:namespace = Yours.Nullables // Default from .proto: proto.test
 message my_message_v2
 {
     required int32 field_a = 1 [default = -1];
@@ -69,7 +69,7 @@ message my_message_v2
     optional aliased_enum nullable_enum = 25;
 }
 
-//:namespace = Theirs // Default from .proto: proto.test
+//:namespace = Theirs.Nullables // Default from .proto: proto.test
 message their_message
 {
     required int32 field_a = 1;

@@ -19,7 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/AddressBook.proto ../../../TestProgram/ProtoSpec/descriptor.proto ../../../TestProgram/ProtoSpec/LocalFeatures.proto ../../../TestProgram/ProtoSpec/ProtoFeatures.proto --output ../../../TestProgram/Generated/Generated.cs --ctor</Commandlineparameters>
+    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/AddressBook.proto ../../../TestProgram/ProtoSpec/descriptor.proto ../../../TestProgram/ProtoSpec/LocalFeatures.proto ../../../TestProgram/ProtoSpec/ProtoFeatures.proto --output ../../../TestProgram/Generated/Generated.cs --ctor --nullable</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>

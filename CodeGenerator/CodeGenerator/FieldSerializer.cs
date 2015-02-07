@@ -12,7 +12,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Return true for normal code and false if generated thrown exception.
         /// In the latter case a break is not needed to be generated afterwards.
         /// </summary>
-        public static bool FieldReader(Field f, CodeWriter cw)
+        public static bool FieldReader(Field f, CodeWriter cw, Options options)
         {
             if (f.Rule == FieldRule.Repeated)
             {
@@ -60,7 +60,10 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     if (f.ProtoType.OptionType == "struct")
                     {
-                        cw.WriteLine(FieldReaderType(f, "stream", "br", "ref instance." + f.CsName) + ";");
+                        if (options.Nullable)
+                            cw.WriteLine("instance." + f.CsName + " = " + FieldReaderType(f, "stream", "br", null) + ";");     
+                        else
+                            cw.WriteLine(FieldReaderType(f, "stream", "br", "ref instance." + f.CsName) + ";");
                         return true;
                     }
 
@@ -241,7 +244,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates code for writing one field
         /// </summary>
-        public static void FieldWriter(ProtoMessage m, Field f, CodeWriter cw)
+        public static void FieldWriter(ProtoMessage m, Field f, CodeWriter cw, Options options)
         {
             if (f.Rule == FieldRule.Repeated)
             {
@@ -292,15 +295,17 @@ namespace SilentOrbit.ProtocolBuffers
             }
             else if (f.Rule == FieldRule.Optional)
             {
-                if (f.ProtoType is ProtoMessage ||
+                if (options.Nullable || 
+                    f.ProtoType is ProtoMessage ||
                     f.ProtoType.ProtoName == ProtoBuiltin.String ||
                     f.ProtoType.ProtoName == ProtoBuiltin.Bytes)
                 {
-                    if (f.ProtoType.Nullable) //Struct always exist, not optional
+                    if (f.ProtoType.Nullable || options.Nullable) //Struct always exist, not optional
                         cw.IfBracket("instance." + f.CsName + " != null");
                     KeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
-                    cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName));
-                    if (f.ProtoType.Nullable) //Struct always exist, not optional
+                    var needValue = !f.ProtoType.Nullable && options.Nullable;
+                    cw.WriteLine(FieldWriterType(f, "stream", "bw", "instance." + f.CsName + (needValue ? ".Value" : "")));
+                    if (f.ProtoType.Nullable || options.Nullable) //Struct always exist, not optional
                         cw.EndBracket();
                     return;
                 }

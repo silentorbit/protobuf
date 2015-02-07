@@ -25,7 +25,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             GenerateEnums(m, cw);
 
-            GenerateProperties(m, cw);
+            GenerateProperties(m, cw, options);
 
             //if(options.GenerateToString...
             // ...
@@ -104,17 +104,17 @@ namespace SilentOrbit.ProtocolBuffers
         /// <param name='template'>
         /// if true it will generate only properties that are not included by default, because of the [generate=false] option.
         /// </param>
-        static void GenerateProperties(ProtoMessage m, CodeWriter cw)
+        static void GenerateProperties(ProtoMessage m, CodeWriter cw, Options options)
         {
             foreach (Field f in m.Fields.Values)
             {
                 if (f.OptionExternal)
-                    cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
+                    cw.WriteLine("//" + GenerateProperty(f, options) + " // Implemented by user elsewhere");
                 else
                 {
                     if (f.Comments != null)
                         cw.Summary(f.Comments);
-                    cw.WriteLine(GenerateProperty(f));
+                    cw.WriteLine(GenerateProperty(f, options));
                     cw.WriteLine();
                 }
 
@@ -130,13 +130,15 @@ namespace SilentOrbit.ProtocolBuffers
 #endif
         }
 
-        static string GenerateProperty(Field f)
+        static string GenerateProperty(Field f, Options options)
         {
             string type = f.ProtoType.FullCsType;
             if (f.OptionCodeType != null)
                 type = f.OptionCodeType;
             if (f.Rule == FieldRule.Repeated)
                 type = "List<" + type + ">";
+            if (f.Rule == FieldRule.Optional && !f.ProtoType.Nullable && options.Nullable)
+                type = type + "?";
 
             if (f.OptionReadOnly)
                 return f.OptionAccess + " readonly " + type + " " + f.CsName + " = new " + type + "();";
