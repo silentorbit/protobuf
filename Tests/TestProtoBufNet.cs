@@ -24,9 +24,13 @@ namespace Test
 
             // Pretty sure protobuf-net serializes default optional fields wrong (https://code.google.com/p/protobuf-net/issues/detail?id=136)
             // Don't set PhoneType.HOME, otherwise tests will fail.
+            bool nullable = HasNullable<Person.PhoneNumber>("Type");
 
             p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.MOBILE, Number = "+46 11111111111" });
-            p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.WORK, Number = "+46 777777777" });
+            if (nullable)
+                p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.WORK, Number = "+46 777777777" });
+            else
+                p1.Phone.Add(new Person.PhoneNumber() { Type = Person.PhoneType.HOME, Number = "+46 777777777" });
 
             //Serialize using this(Protobuf code generator)
             MemoryStream ms1 = new MemoryStream();
@@ -46,6 +50,10 @@ namespace Test
             Assert.AreEqual(p1.Phone[1].Number, p2.Phone[1].Number);
             //Disabled test since missing data should return the default value(HOME).
             //Test ("12 Phone[1]", (int)p1.Phone [1].Type, (int)p2.Phone [1].Type);
+
+            //Correct invalid data for the next test
+            if (nullable == false)
+                p2.Phone[1].Type = Person.PhoneType.HOME;
 
             MemoryStream ms3 = new MemoryStream();
             ProtoBuf.Serializer.Serialize(ms3, p2);
@@ -69,6 +77,21 @@ namespace Test
             Assert.AreEqual(p1.Phone[0].Type, p4.Phone[0].Type);
             Assert.AreEqual(p1.Phone[1].Number, p4.Phone[1].Number);
             Assert.AreEqual(p1.Phone[1].Type, p4.Phone[1].Type);
+        }
+
+        /// <summary>
+        /// Return true if T has a property that is nullable.
+        /// The property is assumed to exist.
+        /// </summary>
+        static bool HasNullable<T>(string property)
+        {
+            var t = typeof(T);
+            var p = t.GetProperty(property);
+            var pt = p.PropertyType;
+            if (pt.IsGenericType == false)
+                return false;
+            var td = pt.GetGenericTypeDefinition();
+            return td == typeof(Nullable<>);
         }
     }
 }
