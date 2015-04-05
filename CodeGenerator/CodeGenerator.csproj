@@ -82,6 +82,9 @@
     <EmbeddedResource Include="ProtocolParser\ProtocolParserExceptions.cs">
       <LogicalName>ProtocolParserExceptions</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProtocolParser\ProtocolParserMemory4.cs">
+      <LogicalName>ProtocolParserMemory4</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ProjectExtensions>

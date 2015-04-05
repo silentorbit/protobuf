@@ -48,7 +48,6 @@ namespace Test
 
         public static void Run()
         {
-
             AddressBook ab = new AddressBook();
             NetAddressBook nab = new NetAddressBook();
             Console.Write("Generating data structures...");

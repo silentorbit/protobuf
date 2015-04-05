@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 
 /// <summary>
 /// MemoryStream management
@@ -109,36 +108,6 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void Dispose()
         {
-        }
-    }
-
-    public class ConcurrentBagStack : MemoryStreamStack
-    {
-        ConcurrentBag<MemoryStream> bag = new ConcurrentBag<MemoryStream>();
-
-        /// <summary>
-        /// The returned stream is not reset.
-        /// You must call .SetLength(0) before using it.
-        /// This is done in the generated code.
-        /// </summary>
-        public MemoryStream Pop()
-        {
-            MemoryStream result;
-
-            if (bag.TryTake(out result))
-                return result;
-            else
-                return new MemoryStream();
-        }
-
-        public void Push(MemoryStream stream)
-        {
-            bag.Add(stream);
-        }
-
-        public void Dispose()
-        {
-            throw new ApplicationException("ConcurrentBagStack.Dispose() should not be called.");
         }
     }
 

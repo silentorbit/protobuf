@@ -56,6 +56,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("nullable", Required = false, HelpText = "Generate nullable primitives for optional fields")]
         public bool Nullable { get; set; }
 
+        /// <summary>
+        /// Exclude .NET 4 code
+        /// </summary>
+        [Option("net2", Required = false, HelpText = "Exclude code that require .NET 4")]
+        public bool Net2 { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);

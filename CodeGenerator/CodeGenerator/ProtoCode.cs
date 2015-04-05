@@ -118,6 +118,8 @@ This file will be overwritten when CodeGenerator is run.");
                 ReadCode(codeWriter, "ProtocolParserFixed", false);
                 ReadCode(codeWriter, "ProtocolParserKey", false);
                 ReadCode(codeWriter, "ProtocolParserMemory", false);
+                if (options.Net2 == false)
+                    ReadCode(codeWriter, "ProtocolParserMemory4", false);
                 ReadCode(codeWriter, "ProtocolParserVarInt", false);
             }
         }

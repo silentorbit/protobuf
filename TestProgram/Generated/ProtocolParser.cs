@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 
 // 
 //  Read/Write string and byte arrays 
@@ -605,6 +604,26 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 
+    public static partial class ProtocolParser
+    {
+        /// <summary>
+        /// Experimental stack of MemoryStream
+        /// </summary>
+        public static MemoryStreamStack Stack = new AllocationStack();
+    }
+}
+
+#endregion
+#region ProtocolParserMemory4
+
+/// <summary>
+/// MemoryStream management.
+/// .NET 4 features not added when the --net3 flag is being used
+/// </summary>
+namespace SilentOrbit.ProtocolBuffers
+{
+    using System.Collections.Concurrent;
+
     public class ConcurrentBagStack : MemoryStreamStack
     {
         ConcurrentBag<MemoryStream> bag = new ConcurrentBag<MemoryStream>();
@@ -633,14 +652,6 @@ namespace SilentOrbit.ProtocolBuffers
         {
             throw new ApplicationException("ConcurrentBagStack.Dispose() should not be called.");
         }
-    }
-
-    public static partial class ProtocolParser
-    {
-        /// <summary>
-        /// Experimental stack of MemoryStream
-        /// </summary>
-        public static MemoryStreamStack Stack = new AllocationStack();
     }
 }
 
