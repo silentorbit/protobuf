@@ -10,14 +10,17 @@ namespace SilentOrbit.Code
     public class CodeWriter : IDisposable
     {
         #region Settings
+
         public static string DefaultIndentPrefix = "    ";
         public static string DefaultNewLine = "\r\n";
 
         public string IndentPrefix;
         public string NewLine;
+
         #endregion
 
         #region Constructors
+
         readonly TextWriter w;
         MemoryStream ms = new MemoryStream();
 
@@ -66,9 +69,11 @@ namespace SilentOrbit.Code
         {
             w.Close();
         }
+
         #endregion
 
         #region Indentation
+
         /// <summary>
         /// Level of indentation
         /// </summary>
@@ -92,6 +97,7 @@ namespace SilentOrbit.Code
                 throw new InvalidOperationException("Indent error");
             prefix = prefix.Substring(0, prefix.Length - IndentPrefix.Length);
         }
+
         #endregion
 
         public void Attribute(string attributeConstructor)
@@ -130,6 +136,30 @@ namespace SilentOrbit.Code
         public void IfBracket(string str)
         {
             WriteLine("if (" + str + ")");
+            WriteLine("{");
+            Indent();
+        }
+
+        /// <summary>
+        /// Close a previous Bracket and start an "else if"
+        /// </summary>
+        public void ElseIfBracket(string str)
+        {
+            WriteLine("}");
+            Dedent();
+            WriteLine("else if (" + str + ")");
+            WriteLine("{");
+            Indent();
+        }
+
+        /// <summary>
+        /// Close a previous IfBracket and start an else
+        /// </summary>
+        public void ElseBracket()
+        {
+            Dedent();
+            WriteLine("}");
+            WriteLine("else");
             WriteLine("{");
             Indent();
         }
@@ -217,6 +247,7 @@ namespace SilentOrbit.Code
         }
 
         #region Comments
+
         public void Comment(string code)
         {
             if (code == null)

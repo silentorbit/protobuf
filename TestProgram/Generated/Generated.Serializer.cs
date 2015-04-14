@@ -6274,7 +6274,7 @@ namespace Local
                         continue;
                     // Field 2 Varint
                     case 16:
-                        instance.DueDate = new DateTime((long)(long)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
+                        instance.DueDate = new DateTime((long)(long)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream), DateTimeKind.Utc);
                         continue;
                     // Field 3 Fixed64
                     case 25:
@@ -6373,7 +6373,7 @@ namespace Local
                         continue;
                     // Field 2 Varint
                     case 16:
-                        instance.DueDate = new DateTime((long)(long)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
+                        instance.DueDate = new DateTime((long)(long)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream), DateTimeKind.Utc);
                         continue;
                     // Field 3 Fixed64
                     case 25:
@@ -6471,7 +6471,7 @@ namespace Local
                         continue;
                     // Field 2 Varint
                     case 16:
-                        instance.DueDate = new DateTime((long)(long)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream));
+                        instance.DueDate = new DateTime((long)(long)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream), DateTimeKind.Utc);
                         continue;
                     // Field 3 Fixed64
                     case 25:
@@ -6554,7 +6554,14 @@ namespace Local
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Uptime.Ticks);
             // Key for field: 2, Varint
             stream.WriteByte(16);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
+            if (instance.DueDate.Kind == DateTimeKind.Utc)
+            {
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
+            }
+            else
+            {
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.ToUniversalTime().Ticks);
+            }
             // Key for field: 3, Fixed64
             stream.WriteByte(25);
             bw.Write(instance.Amount);

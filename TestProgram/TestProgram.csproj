@@ -22,8 +22,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor" workingdir="${ProjectDir}" />
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ProtoFeatures.nullable.proto --output Generated/Nullables.cs --ctor --nullable" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor --utc" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ProtoFeatures.nullable.proto --output Generated/Nullables.cs --ctor --nullable --utc" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>

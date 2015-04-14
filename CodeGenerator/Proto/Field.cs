@@ -43,6 +43,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// Wire format ID
         /// </summary>
         public int ID { get; set; }
+
         //Field options
         public bool OptionPacked = false;
         public bool OptionDeprecated = false;

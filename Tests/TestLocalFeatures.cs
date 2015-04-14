@@ -19,7 +19,7 @@ namespace Test
         {
             LocalFeatures local = new LocalFeatures("139pt2m7");
             local.Uptime = TimeSpan.FromHours(37.8);
-            local.DueDate = DateTime.Now.AddMinutes(1);
+            local.DueDate = DateTime.UtcNow.AddMinutes(1);
             local.Internal = "assembly";
             local.PR = "Hi";
             local.Amount = Math.E;

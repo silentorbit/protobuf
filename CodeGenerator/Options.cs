@@ -51,7 +51,7 @@ namespace SilentOrbit.ProtocolBuffers
         public bool GenerateDefaultConstructors { get; set; }
 
         /// <summary>
-        /// If set default constructors will be generated for each message
+        /// Use Nullable&lt;&gt; for optional fields
         /// </summary>
         [Option("nullable", Required = false, HelpText = "Generate nullable primitives for optional fields")]
         public bool Nullable { get; set; }
@@ -61,6 +61,12 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         [Option("net2", Required = false, HelpText = "Exclude code that require .NET 4")]
         public bool Net2 { get; set; }
+
+        /// <summary>
+        /// De/serialize DateTime as UTC only
+        /// </summary>
+        [Option("utc", Required = false, HelpText = "De/serialize DateTime as DateTimeKind.Utc")]
+        public bool Utc { get; set; }
 
         public static Options Parse(string[] args)
         {

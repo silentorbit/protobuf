@@ -156,7 +156,7 @@ namespace SilentOrbit.ProtocolBuffers
                 if (method == "DeserializeLengthDelimited")
                 {
                     //Important to read stream position after we have read the length field
-                    cw.WriteLine("long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);");
+                    cw.WriteLine("long limit = " + ProtocolParser.Base + ".ReadUInt32(stream);");
                     cw.WriteLine("limit += stream.Position;");
                 }
                 if (method == "DeserializeLength")
@@ -213,7 +213,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.SwitchEnd();
                     cw.WriteLine();
                 }
-                cw.WriteLine("var key = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadKey((byte)keyByte, stream);");
+                cw.WriteLine("var key = " + ProtocolParser.Base + ".ReadKey((byte)keyByte, stream);");
 
                 cw.WriteLine();
 
@@ -237,11 +237,11 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     cw.WriteLine("if (instance.PreservedFields == null)");
                     cw.WriteIndent("instance.PreservedFields = new List<global::SilentOrbit.ProtocolBuffers.KeyValue>();");
-                    cw.WriteLine("instance.PreservedFields.Add(new global::SilentOrbit.ProtocolBuffers.KeyValue(key, global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadValueBytes(stream, key)));");
+                    cw.WriteLine("instance.PreservedFields.Add(new global::SilentOrbit.ProtocolBuffers.KeyValue(key, " + ProtocolParser.Base + ".ReadValueBytes(stream, key)));");
                 }
                 else
                 {
-                    cw.WriteLine("global::SilentOrbit.ProtocolBuffers.ProtocolParser.SkipKey(stream, key);");
+                    cw.WriteLine(ProtocolParser.Base + ".SkipKey(stream, key);");
                 }
                 cw.WriteLine("break;");
                 cw.SwitchEnd();
@@ -285,7 +285,7 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteLine("var msField = " + stack + ".Pop();");
 
             foreach (Field f in m.Fields.Values)
-                FieldSerializer.FieldWriter(m, f, cw, options);
+                fieldSerializer.FieldWriter(m, f, cw, options);
 
             cw.WriteLine(stack + ".Push(msField);");
 
