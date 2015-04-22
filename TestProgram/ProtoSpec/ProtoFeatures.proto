@@ -30,7 +30,7 @@ message my_message_v2
     required sfixed64 field_m = 13 [default = -11];
     required bool field_n = 14 [default = false];
     required string field_o = 15 [default = "test"];
-    required bytes field_p = 16;
+    required bytes field_p = 16 [deprecated=true];
 
     enum my_enum
     {

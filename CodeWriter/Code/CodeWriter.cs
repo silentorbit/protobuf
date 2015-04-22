@@ -241,6 +241,11 @@ namespace SilentOrbit.Code
             }
         }
 
+        public void WritePragma(string line)
+        {
+            w.Write("#pragma " + line + NewLine);
+        }
+
         public void WriteLine()
         {
             WriteLine("");
