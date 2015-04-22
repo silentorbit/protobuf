@@ -117,16 +117,22 @@ namespace SilentOrbit.ProtocolBuffers
         {
             foreach (Field f in m.Fields.Values)
             {
+                if (f.Comments != null)
+                    cw.Summary(f.Comments);
+
                 if (f.OptionExternal)
+                {
+                    if (f.OptionDeprecated)
+                        cw.WriteLine("// [Obsolete]");
                     cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
+                }
                 else
                 {
-                    if (f.Comments != null)
-                        cw.Summary(f.Comments);
+                    if (f.OptionDeprecated)
+                        cw.WriteLine("[Obsolete]");
                     cw.WriteLine(GenerateProperty(f));
-                    cw.WriteLine();
                 }
-
+                cw.WriteLine();
             }
 
             //Wire format field ID
