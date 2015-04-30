@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -218,7 +219,7 @@ namespace SilentOrbit.ProtocolBuffers
 
             //ID
             tr.ReadNextOrThrow("=");
-            f.ID = int.Parse(tr.ReadNext());
+            f.ID = ParseInt(tr);
             if (19000 <= f.ID && f.ID <= 19999)
                 throw new ProtoFormatException("Can't use reserved field ID 19000-19999", tr);
             if (f.ID > (1 << 29) - 1)
@@ -348,7 +349,7 @@ namespace SilentOrbit.ProtocolBuffers
             if (tr.ReadNext() != "=")
                 throw new ProtoFormatException("Expected: =", tr);
 
-            int id = int.Parse(tr.ReadNext());
+            int id = ParseInt(tr);
 
             var value = new ProtoEnumValue(name, id, lastComment);
             parent.Enums.Add(value);
@@ -395,6 +396,28 @@ namespace SilentOrbit.ProtocolBuffers
             tr.ReadNextOrThrow("to");
             tr.ReadNext(); //number or max
             tr.ReadNextOrThrow(";");
+        }
+
+        static int ParseInt(TokenReader tr)
+        {
+            string text = tr.ReadNext();
+
+            int val;
+
+            //Decimal
+            if (int.TryParse(text, out val))
+                return val;
+
+            //Hex
+            if (text.StartsWith("0x", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var hex = text.Substring(2);
+
+                if (int.TryParse(hex, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out val))
+                    return val;
+            }
+
+            throw new ProtoFormatException("Unknown integer format: " + text, tr);
         }
     }
 }
