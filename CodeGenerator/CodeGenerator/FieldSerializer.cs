@@ -360,9 +360,7 @@ namespace SilentOrbit.ProtocolBuffers
                     case "DateTime":
                         if (options.Utc)
                         {
-                            cw.IfBracket(instance + ".Kind == DateTimeKind.Utc");
-                            cw.WriteLine(FieldWriterPrimitive(f, stream, binaryWriter, instance + ".ToUniversalTime().Ticks"));
-                            cw.EndBracket();
+                            cw.WriteLine(FieldWriterPrimitive(f, stream, binaryWriter, "(" +instance + ".Kind == DateTimeKind.Utc ? " + instance + " : " + instance + ".ToUniversalTime()).Ticks"));
                         }
                         else
                             cw.WriteLine(FieldWriterPrimitive(f, stream, binaryWriter, instance + ".Ticks"));

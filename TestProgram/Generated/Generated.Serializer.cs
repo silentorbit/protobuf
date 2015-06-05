@@ -6554,14 +6554,7 @@ namespace Local
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.Uptime.Ticks);
             // Key for field: 2, Varint
             stream.WriteByte(16);
-            if (instance.DueDate.Kind == DateTimeKind.Utc)
-            {
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.Ticks);
-            }
-            else
-            {
-                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.DueDate.ToUniversalTime().Ticks);
-            }
+            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)(instance.DueDate.Kind == DateTimeKind.Utc ? instance.DueDate : instance.DueDate.ToUniversalTime()).Ticks);
             // Key for field: 3, Fixed64
             stream.WriteByte(25);
             bw.Write(instance.Amount);
