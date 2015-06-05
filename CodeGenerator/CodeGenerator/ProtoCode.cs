@@ -71,7 +71,8 @@ then write the code and the changes in a separate file.");
                     cw.WriteLine();
                 }
 
-                cw.EndBracket();
+                if (ns != null)
+                    cw.EndBracket();
             }
 
             //.Serializer.cs
@@ -106,7 +107,8 @@ This file will be overwritten when CodeGenerator is run.");
                     var messageSerializer = new MessageSerializer(cw, options);
                     messageSerializer.GenerateClassSerializer(m);
                 }
-                cw.EndBracket();
+                if(ns != null)
+                    cw.EndBracket();
             }
 
             string libPath = Path.Combine(Path.GetDirectoryName(csPath), "ProtocolParser.cs");

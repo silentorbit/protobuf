@@ -22,7 +22,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor --utc" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ImportAll.proto --output Generated/Generated.cs --ctor --utc" workingdir="${ProjectDir}" />
         <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ProtoFeatures.nullable.proto --output Generated/Nullables.cs --ctor --nullable --utc" />
       </CustomCommands>
     </CustomCommands>
@@ -37,7 +37,7 @@
     <ConsolePause>False</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="../bin/CodeGenerator/Release/CodeGenerator.exe --fix-nameclash ProtoSpec/AddressBook.proto ProtoSpec/descriptor.proto ProtoSpec/LocalFeatures.proto ProtoSpec/ProtoFeatures.proto --output Generated/Generated.cs --ctor" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Release/CodeGenerator.exe --fix-nameclash ProtoSpec/ImportAll.proto --output Generated/Generated.cs --ctor" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -70,6 +70,8 @@
     <Folder Include="CustomWritten\" />
     <Folder Include="Tests\" />
     <Folder Include="ProtoSpec\" />
+    <Folder Include="ProtoSpec\google\" />
+    <Folder Include="ProtoSpec\google\protobuf\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -87,8 +89,10 @@
     <None Include="ProtoSpec\AddressBook.proto" />
     <None Include="ProtoSpec\LocalFeatures.proto" />
     <None Include="ProtoSpec\ProtoFeatures.proto" />
-    <None Include="ProtoSpec\descriptor.proto" />
     <None Include="ProtoSpec\ProtoFeatures.nullable.proto" />
+    <None Include="ProtoSpec\AddressBook.bad-duplicate.proto" />
+    <None Include="ProtoSpec\ImportAll.proto" />
+    <None Include="ProtoSpec\google\protobuf\descriptor.proto" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestLibrary\TestLibrary.csproj">

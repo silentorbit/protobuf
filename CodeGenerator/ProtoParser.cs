@@ -89,9 +89,8 @@ namespace SilentOrbit.ProtocolBuffers
                             //Save options
                             ParseOption(tr, p);
                             break;
-                        case "import": //Ignored
-                            tr.ReadNext();
-                            tr.ReadNextOrThrow(";");
+                        case "import":
+                            ParseImport(tr, p);
                             break;
                         case "package":
                             package = tr.ReadNext();
@@ -395,6 +394,20 @@ namespace SilentOrbit.ProtocolBuffers
             tr.ReadNextOrThrow("to");
             tr.ReadNext(); //number or max
             tr.ReadNextOrThrow(";");
+        }
+
+        static void ParseImport(TokenReader tr, ProtoCollection collection)
+        {
+            string path = tr.ReadNext();
+            bool publicImport = path == "public";
+            if (publicImport)
+                path = tr.ReadNext();
+            tr.ReadNextOrThrow(";");
+
+            if (publicImport)
+                collection.ImportPublic.Add(path);
+            else
+                collection.Import.Add(path);
         }
     }
 }

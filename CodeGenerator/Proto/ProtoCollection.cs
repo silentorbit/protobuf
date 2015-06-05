@@ -4,10 +4,13 @@ using System.Collections.Generic;
 namespace SilentOrbit.ProtocolBuffers
 {
     /// <summary>
-    /// Representation content of on or more .proto files
+    /// Representation content of one or more .proto files
     /// </summary>
     class ProtoCollection : ProtoMessage
     {
+        public List<string> Import = new List<string>();
+        public List<string> ImportPublic = new List<string>();
+
         public ProtoCollection()
             : base(null, null)
         {

@@ -19,7 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/AddressBook.proto ../../../TestProgram/ProtoSpec/descriptor.proto ../../../TestProgram/ProtoSpec/LocalFeatures.proto ../../../TestProgram/ProtoSpec/ProtoFeatures.proto --output ../../../TestProgram/Generated/Generated.cs --ctor</Commandlineparameters>
+    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/ImportAll.proto --output ../../../TestProgram/Generated/Generated.cs --ctor --utc</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/AddressBook.proto ../../../TestProgram/ProtoSpec/LocalFeatures.proto ../../../TestProgram/ProtoSpec/ProtoFeatures.proto --output ../../../TestProgram/Generated/Generated.cs</Commandlineparameters>
+    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/ImportAll.proto --ctor --utc --output ../../../TestProgram/Generated/Generated.cs</Commandlineparameters>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
@@ -62,6 +62,7 @@
     <Compile Include="Proto\Search.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="CodeGenerator\ProtocolParser.cs" />
+    <Compile Include="FileParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
