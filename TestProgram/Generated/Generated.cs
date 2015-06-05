@@ -779,7 +779,9 @@ namespace Local
         /// <summary>Make class field of type DateTime, serialized to Ticks</summary>
         public DateTime DueDate { get; set; }
 
+        /// <summary>Do not generate class field, must be implemented in other partial class</summary>
         //public double Amount { get; set; } // Implemented by user elsewhere
+
         /// <summary>Custom field access types. Default: public</summary>
         private string Denial { get; set; }
 
@@ -919,12 +921,14 @@ namespace Yours
 
         public string FieldO { get; set; }
 
+        [Obsolete]
         public byte[] FieldP { get; set; }
 
         public Yours.MyMessageV2.MyEnum FieldQ { get; set; }
 
         public Yours.MyMessageV2.MyEnum FieldR { get; set; }
 
+        [Obsolete]
         protected string Dummy { get; set; }
 
         public List<uint> FieldT { get; set; }

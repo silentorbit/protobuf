@@ -105,6 +105,7 @@ namespace Yours.Nullables
 
         public Yours.Nullables.MyMessageV2.MyEnum? FieldR { get; set; }
 
+        [Obsolete]
         protected string Dummy { get; set; }
 
         public List<uint> FieldT { get; set; }

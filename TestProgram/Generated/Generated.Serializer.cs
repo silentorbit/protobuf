@@ -7596,7 +7596,11 @@ namespace Yours
             instance.FieldM = -11;
             instance.FieldN = false;
             instance.FieldO = "test";
+#pragma warning disable 612
+#pragma warning restore 612
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
+#pragma warning disable 612
+#pragma warning restore 612
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
             if (instance.FieldS == null)
@@ -7684,8 +7688,10 @@ namespace Yours
                     case 16:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.FieldP = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream);
                         continue;
+#pragma warning restore 612
                     case 17:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -7699,8 +7705,10 @@ namespace Yours
                     case 19:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.Dummy = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                         continue;
+#pragma warning restore 612
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -7772,7 +7780,11 @@ namespace Yours
             instance.FieldM = -11;
             instance.FieldN = false;
             instance.FieldO = "test";
+#pragma warning disable 612
+#pragma warning restore 612
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
+#pragma warning disable 612
+#pragma warning restore 612
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
             if (instance.FieldS == null)
@@ -7869,8 +7881,10 @@ namespace Yours
                     case 16:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.FieldP = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream);
                         continue;
+#pragma warning restore 612
                     case 17:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -7884,8 +7898,10 @@ namespace Yours
                     case 19:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.Dummy = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                         continue;
+#pragma warning restore 612
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -7957,7 +7973,11 @@ namespace Yours
             instance.FieldM = -11;
             instance.FieldN = false;
             instance.FieldO = "test";
+#pragma warning disable 612
+#pragma warning restore 612
             instance.FieldR = Yours.MyMessageV2.MyEnum.ETest2;
+#pragma warning disable 612
+#pragma warning restore 612
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
             if (instance.FieldS == null)
@@ -8053,8 +8073,10 @@ namespace Yours
                     case 16:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.FieldP = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadBytes(stream);
                         continue;
+#pragma warning restore 612
                     case 17:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.Varint)
                             break;
@@ -8068,8 +8090,10 @@ namespace Yours
                     case 19:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.Dummy = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                         continue;
+#pragma warning restore 612
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -8174,12 +8198,14 @@ namespace Yours
             // Key for field: 15, LengthDelimited
             stream.WriteByte(122);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.FieldO));
+#pragma warning disable 612
             if (instance.FieldP == null)
                 throw new ArgumentNullException("FieldP", "Required by proto specification.");
             // Key for field: 16, LengthDelimited
             stream.WriteByte(130);
             stream.WriteByte(1);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, instance.FieldP);
+#pragma warning restore 612
             // Key for field: 17, Varint
             stream.WriteByte(136);
             stream.WriteByte(1);
@@ -8191,6 +8217,7 @@ namespace Yours
                 stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldR);
             }
+#pragma warning disable 612
             if (instance.Dummy != null)
             {
                 // Key for field: 19, LengthDelimited
@@ -8198,6 +8225,7 @@ namespace Yours
                 stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
             }
+#pragma warning restore 612
             if (instance.FieldT != null)
             {
                 // Key for field: 20, LengthDelimited

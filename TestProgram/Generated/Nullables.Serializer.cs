@@ -282,6 +282,8 @@ namespace Yours.Nullables
             instance.FieldN = false;
             instance.FieldO = "test";
             instance.FieldR = Yours.Nullables.MyMessageV2.MyEnum.ETest2;
+#pragma warning disable 612
+#pragma warning restore 612
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
             if (instance.FieldS == null)
@@ -383,8 +385,10 @@ namespace Yours.Nullables
                     case 19:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.Dummy = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                         continue;
+#pragma warning restore 612
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -457,6 +461,8 @@ namespace Yours.Nullables
             instance.FieldN = false;
             instance.FieldO = "test";
             instance.FieldR = Yours.Nullables.MyMessageV2.MyEnum.ETest2;
+#pragma warning disable 612
+#pragma warning restore 612
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
             if (instance.FieldS == null)
@@ -567,8 +573,10 @@ namespace Yours.Nullables
                     case 19:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.Dummy = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                         continue;
+#pragma warning restore 612
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -641,6 +649,8 @@ namespace Yours.Nullables
             instance.FieldN = false;
             instance.FieldO = "test";
             instance.FieldR = Yours.Nullables.MyMessageV2.MyEnum.ETest2;
+#pragma warning disable 612
+#pragma warning restore 612
             if (instance.FieldT == null)
                 instance.FieldT = new List<uint>();
             if (instance.FieldS == null)
@@ -750,8 +760,10 @@ namespace Yours.Nullables
                     case 19:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
+#pragma warning disable 612
                         instance.Dummy = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadString(stream);
                         continue;
+#pragma warning restore 612
                     case 20:
                         if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire.LengthDelimited)
                             break;
@@ -873,6 +885,7 @@ namespace Yours.Nullables
                 stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldR.Value);
             }
+#pragma warning disable 612
             if (instance.Dummy != null)
             {
                 // Key for field: 19, LengthDelimited
@@ -880,6 +893,7 @@ namespace Yours.Nullables
                 stream.WriteByte(1);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Dummy));
             }
+#pragma warning restore 612
             if (instance.FieldT != null)
             {
                 // Key for field: 20, LengthDelimited

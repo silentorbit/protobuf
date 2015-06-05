@@ -28,7 +28,9 @@ namespace Yours
             mm.FieldM = -13;
             mm.FieldN = true;
             mm.FieldO = "test1";
+            #pragma warning disable 612
             mm.FieldP = new byte[] { 0, 1, 2, 3, 4 };
+            #pragma warning restore 612
             mm.FieldQ = MyMessageV2.MyEnum.ETest1;
             mm.FieldR = MyMessageV2.MyEnum.ETest3;
             mm.FieldS = new List<uint>();
@@ -66,9 +68,11 @@ namespace Yours
             Test("FieldM", mm.FieldM == mo.FieldM);
             Test("FieldN", mm.FieldN == mo.FieldN);
             Test("FieldO", mm.FieldO == mo.FieldO);
+            #pragma warning disable 612
             Test("FieldP.Length", mm.FieldP.Length == mo.FieldP.Length);
             for (int n = 0; n < mm.FieldP.Length; n++)
                 Test("FieldP[" + n + "]", mm.FieldP[n] == mo.FieldP[n]);
+            #pragma warning restore 612
             Test("FieldQ", mm.FieldQ == mo.FieldQ);
             Test("FieldR", mm.FieldR == mo.FieldR);
             Test("FieldS.Count", mm.FieldS.Count == mo.FieldS.Count);
