@@ -5,3 +5,4 @@ bin/
 *.suo
 obj/
 *.user
+packages/

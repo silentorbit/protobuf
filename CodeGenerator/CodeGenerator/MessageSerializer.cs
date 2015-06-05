@@ -121,6 +121,9 @@ namespace SilentOrbit.ProtocolBuffers
                 //Prepare List<> and default values
                 foreach (Field f in m.Fields.Values)
                 {
+                    if (f.OptionDeprecated)
+                        cw.WritePragma("warning disable 612");
+
                     if (f.Rule == FieldRule.Repeated)
                     {
                         if (f.OptionReadOnly == false)
@@ -151,6 +154,9 @@ namespace SilentOrbit.ProtocolBuffers
                             }
                         }
                     }
+
+                    if (f.OptionDeprecated)
+                        cw.WritePragma("warning restore 612");
                 }
 
                 if (method == "DeserializeLengthDelimited")
@@ -203,12 +209,19 @@ namespace SilentOrbit.ProtocolBuffers
                     {
                         if (f.ID >= 16)
                             continue;
+
+                        if (f.OptionDeprecated)
+                            cw.WritePragma("warning disable 612");
+
                         cw.Dedent();
                         cw.Comment("Field " + f.ID + " " + f.WireType);
                         cw.Indent();
                         cw.Case(((f.ID << 3) | (int)f.WireType));
                         if (fieldSerializer.FieldReader(f))
                             cw.WriteLine("continue;");
+
+                        if (f.OptionDeprecated)
+                            cw.WritePragma("warning restore 612");
                     }
                     cw.SwitchEnd();
                     cw.WriteLine();
@@ -229,8 +242,15 @@ namespace SilentOrbit.ProtocolBuffers
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire." + f.WireType + ")");
                     cw.WriteIndent("break;"); //This can be changed to throw an exception for unknown formats.
+
+                    if (f.OptionDeprecated)
+                        cw.WritePragma("warning disable 612");
+
                     if (fieldSerializer.FieldReader(f))
                         cw.WriteLine("continue;");
+
+                    if (f.OptionDeprecated)
+                        cw.WritePragma("warning restore 612");
                 }
                 cw.CaseDefault();
                 if (m.OptionPreserveUnknown)
@@ -285,7 +305,15 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteLine("var msField = " + stack + ".Pop();");
 
             foreach (Field f in m.Fields.Values)
+            {
+                if (f.OptionDeprecated)
+                    cw.WritePragma("warning disable 612");
+
                 fieldSerializer.FieldWriter(m, f, cw, options);
+
+                if (f.OptionDeprecated)
+                    cw.WritePragma("warning restore 612");
+            }
 
             cw.WriteLine(stack + ".Push(msField);");
 
