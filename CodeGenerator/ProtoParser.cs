@@ -78,8 +78,7 @@ namespace SilentOrbit.ProtocolBuffers
                     switch (token)
                     {
                         case ";":
-                            lastComment.Clear();
-                            continue;
+                            break;
                         case "message":
                             ParseMessage(tr, p, package);
                             break;
@@ -109,6 +108,7 @@ namespace SilentOrbit.ProtocolBuffers
                         default:
                             throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
                     }
+                    lastComment.Clear();
                 }
                 catch (EndOfStreamException)
                 {
