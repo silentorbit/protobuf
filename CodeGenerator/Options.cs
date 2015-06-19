@@ -68,6 +68,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("utc", Required = false, HelpText = "De/serialize DateTime as DateTimeKind.Utc")]
         public bool Utc { get; set; }
 
+        /// <summary>
+        /// Add the [Serializable] attribute to generated classes
+        /// </summary>
+        [Option("serializable", Required = false, HelpText = "Add the [Serializable] attribute to generated classes")]
+        public bool SerializableAttributes { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);

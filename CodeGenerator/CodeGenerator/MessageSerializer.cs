@@ -26,7 +26,8 @@ namespace SilentOrbit.ProtocolBuffers
             }
             else
             {
-                cw.Attribute("System.Serializable()");
+                if(options.SerializableAttributes)
+                    cw.Attribute("System.Serializable()");
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
 
