@@ -12,7 +12,8 @@ namespace SilentOrbit.ProtocolBuffers
     {
         public static string ReadString(Stream stream)
         {
-            return Encoding.UTF8.GetString(ReadBytes(stream));
+            var bytes = ReadBytes(stream);
+            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
         }
 
         /// <summary>
