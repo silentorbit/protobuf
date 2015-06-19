@@ -181,7 +181,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public override void Close()
         {
-            base.Close();
+            stream.Close();
         }
 
         protected override void Dispose(bool disposing)
