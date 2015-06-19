@@ -36,7 +36,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void Dispose()
         {
-            throw new ApplicationException("ConcurrentBagStack.Dispose() should not be called.");
+            throw new InvalidOperationException("ConcurrentBagStack.Dispose() should not be called.");
         }
     }
 }
