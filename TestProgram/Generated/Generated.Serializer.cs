@@ -13,7 +13,6 @@ using System.Collections.Generic;
 
 namespace Personal
 {
-    [System.Serializable()]
     public partial class Person
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -271,7 +270,6 @@ namespace Personal
             stream.Write(data, 0, data.Length);
         }
 
-        [System.Serializable()]
         public partial class PhoneNumber
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -484,7 +482,6 @@ namespace Personal
 
     }
 
-    [System.Serializable()]
     public partial class AddressBook
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -696,7 +693,6 @@ namespace Personal
 }
 namespace Google.Protobuf
 {
-    [System.Serializable()]
     public partial class FileDescriptorSet
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -905,7 +901,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class FileDescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1414,7 +1409,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class DescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1817,7 +1811,6 @@ namespace Google.Protobuf
             stream.Write(data, 0, data.Length);
         }
 
-        [System.Serializable()]
         public partial class ExtensionRange
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -2022,7 +2015,6 @@ namespace Google.Protobuf
 
     }
 
-    [System.Serializable()]
     public partial class FieldDescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -2351,7 +2343,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class EnumDescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -2611,7 +2602,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class EnumValueDescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -2850,7 +2840,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class ServiceDescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -3110,7 +3099,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class MethodDescriptorProto
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -3370,7 +3358,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class FileOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -3764,7 +3751,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class MessageOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -4013,7 +3999,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class FieldOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -4334,7 +4319,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class EnumOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -4565,7 +4549,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class EnumValueOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -4763,7 +4746,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class ServiceOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -4961,7 +4943,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class MethodOptions
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -5159,7 +5140,6 @@ namespace Google.Protobuf
         }
     }
 
-    [System.Serializable()]
     public partial class UninterpretedOption
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -5470,7 +5450,6 @@ namespace Google.Protobuf
             stream.Write(data, 0, data.Length);
         }
 
-        [System.Serializable()]
         public partial class NamePart
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -5677,7 +5656,6 @@ namespace Google.Protobuf
 
     }
 
-    [System.Serializable()]
     public partial class SourceCodeInfo
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -5885,7 +5863,6 @@ namespace Google.Protobuf
             stream.Write(data, 0, data.Length);
         }
 
-        [System.Serializable()]
         public partial class Location
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -6211,7 +6188,6 @@ namespace Google.Protobuf
 }
 namespace Local
 {
-    [System.Serializable()]
     internal partial class LocalFeatures
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -6786,7 +6762,6 @@ namespace LocalFeatureTest
         }
     }
 
-    [System.Serializable()]
     public partial struct StructTest
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -7328,7 +7303,6 @@ namespace TestB
 }
 namespace Mine
 {
-    [System.Serializable()]
     public partial class MyMessageV1
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -7533,7 +7507,6 @@ namespace Mine
 }
 namespace Yours
 {
-    [System.Serializable()]
     public partial class MyMessageV2
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -8308,7 +8281,6 @@ namespace Yours
 }
 namespace Theirs
 {
-    [System.Serializable()]
     public partial class TheirMessage
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -8499,7 +8471,6 @@ namespace Theirs
 }
 namespace Proto.Test
 {
-    [System.Serializable()]
     public partial class LongMessage
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -8733,7 +8704,6 @@ namespace Proto.Test
         }
     }
 
-    [System.Serializable()]
     public partial class Data
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -8925,7 +8895,6 @@ namespace Proto.Test
         }
     }
 
-    [System.Serializable()]
     public partial class Container
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -9163,7 +9132,6 @@ namespace Proto.Test
             stream.Write(data, 0, data.Length);
         }
 
-        [System.Serializable()]
         public partial class Nested
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -9371,7 +9339,6 @@ namespace Proto.Test
 
     }
 
-    [System.Serializable()]
     public partial class MyMessage
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>

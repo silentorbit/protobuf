@@ -13,7 +13,6 @@ using System.Collections.Generic;
 
 namespace Mine.Nullables
 {
-    [System.Serializable()]
     public partial class MyMessageV1
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -218,7 +217,6 @@ namespace Mine.Nullables
 }
 namespace Yours.Nullables
 {
-    [System.Serializable()]
     public partial class MyMessageV2
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -982,7 +980,6 @@ namespace Yours.Nullables
 }
 namespace Theirs.Nullables
 {
-    [System.Serializable()]
     public partial class TheirMessage
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1173,7 +1170,6 @@ namespace Theirs.Nullables
 }
 namespace Proto.Test.Nullables
 {
-    [System.Serializable()]
     public partial class LongMessage
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1407,7 +1403,6 @@ namespace Proto.Test.Nullables
         }
     }
 
-    [System.Serializable()]
     public partial class Data
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1602,7 +1597,6 @@ namespace Proto.Test.Nullables
         }
     }
 
-    [System.Serializable()]
     public partial class Container
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -1840,7 +1834,6 @@ namespace Proto.Test.Nullables
             stream.Write(data, 0, data.Length);
         }
 
-        [System.Serializable()]
         public partial class Nested
         {
             /// <summary>Helper: create a new instance to deserializing into</summary>
@@ -2048,7 +2041,6 @@ namespace Proto.Test.Nullables
 
     }
 
-    [System.Serializable()]
     public partial class MyMessage
     {
         /// <summary>Helper: create a new instance to deserializing into</summary>

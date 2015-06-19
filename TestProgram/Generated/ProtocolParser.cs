@@ -13,7 +13,8 @@ namespace SilentOrbit.ProtocolBuffers
     {
         public static string ReadString(Stream stream)
         {
-            return Encoding.UTF8.GetString(ReadBytes(stream));
+            var bytes = ReadBytes(stream);
+            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -179,12 +180,7 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new NotImplementedException();
             }
         }
-
-        public override void Close()
-        {
-            base.Close();
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             stream.Dispose();
@@ -650,7 +646,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void Dispose()
         {
-            throw new ApplicationException("ConcurrentBagStack.Dispose() should not be called.");
+            throw new InvalidOperationException("ConcurrentBagStack.Dispose() should not be called.");
         }
     }
 }
