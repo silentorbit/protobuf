@@ -246,7 +246,7 @@ namespace Personal
                     // Length delimited byte array
                     uint length4 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                    stream.Write(msField.GetBuffer(), 0, (int)length4);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -665,7 +665,7 @@ namespace Personal
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -876,7 +876,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1315,7 +1315,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length4 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                    stream.Write(msField.GetBuffer(), 0, (int)length4);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1330,7 +1330,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length5 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
-                    stream.Write(msField.GetBuffer(), 0, (int)length5);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1345,7 +1345,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length6 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
-                    stream.Write(msField.GetBuffer(), 0, (int)length6);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1360,7 +1360,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length7 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
-                    stream.Write(msField.GetBuffer(), 0, (int)length7);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1373,7 +1373,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length8 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
-                stream.Write(msField.GetBuffer(), 0, (int)length8);
+                msField.WriteTo(stream);
 
             }
             if (instance.SourceCodeInfo != null)
@@ -1385,7 +1385,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length9 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
-                stream.Write(msField.GetBuffer(), 0, (int)length9);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -1715,7 +1715,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length2 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                    stream.Write(msField.GetBuffer(), 0, (int)length2);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1730,7 +1730,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length6 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length6);
-                    stream.Write(msField.GetBuffer(), 0, (int)length6);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1745,7 +1745,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length3 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                    stream.Write(msField.GetBuffer(), 0, (int)length3);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1760,7 +1760,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length4 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                    stream.Write(msField.GetBuffer(), 0, (int)length4);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1775,7 +1775,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length5 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length5);
-                    stream.Write(msField.GetBuffer(), 0, (int)length5);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1788,7 +1788,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length7 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length7);
-                stream.Write(msField.GetBuffer(), 0, (int)length7);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -2319,7 +2319,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length8 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
-                stream.Write(msField.GetBuffer(), 0, (int)length8);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -2565,7 +2565,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length2 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                    stream.Write(msField.GetBuffer(), 0, (int)length2);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -2578,7 +2578,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length3 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                stream.Write(msField.GetBuffer(), 0, (int)length3);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -2816,7 +2816,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length3 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                stream.Write(msField.GetBuffer(), 0, (int)length3);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -3062,7 +3062,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length2 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                    stream.Write(msField.GetBuffer(), 0, (int)length2);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -3075,7 +3075,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length3 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length3);
-                stream.Write(msField.GetBuffer(), 0, (int)length3);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -3334,7 +3334,7 @@ namespace Google.Protobuf
                 // Length delimited byte array
                 uint length4 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length4);
-                stream.Write(msField.GetBuffer(), 0, (int)length4);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -3726,7 +3726,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -3974,7 +3974,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -4294,7 +4294,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -4524,7 +4524,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -4721,7 +4721,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -4918,7 +4918,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -5115,7 +5115,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length999 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length999);
-                    stream.Write(msField.GetBuffer(), 0, (int)length999);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -5399,7 +5399,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length2 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                    stream.Write(msField.GetBuffer(), 0, (int)length2);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -5839,7 +5839,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -6134,7 +6134,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    msField.WriteTo(stream);
                 }
                 if (instance.Span != null)
                 {
@@ -6148,7 +6148,7 @@ namespace Google.Protobuf
                     // Length delimited byte array
                     uint length2 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                    stream.Write(msField.GetBuffer(), 0, (int)length2);
+                    msField.WriteTo(stream);
                 }
                 if (instance.LeadingComments != null)
                 {
@@ -6567,7 +6567,7 @@ namespace Local
                 // Length delimited byte array
                 uint length8 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
-                stream.Write(msField.GetBuffer(), 0, (int)length8);
+                msField.WriteTo(stream);
 
             }
             if (instance.MyInterface == null)
@@ -6579,7 +6579,7 @@ namespace Local
             // Length delimited byte array
             uint length9 = (uint)msField.Length;
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
-            stream.Write(msField.GetBuffer(), 0, (int)length9);
+            msField.WriteTo(stream);
 
             // Key for field: 10, LengthDelimited
             stream.WriteByte(82);
@@ -6588,7 +6588,7 @@ namespace Local
             // Length delimited byte array
             uint length10 = (uint)msField.Length;
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length10);
-            stream.Write(msField.GetBuffer(), 0, (int)length10);
+            msField.WriteTo(stream);
 
             // Key for field: 11, LengthDelimited
             stream.WriteByte(90);
@@ -6597,7 +6597,7 @@ namespace Local
             // Length delimited byte array
             uint length11 = (uint)msField.Length;
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length11);
-            stream.Write(msField.GetBuffer(), 0, (int)length11);
+            msField.WriteTo(stream);
 
             if (instance.MyExtClass != null)
             {
@@ -6608,7 +6608,7 @@ namespace Local
                 // Length delimited byte array
                 uint length12 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length12);
-                stream.Write(msField.GetBuffer(), 0, (int)length12);
+                msField.WriteTo(stream);
 
             }
             // Key for field: 13, Varint
@@ -8230,7 +8230,7 @@ namespace Yours
                 // Length delimited byte array
                 uint length22 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length22);
-                stream.Write(msField.GetBuffer(), 0, (int)length22);
+                msField.WriteTo(stream);
 
             }
             if (instance.FieldV != null)
@@ -8245,7 +8245,7 @@ namespace Yours
                     // Length delimited byte array
                     uint length23 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length23);
-                    stream.Write(msField.GetBuffer(), 0, (int)length23);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -9097,7 +9097,7 @@ namespace Proto.Test
                 // Length delimited byte array
                 uint length1 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                stream.Write(msField.GetBuffer(), 0, (int)length1);
+                msField.WriteTo(stream);
 
             }
             if (instance.NestedField != null)
@@ -9109,7 +9109,7 @@ namespace Proto.Test
                 // Length delimited byte array
                 uint length2 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                stream.Write(msField.GetBuffer(), 0, (int)length2);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -9313,7 +9313,7 @@ namespace Proto.Test
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    msField.WriteTo(stream);
 
                 }
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);

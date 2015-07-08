@@ -923,7 +923,7 @@ namespace Yours.Nullables
                 // Length delimited byte array
                 uint length22 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length22);
-                stream.Write(msField.GetBuffer(), 0, (int)length22);
+                msField.WriteTo(stream);
 
             }
             if (instance.FieldV != null)
@@ -938,7 +938,7 @@ namespace Yours.Nullables
                     // Length delimited byte array
                     uint length23 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length23);
-                    stream.Write(msField.GetBuffer(), 0, (int)length23);
+                    msField.WriteTo(stream);
 
                 }
             }
@@ -1799,7 +1799,7 @@ namespace Proto.Test.Nullables
                 // Length delimited byte array
                 uint length1 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                stream.Write(msField.GetBuffer(), 0, (int)length1);
+                msField.WriteTo(stream);
 
             }
             if (instance.NestedField != null)
@@ -1811,7 +1811,7 @@ namespace Proto.Test.Nullables
                 // Length delimited byte array
                 uint length2 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length2);
-                stream.Write(msField.GetBuffer(), 0, (int)length2);
+                msField.WriteTo(stream);
 
             }
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);
@@ -2015,7 +2015,7 @@ namespace Proto.Test.Nullables
                     // Length delimited byte array
                     uint length1 = (uint)msField.Length;
                     global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length1);
-                    stream.Write(msField.GetBuffer(), 0, (int)length1);
+                    msField.WriteTo(stream);
 
                 }
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Push(msField);

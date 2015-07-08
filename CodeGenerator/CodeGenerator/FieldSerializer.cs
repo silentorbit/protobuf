@@ -250,7 +250,7 @@ namespace SilentOrbit.ProtocolBuffers
             //10% faster than original using GetBuffer rather than ToArray
             cw.WriteLine("uint length" + f.ID + " = (uint)msField.Length;");
             cw.WriteLine(ProtocolParser.Base + ".WriteUInt32(" + stream + ", length" + f.ID + ");");
-            cw.WriteLine(stream + ".Write(msField.GetBuffer(), 0, (int)length" + f.ID + ");");
+            cw.WriteLine("msField.WriteTo("+stream+");");
         }
 
         /// <summary>
