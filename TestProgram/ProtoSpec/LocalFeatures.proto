@@ -3,7 +3,15 @@ package local_feature_test;
 
 import "ProtoFeatures.proto";
 
+//:flags
 enum top_enum
+{
+    First = 1;
+    Last = 1000000;
+}
+
+//:external
+enum external_enum
 {
     First = 1;
     Last = 1000000;

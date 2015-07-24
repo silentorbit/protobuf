@@ -318,6 +318,7 @@ namespace Google.Protobuf
             JavaGenericServices = false;
             PyGenericServices = false;
         }
+        /// <summary> Generated classes can be optimized for speed or code size.</summary>
         public enum OptimizeMode
         {
             SPEED = 1,
@@ -873,6 +874,7 @@ namespace Yours
             FieldO = "test";
             FieldR = Yours.MyMessageV2.MyEnum.ETest2;
         }
+        /// <summary>Adding some comments</summary>
         public enum MyEnum
         {
             /// <summary>First test</summary>
@@ -1003,12 +1005,21 @@ namespace Proto.Test
 }
 namespace LocalFeatureTest
 {
+    [global::System.FlagsAttribute]
     public enum TopEnum
     {
         First = 1,
         Last = 1000000,
     }
 
+
+    // Written elsewhere
+    //
+    // public enum ExternalEnum
+    // {
+    //     First = 1,
+    //     Last = 1000000,
+    // }
 
 }
 namespace Proto.Test

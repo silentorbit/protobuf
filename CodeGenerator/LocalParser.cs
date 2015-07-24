@@ -26,6 +26,21 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
+        static void ParseEnumFlags(ProtoEnum message, string flag)
+        {
+            switch (flag)
+            {
+                case "external":
+                    message.OptionExternal = true;
+                    break;
+                case "flags":
+                    message.OptionFlags = true;
+                    break;
+                default:
+                    throw new NotImplementedException("Unknown option: " + flag);
+            }
+        }
+
         static void ParseMessageOption(ProtoMessage message, string key, string value)
         {
             //Parse value
@@ -42,6 +57,23 @@ namespace SilentOrbit.ProtocolBuffers
                     break;
                 case "buffer":
                     message.BufferSize = int.Parse(value);
+                    break;
+                default:
+                    throw new NotImplementedException("Unknown option: " + key);
+            }
+        }
+
+        static void ParseEnumOption(ProtoEnum message, string key, string value)
+        {
+            //Parse value
+            switch (key)
+            {
+                /* This could be supported if the code generation handles the scope when generating the code for the enum.
+                case "namespace":
+                    message.OptionNamespace = value;
+                    break;*/
+                case "access":
+                    message.OptionAccess = value;
                     break;
                 default:
                     throw new NotImplementedException("Unknown option: " + key);
@@ -108,6 +140,8 @@ namespace SilentOrbit.ProtocolBuffers
                                 ParseMessageFlags((ProtoMessage)message, key);
                             else if (message is Field)
                                 ParseFieldFlags((Field)message, key);
+                            else if (message is ProtoEnum)
+                                ParseEnumFlags((ProtoEnum)message, key);
                             else
                                 throw new NotImplementedException();
 
@@ -121,6 +155,8 @@ namespace SilentOrbit.ProtocolBuffers
                                 ParseMessageOption((ProtoMessage)message, key, value);
                             else if (message is Field)
                                 ParseFieldOption((Field)message, key, value);
+                            else if (message is ProtoEnum)
+                                ParseEnumOption((ProtoEnum)message, key, value);
                             else
                                 throw new NotImplementedException();
 

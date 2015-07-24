@@ -95,10 +95,28 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
-        public void GenerateEnum(ProtoEnum me)
+        public void GenerateEnum(ProtoEnum m)
         {
-            cw.Bracket("public enum " + me.CsType);
-            foreach (var epair in me.Enums)
+            if (m.OptionExternal)
+            {
+                cw.Comment("Written elsewhere");
+                cw.Comment(m.Comments);
+                cw.Comment(m.OptionAccess + " enum " + m.CsType);
+                cw.Comment("{");
+                foreach (var epair in m.Enums)
+                {
+                    cw.Summary(epair.Comment);
+                    cw.Comment(cw.IndentPrefix + epair.Name + " = " + epair.Value + ",");
+                }
+                cw.Comment("}");
+                return;
+            }
+
+            cw.Summary(m.Comments);
+            if (m.OptionFlags)
+                cw.Attribute("global::System.FlagsAttribute");
+            cw.Bracket(m.OptionAccess + " enum " + m.CsType);
+            foreach (var epair in m.Enums)
             {
                 cw.Summary(epair.Comment);
                 cw.WriteLine(epair.Name + " = " + epair.Value + ",");
