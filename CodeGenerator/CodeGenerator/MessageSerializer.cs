@@ -27,7 +27,7 @@ namespace SilentOrbit.ProtocolBuffers
             else
             {
                 if(options.SerializableAttributes)
-                    cw.Attribute("System.Serializable()");
+                    cw.Attribute("System.Serializable");
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
 
@@ -52,28 +52,28 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 cw.Summary("Helper: create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(Stream stream)");
-                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
+                cw.WriteLine("var instance = new " + m.CsType + "();");
                 cw.WriteLine("Deserialize(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
 
                 cw.Summary("Helper: create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " DeserializeLengthDelimited(Stream stream)");
-                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
+                cw.WriteLine("var instance = new " + m.CsType + "();");
                 cw.WriteLine("DeserializeLengthDelimited(stream, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
 
                 cw.Summary("Helper: create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " DeserializeLength(Stream stream, int length)");
-                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
+                cw.WriteLine("var instance = new " + m.CsType + "();");
                 cw.WriteLine("DeserializeLength(stream, length, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
                 cw.EndBracketSpace();
 
                 cw.Summary("Helper: put the buffer into a MemoryStream and create a new instance to deserializing into");
                 cw.Bracket(m.OptionAccess + " static " + m.CsType + " Deserialize(byte[] buffer)");
-                cw.WriteLine(m.CsType + " instance = new " + m.CsType + "();");
+                cw.WriteLine("var instance = new " + m.CsType + "();");
                 cw.WriteLine("using (var ms = new MemoryStream(buffer))");
                 cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
                 cw.WriteLine("return instance;");
@@ -117,7 +117,7 @@ namespace SilentOrbit.ProtocolBuffers
                     throw new NotImplementedException();
 
                 if (m.IsUsingBinaryWriter)
-                    cw.WriteLine("BinaryReader br = new BinaryReader(stream);");
+                    cw.WriteLine("var br = new BinaryReader(stream);");
 
                 //Prepare List<> and default values
                 foreach (Field f in m.Fields.Values)
@@ -300,7 +300,7 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine();
             }
             if (m.IsUsingBinaryWriter)
-                cw.WriteLine("BinaryWriter bw = new BinaryWriter(stream);");
+                cw.WriteLine("var bw = new BinaryWriter(stream);");
 
             //Shared memorystream for all fields
             cw.WriteLine("var msField = " + stack + ".Pop();");
