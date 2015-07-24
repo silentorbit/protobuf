@@ -65,7 +65,7 @@ namespace Test
             {
                 //Serialize
                 Console.Write("Speed test ConcurrentBagStack: Serialize " + ab.List.Count + " posts in   ");
-                GC.Collect();
+                GCWait();
                 var start = DateTime.Now;
                 AddressBook.Serialize(ms, ab);
                 var serialize = DateTime.Now - start;
@@ -74,7 +74,7 @@ namespace Test
                 //Deserialize
                 Console.Write("Speed test: Deserialize " + ab.List.Count + " posts in ");
                 ms.Seek(0, SeekOrigin.Begin);
-                GC.Collect();
+                GCWait();
                 start = DateTime.Now;
                 AddressBook.Deserialize(new PositionStream(ms));
                 TimeSpan deserialize = DateTime.Now - start;
@@ -85,7 +85,7 @@ namespace Test
             {
                 //Serialize 
                 Console.Write("Protobuf-net: Serialize " + nab.List.Count + " posts in   ");
-                GC.Collect();
+                GCWait();
                 DateTime start = DateTime.Now;
                 ProtoBuf.Serializer.Serialize(ms, nab);
                 TimeSpan serialize = DateTime.Now - start;
@@ -94,12 +94,18 @@ namespace Test
                 //Deserialize
                 Console.Write("Protobuf-net: Deserialize " + nab.List.Count + " posts in ");
                 ms.Seek(0, SeekOrigin.Begin);
-                GC.Collect();
+                GCWait();
                 start = DateTime.Now;
                 ProtoBuf.Serializer.Deserialize<NetAddressBook>(ms);
                 TimeSpan deserialize = DateTime.Now - start;
                 Console.WriteLine(deserialize.TotalSeconds + " s");
             }
+        }
+
+        static void GCWait()
+        {
+            GC.Collect();
+            Thread.Sleep(500);
         }
 
         static void RunTestSerialize(MemoryStreamStack stack, AddressBook ab)
@@ -111,8 +117,8 @@ namespace Test
             {
                 //Serialize
                 Console.Write("Speed test " + stack.GetType().Name + ": Serialize " + ab.List.Count + " posts in   ");
-                GC.Collect();
-                Thread.Sleep(1000);
+                GCWait();
+                
 
                 var start = DateTime.Now;
                 AddressBook.Serialize(ms, ab);
