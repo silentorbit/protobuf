@@ -18,7 +18,7 @@ namespace Personal
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Person Deserialize(Stream stream)
         {
-            Person instance = new Person();
+            var instance = new Person();
             Deserialize(stream, instance);
             return instance;
         }
@@ -26,7 +26,7 @@ namespace Personal
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Person DeserializeLengthDelimited(Stream stream)
         {
-            Person instance = new Person();
+            var instance = new Person();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -34,7 +34,7 @@ namespace Personal
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Person DeserializeLength(Stream stream, int length)
         {
-            Person instance = new Person();
+            var instance = new Person();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -42,7 +42,7 @@ namespace Personal
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Person Deserialize(byte[] buffer)
         {
-            Person instance = new Person();
+            var instance = new Person();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -222,7 +222,7 @@ namespace Personal
         {
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             if (instance.Name == null)
-                throw new ArgumentNullException("Name", "Required by proto specification.");
+                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Name is required by the proto specification.");
             // Key for field: 1, LengthDelimited
             stream.WriteByte(10);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Name));
@@ -275,7 +275,7 @@ namespace Personal
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static PhoneNumber Deserialize(Stream stream)
             {
-                PhoneNumber instance = new PhoneNumber();
+                var instance = new PhoneNumber();
                 Deserialize(stream, instance);
                 return instance;
             }
@@ -283,7 +283,7 @@ namespace Personal
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static PhoneNumber DeserializeLengthDelimited(Stream stream)
             {
-                PhoneNumber instance = new PhoneNumber();
+                var instance = new PhoneNumber();
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
@@ -291,7 +291,7 @@ namespace Personal
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static PhoneNumber DeserializeLength(Stream stream, int length)
             {
-                PhoneNumber instance = new PhoneNumber();
+                var instance = new PhoneNumber();
                 DeserializeLength(stream, length, instance);
                 return instance;
             }
@@ -299,7 +299,7 @@ namespace Personal
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static PhoneNumber Deserialize(byte[] buffer)
             {
-                PhoneNumber instance = new PhoneNumber();
+                var instance = new PhoneNumber();
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
                 return instance;
@@ -449,7 +449,7 @@ namespace Personal
             {
                 var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
                 if (instance.Number == null)
-                    throw new ArgumentNullException("Number", "Required by proto specification.");
+                    throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("Number is required by the proto specification.");
                 // Key for field: 1, LengthDelimited
                 stream.WriteByte(10);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Number));
@@ -487,7 +487,7 @@ namespace Personal
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static AddressBook Deserialize(Stream stream)
         {
-            AddressBook instance = new AddressBook();
+            var instance = new AddressBook();
             Deserialize(stream, instance);
             return instance;
         }
@@ -495,7 +495,7 @@ namespace Personal
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static AddressBook DeserializeLengthDelimited(Stream stream)
         {
-            AddressBook instance = new AddressBook();
+            var instance = new AddressBook();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -503,7 +503,7 @@ namespace Personal
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static AddressBook DeserializeLength(Stream stream, int length)
         {
-            AddressBook instance = new AddressBook();
+            var instance = new AddressBook();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -511,7 +511,7 @@ namespace Personal
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static AddressBook Deserialize(byte[] buffer)
         {
-            AddressBook instance = new AddressBook();
+            var instance = new AddressBook();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -698,7 +698,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileDescriptorSet Deserialize(Stream stream)
         {
-            FileDescriptorSet instance = new FileDescriptorSet();
+            var instance = new FileDescriptorSet();
             Deserialize(stream, instance);
             return instance;
         }
@@ -706,7 +706,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileDescriptorSet DeserializeLengthDelimited(Stream stream)
         {
-            FileDescriptorSet instance = new FileDescriptorSet();
+            var instance = new FileDescriptorSet();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -714,7 +714,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileDescriptorSet DeserializeLength(Stream stream, int length)
         {
-            FileDescriptorSet instance = new FileDescriptorSet();
+            var instance = new FileDescriptorSet();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -722,7 +722,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static FileDescriptorSet Deserialize(byte[] buffer)
         {
-            FileDescriptorSet instance = new FileDescriptorSet();
+            var instance = new FileDescriptorSet();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -906,7 +906,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileDescriptorProto Deserialize(Stream stream)
         {
-            FileDescriptorProto instance = new FileDescriptorProto();
+            var instance = new FileDescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -914,7 +914,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileDescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            FileDescriptorProto instance = new FileDescriptorProto();
+            var instance = new FileDescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -922,7 +922,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileDescriptorProto DeserializeLength(Stream stream, int length)
         {
-            FileDescriptorProto instance = new FileDescriptorProto();
+            var instance = new FileDescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -930,7 +930,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static FileDescriptorProto Deserialize(byte[] buffer)
         {
-            FileDescriptorProto instance = new FileDescriptorProto();
+            var instance = new FileDescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -1414,7 +1414,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static DescriptorProto Deserialize(Stream stream)
         {
-            DescriptorProto instance = new DescriptorProto();
+            var instance = new DescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -1422,7 +1422,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static DescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            DescriptorProto instance = new DescriptorProto();
+            var instance = new DescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -1430,7 +1430,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static DescriptorProto DeserializeLength(Stream stream, int length)
         {
-            DescriptorProto instance = new DescriptorProto();
+            var instance = new DescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -1438,7 +1438,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static DescriptorProto Deserialize(byte[] buffer)
         {
-            DescriptorProto instance = new DescriptorProto();
+            var instance = new DescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -1816,7 +1816,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static ExtensionRange Deserialize(Stream stream)
             {
-                ExtensionRange instance = new ExtensionRange();
+                var instance = new ExtensionRange();
                 Deserialize(stream, instance);
                 return instance;
             }
@@ -1824,7 +1824,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static ExtensionRange DeserializeLengthDelimited(Stream stream)
             {
-                ExtensionRange instance = new ExtensionRange();
+                var instance = new ExtensionRange();
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
@@ -1832,7 +1832,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static ExtensionRange DeserializeLength(Stream stream, int length)
             {
-                ExtensionRange instance = new ExtensionRange();
+                var instance = new ExtensionRange();
                 DeserializeLength(stream, length, instance);
                 return instance;
             }
@@ -1840,7 +1840,7 @@ namespace Google.Protobuf
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static ExtensionRange Deserialize(byte[] buffer)
             {
-                ExtensionRange instance = new ExtensionRange();
+                var instance = new ExtensionRange();
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
                 return instance;
@@ -2020,7 +2020,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FieldDescriptorProto Deserialize(Stream stream)
         {
-            FieldDescriptorProto instance = new FieldDescriptorProto();
+            var instance = new FieldDescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -2028,7 +2028,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FieldDescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            FieldDescriptorProto instance = new FieldDescriptorProto();
+            var instance = new FieldDescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -2036,7 +2036,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FieldDescriptorProto DeserializeLength(Stream stream, int length)
         {
-            FieldDescriptorProto instance = new FieldDescriptorProto();
+            var instance = new FieldDescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -2044,7 +2044,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static FieldDescriptorProto Deserialize(byte[] buffer)
         {
-            FieldDescriptorProto instance = new FieldDescriptorProto();
+            var instance = new FieldDescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -2348,7 +2348,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumDescriptorProto Deserialize(Stream stream)
         {
-            EnumDescriptorProto instance = new EnumDescriptorProto();
+            var instance = new EnumDescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -2356,7 +2356,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumDescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            EnumDescriptorProto instance = new EnumDescriptorProto();
+            var instance = new EnumDescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -2364,7 +2364,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumDescriptorProto DeserializeLength(Stream stream, int length)
         {
-            EnumDescriptorProto instance = new EnumDescriptorProto();
+            var instance = new EnumDescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -2372,7 +2372,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static EnumDescriptorProto Deserialize(byte[] buffer)
         {
-            EnumDescriptorProto instance = new EnumDescriptorProto();
+            var instance = new EnumDescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -2607,7 +2607,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumValueDescriptorProto Deserialize(Stream stream)
         {
-            EnumValueDescriptorProto instance = new EnumValueDescriptorProto();
+            var instance = new EnumValueDescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -2615,7 +2615,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumValueDescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            EnumValueDescriptorProto instance = new EnumValueDescriptorProto();
+            var instance = new EnumValueDescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -2623,7 +2623,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumValueDescriptorProto DeserializeLength(Stream stream, int length)
         {
-            EnumValueDescriptorProto instance = new EnumValueDescriptorProto();
+            var instance = new EnumValueDescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -2631,7 +2631,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static EnumValueDescriptorProto Deserialize(byte[] buffer)
         {
-            EnumValueDescriptorProto instance = new EnumValueDescriptorProto();
+            var instance = new EnumValueDescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -2845,7 +2845,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ServiceDescriptorProto Deserialize(Stream stream)
         {
-            ServiceDescriptorProto instance = new ServiceDescriptorProto();
+            var instance = new ServiceDescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -2853,7 +2853,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ServiceDescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            ServiceDescriptorProto instance = new ServiceDescriptorProto();
+            var instance = new ServiceDescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -2861,7 +2861,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ServiceDescriptorProto DeserializeLength(Stream stream, int length)
         {
-            ServiceDescriptorProto instance = new ServiceDescriptorProto();
+            var instance = new ServiceDescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -2869,7 +2869,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ServiceDescriptorProto Deserialize(byte[] buffer)
         {
-            ServiceDescriptorProto instance = new ServiceDescriptorProto();
+            var instance = new ServiceDescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -3104,7 +3104,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MethodDescriptorProto Deserialize(Stream stream)
         {
-            MethodDescriptorProto instance = new MethodDescriptorProto();
+            var instance = new MethodDescriptorProto();
             Deserialize(stream, instance);
             return instance;
         }
@@ -3112,7 +3112,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MethodDescriptorProto DeserializeLengthDelimited(Stream stream)
         {
-            MethodDescriptorProto instance = new MethodDescriptorProto();
+            var instance = new MethodDescriptorProto();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -3120,7 +3120,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MethodDescriptorProto DeserializeLength(Stream stream, int length)
         {
-            MethodDescriptorProto instance = new MethodDescriptorProto();
+            var instance = new MethodDescriptorProto();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -3128,7 +3128,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MethodDescriptorProto Deserialize(byte[] buffer)
         {
-            MethodDescriptorProto instance = new MethodDescriptorProto();
+            var instance = new MethodDescriptorProto();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -3363,7 +3363,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileOptions Deserialize(Stream stream)
         {
-            FileOptions instance = new FileOptions();
+            var instance = new FileOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -3371,7 +3371,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileOptions DeserializeLengthDelimited(Stream stream)
         {
-            FileOptions instance = new FileOptions();
+            var instance = new FileOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -3379,7 +3379,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FileOptions DeserializeLength(Stream stream, int length)
         {
-            FileOptions instance = new FileOptions();
+            var instance = new FileOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -3387,7 +3387,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static FileOptions Deserialize(byte[] buffer)
         {
-            FileOptions instance = new FileOptions();
+            var instance = new FileOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -3756,7 +3756,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MessageOptions Deserialize(Stream stream)
         {
-            MessageOptions instance = new MessageOptions();
+            var instance = new MessageOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -3764,7 +3764,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MessageOptions DeserializeLengthDelimited(Stream stream)
         {
-            MessageOptions instance = new MessageOptions();
+            var instance = new MessageOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -3772,7 +3772,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MessageOptions DeserializeLength(Stream stream, int length)
         {
-            MessageOptions instance = new MessageOptions();
+            var instance = new MessageOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -3780,7 +3780,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MessageOptions Deserialize(byte[] buffer)
         {
-            MessageOptions instance = new MessageOptions();
+            var instance = new MessageOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -4004,7 +4004,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FieldOptions Deserialize(Stream stream)
         {
-            FieldOptions instance = new FieldOptions();
+            var instance = new FieldOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -4012,7 +4012,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FieldOptions DeserializeLengthDelimited(Stream stream)
         {
-            FieldOptions instance = new FieldOptions();
+            var instance = new FieldOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -4020,7 +4020,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static FieldOptions DeserializeLength(Stream stream, int length)
         {
-            FieldOptions instance = new FieldOptions();
+            var instance = new FieldOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -4028,7 +4028,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static FieldOptions Deserialize(byte[] buffer)
         {
-            FieldOptions instance = new FieldOptions();
+            var instance = new FieldOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -4324,7 +4324,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumOptions Deserialize(Stream stream)
         {
-            EnumOptions instance = new EnumOptions();
+            var instance = new EnumOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -4332,7 +4332,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumOptions DeserializeLengthDelimited(Stream stream)
         {
-            EnumOptions instance = new EnumOptions();
+            var instance = new EnumOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -4340,7 +4340,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumOptions DeserializeLength(Stream stream, int length)
         {
-            EnumOptions instance = new EnumOptions();
+            var instance = new EnumOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -4348,7 +4348,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static EnumOptions Deserialize(byte[] buffer)
         {
-            EnumOptions instance = new EnumOptions();
+            var instance = new EnumOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -4554,7 +4554,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumValueOptions Deserialize(Stream stream)
         {
-            EnumValueOptions instance = new EnumValueOptions();
+            var instance = new EnumValueOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -4562,7 +4562,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumValueOptions DeserializeLengthDelimited(Stream stream)
         {
-            EnumValueOptions instance = new EnumValueOptions();
+            var instance = new EnumValueOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -4570,7 +4570,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static EnumValueOptions DeserializeLength(Stream stream, int length)
         {
-            EnumValueOptions instance = new EnumValueOptions();
+            var instance = new EnumValueOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -4578,7 +4578,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static EnumValueOptions Deserialize(byte[] buffer)
         {
-            EnumValueOptions instance = new EnumValueOptions();
+            var instance = new EnumValueOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -4751,7 +4751,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ServiceOptions Deserialize(Stream stream)
         {
-            ServiceOptions instance = new ServiceOptions();
+            var instance = new ServiceOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -4759,7 +4759,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ServiceOptions DeserializeLengthDelimited(Stream stream)
         {
-            ServiceOptions instance = new ServiceOptions();
+            var instance = new ServiceOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -4767,7 +4767,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ServiceOptions DeserializeLength(Stream stream, int length)
         {
-            ServiceOptions instance = new ServiceOptions();
+            var instance = new ServiceOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -4775,7 +4775,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ServiceOptions Deserialize(byte[] buffer)
         {
-            ServiceOptions instance = new ServiceOptions();
+            var instance = new ServiceOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -4948,7 +4948,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MethodOptions Deserialize(Stream stream)
         {
-            MethodOptions instance = new MethodOptions();
+            var instance = new MethodOptions();
             Deserialize(stream, instance);
             return instance;
         }
@@ -4956,7 +4956,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MethodOptions DeserializeLengthDelimited(Stream stream)
         {
-            MethodOptions instance = new MethodOptions();
+            var instance = new MethodOptions();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -4964,7 +4964,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MethodOptions DeserializeLength(Stream stream, int length)
         {
-            MethodOptions instance = new MethodOptions();
+            var instance = new MethodOptions();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -4972,7 +4972,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MethodOptions Deserialize(byte[] buffer)
         {
-            MethodOptions instance = new MethodOptions();
+            var instance = new MethodOptions();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -5145,7 +5145,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static UninterpretedOption Deserialize(Stream stream)
         {
-            UninterpretedOption instance = new UninterpretedOption();
+            var instance = new UninterpretedOption();
             Deserialize(stream, instance);
             return instance;
         }
@@ -5153,7 +5153,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static UninterpretedOption DeserializeLengthDelimited(Stream stream)
         {
-            UninterpretedOption instance = new UninterpretedOption();
+            var instance = new UninterpretedOption();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -5161,7 +5161,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static UninterpretedOption DeserializeLength(Stream stream, int length)
         {
-            UninterpretedOption instance = new UninterpretedOption();
+            var instance = new UninterpretedOption();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -5169,7 +5169,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static UninterpretedOption Deserialize(byte[] buffer)
         {
-            UninterpretedOption instance = new UninterpretedOption();
+            var instance = new UninterpretedOption();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -5186,7 +5186,7 @@ namespace Google.Protobuf
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Google.Protobuf.UninterpretedOption Deserialize(Stream stream, Google.Protobuf.UninterpretedOption instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             if (instance.Name == null)
                 instance.Name = new List<Google.Protobuf.UninterpretedOption.NamePart>();
             while (true)
@@ -5247,7 +5247,7 @@ namespace Google.Protobuf
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Google.Protobuf.UninterpretedOption DeserializeLengthDelimited(Stream stream, Google.Protobuf.UninterpretedOption instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             if (instance.Name == null)
                 instance.Name = new List<Google.Protobuf.UninterpretedOption.NamePart>();
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
@@ -5317,7 +5317,7 @@ namespace Google.Protobuf
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Google.Protobuf.UninterpretedOption DeserializeLength(Stream stream, int length, Google.Protobuf.UninterpretedOption instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             if (instance.Name == null)
                 instance.Name = new List<Google.Protobuf.UninterpretedOption.NamePart>();
             long limit = stream.Position + length;
@@ -5386,7 +5386,7 @@ namespace Google.Protobuf
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, UninterpretedOption instance)
         {
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             if (instance.Name != null)
             {
@@ -5455,7 +5455,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static NamePart Deserialize(Stream stream)
             {
-                NamePart instance = new NamePart();
+                var instance = new NamePart();
                 Deserialize(stream, instance);
                 return instance;
             }
@@ -5463,7 +5463,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static NamePart DeserializeLengthDelimited(Stream stream)
             {
-                NamePart instance = new NamePart();
+                var instance = new NamePart();
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
@@ -5471,7 +5471,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static NamePart DeserializeLength(Stream stream, int length)
             {
-                NamePart instance = new NamePart();
+                var instance = new NamePart();
                 DeserializeLength(stream, length, instance);
                 return instance;
             }
@@ -5479,7 +5479,7 @@ namespace Google.Protobuf
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static NamePart Deserialize(byte[] buffer)
             {
-                NamePart instance = new NamePart();
+                var instance = new NamePart();
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
                 return instance;
@@ -5626,7 +5626,7 @@ namespace Google.Protobuf
             {
                 var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
                 if (instance.NamePartField == null)
-                    throw new ArgumentNullException("NamePartField", "Required by proto specification.");
+                    throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("NamePartField is required by the proto specification.");
                 // Key for field: 1, LengthDelimited
                 stream.WriteByte(10);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.NamePartField));
@@ -5661,7 +5661,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static SourceCodeInfo Deserialize(Stream stream)
         {
-            SourceCodeInfo instance = new SourceCodeInfo();
+            var instance = new SourceCodeInfo();
             Deserialize(stream, instance);
             return instance;
         }
@@ -5669,7 +5669,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static SourceCodeInfo DeserializeLengthDelimited(Stream stream)
         {
-            SourceCodeInfo instance = new SourceCodeInfo();
+            var instance = new SourceCodeInfo();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -5677,7 +5677,7 @@ namespace Google.Protobuf
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static SourceCodeInfo DeserializeLength(Stream stream, int length)
         {
-            SourceCodeInfo instance = new SourceCodeInfo();
+            var instance = new SourceCodeInfo();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -5685,7 +5685,7 @@ namespace Google.Protobuf
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static SourceCodeInfo Deserialize(byte[] buffer)
         {
-            SourceCodeInfo instance = new SourceCodeInfo();
+            var instance = new SourceCodeInfo();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -5868,7 +5868,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Location Deserialize(Stream stream)
             {
-                Location instance = new Location();
+                var instance = new Location();
                 Deserialize(stream, instance);
                 return instance;
             }
@@ -5876,7 +5876,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Location DeserializeLengthDelimited(Stream stream)
             {
-                Location instance = new Location();
+                var instance = new Location();
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
@@ -5884,7 +5884,7 @@ namespace Google.Protobuf
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Location DeserializeLength(Stream stream, int length)
             {
-                Location instance = new Location();
+                var instance = new Location();
                 DeserializeLength(stream, length, instance);
                 return instance;
             }
@@ -5892,7 +5892,7 @@ namespace Google.Protobuf
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static Location Deserialize(byte[] buffer)
             {
-                Location instance = new Location();
+                var instance = new Location();
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
                 return instance;
@@ -6193,7 +6193,7 @@ namespace Local
         /// <summary>Helper: create a new instance to deserializing into</summary>
         internal static LocalFeatures Deserialize(Stream stream)
         {
-            LocalFeatures instance = new LocalFeatures();
+            var instance = new LocalFeatures();
             Deserialize(stream, instance);
             return instance;
         }
@@ -6201,7 +6201,7 @@ namespace Local
         /// <summary>Helper: create a new instance to deserializing into</summary>
         internal static LocalFeatures DeserializeLengthDelimited(Stream stream)
         {
-            LocalFeatures instance = new LocalFeatures();
+            var instance = new LocalFeatures();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -6209,7 +6209,7 @@ namespace Local
         /// <summary>Helper: create a new instance to deserializing into</summary>
         internal static LocalFeatures DeserializeLength(Stream stream, int length)
         {
-            LocalFeatures instance = new LocalFeatures();
+            var instance = new LocalFeatures();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -6217,7 +6217,7 @@ namespace Local
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         internal static LocalFeatures Deserialize(byte[] buffer)
         {
-            LocalFeatures instance = new LocalFeatures();
+            var instance = new LocalFeatures();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -6234,7 +6234,7 @@ namespace Local
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures Deserialize(Stream stream, Local.LocalFeatures instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.MyEnum = LocalFeatureTest.TopEnum.First;
             while (true)
             {
@@ -6324,7 +6324,7 @@ namespace Local
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures DeserializeLengthDelimited(Stream stream, Local.LocalFeatures instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.MyEnum = LocalFeatureTest.TopEnum.First;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -6423,7 +6423,7 @@ namespace Local
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         internal static Local.LocalFeatures DeserializeLength(Stream stream, int length, Local.LocalFeatures instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.MyEnum = LocalFeatureTest.TopEnum.First;
             long limit = stream.Position + length;
             while (true)
@@ -6523,7 +6523,7 @@ namespace Local
         {
             instance.BeforeSerialize();
 
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             // Key for field: 1, Varint
             stream.WriteByte(8);
@@ -6571,7 +6571,7 @@ namespace Local
 
             }
             if (instance.MyInterface == null)
-                throw new ArgumentNullException("MyInterface", "Required by proto specification.");
+                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("MyInterface is required by the proto specification.");
             // Key for field: 9, LengthDelimited
             stream.WriteByte(74);
             ﻿msField.SetLength(0);
@@ -6767,7 +6767,7 @@ namespace LocalFeatureTest
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static StructTest Deserialize(Stream stream)
         {
-            StructTest instance = new StructTest();
+            var instance = new StructTest();
             Deserialize(stream, ref instance);
             return instance;
         }
@@ -6775,7 +6775,7 @@ namespace LocalFeatureTest
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static StructTest DeserializeLengthDelimited(Stream stream)
         {
-            StructTest instance = new StructTest();
+            var instance = new StructTest();
             DeserializeLengthDelimited(stream, ref instance);
             return instance;
         }
@@ -6783,7 +6783,7 @@ namespace LocalFeatureTest
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static StructTest DeserializeLength(Stream stream, int length)
         {
-            StructTest instance = new StructTest();
+            var instance = new StructTest();
             DeserializeLength(stream, length, ref instance);
             return instance;
         }
@@ -6791,7 +6791,7 @@ namespace LocalFeatureTest
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static StructTest Deserialize(byte[] buffer)
         {
-            StructTest instance = new StructTest();
+            var instance = new StructTest();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, ref instance);
             return instance;
@@ -6927,7 +6927,7 @@ namespace TestB
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalStruct Deserialize(Stream stream)
         {
-            ExternalStruct instance = new ExternalStruct();
+            var instance = new ExternalStruct();
             Deserialize(stream, ref instance);
             return instance;
         }
@@ -6935,7 +6935,7 @@ namespace TestB
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalStruct DeserializeLengthDelimited(Stream stream)
         {
-            ExternalStruct instance = new ExternalStruct();
+            var instance = new ExternalStruct();
             DeserializeLengthDelimited(stream, ref instance);
             return instance;
         }
@@ -6943,7 +6943,7 @@ namespace TestB
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalStruct DeserializeLength(Stream stream, int length)
         {
-            ExternalStruct instance = new ExternalStruct();
+            var instance = new ExternalStruct();
             DeserializeLength(stream, length, ref instance);
             return instance;
         }
@@ -6951,7 +6951,7 @@ namespace TestB
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalStruct Deserialize(byte[] buffer)
         {
-            ExternalStruct instance = new ExternalStruct();
+            var instance = new ExternalStruct();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, ref instance);
             return instance;
@@ -6968,7 +6968,7 @@ namespace TestB
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct Deserialize(Stream stream, ref TestB.ExternalStruct instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -7002,7 +7002,7 @@ namespace TestB
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct DeserializeLengthDelimited(Stream stream, ref TestB.ExternalStruct instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -7045,7 +7045,7 @@ namespace TestB
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static TestB.ExternalStruct DeserializeLength(Stream stream, int length, ref TestB.ExternalStruct instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             long limit = stream.Position + length;
             while (true)
             {
@@ -7087,7 +7087,7 @@ namespace TestB
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, ExternalStruct instance)
         {
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             // Key for field: 1, Fixed64
             stream.WriteByte(9);
@@ -7118,7 +7118,7 @@ namespace TestB
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalClass Deserialize(Stream stream)
         {
-            ExternalClass instance = new ExternalClass();
+            var instance = new ExternalClass();
             Deserialize(stream, instance);
             return instance;
         }
@@ -7126,7 +7126,7 @@ namespace TestB
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalClass DeserializeLengthDelimited(Stream stream)
         {
-            ExternalClass instance = new ExternalClass();
+            var instance = new ExternalClass();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -7134,7 +7134,7 @@ namespace TestB
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static ExternalClass DeserializeLength(Stream stream, int length)
         {
-            ExternalClass instance = new ExternalClass();
+            var instance = new ExternalClass();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -7142,7 +7142,7 @@ namespace TestB
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static ExternalClass Deserialize(byte[] buffer)
         {
-            ExternalClass instance = new ExternalClass();
+            var instance = new ExternalClass();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -7308,7 +7308,7 @@ namespace Mine
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(Stream stream)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             Deserialize(stream, instance);
             return instance;
         }
@@ -7316,7 +7316,7 @@ namespace Mine
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 DeserializeLengthDelimited(Stream stream)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -7324,7 +7324,7 @@ namespace Mine
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 DeserializeLength(Stream stream, int length)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -7332,7 +7332,7 @@ namespace Mine
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(byte[] buffer)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -7512,7 +7512,7 @@ namespace Yours
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(Stream stream)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             Deserialize(stream, instance);
             return instance;
         }
@@ -7520,7 +7520,7 @@ namespace Yours
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 DeserializeLengthDelimited(Stream stream)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -7528,7 +7528,7 @@ namespace Yours
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 DeserializeLength(Stream stream, int length)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -7536,7 +7536,7 @@ namespace Yours
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(byte[] buffer)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -7553,7 +7553,7 @@ namespace Yours
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 Deserialize(Stream stream, Yours.MyMessageV2 instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.FieldA = -1;
             instance.FieldB = 4.5;
             instance.FieldC = 5.4f;
@@ -7737,7 +7737,7 @@ namespace Yours
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 DeserializeLengthDelimited(Stream stream, Yours.MyMessageV2 instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.FieldA = -1;
             instance.FieldB = 4.5;
             instance.FieldC = 5.4f;
@@ -7930,7 +7930,7 @@ namespace Yours
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Yours.MyMessageV2 DeserializeLength(Stream stream, int length, Yours.MyMessageV2 instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.FieldA = -1;
             instance.FieldB = 4.5;
             instance.FieldC = 5.4f;
@@ -8122,7 +8122,7 @@ namespace Yours
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             // Key for field: 1, Varint
             stream.WriteByte(8);
@@ -8167,13 +8167,13 @@ namespace Yours
             stream.WriteByte(112);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.FieldN);
             if (instance.FieldO == null)
-                throw new ArgumentNullException("FieldO", "Required by proto specification.");
+                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("FieldO is required by the proto specification.");
             // Key for field: 15, LengthDelimited
             stream.WriteByte(122);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.FieldO));
 #pragma warning disable 612
             if (instance.FieldP == null)
-                throw new ArgumentNullException("FieldP", "Required by proto specification.");
+                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("FieldP is required by the proto specification.");
             // Key for field: 16, LengthDelimited
             stream.WriteByte(130);
             stream.WriteByte(1);
@@ -8286,7 +8286,7 @@ namespace Theirs
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(Stream stream)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             Deserialize(stream, instance);
             return instance;
         }
@@ -8294,7 +8294,7 @@ namespace Theirs
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage DeserializeLengthDelimited(Stream stream)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -8302,7 +8302,7 @@ namespace Theirs
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage DeserializeLength(Stream stream, int length)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -8310,7 +8310,7 @@ namespace Theirs
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(byte[] buffer)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -8476,7 +8476,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage Deserialize(Stream stream)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             Deserialize(stream, instance);
             return instance;
         }
@@ -8484,7 +8484,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage DeserializeLengthDelimited(Stream stream)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -8492,7 +8492,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage DeserializeLength(Stream stream, int length)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -8500,7 +8500,7 @@ namespace Proto.Test
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static LongMessage Deserialize(byte[] buffer)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -8709,7 +8709,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Data Deserialize(Stream stream)
         {
-            Data instance = new Data();
+            var instance = new Data();
             Deserialize(stream, instance);
             return instance;
         }
@@ -8717,7 +8717,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Data DeserializeLengthDelimited(Stream stream)
         {
-            Data instance = new Data();
+            var instance = new Data();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -8725,7 +8725,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Data DeserializeLength(Stream stream, int length)
         {
-            Data instance = new Data();
+            var instance = new Data();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -8733,7 +8733,7 @@ namespace Proto.Test
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Data Deserialize(byte[] buffer)
         {
-            Data instance = new Data();
+            var instance = new Data();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -8750,7 +8750,7 @@ namespace Proto.Test
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Proto.Test.Data Deserialize(Stream stream, Proto.Test.Data instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -8784,7 +8784,7 @@ namespace Proto.Test
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Proto.Test.Data DeserializeLengthDelimited(Stream stream, Proto.Test.Data instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -8827,7 +8827,7 @@ namespace Proto.Test
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Proto.Test.Data DeserializeLength(Stream stream, int length, Proto.Test.Data instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             long limit = stream.Position + length;
             while (true)
             {
@@ -8869,7 +8869,7 @@ namespace Proto.Test
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Data instance)
         {
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             // Key for field: 1, Fixed64
             stream.WriteByte(9);
@@ -8900,7 +8900,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Container Deserialize(Stream stream)
         {
-            Container instance = new Container();
+            var instance = new Container();
             Deserialize(stream, instance);
             return instance;
         }
@@ -8908,7 +8908,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Container DeserializeLengthDelimited(Stream stream)
         {
-            Container instance = new Container();
+            var instance = new Container();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -8916,7 +8916,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Container DeserializeLength(Stream stream, int length)
         {
-            Container instance = new Container();
+            var instance = new Container();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -8924,7 +8924,7 @@ namespace Proto.Test
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Container Deserialize(byte[] buffer)
         {
-            Container instance = new Container();
+            var instance = new Container();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -9137,7 +9137,7 @@ namespace Proto.Test
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Nested Deserialize(Stream stream)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 Deserialize(stream, instance);
                 return instance;
             }
@@ -9145,7 +9145,7 @@ namespace Proto.Test
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Nested DeserializeLengthDelimited(Stream stream)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
@@ -9153,7 +9153,7 @@ namespace Proto.Test
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Nested DeserializeLength(Stream stream, int length)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 DeserializeLength(stream, length, instance);
                 return instance;
             }
@@ -9161,7 +9161,7 @@ namespace Proto.Test
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static Nested Deserialize(byte[] buffer)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
                 return instance;
@@ -9344,7 +9344,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessage Deserialize(Stream stream)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             Deserialize(stream, instance);
             return instance;
         }
@@ -9352,7 +9352,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessage DeserializeLengthDelimited(Stream stream)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -9360,7 +9360,7 @@ namespace Proto.Test
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessage DeserializeLength(Stream stream, int length)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -9368,7 +9368,7 @@ namespace Proto.Test
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessage Deserialize(byte[] buffer)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
