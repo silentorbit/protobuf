@@ -3,6 +3,7 @@ using CommandLine;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using CommandLine.Text;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -11,6 +12,12 @@ namespace SilentOrbit.ProtocolBuffers
     /// </summary>
     public class Options
     {
+        /// <summary>
+        /// Show the help
+        /// </summary>
+        [Option('h', "help", HelpText = "Show this help")]
+        public bool ShowHelp { get; set; }
+
         /// <summary>
         /// Convert message/class and field/propery names to CamelCase
         /// </summary>
@@ -81,9 +88,21 @@ namespace SilentOrbit.ProtocolBuffers
             if (result.Errors.Any())
                 return null;
 
+            if (args == null || args.Length == 0 || options.ShowHelp)
+            {
+                Console.Error.WriteLine(options.GetUsage());
+                return null;
+            }
+
             bool error = false;
 
             //Do any extra option checking/cleanup here
+            if (options.InputProto == null)
+            {
+                Console.Error.WriteLine("Missing input .proto arguments.");
+                return null;
+            }
+
             var inputs = new List<string>(options.InputProto);
             options.InputProto = inputs;
             for (int n = 0; n < inputs.Count; n++)
@@ -119,10 +138,23 @@ namespace SilentOrbit.ProtocolBuffers
             if (options.ExperimentalStack != null && !options.ExperimentalStack.Contains("."))
                 options.ExperimentalStack = "global::SilentOrbit.ProtocolBuffers." + options.ExperimentalStack;
 
-            if(error)
+            if (error)
                 return null;
             else
                 return options;
+        }
+
+        public string GetUsage()
+        {
+            var help = new HelpText {
+                //Heading = new HeadingInfo("ProtoBuf Code Generator", "1.0."),
+                //Copyright = new CopyrightInfo("Peter Hultqvist", 2015),
+                AdditionalNewLineAfterOption = true,
+                AddDashesToOption = true
+            };
+            help.AddPreOptionsLine("Usage: CodeGenerator.exe [input-files.proto] --output output-file.cs");
+            help.AddOptions(this);
+            return help;
         }
     }
 }
