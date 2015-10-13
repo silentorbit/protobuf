@@ -140,7 +140,7 @@ namespace SilentOrbit.ProtocolBuffers
                     }
                     else if (f.OptionDefault != null)
                     {
-                        cw.WriteLine("instance." + f.CsName + " = " + f.FormatForTypeAssignment() + ";");
+                        cw.WriteLine("instance." + f.CsName + " = " + f.FormatDefaultForTypeAssignment() + ";");
                     }
                     else if ((f.Rule == FieldRule.Optional) && !options.Nullable)
                     {

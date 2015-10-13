@@ -134,7 +134,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         /// <returns>String that can be use to assign to field of this field's type.</returns>
         /// <param name="value">Value.</param>
-        public string FormatForTypeAssignment()
+        public string FormatDefaultForTypeAssignment()
         {
             if (OptionDefault == null)
                 throw new InvalidOperationException("Missing default value");

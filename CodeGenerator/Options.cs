@@ -82,6 +82,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("serializable", Required = false, HelpText = "Add the [Serializable] attribute to generated classes")]
         public bool SerializableAttributes { get; set; }
 
+        /// <summary>
+        /// Skip serializing properties having the default value.
+        /// </summary>
+        [Option("skip-default", Required = false, HelpText = "Skip serializing properties having the default value.")]
+        public bool SkipSerializeDefault { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);

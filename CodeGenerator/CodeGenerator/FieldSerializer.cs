@@ -250,7 +250,7 @@ namespace SilentOrbit.ProtocolBuffers
             //10% faster than original using GetBuffer rather than ToArray
             cw.WriteLine("uint length" + f.ID + " = (uint)msField.Length;");
             cw.WriteLine(ProtocolParser.Base + ".WriteUInt32(" + stream + ", length" + f.ID + ");");
-            cw.WriteLine("msField.WriteTo("+stream+");");
+            cw.WriteLine("msField.WriteTo(" + stream + ");");
         }
 
         /// <summary>
@@ -307,6 +307,8 @@ namespace SilentOrbit.ProtocolBuffers
             }
             else if (f.Rule == FieldRule.Optional)
             {
+                bool skip = options.SkipSerializeDefault && f.OptionDefault != null;
+
                 if (options.Nullable ||
                     f.ProtoType is ProtoMessage ||
                     f.ProtoType.ProtoName == ProtoBuiltin.String ||
@@ -323,16 +325,20 @@ namespace SilentOrbit.ProtocolBuffers
                 }
                 if (f.ProtoType is ProtoEnum)
                 {
-                    if (f.OptionDefault != null)
-                        cw.IfBracket("instance." + f.CsName + " != " + f.ProtoType.CsType + "." + f.OptionDefault);
+                    if (skip)
+                        cw.IfBracket("instance." + f.CsName + " != " + f.FormatDefaultForTypeAssignment());
                     KeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                     FieldWriterType(f, "stream", "bw", "instance." + f.CsName, cw);
-                    if (f.OptionDefault != null)
+                    if (skip)
                         cw.EndBracket();
                     return;
                 }
+                if (skip) //Skip writing value if default
+                    cw.IfBracket("instance." + f.CsName + " != " + f.FormatDefaultForTypeAssignment());
                 KeyWriter("stream", f.ID, f.ProtoType.WireType, cw);
                 FieldWriterType(f, "stream", "bw", "instance." + f.CsName, cw);
+                if (skip)
+                    cw.EndBracket();
                 return;
             }
             else if (f.Rule == FieldRule.Required)
@@ -360,7 +366,7 @@ namespace SilentOrbit.ProtocolBuffers
                     case "DateTime":
                         if (options.Utc)
                         {
-                            cw.WriteLine(FieldWriterPrimitive(f, stream, binaryWriter, "(" +instance + ".Kind == DateTimeKind.Utc ? " + instance + " : " + instance + ".ToUniversalTime()).Ticks"));
+                            cw.WriteLine(FieldWriterPrimitive(f, stream, binaryWriter, "(" + instance + ".Kind == DateTimeKind.Utc ? " + instance + " : " + instance + ".ToUniversalTime()).Ticks"));
                         }
                         else
                             cw.WriteLine(FieldWriterPrimitive(f, stream, binaryWriter, instance + ".Ticks"));
