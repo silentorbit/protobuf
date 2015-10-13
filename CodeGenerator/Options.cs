@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using CommandLine.Text;
+using System.Reflection;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -146,9 +147,11 @@ namespace SilentOrbit.ProtocolBuffers
 
         public string GetUsage()
         {
-            var help = new HelpText {
-                //Heading = new HeadingInfo("ProtoBuf Code Generator", "1.0."),
-                //Copyright = new CopyrightInfo("Peter Hultqvist", 2015),
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            var help = new HelpText
+            {
+                Heading = new HeadingInfo("ProtoBuf Code Generator", version.ToString()),
+                Copyright = new CopyrightInfo("Peter Hultqvist", version.Major),
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = true
             };
