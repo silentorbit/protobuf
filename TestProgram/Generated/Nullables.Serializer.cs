@@ -18,7 +18,7 @@ namespace Mine.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(Stream stream)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             Deserialize(stream, instance);
             return instance;
         }
@@ -26,7 +26,7 @@ namespace Mine.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 DeserializeLengthDelimited(Stream stream)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -34,7 +34,7 @@ namespace Mine.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV1 DeserializeLength(Stream stream, int length)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -42,7 +42,7 @@ namespace Mine.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV1 Deserialize(byte[] buffer)
         {
-            MyMessageV1 instance = new MyMessageV1();
+            var instance = new MyMessageV1();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -222,7 +222,7 @@ namespace Yours.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(Stream stream)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             Deserialize(stream, instance);
             return instance;
         }
@@ -230,7 +230,7 @@ namespace Yours.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 DeserializeLengthDelimited(Stream stream)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -238,7 +238,7 @@ namespace Yours.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessageV2 DeserializeLength(Stream stream, int length)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -246,7 +246,7 @@ namespace Yours.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessageV2 Deserialize(byte[] buffer)
         {
-            MyMessageV2 instance = new MyMessageV2();
+            var instance = new MyMessageV2();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -263,7 +263,7 @@ namespace Yours.Nullables
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Yours.Nullables.MyMessageV2 Deserialize(Stream stream, Yours.Nullables.MyMessageV2 instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.FieldA = -1;
             instance.FieldB = 4.5;
             instance.FieldC = 5.4f;
@@ -442,7 +442,7 @@ namespace Yours.Nullables
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Yours.Nullables.MyMessageV2 DeserializeLengthDelimited(Stream stream, Yours.Nullables.MyMessageV2 instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.FieldA = -1;
             instance.FieldB = 4.5;
             instance.FieldC = 5.4f;
@@ -630,7 +630,7 @@ namespace Yours.Nullables
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Yours.Nullables.MyMessageV2 DeserializeLength(Stream stream, int length, Yours.Nullables.MyMessageV2 instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             instance.FieldA = -1;
             instance.FieldB = 4.5;
             instance.FieldC = 5.4f;
@@ -817,7 +817,7 @@ namespace Yours.Nullables
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, MyMessageV2 instance)
         {
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             // Key for field: 1, Varint
             stream.WriteByte(8);
@@ -862,12 +862,12 @@ namespace Yours.Nullables
             stream.WriteByte(112);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.FieldN);
             if (instance.FieldO == null)
-                throw new ArgumentNullException("FieldO", "Required by proto specification.");
+                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("FieldO is required by the proto specification.");
             // Key for field: 15, LengthDelimited
             stream.WriteByte(122);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.FieldO));
             if (instance.FieldP == null)
-                throw new ArgumentNullException("FieldP", "Required by proto specification.");
+                throw new global::SilentOrbit.ProtocolBuffers.ProtocolBufferException("FieldP is required by the proto specification.");
             // Key for field: 16, LengthDelimited
             stream.WriteByte(130);
             stream.WriteByte(1);
@@ -985,7 +985,7 @@ namespace Theirs.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(Stream stream)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             Deserialize(stream, instance);
             return instance;
         }
@@ -993,7 +993,7 @@ namespace Theirs.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage DeserializeLengthDelimited(Stream stream)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -1001,7 +1001,7 @@ namespace Theirs.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static TheirMessage DeserializeLength(Stream stream, int length)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -1009,7 +1009,7 @@ namespace Theirs.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static TheirMessage Deserialize(byte[] buffer)
         {
-            TheirMessage instance = new TheirMessage();
+            var instance = new TheirMessage();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -1175,7 +1175,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage Deserialize(Stream stream)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             Deserialize(stream, instance);
             return instance;
         }
@@ -1183,7 +1183,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage DeserializeLengthDelimited(Stream stream)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -1191,7 +1191,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static LongMessage DeserializeLength(Stream stream, int length)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -1199,7 +1199,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static LongMessage Deserialize(byte[] buffer)
         {
-            LongMessage instance = new LongMessage();
+            var instance = new LongMessage();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -1408,7 +1408,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Data Deserialize(Stream stream)
         {
-            Data instance = new Data();
+            var instance = new Data();
             Deserialize(stream, instance);
             return instance;
         }
@@ -1416,7 +1416,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Data DeserializeLengthDelimited(Stream stream)
         {
-            Data instance = new Data();
+            var instance = new Data();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -1424,7 +1424,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Data DeserializeLength(Stream stream, int length)
         {
-            Data instance = new Data();
+            var instance = new Data();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -1432,7 +1432,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Data Deserialize(byte[] buffer)
         {
-            Data instance = new Data();
+            var instance = new Data();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -1449,7 +1449,7 @@ namespace Proto.Test.Nullables
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
         public static Proto.Test.Nullables.Data Deserialize(Stream stream, Proto.Test.Nullables.Data instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -1483,7 +1483,7 @@ namespace Proto.Test.Nullables
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Proto.Test.Nullables.Data DeserializeLengthDelimited(Stream stream, Proto.Test.Nullables.Data instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -1526,7 +1526,7 @@ namespace Proto.Test.Nullables
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
         public static Proto.Test.Nullables.Data DeserializeLength(Stream stream, int length, Proto.Test.Nullables.Data instance)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             long limit = stream.Position + length;
             while (true)
             {
@@ -1568,7 +1568,7 @@ namespace Proto.Test.Nullables
         /// <summary>Serialize the instance into the stream</summary>
         public static void Serialize(Stream stream, Data instance)
         {
-            BinaryWriter bw = new BinaryWriter(stream);
+            var bw = new BinaryWriter(stream);
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
             if (instance.Somefield != null)
             {
@@ -1602,7 +1602,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Container Deserialize(Stream stream)
         {
-            Container instance = new Container();
+            var instance = new Container();
             Deserialize(stream, instance);
             return instance;
         }
@@ -1610,7 +1610,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Container DeserializeLengthDelimited(Stream stream)
         {
-            Container instance = new Container();
+            var instance = new Container();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -1618,7 +1618,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static Container DeserializeLength(Stream stream, int length)
         {
-            Container instance = new Container();
+            var instance = new Container();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -1626,7 +1626,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static Container Deserialize(byte[] buffer)
         {
-            Container instance = new Container();
+            var instance = new Container();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;
@@ -1839,7 +1839,7 @@ namespace Proto.Test.Nullables
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Nested Deserialize(Stream stream)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 Deserialize(stream, instance);
                 return instance;
             }
@@ -1847,7 +1847,7 @@ namespace Proto.Test.Nullables
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Nested DeserializeLengthDelimited(Stream stream)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 DeserializeLengthDelimited(stream, instance);
                 return instance;
             }
@@ -1855,7 +1855,7 @@ namespace Proto.Test.Nullables
             /// <summary>Helper: create a new instance to deserializing into</summary>
             public static Nested DeserializeLength(Stream stream, int length)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 DeserializeLength(stream, length, instance);
                 return instance;
             }
@@ -1863,7 +1863,7 @@ namespace Proto.Test.Nullables
             /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
             public static Nested Deserialize(byte[] buffer)
             {
-                Nested instance = new Nested();
+                var instance = new Nested();
                 using (var ms = new MemoryStream(buffer))
                     Deserialize(ms, instance);
                 return instance;
@@ -2046,7 +2046,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessage Deserialize(Stream stream)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             Deserialize(stream, instance);
             return instance;
         }
@@ -2054,7 +2054,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessage DeserializeLengthDelimited(Stream stream)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             DeserializeLengthDelimited(stream, instance);
             return instance;
         }
@@ -2062,7 +2062,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: create a new instance to deserializing into</summary>
         public static MyMessage DeserializeLength(Stream stream, int length)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             DeserializeLength(stream, length, instance);
             return instance;
         }
@@ -2070,7 +2070,7 @@ namespace Proto.Test.Nullables
         /// <summary>Helper: put the buffer into a MemoryStream and create a new instance to deserializing into</summary>
         public static MyMessage Deserialize(byte[] buffer)
         {
-            MyMessage instance = new MyMessage();
+            var instance = new MyMessage();
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
             return instance;

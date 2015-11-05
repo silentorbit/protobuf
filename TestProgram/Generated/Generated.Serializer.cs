@@ -453,7 +453,7 @@ namespace Personal
                 // Key for field: 1, LengthDelimited
                 stream.WriteByte(10);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.Number));
-                if (instance.Type != PhoneType.HOME)
+                if (instance.Type != Personal.Person.PhoneType.HOME)
                 {
                     // Key for field: 2, Varint
                     stream.WriteByte(16);
@@ -3683,14 +3683,20 @@ namespace Google.Protobuf
                 stream.WriteByte(66);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.JavaOuterClassname));
             }
-            // Key for field: 10, Varint
-            stream.WriteByte(80);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaMultipleFiles);
-            // Key for field: 20, Varint
-            stream.WriteByte(160);
-            stream.WriteByte(1);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenerateEqualsAndHash);
-            if (instance.OptimizeFor != OptimizeMode.SPEED)
+            if (instance.JavaMultipleFiles != false)
+            {
+                // Key for field: 10, Varint
+                stream.WriteByte(80);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaMultipleFiles);
+            }
+            if (instance.JavaGenerateEqualsAndHash != false)
+            {
+                // Key for field: 20, Varint
+                stream.WriteByte(160);
+                stream.WriteByte(1);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenerateEqualsAndHash);
+            }
+            if (instance.OptimizeFor != Google.Protobuf.FileOptions.OptimizeMode.SPEED)
             {
                 // Key for field: 9, Varint
                 stream.WriteByte(72);
@@ -3702,18 +3708,27 @@ namespace Google.Protobuf
                 stream.WriteByte(90);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.GoPackage));
             }
-            // Key for field: 16, Varint
-            stream.WriteByte(128);
-            stream.WriteByte(1);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.CcGenericServices);
-            // Key for field: 17, Varint
-            stream.WriteByte(136);
-            stream.WriteByte(1);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenericServices);
-            // Key for field: 18, Varint
-            stream.WriteByte(144);
-            stream.WriteByte(1);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.PyGenericServices);
+            if (instance.CcGenericServices != false)
+            {
+                // Key for field: 16, Varint
+                stream.WriteByte(128);
+                stream.WriteByte(1);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.CcGenericServices);
+            }
+            if (instance.JavaGenericServices != false)
+            {
+                // Key for field: 17, Varint
+                stream.WriteByte(136);
+                stream.WriteByte(1);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.JavaGenericServices);
+            }
+            if (instance.PyGenericServices != false)
+            {
+                // Key for field: 18, Varint
+                stream.WriteByte(144);
+                stream.WriteByte(1);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.PyGenericServices);
+            }
             if (instance.UninterpretedOption != null)
             {
                 foreach (var i999 in instance.UninterpretedOption)
@@ -3956,12 +3971,18 @@ namespace Google.Protobuf
         public static void Serialize(Stream stream, MessageOptions instance)
         {
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
-            // Key for field: 1, Varint
-            stream.WriteByte(8);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.MessageSetWireFormat);
-            // Key for field: 2, Varint
-            stream.WriteByte(16);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.NoStandardDescriptorAccessor);
+            if (instance.MessageSetWireFormat != false)
+            {
+                // Key for field: 1, Varint
+                stream.WriteByte(8);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.MessageSetWireFormat);
+            }
+            if (instance.NoStandardDescriptorAccessor != false)
+            {
+                // Key for field: 2, Varint
+                stream.WriteByte(16);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.NoStandardDescriptorAccessor);
+            }
             if (instance.UninterpretedOption != null)
             {
                 foreach (var i999 in instance.UninterpretedOption)
@@ -4258,7 +4279,7 @@ namespace Google.Protobuf
         public static void Serialize(Stream stream, FieldOptions instance)
         {
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
-            if (instance.Ctype != CType.STRING)
+            if (instance.Ctype != Google.Protobuf.FieldOptions.CType.STRING)
             {
                 // Key for field: 1, Varint
                 stream.WriteByte(8);
@@ -4267,21 +4288,30 @@ namespace Google.Protobuf
             // Key for field: 2, Varint
             stream.WriteByte(16);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Packed);
-            // Key for field: 5, Varint
-            stream.WriteByte(40);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Lazy);
-            // Key for field: 3, Varint
-            stream.WriteByte(24);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Deprecated);
+            if (instance.Lazy != false)
+            {
+                // Key for field: 5, Varint
+                stream.WriteByte(40);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Lazy);
+            }
+            if (instance.Deprecated != false)
+            {
+                // Key for field: 3, Varint
+                stream.WriteByte(24);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Deprecated);
+            }
             if (instance.ExperimentalMapKey != null)
             {
                 // Key for field: 9, LengthDelimited
                 stream.WriteByte(74);
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ExperimentalMapKey));
             }
-            // Key for field: 10, Varint
-            stream.WriteByte(80);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Weak);
+            if (instance.Weak != false)
+            {
+                // Key for field: 10, Varint
+                stream.WriteByte(80);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.Weak);
+            }
             if (instance.UninterpretedOption != null)
             {
                 foreach (var i999 in instance.UninterpretedOption)
@@ -4509,9 +4539,12 @@ namespace Google.Protobuf
         public static void Serialize(Stream stream, EnumOptions instance)
         {
             var msField = global::SilentOrbit.ProtocolBuffers.ProtocolParser.Stack.Pop();
-            // Key for field: 2, Varint
-            stream.WriteByte(16);
-            global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.AllowAlias);
+            if (instance.AllowAlias != true)
+            {
+                // Key for field: 2, Varint
+                stream.WriteByte(16);
+                global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteBool(stream, instance.AllowAlias);
+            }
             if (instance.UninterpretedOption != null)
             {
                 foreach (var i999 in instance.UninterpretedOption)
@@ -8183,7 +8216,7 @@ namespace Yours
             stream.WriteByte(136);
             stream.WriteByte(1);
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt64(stream,(ulong)instance.FieldQ);
-            if (instance.FieldR != MyEnum.ETest2)
+            if (instance.FieldR != Yours.MyMessageV2.MyEnum.ETest2)
             {
                 // Key for field: 18, Varint
                 stream.WriteByte(144);
