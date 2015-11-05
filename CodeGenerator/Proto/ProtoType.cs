@@ -65,7 +65,9 @@ namespace SilentOrbit.ProtocolBuffers
         /// .proto package option
         /// </summary>
         public string Package { get; set; }
+
         #region Local options
+
         public string OptionNamespace { get; set; }
 
         /// <summary>
@@ -99,7 +101,9 @@ namespace SilentOrbit.ProtocolBuffers
         /// Size in bytes.
         /// </summary>
         public int BufferSize { get; set; }
+
         #endregion
+
         /// <summary>
         /// Used by types within a namespace
         /// </summary>
@@ -164,6 +168,20 @@ namespace SilentOrbit.ProtocolBuffers
                 return -1;
             }
         }
+
+        #region Imported Flag
+
+        /// <summary>
+        /// True if this class was imported rather being specified as an input argument.
+        /// </summary>
+        public bool IsImported { get; set; }
+
+        public virtual void MarkImported()
+        {
+            IsImported = true;
+        }
+
+        #endregion
     }
 }
 

@@ -90,6 +90,17 @@ namespace SilentOrbit.ProtocolBuffers
                 return totalSize;
             }
         }
+
+        public override void MarkImported()
+        {
+            IsImported = true;
+
+            foreach (var m in Messages.Values)
+                m.MarkImported();
+
+            foreach (var e in Enums.Values)
+                e.MarkImported();
+        }
     }
 }
 

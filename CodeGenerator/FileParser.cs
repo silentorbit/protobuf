@@ -67,6 +67,10 @@ namespace SilentOrbit.ProtocolBuffers
                 toImport.Add(GetFullPath(protoPath, path));
 
             imported.Add(protoPath, proto);
+
+            //Mark imported
+            proto.MarkImported();
+
             return proto;
         }
 
