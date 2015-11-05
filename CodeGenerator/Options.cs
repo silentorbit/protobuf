@@ -116,14 +116,13 @@ namespace SilentOrbit.ProtocolBuffers
                 return null;
             }
 
-            var inputs = new List<string>(options.InputProto);
+            var inputs = ExpandFileWildCard(options.InputProto);
             options.InputProto = inputs;
-            for (int n = 0; n < inputs.Count; n++)
+            foreach (var input in inputs)
             {
-                inputs[n] = Path.GetFullPath(inputs[n]);
-                if (File.Exists(inputs[n]) == false)
+                if (File.Exists(input) == false)
                 {
-                    Console.Error.WriteLine("File not found: " + inputs[n]);
+                    Console.Error.WriteLine("File not found: " + input);
                     error = true;
                 }
             }
@@ -155,6 +154,33 @@ namespace SilentOrbit.ProtocolBuffers
                 return null;
             else
                 return options;
+        }
+
+        /// <summary>
+        /// Expand wildcards in the filename part of the input file argument.
+        /// </summary>
+        /// <returns>List of full paths to the files.</returns>
+        /// <param name="paths">List of relative paths with possible wildcards in the filename.</param>
+        static List<string> ExpandFileWildCard(IEnumerable<string> paths)
+        {
+            //Thanks to https://stackoverflow.com/a/2819150
+            var list = new List<string>();
+
+            foreach (var path in paths)
+            {
+                var expandedPath = Environment.ExpandEnvironmentVariables(path);
+
+                var dir = Path.GetDirectoryName(expandedPath);
+                if (dir.Length == 0)
+                    dir = ".";
+
+                var file = Path.GetFileName(expandedPath);
+
+                foreach (var filepath in Directory.GetFiles(dir, file))
+                    list.Add(Path.GetFullPath(filepath));
+            }
+
+            return list;
         }
 
         public string GetUsage()
