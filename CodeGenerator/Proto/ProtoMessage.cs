@@ -93,7 +93,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public override void MarkImported()
         {
-            IsImported = true;
+            base.MarkImported();
 
             foreach (var m in Messages.Values)
                 m.MarkImported();

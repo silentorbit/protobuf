@@ -24,6 +24,7 @@
       <CustomCommands>
         <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ImportA*.proto --output Generated/Generated.cs --ctor --utc --skip-default" workingdir="${ProjectDir}" />
         <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/ProtoFeatures.nullable.proto --output Generated/Nullables.cs --ctor --nullable --utc --skip-default" />
+        <Command type="BeforeBuild" command="../bin/CodeGenerator/Debug/CodeGenerator.exe --fix-nameclash ProtoSpec/LocalFeatures.proto --output Generated/GeneratedLocal.cs --no-generate-imported --ctor --utc --skip-default" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -62,6 +63,8 @@
     <Compile Include="Generated\Nullables.cs" />
     <Compile Include="Generated\Nullables.Serializer.cs" />
     <Compile Include="CustomWritten\MyMessageV2.Nullable.cs" />
+    <Compile Include="Generated\GeneratedLocal.cs" />
+    <Compile Include="Generated\GeneratedLocal.Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -91,8 +94,8 @@
     <None Include="ProtoSpec\ProtoFeatures.proto" />
     <None Include="ProtoSpec\ProtoFeatures.nullable.proto" />
     <None Include="ProtoSpec\AddressBook.bad-duplicate.proto" />
-    <None Include="ProtoSpec\ImportAll.proto" />
     <None Include="ProtoSpec\google\protobuf\descriptor.proto" />
+    <None Include="ProtoSpec\ImportAll.proto" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestLibrary\TestLibrary.csproj">

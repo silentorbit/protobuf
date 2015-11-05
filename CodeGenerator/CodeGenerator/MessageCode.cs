@@ -17,6 +17,12 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void GenerateClass(ProtoMessage m)
         {
+            if (options.NoGenerateImported && m.IsImported)
+            {
+                Console.Error.WriteLine("Skipping imported " + m.FullProtoName);   
+                return;
+            }
+
             //Do not generate class code for external classes
             if (m.OptionExternal)
             {
@@ -97,6 +103,12 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void GenerateEnum(ProtoEnum m)
         {
+            if (options.NoGenerateImported && m.IsImported)
+            {
+                Console.Error.WriteLine("Skipping imported enum " + m.FullProtoName);   
+                return;
+            }
+
             if (m.OptionExternal)
             {
                 cw.Comment("Written elsewhere");

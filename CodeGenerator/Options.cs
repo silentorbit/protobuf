@@ -94,6 +94,13 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("no-protocolparser", Required = false, HelpText = "Don't output ProtocolParser.cs")]
         public bool NoProtocolParser { get; set; }
 
+        /// <summary>
+        /// Don't generate code from imported .proto files.
+        /// </summary>
+        [Option("no-generate-imported", Required = false, HelpText = "Don't generate code from imported .proto files.")]
+        public bool NoGenerateImported { get; set; }
+
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);

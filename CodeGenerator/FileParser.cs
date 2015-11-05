@@ -39,7 +39,12 @@ namespace SilentOrbit.ProtocolBuffers
 
                 var c = Import(path);
                 if (c != null)
+                {
+                    //Mark imported
+                    c.MarkImported();
+
                     collection.Merge(c);
+                }
             }
             return collection;
         }
@@ -67,9 +72,6 @@ namespace SilentOrbit.ProtocolBuffers
                 toImport.Add(GetFullPath(protoPath, path));
 
             imported.Add(protoPath, proto);
-
-            //Mark imported
-            proto.MarkImported();
 
             return proto;
         }

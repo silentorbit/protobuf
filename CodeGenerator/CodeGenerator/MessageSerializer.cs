@@ -18,6 +18,12 @@ namespace SilentOrbit.ProtocolBuffers
 
         public void GenerateClassSerializer(ProtoMessage m)
         {
+            if (options.NoGenerateImported && m.IsImported)
+            {
+                Console.Error.WriteLine("Skipping imported " + m.FullProtoName);   
+                return;
+            }
+
             if (m.OptionExternal || m.OptionType == "interface")
             {
                 //Don't make partial class of external classes or interfaces
@@ -26,7 +32,7 @@ namespace SilentOrbit.ProtocolBuffers
             }
             else
             {
-                if(options.SerializableAttributes)
+                if (options.SerializableAttributes)
                     cw.Attribute("System.Serializable");
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
