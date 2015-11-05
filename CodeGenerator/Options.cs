@@ -88,6 +88,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("skip-default", Required = false, HelpText = "Skip serializing properties having the default value.")]
         public bool SkipSerializeDefault { get; set; }
 
+        /// <summary>
+        /// Do not output ProtocolParser.cs
+        /// </summary>
+        [Option("no-protocolparser", Required = false, HelpText = "Don't output ProtocolParser.cs")]
+        public bool NoProtocolParser { get; set; }
+
         public static Options Parse(string[] args)
         {
             var result = Parser.Default.ParseArguments<Options>(args);

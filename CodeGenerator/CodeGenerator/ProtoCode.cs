@@ -111,18 +111,26 @@ This file will be overwritten when CodeGenerator is run.");
                     cw.EndBracket();
             }
 
-            string libPath = Path.Combine(Path.GetDirectoryName(csPath), "ProtocolParser.cs");
-            using (TextWriter codeWriter = new StreamWriter(libPath, false, Encoding.UTF8))
+            //Option to no include ProtocolParser.cs in the output directory
+            if (options.NoProtocolParser)
             {
-                codeWriter.NewLine = "\r\n";
-                ReadCode(codeWriter, "ProtocolParser", true);
-                ReadCode(codeWriter, "ProtocolParserExceptions", false);
-                ReadCode(codeWriter, "ProtocolParserFixed", false);
-                ReadCode(codeWriter, "ProtocolParserKey", false);
-                ReadCode(codeWriter, "ProtocolParserMemory", false);
-                if (options.Net2 == false)
-                    ReadCode(codeWriter, "ProtocolParserMemory4", false);
-                ReadCode(codeWriter, "ProtocolParserVarInt", false);
+                Console.Error.WriteLine("ProtocolParser.cs not (re)generated");
+            }
+            else
+            {
+                string libPath = Path.Combine(Path.GetDirectoryName(csPath), "ProtocolParser.cs");
+                using (TextWriter codeWriter = new StreamWriter(libPath, false, Encoding.UTF8))
+                {
+                    codeWriter.NewLine = "\r\n";
+                    ReadCode(codeWriter, "ProtocolParser", true);
+                    ReadCode(codeWriter, "ProtocolParserExceptions", false);
+                    ReadCode(codeWriter, "ProtocolParserFixed", false);
+                    ReadCode(codeWriter, "ProtocolParserKey", false);
+                    ReadCode(codeWriter, "ProtocolParserMemory", false);
+                    if (options.Net2 == false)
+                        ReadCode(codeWriter, "ProtocolParserMemory4", false);
+                    ReadCode(codeWriter, "ProtocolParserVarInt", false);
+                }
             }
         }
 
