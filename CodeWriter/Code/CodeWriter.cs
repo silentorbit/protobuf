@@ -285,6 +285,33 @@ namespace SilentOrbit.Code
             prefix = prefix.Substring(0, prefix.Length - 4);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        public void SummaryParam(string name, string description)
+        {
+            if (name == null || description == null)
+                return;
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(description))
+                return;
+
+            string[] lines = SplitTrimEnd(description);
+            if (lines.Length == 1)
+            {
+                WriteLine("/// <param name=\"" + name + "\">" + lines[0] + "</summary>");
+                return;
+            }
+
+            prefix += "/// ";
+            WriteLine("<param name=\"" + name + "\">");
+            foreach (string line in lines)
+                WriteLine("<para>" + line + "</para>");
+            WriteLine("</param>");
+            prefix = prefix.Substring(0, prefix.Length - 4);
+        }
+
         #endregion
 
         /// <summary>
