@@ -132,7 +132,7 @@ namespace SilentOrbit.ProtocolBuffers
                 long end = BytesRead + offset;
                 while (BytesRead < end)
                 {
-                    int read = stream.Read(buffer, 0, Math.Min(end - BytesRead, buffer.Length));
+                    int read = stream.Read(buffer, 0, (int)Math.Min(end - BytesRead, buffer.Length));
                     if (read == 0)
                         break;
                     BytesRead += read;

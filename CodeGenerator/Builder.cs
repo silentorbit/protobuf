@@ -11,11 +11,21 @@ namespace SilentOrbit.ProtocolBuffers
         public static int Main(string[] args)
         {
             var options = Options.Parse(args);
+#if BUILD_TESTS
+            string testBuildArgs = @"--fix-nameclash --ctor --utc --skip-default ..\..\..\TestProgram\ProtoSpec\ImportAll.proto --output ..\..\..\TestProgram\Generated\Generated.cs";
+            options = Options.Parse(testBuildArgs.Split(' '));
+#else
+#endif
             if (options == null)
                 return -1;
+
             try
             {
                 Build(options);
+#if BUILD_TESTS
+                Console.WriteLine("\nSUCCESS, press a key to close...");
+                Console.ReadKey();
+#endif
                 return 0;
             }
             catch (Exception ex)

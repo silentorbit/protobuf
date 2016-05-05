@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator", "CodeGenerator\CodeGenerator.csproj", "{108DF716-5E86-4515-836F-1AC211CA648B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWriter", "CodeWriter\CodeWriter.csproj", "{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}"
@@ -9,27 +11,37 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "commandline\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		BuildTests|Any CPU = BuildTests|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{108DF716-5E86-4515-836F-1AC211CA648B}.BuildTests|Any CPU.ActiveCfg = BuildTests|Any CPU
+		{108DF716-5E86-4515-836F-1AC211CA648B}.BuildTests|Any CPU.Build.0 = BuildTests|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.BuildTests|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.BuildTests|Any CPU.Build.0 = Debug|Any CPU
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.BuildTests|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.BuildTests|Any CPU.Build.0 = Debug|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = CodeGenerator\CodeGenerator.csproj
 		Policies = $0
-		$0.TextStylePolicy = $1
+		$0.TextStylePolicy = $4
 		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
@@ -52,11 +64,9 @@ Global
 		$2.inheritsSet = Mono
 		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
 		$3.inheritsSet = VisualStudio
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
-		$0.TextStylePolicy = $4
 		$4.inheritsSet = VisualStudio
 		$4.inheritsScope = text/plain
 		$4.scope = text/x-csrc
