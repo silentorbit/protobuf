@@ -47,7 +47,7 @@
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SilentOrbit.ProtocolBuffers.Builder</StartupObject>
+    <StartupObject>SilentOrbit.ProtocolBuffers.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BuildTests|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -62,7 +62,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProtoParser.cs" />
     <Compile Include="TokenReader.cs" />

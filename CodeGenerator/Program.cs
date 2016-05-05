@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    public class Builder
+    public class Program
     {
         public static int Main(string[] args)
         {
