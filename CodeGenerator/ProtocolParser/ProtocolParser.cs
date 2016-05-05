@@ -69,9 +69,9 @@ namespace SilentOrbit.ProtocolBuffers
     [Obsolete("Renamed to PositionStream")]
     public class StreamRead : PositionStream
     {
-        public StreamRead (Stream baseStream) : base(baseStream)
+        public StreamRead(Stream baseStream) : base(baseStream)
         {
-            
+
         }
     }
 
@@ -84,7 +84,7 @@ namespace SilentOrbit.ProtocolBuffers
         Stream stream;
 
         /// <summary>
-        /// Bytes left to read
+        /// Bytes read in the stream starting from the beginning.
         /// </summary>
         public int BytesRead { get; private set; }
 
@@ -123,6 +123,23 @@ namespace SilentOrbit.ProtocolBuffers
 
         public override long Seek(long offset, SeekOrigin origin)
         {
+            if (stream.CanSeek)
+                return stream.Seek(offset, origin);
+
+            if (origin == SeekOrigin.Current && offset >= 0)
+            {
+                var buffer = new byte[Math.Min(offset, 10000)];
+                long end = BytesRead + offset;
+                while (BytesRead < end)
+                {
+                    int read = stream.Read(buffer, 0, Math.Min(end - BytesRead, buffer.Length));
+                    if (read == 0)
+                        break;
+                    BytesRead += read;
+                }
+                return BytesRead;
+            }
+
             throw new NotImplementedException();
         }
 
@@ -179,7 +196,7 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new NotImplementedException();
             }
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             stream.Dispose();
