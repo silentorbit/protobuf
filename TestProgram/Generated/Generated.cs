@@ -785,6 +785,13 @@ namespace Mine
 
     }
 
+    public partial class MyMessageV1NoPreserve
+    {
+        /// <summary>This field is important to comment as we just did here</summary>
+        public int FieldA { get; set; }
+
+    }
+
 }
 namespace Yours
 {

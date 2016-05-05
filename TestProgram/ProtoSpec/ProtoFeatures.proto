@@ -12,6 +12,13 @@ message my_message_v1
     required int32 field_a = 1;
 }
 
+//:namespace = Mine
+message my_message_v1_no_preserve
+{
+    //This field is important to comment as we just did here
+    required int32 field_a = 1;
+}
+
 //:namespace = Yours // Default from .proto: proto.test
 message my_message_v2
 {
