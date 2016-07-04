@@ -45,7 +45,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         public virtual string FullCsType
         {
-            get { return CsNamespace + "." + CsType; }
+            get { return "global::" + CsNamespace + "." + CsType; }
         }
 
         /// <summary>
