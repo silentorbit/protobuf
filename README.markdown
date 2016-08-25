@@ -39,7 +39,7 @@ Message options:
 
  * access - set the acces of the generated class to internal rather than public.
  * triggers - have the class methods BeforeSerialize and AfterDeserialize called accordingly.
- * preserverunknown - keep all unknown fields during deserialization to be written back when serializing the class.
+ * preserveunknown - keep all unknown fields during deserialization to be written back when serializing the class.
  * external - generate serialization code for a class we don't have control over, such as one from a third party DLL.
  * imported - utilize already generated code in the current generated messages.
  * type - default: class, but you can make the serializer work with struct or interfaces.
