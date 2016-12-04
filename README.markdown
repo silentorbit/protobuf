@@ -1,5 +1,7 @@
 # Protocol Buffers C# Code Generator
 
+[![Join the chat at https://gitter.im/hultqvist/ProtoBuf](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hultqvist/ProtoBuf?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 https://silentorbit.com/protobuf/
 
 C# code generator for serialization into [Googles Protocol Buffers](http://code.google.com/apis/protocolbuffers/docs/overview.html) wire format.
