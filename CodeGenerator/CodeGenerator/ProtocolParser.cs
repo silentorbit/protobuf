@@ -7,4 +7,3 @@ namespace SilentOrbit.ProtocolBuffers
         public const string Base = "global::SilentOrbit.ProtocolBuffers.ProtocolParser";
     }
 }
-

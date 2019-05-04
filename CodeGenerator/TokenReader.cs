@@ -34,13 +34,15 @@ namespace SilentOrbit.ProtocolBuffers
 
         int offset;
 
-        private string GetChar()
+        string GetChar()
         {
             if (offset >= text.Length)
+            {
                 throw new EndOfStreamException();
+            }
 
             char c = text[offset];
-            offset += 1;
+            offset++;
             return c.ToString();
         }
 
@@ -53,7 +55,9 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 string n = ReadNext();
                 if (n != expect)
+                {
                     throw new ProtoFormatException("Expected: " + expect + " got " + n, this);
+                }
             }
             catch (EndOfStreamException)
             {
@@ -70,7 +74,10 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 string token = ReadNextComment();
                 if (token.StartsWith("/"))
+                {
                     continue;
+                }
+
                 return token;
             }
         }
@@ -87,13 +94,18 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 c = GetChar();
                 if (whitespace.Contains(c))
+                {
                     continue;
+                }
+
                 break;
             }
 
             //Determine token type
             if (singletoken.Contains(c))
-                return c.ToString();
+            {
+                return c;
+            }
 
             //Follow token
             string token = c;
@@ -105,11 +117,17 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 token += GetChar();
                 if (token == "//")
+                {
                     parseLineComment = true;
+                }
                 else if (token == "/*")
+                {
                     parseComment = true;
+                }
                 else
+                {
                     throw new ProtoFormatException("Badly formatted comment", this);
+                }
             }
             if (token == "\"")
             {
@@ -123,28 +141,32 @@ namespace SilentOrbit.ProtocolBuffers
                 if (parseLineComment)
                 {
                     if (c == "\r" || c == "\n")
+                    {
                         return token;
+                    }
                 }
                 else if (parseComment)
                 {
                     if (c == "/" && token[token.Length - 1] == '*')
+                    {
                         return token.Substring(0, token.Length - 1);
+                    }
                 }
                 else if (parseString)
                 {
                     if (c == "\"")
+                    {
                         return token;
+                    }
                 }
                 else if (whitespace.Contains(c) || singletoken.Contains(c))
                 {
-                    offset -= 1;
+                    offset--;
                     return token;
                 }
 
                 token += c;
             }
-
         }
     }
 }
-

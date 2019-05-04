@@ -15,11 +15,13 @@ namespace SilentOrbit.ProtocolBuffers
         public List<ProtoEnumValue> Enums = new List<ProtoEnumValue>();
 
         #region Local options
+
         /// <summary>
         /// Add the [Flags] attribute to the generated enum
         /// </summary>
         public bool OptionFlags { get; set; }
-        #endregion
+
+        #endregion Local options
 
         public ProtoEnum(ProtoMessage parent, string package)
             : base(parent, package)
@@ -44,4 +46,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

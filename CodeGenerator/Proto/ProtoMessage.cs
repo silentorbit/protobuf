@@ -21,9 +21,13 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (this.OptionExternal || this.OptionType == "interface")
+                {
                     return CsType + "Serializer";
+                }
                 else
+                {
                     return CsType;
+                }
             }
         }
 
@@ -32,9 +36,13 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (this.OptionExternal || this.OptionType == "interface")
+                {
                     return FullCsType + "Serializer";
+                }
                 else
+                {
                     return FullCsType;
+                }
             }
         }
 
@@ -54,8 +62,13 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 foreach (Field f in Fields.Values)
+                {
                     if (f.IsUsingBinaryWriter)
+                    {
                         return true;
+                    }
+                }
+
                 return false;
             }
         }
@@ -66,10 +79,16 @@ namespace SilentOrbit.ProtocolBuffers
         public int MaxFieldBufferSize()
         {
             if (BufferSize > 0)
+            {
                 return BufferSize;
+            }
+
             int size = 0;
             foreach (var f in Fields.Values)
+            {
                 size = Math.Max(size, f.BufferSizeScan());
+            }
+
             return size;
         }
 
@@ -84,7 +103,10 @@ namespace SilentOrbit.ProtocolBuffers
                 foreach (Field f in Fields.Values)
                 {
                     if (f.ProtoType.WireSize < 0)
+                    {
                         return -1;
+                    }
+
                     totalSize += f.ProtoType.WireSize;
                 }
                 return totalSize;
@@ -96,11 +118,14 @@ namespace SilentOrbit.ProtocolBuffers
             base.MarkImported();
 
             foreach (var m in Messages.Values)
+            {
                 m.MarkImported();
+            }
 
             foreach (var e in Enums.Values)
+            {
                 e.MarkImported();
+            }
         }
     }
 }
-

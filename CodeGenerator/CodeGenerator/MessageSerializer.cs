@@ -20,7 +20,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (options.NoGenerateImported && m.IsImported)
             {
-                Console.Error.WriteLine("Skipping imported " + m.FullProtoName);   
+                Console.Error.WriteLine("Skipping imported " + m.FullProtoName);
                 return;
             }
 
@@ -33,7 +33,10 @@ namespace SilentOrbit.ProtocolBuffers
             else
             {
                 if (options.SerializableAttributes)
+                {
                     cw.Attribute("System.Serializable");
+                }
+
                 cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.SerializerType);
             }
 
@@ -92,7 +95,7 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteIndent("Deserialize(ms, " + refstr + "instance);");
             cw.WriteLine("return instance;");
             cw.EndBracketSpace();
-            #endregion
+            #endregion Helper Deserialize Methods
 
             string[] methods = new string[]
             {
@@ -120,16 +123,22 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.Bracket(m.OptionAccess + " static " + m.FullCsType + " " + method + "(Stream stream, int length, " + refstr + m.FullCsType + " instance)");
                 }
                 else
+                {
                     throw new NotImplementedException();
+                }
 
                 if (m.IsUsingBinaryWriter)
+                {
                     cw.WriteLine("var br = new BinaryReader(stream);");
+                }
 
                 //Prepare List<> and default values
                 foreach (Field f in m.Fields.Values)
                 {
                     if (f.OptionDeprecated)
+                    {
                         cw.WritePragma("warning disable 612");
+                    }
 
                     if (f.Rule == FieldRule.Repeated)
                     {
@@ -138,7 +147,9 @@ namespace SilentOrbit.ProtocolBuffers
                             //Initialize lists of the custom DateTime or TimeSpan type.
                             string csType = f.ProtoType.FullCsType;
                             if (f.OptionCodeType != null)
+                            {
                                 csType = f.OptionCodeType;
+                            }
 
                             cw.WriteLine("if (instance." + f.CsName + " == null)");
                             cw.WriteIndent("instance." + f.CsName + " = new List<" + csType + ">();");
@@ -150,9 +161,8 @@ namespace SilentOrbit.ProtocolBuffers
                     }
                     else if ((f.Rule == FieldRule.Optional) && !options.Nullable)
                     {
-                        if (f.ProtoType is ProtoEnum)
+                        if (f.ProtoType is ProtoEnum pe)
                         {
-                            ProtoEnum pe = f.ProtoType as ProtoEnum;
                             //the default value is the first value listed in the enum's type definition
                             foreach (var kvp in pe.Enums)
                             {
@@ -163,7 +173,9 @@ namespace SilentOrbit.ProtocolBuffers
                     }
 
                     if (f.OptionDeprecated)
+                    {
                         cw.WritePragma("warning restore 612");
+                    }
                 }
 
                 if (method == "DeserializeLengthDelimited")
@@ -193,9 +205,13 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine("int keyByte = stream.ReadByte();");
                 cw.WriteLine("if (keyByte == -1)");
                 if (method == "Deserialize")
+                {
                     cw.WriteIndent("break;");
+                }
                 else
+                {
                     cw.WriteIndent("throw new System.IO.EndOfStreamException();");
+                }
 
                 //Determine if we need the lowID optimization
                 bool hasLowID = false;
@@ -215,20 +231,28 @@ namespace SilentOrbit.ProtocolBuffers
                     foreach (Field f in m.Fields.Values)
                     {
                         if (f.ID >= 16)
+                        {
                             continue;
+                        }
 
                         if (f.OptionDeprecated)
+                        {
                             cw.WritePragma("warning disable 612");
+                        }
 
                         cw.Dedent();
                         cw.Comment("Field " + f.ID + " " + f.WireType);
                         cw.Indent();
-                        cw.Case(((f.ID << 3) | (int)f.WireType));
+                        cw.Case((f.ID << 3) | (int)f.WireType);
                         if (fieldSerializer.FieldReader(f))
+                        {
                             cw.WriteLine("continue;");
+                        }
 
                         if (f.OptionDeprecated)
+                        {
                             cw.WritePragma("warning restore 612");
+                        }
                     }
                     cw.SwitchEnd();
                     cw.WriteLine();
@@ -244,20 +268,29 @@ namespace SilentOrbit.ProtocolBuffers
                 foreach (Field f in m.Fields.Values)
                 {
                     if (f.ID < 16)
+                    {
                         continue;
+                    }
+
                     cw.Case(f.ID);
                     //Makes sure we got the right wire type
                     cw.WriteLine("if(key.WireType != global::SilentOrbit.ProtocolBuffers.Wire." + f.WireType + ")");
                     cw.WriteIndent("break;"); //This can be changed to throw an exception for unknown formats.
 
                     if (f.OptionDeprecated)
+                    {
                         cw.WritePragma("warning disable 612");
+                    }
 
                     if (fieldSerializer.FieldReader(f))
+                    {
                         cw.WriteLine("continue;");
+                    }
 
                     if (f.OptionDeprecated)
+                    {
                         cw.WritePragma("warning restore 612");
+                    }
                 }
                 cw.CaseDefault();
                 if (m.OptionPreserveUnknown)
@@ -276,7 +309,10 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine();
 
                 if (m.OptionTriggers)
+                {
                     cw.WriteLine("instance.AfterDeserialize();");
+                }
+
                 cw.WriteLine("return instance;");
                 cw.EndBracket();
                 cw.WriteLine();
@@ -306,7 +342,9 @@ namespace SilentOrbit.ProtocolBuffers
                 cw.WriteLine();
             }
             if (m.IsUsingBinaryWriter)
+            {
                 cw.WriteLine("var bw = new BinaryWriter(stream);");
+            }
 
             //Shared memorystream for all fields
             cw.WriteLine("var msField = " + stack + ".Pop();");
@@ -314,12 +352,16 @@ namespace SilentOrbit.ProtocolBuffers
             foreach (Field f in m.Fields.Values)
             {
                 if (f.OptionDeprecated)
+                {
                     cw.WritePragma("warning disable 612");
+                }
 
-                fieldSerializer.FieldWriter(m, f, cw, options);
+                fieldSerializer.FieldWriter(m, f);
 
                 if (f.OptionDeprecated)
+                {
                     cw.WritePragma("warning restore 612");
+                }
             }
 
             cw.WriteLine(stack + ".Push(msField);");
@@ -353,4 +395,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

@@ -5,12 +5,12 @@ namespace SilentOrbit.ProtocolBuffers
     /// <summary>
     /// A protobuf message or enum
     /// </summary>
-    abstract class ProtoType
+    internal abstract class ProtoType
     {
         public ProtoMessage Parent { get; set; }
 
         /// <summary>
-        /// Name used in the .proto file, 
+        /// Name used in the .proto file,
         /// </summary>
         public string ProtoName { get; set; }
 
@@ -34,12 +34,18 @@ namespace SilentOrbit.ProtocolBuffers
                 if (OptionNamespace == null)
                 {
                     if (Parent is ProtoCollection)
+                    {
                         return Parent.CsNamespace;
+                    }
                     else
+                    {
                         return Parent.CsNamespace + "." + Parent.CsType;
+                    }
                 }
                 else
+                {
                     return OptionNamespace;
+                }
             }
         }
 
@@ -56,7 +62,10 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (Parent is ProtoCollection)
+                {
                     return Package + "." + ProtoName;
+                }
+
                 return Parent.FullProtoName + "." + ProtoName;
             }
         }
@@ -102,26 +111,31 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public int BufferSize { get; set; }
 
-        #endregion
+        #endregion Local options
 
         /// <summary>
         /// Used by types within a namespace
         /// </summary>
-        public ProtoType(ProtoMessage parent, string package)
+        protected ProtoType(ProtoMessage parent, string package)
             : this()
         {
             if (this is ProtoCollection == false)
             {
                 if (parent == null)
-                    throw new ArgumentNullException("parent");
+                {
+                    throw new ArgumentNullException(nameof(parent));
+                }
+
                 if (package == null)
-                    throw new ArgumentNullException("package");
+                {
+                    throw new ArgumentNullException(nameof(package));
+                }
             }
             this.Parent = parent;
             this.Package = package;
         }
 
-        public ProtoType()
+        protected ProtoType()
         {
             this.OptionNamespace = null;
             this.OptionAccess = "public";
@@ -136,15 +150,26 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (ProtoName == ProtoBuiltin.String)
+                {
                     return true;
+                }
+
                 if (ProtoName == ProtoBuiltin.Bytes)
+                {
                     return true;
+                }
+
                 if (this is ProtoMessage)
                 {
                     if (OptionType == "class")
+                    {
                         return true;
+                    }
+
                     if (OptionType == "interface")
+                    {
                         return true;
+                    }
                 }
                 return false;
             }
@@ -158,13 +183,25 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (WireType == Wire.Fixed32)
+                {
                     return 4;
+                }
+
                 if (WireType == Wire.Fixed64)
+                {
                     return 8;
+                }
+
                 if (WireType == Wire.Varint)
+                {
                     return -1;
+                }
+
                 if (WireType == Wire.LengthDelimited)
+                {
                     return -1;
+                }
+
                 return -1;
             }
         }
@@ -181,7 +218,6 @@ namespace SilentOrbit.ProtocolBuffers
             IsImported = true;
         }
 
-        #endregion
+        #endregion Imported Flag
     }
 }
-

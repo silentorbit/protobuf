@@ -44,22 +44,22 @@ namespace SilentOrbit.ProtocolBuffers
 
         #region VarInt: int32, uint32, sint32
 
-        [Obsolete("Use (int)ReadUInt64(stream); //yes 64")]
         /// <summary>
         /// Since the int32 format is inefficient for negative numbers we have avoided to implement it.
         /// The same functionality can be achieved using: (int)ReadUInt64(stream);
         /// </summary>
+        [Obsolete("Use (int)ReadUInt64(stream); //yes 64")]
         public static int ReadInt32(Stream stream)
         {
             return (int)ReadUInt64(stream);
         }
 
-        [Obsolete("Use WriteUInt64(stream, (ulong)val); //yes 64, negative numbers are encoded that way")]
         /// <summary>
         /// Since the int32 format is inefficient for negative numbers we have avoided to imlplement.
         /// The same functionality can be achieved using: WriteUInt64(stream, (uint)val);
         /// Note that 64 must always be used for int32 to generate the ten byte wire format.
         /// </summary>
+        [Obsolete("Use WriteUInt64(stream, (ulong)val); //yes 64, negative numbers are encoded that way")]
         public static void WriteInt32(Stream stream, int val)
         {
             //signed varint is always encoded as 64 but values!
@@ -89,12 +89,11 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static uint ReadUInt32(Stream stream)
         {
-            int b;
             uint val = 0;
 
             for (int n = 0; n < 5; n++)
             {
-                b = stream.ReadByte();
+                int b = stream.ReadByte();
                 if (b < 0)
                     throw new IOException("Stream ended too early");
 
@@ -117,10 +116,9 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static void WriteUInt32(Stream stream, uint val)
         {
-            byte b;
             while (true)
             {
-                b = (byte)(val & 0x7F);
+                byte b = (byte)(val & 0x7F);
                 val = val >> 7;
                 if (val == 0)
                 {
@@ -135,25 +133,25 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
-        #endregion
+        #endregion VarInt: int32, uint32, sint32
 
         #region VarInt: int64, UInt64, SInt64
 
-        [Obsolete("Use (long)ReadUInt64(stream); instead")]
         /// <summary>
         /// Since the int64 format is inefficient for negative numbers we have avoided to implement it.
         /// The same functionality can be achieved using: (long)ReadUInt64(stream);
         /// </summary>
+        [Obsolete("Use (long)ReadUInt64(stream); instead")]
         public static int ReadInt64(Stream stream)
         {
             return (int)ReadUInt64(stream);
         }
 
-        [Obsolete("Use WriteUInt64 (stream, (ulong)val); instead")]
         /// <summary>
         /// Since the int64 format is inefficient for negative numbers we have avoided to implement.
         /// The same functionality can be achieved using: WriteUInt64 (stream, (ulong)val);
         /// </summary>
+        [Obsolete("Use WriteUInt64 (stream, (ulong)val); instead")]
         public static void WriteInt64(Stream stream, int val)
         {
             WriteUInt64(stream, (ulong)val);
@@ -181,12 +179,11 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static ulong ReadUInt64(Stream stream)
         {
-            int b;
             ulong val = 0;
 
             for (int n = 0; n < 10; n++)
             {
-                b = stream.ReadByte();
+                int b = stream.ReadByte();
                 if (b < 0)
                     throw new IOException("Stream ended too early");
 
@@ -209,10 +206,9 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public static void WriteUInt64(Stream stream, ulong val)
         {
-            byte b;
             while (true)
             {
-                b = (byte)(val & 0x7F);
+                byte b = (byte)(val & 0x7F);
                 val = val >> 7;
                 if (val == 0)
                 {
@@ -227,7 +223,7 @@ namespace SilentOrbit.ProtocolBuffers
             }
         }
 
-        #endregion
+        #endregion VarInt: int64, UInt64, SInt64
 
         #region Varint: bool
 
@@ -248,6 +244,6 @@ namespace SilentOrbit.ProtocolBuffers
             stream.WriteByte(val ? (byte)1 : (byte)0);
         }
 
-        #endregion
+        #endregion Varint: bool
     }
 }

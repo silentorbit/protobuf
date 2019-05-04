@@ -125,42 +125,43 @@ namespace SilentOrbit.ProtocolBuffers
                         string line = s.Substring(1);
 
                         //Remove comments after "//"
-                        int cpos = line.IndexOf("//");
+                        int cpos = line.IndexOf("//", StringComparison.Ordinal);
                         if (cpos >= 0)
+                        {
                             line = line.Substring(0, cpos);
+                        }
 
                         string[] parts = line.Split('=');
                         if (parts.Length > 2)
+                        {
                             throw new ProtoFormatException("Bad option format, at most one '=', " + s, tr);
+                        }
+
                         string key = parts[0].Trim().ToLowerInvariant();
                         if (parts.Length == 1)
                         {
                             //Parse flag
-                            if (message is ProtoMessage)
-                                ParseMessageFlags((ProtoMessage)message, key);
-                            else if (message is Field)
-                                ParseFieldFlags((Field)message, key);
-                            else if (message is ProtoEnum)
-                                ParseEnumFlags((ProtoEnum)message, key);
+                            if (message is ProtoMessage protoMessage)
+                                ParseMessageFlags(protoMessage, key);
+                            else if (message is Field field)
+                                ParseFieldFlags(field, key);
+                            else if (message is ProtoEnum protoEnum)
+                                ParseEnumFlags(protoEnum, key);
                             else
                                 throw new NotImplementedException();
-
-                            continue;
                         }
                         else
                         {
                             string value = (parts.Length == 2) ? parts[1].Trim() : null;
 
-                            if (message is ProtoMessage)
-                                ParseMessageOption((ProtoMessage)message, key, value);
-                            else if (message is Field)
-                                ParseFieldOption((Field)message, key, value);
-                            else if (message is ProtoEnum)
-                                ParseEnumOption((ProtoEnum)message, key, value);
+                            if (message is ProtoMessage protoMessage)
+                                ParseMessageOption(protoMessage, key, value);
+                            else if (message is Field field)
+                                ParseFieldOption(field, key, value);
+                            else if (message is ProtoEnum protoEnum)
+                                ParseEnumOption(protoEnum, key, value);
                             else
                                 throw new NotImplementedException();
-
-                            continue;
                         }
                     }
                     catch (Exception e)
@@ -178,4 +179,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

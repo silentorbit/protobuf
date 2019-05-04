@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{108DF716-5E86-4515-836F-1AC211CA648B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>SilentOrbit.ProtocolBuffers</RootNamespace>
     <AssemblyName>CodeGenerator</AssemblyName>
     <PublishUrl>publish\</PublishUrl>
@@ -29,7 +29,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\bin\CodeGenerator\Debug</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,7 +39,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\bin\CodeGenerator\Release</OutputPath>
+    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -47,7 +47,8 @@
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SilentOrbit.ProtocolBuffers.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BuildTests|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -62,8 +63,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="ProtoParser.cs" />
     <Compile Include="TokenReader.cs" />
     <Compile Include="ProtoPrepare.cs" />
@@ -145,10 +147,6 @@
     <ProjectReference Include="..\CodeWriter\CodeWriter.csproj">
       <Project>{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}</Project>
       <Name>CodeWriter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\commandline\src\CommandLine\CommandLine.csproj">
-      <Project>{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}</Project>
-      <Name>CommandLine</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

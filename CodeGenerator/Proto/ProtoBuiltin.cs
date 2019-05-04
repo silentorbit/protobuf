@@ -23,12 +23,12 @@ namespace SilentOrbit.ProtocolBuffers
         public const string Bool = "bool";
         public const string String = "string";
         public const string Bytes = "bytes";
-        #endregion
+        #endregion Const of build in proto types
 
         public ProtoBuiltin(string name, Wire wire, string csType)
         {
             ProtoName = name;
-            wireType = wire;
+            WireType = wire;
             base.CsType = csType;
         }
 
@@ -48,19 +48,19 @@ namespace SilentOrbit.ProtocolBuffers
             get { return CsType; }
         }
 
-        readonly Wire wireType;
-
-        public override Wire WireType { get { return wireType; } }
+        public override Wire WireType { get; }
 
         public override int WireSize
         {
             get
             {
                 if (ProtoName == ProtoBuiltin.Bool)
+                {
                     return 1;
+                }
+
                 return base.WireSize;
             }
         }
     }
 }
-

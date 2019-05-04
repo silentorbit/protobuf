@@ -1,6 +1,6 @@
 using System;
-using SilentOrbit.Code;
 using System.Collections.Generic;
+using SilentOrbit.Code;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -19,7 +19,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (options.NoGenerateImported && m.IsImported)
             {
-                Console.Error.WriteLine("Skipping imported " + m.FullProtoName);   
+                Console.Error.WriteLine("Skipping imported " + m.FullProtoName);
                 return;
             }
 
@@ -36,7 +36,9 @@ namespace SilentOrbit.ProtocolBuffers
             cw.Bracket(m.OptionAccess + " partial " + m.OptionType + " " + m.CsType);
 
             if (options.GenerateDefaultConstructors)
+            {
                 GenerateCtorForDefaults(m);
+            }
 
             GenerateEnums(m);
 
@@ -105,7 +107,7 @@ namespace SilentOrbit.ProtocolBuffers
         {
             if (options.NoGenerateImported && m.IsImported)
             {
-                Console.Error.WriteLine("Skipping imported enum " + m.FullProtoName);   
+                Console.Error.WriteLine("Skipping imported enum " + m.FullProtoName);
                 return;
             }
 
@@ -126,7 +128,10 @@ namespace SilentOrbit.ProtocolBuffers
 
             cw.Summary(m.Comments);
             if (m.OptionFlags)
+            {
                 cw.Attribute("global::System.FlagsAttribute");
+            }
+
             cw.Bracket(m.OptionAccess + " enum " + m.CsType);
             foreach (var epair in m.Enums)
             {
@@ -140,26 +145,31 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates the properties.
         /// </summary>
-        /// <param name='template'>
-        /// if true it will generate only properties that are not included by default, because of the [generate=false] option.
-        /// </param>
         void GenerateProperties(ProtoMessage m)
         {
             foreach (Field f in m.Fields.Values)
             {
                 if (f.Comments != null)
+                {
                     cw.Summary(f.Comments);
+                }
 
                 if (f.OptionExternal)
                 {
                     if (f.OptionDeprecated)
+                    {
                         cw.WriteLine("// [Obsolete]");
+                    }
+
                     cw.WriteLine("//" + GenerateProperty(f) + " // Implemented by user elsewhere");
                 }
                 else
                 {
                     if (f.OptionDeprecated)
+                    {
                         cw.WriteLine("[Obsolete]");
+                    }
+
                     cw.WriteLine(GenerateProperty(f));
                 }
                 cw.WriteLine();
@@ -179,19 +189,32 @@ namespace SilentOrbit.ProtocolBuffers
         {
             string type = f.ProtoType.FullCsType;
             if (f.OptionCodeType != null)
+            {
                 type = f.OptionCodeType;
+            }
+
             if (f.Rule == FieldRule.Repeated)
+            {
                 type = "List<" + type + ">";
+            }
+
             if (f.Rule == FieldRule.Optional && !f.ProtoType.Nullable && options.Nullable)
-                type = type + "?";
+            {
+                type += "?";
+            }
 
             if (f.OptionReadOnly)
+            {
                 return f.OptionAccess + " readonly " + type + " " + f.CsName + " = new " + type + "();";
+            }
             else if (f.ProtoType is ProtoMessage && f.ProtoType.OptionType == "struct")
+            {
                 return f.OptionAccess + " " + type + " " + f.CsName + ";";
+            }
             else
+            {
                 return f.OptionAccess + " " + type + " " + f.CsName + " { get; set; }";
+            }
         }
     }
 }
-

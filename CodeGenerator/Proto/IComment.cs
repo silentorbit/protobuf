@@ -10,4 +10,3 @@ namespace SilentOrbit.ProtocolBuffers
         string Comments { get; set; }
     }
 }
-

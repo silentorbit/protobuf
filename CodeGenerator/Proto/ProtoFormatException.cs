@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -26,4 +25,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

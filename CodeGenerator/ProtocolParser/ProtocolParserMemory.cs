@@ -2,9 +2,9 @@
 using System.IO;
 using System.Collections.Generic;
 
-/// <summary>
-/// MemoryStream management
-/// </summary>
+//
+// MemoryStream management
+//
 namespace SilentOrbit.ProtocolBuffers
 {
     public interface MemoryStreamStack : IDisposable
@@ -19,7 +19,7 @@ namespace SilentOrbit.ProtocolBuffers
     /// </summary>
     public class ThreadSafeStack : MemoryStreamStack
     {
-        Stack<MemoryStream> stack = new Stack<MemoryStream>();
+        readonly Stack<MemoryStream> stack = new Stack<MemoryStream>();
 
         /// <summary>
         /// The returned stream is not reset.
@@ -60,7 +60,7 @@ namespace SilentOrbit.ProtocolBuffers
     /// </summary>
     public class ThreadUnsafeStack : MemoryStreamStack
     {
-        Stack<MemoryStream> stack = new Stack<MemoryStream>();
+        readonly Stack<MemoryStream> stack = new Stack<MemoryStream>();
 
         /// <summary>
         /// The returned stream is not reset.
@@ -119,4 +119,3 @@ namespace SilentOrbit.ProtocolBuffers
         public static MemoryStreamStack Stack = new AllocationStack();
     }
 }
-

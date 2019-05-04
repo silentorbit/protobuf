@@ -1,7 +1,7 @@
 //
 //  This file contain references on how to write and read
 //  fixed integers and float/double.
-//  
+//
 using System;
 using System.IO;
 
@@ -82,7 +82,7 @@ namespace SilentOrbit.ProtocolBuffers
             writer.Write(val);
         }
 
-        #endregion
+        #endregion Fixed Int, Only for reference
 
         #region Fixed: float, double. Only for reference
 
@@ -122,7 +122,6 @@ namespace SilentOrbit.ProtocolBuffers
             writer.Write(val);
         }
 
-        #endregion
+        #endregion Fixed: float, double. Only for reference
     }
 }
-

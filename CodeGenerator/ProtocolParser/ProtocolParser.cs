@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
-// 
-//  Read/Write string and byte arrays 
-// 
+//
+//  Read/Write string and byte arrays
+//
 namespace SilentOrbit.ProtocolBuffers
 {
     public static partial class ProtocolParser
@@ -63,7 +63,6 @@ namespace SilentOrbit.ProtocolBuffers
             WriteUInt32(stream, (uint)val.Length);
             stream.Write(val, 0, val.Length);
         }
-
     }
 
     [Obsolete("Renamed to PositionStream")]
@@ -71,7 +70,6 @@ namespace SilentOrbit.ProtocolBuffers
     {
         public StreamRead(Stream baseStream) : base(baseStream)
         {
-
         }
     }
 
@@ -81,7 +79,7 @@ namespace SilentOrbit.ProtocolBuffers
     /// </summary>
     public class PositionStream : Stream
     {
-        Stream stream;
+        readonly Stream stream;
 
         /// <summary>
         /// Bytes read in the stream starting from the beginning.
@@ -204,4 +202,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

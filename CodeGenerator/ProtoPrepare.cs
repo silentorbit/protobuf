@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 
 namespace SilentOrbit.ProtocolBuffers
@@ -11,12 +10,14 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Convert message/class and field/propery names to CamelCase
         /// </summary>
-        bool ConvertToCamelCase = true;
+        readonly bool ConvertToCamelCase = true;
 
         public ProtoPrepare(Options options)
         {
             if (options.PreserveNames)
+            {
                 ConvertToCamelCase = false;
+            }
 
             this.options = options;
         }
@@ -26,14 +27,20 @@ namespace SilentOrbit.ProtocolBuffers
             foreach (ProtoMessage m in file.Messages.Values)
             {
                 if (m.OptionNamespace == null)
+                {
                     m.OptionNamespace = GetCamelCase(m.Package);
+                }
+
                 PrepareMessage(m);
             }
 
             foreach (ProtoEnum e in file.Enums.Values)
             {
                 if (e.OptionNamespace == null)
+                {
                     e.OptionNamespace = GetCamelCase(e.Package);
+                }
+
                 e.CsType = GetCamelCase(e.ProtoName);
             }
         }
@@ -48,7 +55,9 @@ namespace SilentOrbit.ProtocolBuffers
             }
 
             foreach (ProtoMessage sub in m.Messages.Values)
+            {
                 PrepareMessage(sub);
+            }
 
             //Prepare fields
             foreach (Field f in m.Fields.Values)
@@ -60,12 +69,16 @@ namespace SilentOrbit.ProtocolBuffers
                 if (f.OptionDefault != null)
                 {
                     if (f.ProtoType is ProtoBuiltin && ((ProtoBuiltin)f.ProtoType).ProtoName == "bytes")
+                    {
                         throw new NotImplementedException();
+                    }
+
                     if (f.ProtoType is ProtoMessage)
+                    {
                         throw new ProtoFormatException("Message can't have a default", f.Source);
+                    }
                 }
             }
-
         }
 
         /// <summary>
@@ -75,33 +88,51 @@ namespace SilentOrbit.ProtocolBuffers
         /// <param name="f">Field to check</param>
         void DetectNameClash(ProtoMessage m, Field f)
         {
-            bool nameclash = false;
-            if (m.CsType == f.CsName)
-                nameclash = true;
+            bool nameclash = m.CsType == f.CsName;
             foreach (var tm in m.Messages.Values)
+            {
                 if (tm.CsType == f.CsName)
+                {
                     nameclash = true;
+                }
+            }
+
             foreach (var te in m.Enums.Values)
+            {
                 if (te.CsType == f.CsName)
+                {
                     nameclash = true;
+                }
+            }
+
             foreach (var tf in m.Fields.Values)
             {
                 if (tf == f)
+                {
                     continue;
+                }
+
                 if (tf.CsName == f.CsName)
+                {
                     nameclash = true;
+                }
             }
             if (nameclash == false)
+            {
                 return;
+            }
 
             //Name clash
             if (options.FixNameclash)
             {
                 if (ConvertToCamelCase)
+                {
                     f.CsName += "Field";
+                }
                 else
+                {
                     f.CsName += "_field";
-
+                }
 
                 Console.Error.WriteLine("Warning: renamed field: " + m.FullCsType + "." + f.CsName);
 
@@ -109,9 +140,11 @@ namespace SilentOrbit.ProtocolBuffers
                 DetectNameClash(m, f);
             }
             else
+            {
                 throw new ProtoFormatException("The field: " + m.FullCsType + "." + f.CsName +
                     " has the same name as a sibling class/enum type which is not allowed in C#. " +
                     "Use --fix-nameclash to automatically rename the field.", f.Source);
+            }
         }
 
         /// <summary>
@@ -122,9 +155,8 @@ namespace SilentOrbit.ProtocolBuffers
             //Change property name to C# style, CamelCase.
             f.CsName = GetCSPropertyName(m, f.ProtoName);
 
-            f.ProtoType = GetBuiltinProtoType(f.ProtoTypeName);
-            if (f.ProtoType == null)
-                f.ProtoType = Search.GetProtoType(m, f.ProtoTypeName);
+            f.ProtoType = GetBuiltinProtoType(f.ProtoTypeName) ?? Search.GetProtoType(m, f.ProtoTypeName);
+
             if (f.ProtoType == null)
             {
 #if DEBUG
@@ -137,7 +169,9 @@ namespace SilentOrbit.ProtocolBuffers
             if (f.OptionPacked)
             {
                 if (f.ProtoType.WireType == Wire.LengthDelimited)
+                {
                     throw new ProtoFormatException("Length delimited types cannot be packed", f.Source);
+                }
             }
         }
 
@@ -193,8 +227,12 @@ namespace SilentOrbit.ProtocolBuffers
             string csname = GetCamelCase(name);
 
             foreach (ProtoEnum me in m.Enums.Values)
+            {
                 if (me.CsType == csname)
+                {
                     return name;
+                }
+            }
 
             return csname;
         }
@@ -205,10 +243,11 @@ namespace SilentOrbit.ProtocolBuffers
         string GetCamelCase(string name)
         {
             if (ConvertToCamelCase == false)
+            {
                 return name;
+            }
 
             return SilentOrbit.Code.Name.ToCamelCase(name);
         }
     }
 }
-

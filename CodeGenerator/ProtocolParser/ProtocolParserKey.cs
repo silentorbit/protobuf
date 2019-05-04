@@ -57,7 +57,6 @@ namespace SilentOrbit.ProtocolBuffers
 
     public static partial class ProtocolParser
     {
-
         public static Key ReadKey(Stream stream)
         {
             uint n = ReadUInt32(stream);
@@ -98,7 +97,7 @@ namespace SilentOrbit.ProtocolBuffers
                     ProtocolParser.ReadSkipVarInt(stream);
                     return;
                 default:
-                    throw new NotImplementedException("Unknown wire type: " + key.WireType);
+                    throw new ProtocolBufferException("Unknown wire type: " + key.WireType);
             }
         }
 
@@ -143,10 +142,8 @@ namespace SilentOrbit.ProtocolBuffers
                 case Wire.Varint:
                     return ProtocolParser.ReadVarIntBytes(stream);
                 default:
-                    throw new NotImplementedException("Unknown wire type: " + key.WireType);
+                    throw new ProtocolBufferException("Unknown wire type: " + key.WireType);
             }
         }
-
     }
 }
-

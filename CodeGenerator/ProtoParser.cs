@@ -1,12 +1,12 @@
 using System;
-using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 
 namespace SilentOrbit.ProtocolBuffers
 {
-    static class ProtoParser
+    internal static class ProtoParser
     {
         /// <summary>
         /// Parse a single .proto file.
@@ -26,7 +26,9 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     string line = reader.ReadLine();
                     if (line == null)
+                    {
                         break;
+                    }
 
                     t += line + "\n";
                 }
@@ -41,7 +43,6 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 return;
             }
-
         }
 
         static readonly List<string> lastComment = new List<string>();
@@ -72,7 +73,9 @@ namespace SilentOrbit.ProtocolBuffers
             {
                 string token = tr.ReadNextComment();
                 if (ParseComment(token))
+                {
                     continue;
+                }
 
                 try
                 {
@@ -128,7 +131,9 @@ namespace SilentOrbit.ProtocolBuffers
             try
             {
                 while (ParseField(tr, msg))
+                {
                     continue;
+                }
             }
             catch (Exception e)
             {
@@ -149,7 +154,9 @@ namespace SilentOrbit.ProtocolBuffers
             try
             {
                 while (ParseField(tr, msg))
+                {
                     continue;
+                }
             }
             catch (Exception e)
             {
@@ -163,10 +170,8 @@ namespace SilentOrbit.ProtocolBuffers
         static bool ParseField(TokenReader tr, ProtoMessage m)
         {
             string rule = tr.ReadNextComment();
-            while (true)
+            while (ParseComment(rule))
             {
-                if (ParseComment(rule) == false)
-                    break;
                 rule = tr.ReadNextComment();
             }
 
@@ -220,9 +225,14 @@ namespace SilentOrbit.ProtocolBuffers
             tr.ReadNextOrThrow("=");
             f.ID = ParseInt(tr);
             if (19000 <= f.ID && f.ID <= 19999)
+            {
                 throw new ProtoFormatException("Can't use reserved field ID 19000-19999", tr);
+            }
+
             if (f.ID > (1 << 29) - 1)
+            {
                 throw new ProtoFormatException("Maximum field id is 2^29 - 1", tr);
+            }
 
             //Add Field to message
             m.Fields.Add(f.ID, f);
@@ -230,11 +240,15 @@ namespace SilentOrbit.ProtocolBuffers
             //Determine if extra options
             string extra = tr.ReadNext();
             if (extra == ";")
+            {
                 return true;
+            }
 
             //Field options
             if (extra != "[")
+            {
                 throw new ProtoFormatException("Expected: [ got " + extra, tr);
+            }
 
             ParseFieldOptions(tr, f);
             return true;
@@ -251,9 +265,15 @@ namespace SilentOrbit.ProtocolBuffers
                 ParseFieldOption(key, val, f);
                 string optionSep = tr.ReadNext();
                 if (optionSep == "]")
+                {
                     break;
+                }
+
                 if (optionSep == ",")
+                {
                     continue;
+                }
+
                 throw new ProtoFormatException(@"Expected "","" or ""]"" got " + tr.NextCharacter, tr);
             }
             tr.ReadNextOrThrow(";");
@@ -286,22 +306,28 @@ namespace SilentOrbit.ProtocolBuffers
             //Read name
             string key = tr.ReadNext();
             if (tr.ReadNext() != "=")
+            {
                 throw new ProtoFormatException("Expected: = got " + tr.NextCharacter, tr);
+            }
             //Read value
             string value = tr.ReadNext();
             if (tr.ReadNext() != ";")
+            {
                 throw new ProtoFormatException("Expected: ; got " + tr.NextCharacter, tr);
+            }
 
             //null = ignore option
             if (m == null)
+            {
                 return;
+            }
 
             switch (key)
             {
-            //None at the moment
-            //case "namespace":
-            //    m.OptionNamespace = value;
-            //    break;
+                //None at the moment
+                //case "namespace":
+                //    m.OptionNamespace = value;
+                //    break;
                 default:
                     Console.WriteLine("Warning: Unknown option: " + key + " = " + value);
                     break;
@@ -318,17 +344,23 @@ namespace SilentOrbit.ProtocolBuffers
             parent.Enums.Add(me.ProtoName, me); //must be after .ProtoName is read
 
             if (tr.ReadNext() != "{")
+            {
                 throw new ProtoFormatException("Expected: {", tr);
+            }
 
             while (true)
             {
                 string name = tr.ReadNextComment();
 
                 if (ParseComment(name))
+                {
                     continue;
+                }
 
                 if (name == "}")
+                {
                     return;
+                }
 
                 //Ignore options
                 if (name == "option")
@@ -340,13 +372,14 @@ namespace SilentOrbit.ProtocolBuffers
 
                 ParseEnumValue(tr, me, name);
             }
-
         }
 
         static void ParseEnumValue(TokenReader tr, ProtoEnum parent, string name)
         {
             if (tr.ReadNext() != "=")
+            {
                 throw new ProtoFormatException("Expected: =", tr);
+            }
 
             int id = ParseInt(tr);
 
@@ -356,10 +389,14 @@ namespace SilentOrbit.ProtocolBuffers
             string extra = tr.ReadNext();
 
             if (extra == ";")
+            {
                 return;
+            }
 
             if (extra != "[")
+            {
                 throw new ProtoFormatException("Expected: ; or [", tr);
+            }
 
             ParseEnumValueOptions(tr, value);
         }
@@ -375,9 +412,15 @@ namespace SilentOrbit.ProtocolBuffers
                 ParseEnumValueOptions(key, val, evalue);
                 string optionSep = tr.ReadNext();
                 if (optionSep == "]")
+                {
                     break;
+                }
+
                 if (optionSep == ",")
+                {
                     continue;
+                }
+
                 throw new ProtoFormatException(@"Expected "","" or ""]"" got " + tr.NextCharacter, tr);
             }
             tr.ReadNextOrThrow(";");
@@ -402,24 +445,31 @@ namespace SilentOrbit.ProtocolBuffers
             string path = tr.ReadNext();
             bool publicImport = path == "public";
             if (publicImport)
+            {
                 path = tr.ReadNext();
+            }
+
             tr.ReadNextOrThrow(";");
 
             if (publicImport)
+            {
                 collection.ImportPublic.Add(path);
+            }
             else
+            {
                 collection.Import.Add(path);
+            }
         }
 
         static int ParseInt(TokenReader tr)
         {
             string text = tr.ReadNext();
 
-            int val;
-
             //Decimal
-            if (int.TryParse(text, out val))
+            if (int.TryParse(text, out int val))
+            {
                 return val;
+            }
 
             //Hex
             if (text.StartsWith("0x", StringComparison.CurrentCultureIgnoreCase))
@@ -427,11 +477,12 @@ namespace SilentOrbit.ProtocolBuffers
                 var hex = text.Substring(2);
 
                 if (int.TryParse(hex, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out val))
+                {
                     return val;
+                }
             }
 
             throw new ProtoFormatException("Unknown integer format: " + text, tr);
         }
     }
 }
-

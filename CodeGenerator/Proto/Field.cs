@@ -46,6 +46,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         //Field options
         public bool OptionPacked = false;
+
         public bool OptionDeprecated = false;
         public string OptionDefault = null;
 
@@ -54,9 +55,15 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (ProtoType.WireType == Wire.Fixed32)
+                {
                     return true;
+                }
+
                 if (ProtoType.WireType == Wire.Fixed64)
+                {
                     return true;
+                }
+
                 return false;
             }
         }
@@ -82,7 +89,7 @@ namespace SilentOrbit.ProtocolBuffers
 
         /// <summary>
         /// Field is (c#)readonly.
-        /// Can be set to true if OptionGenerate=false and your own code 
+        /// Can be set to true if OptionGenerate=false and your own code
         /// </summary>
         public bool OptionReadOnly = false;
 
@@ -92,9 +99,9 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public int BufferSize { get; set; }
 
-        #endregion
+        #endregion Locally used fields
 
-        #endregion
+        #endregion .proto data
 
         /// <summary>
         /// Return the buffer size specified in the .proto file.
@@ -103,9 +110,13 @@ namespace SilentOrbit.ProtocolBuffers
         public int BufferSizeScan()
         {
             if (BufferSize > 0)
+            {
                 return BufferSize;
+            }
             else
+            {
                 return ProtoType.BufferSize;
+            }
         }
 
         public Wire WireType
@@ -113,7 +124,10 @@ namespace SilentOrbit.ProtocolBuffers
             get
             {
                 if (OptionPacked)
+                {
                     return Wire.LengthDelimited;
+                }
+
                 return ProtoType.WireType;
             }
         }
@@ -127,26 +141,33 @@ namespace SilentOrbit.ProtocolBuffers
         /// </summary>
         public ProtoType ProtoType { get; set; }
 
-        #endregion
+        #endregion Code Generation Properties
 
         /// <summary>
         /// Format the specified value according to the field type.
         /// </summary>
         /// <returns>String that can be use to assign to field of this field's type.</returns>
-        /// <param name="value">Value.</param>
         public string FormatDefaultForTypeAssignment()
         {
             if (OptionDefault == null)
+            {
                 throw new InvalidOperationException("Missing default value");
+            }
 
             if (this.ProtoType is ProtoEnum)
+            {
                 return this.ProtoType.FullCsType + "." + OptionDefault;
+            }
 
             if (ProtoTypeName == "string")
+            {
                 return string.Format("\"{0}\"", OptionDefault);
+            }
 
             if (ProtoTypeName == "float")
+            {
                 return OptionDefault + "f";
+            }
 
             return OptionDefault;
         }
@@ -157,4 +178,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

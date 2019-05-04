@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 
 namespace SilentOrbit.Code
 {
@@ -8,14 +7,19 @@ namespace SilentOrbit.Code
         public static string ToCamelCase(string name)
         {
             if (name == "")
+            {
                 throw new ArgumentException("Empty name");
+            }
 
             string csname = "";
 
             foreach (string part in name.Split('.'))
             {
                 if (csname != "")
+                {
                     csname += ".";
+                }
+
                 csname += ToCamelCaseSingleName(part);
             }
 
@@ -29,13 +33,16 @@ namespace SilentOrbit.Code
             foreach (string part in name.Split('_', '-'))
             {
                 if (part.Length == 0)
+                {
                     csname += "_";
+                }
                 else
+                {
                     csname += part.Substring(0, 1).ToUpperInvariant() + part.Substring(1);
+                }
             }
 
             return csname;
         }
     }
 }
-

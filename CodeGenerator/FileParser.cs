@@ -19,7 +19,7 @@ namespace SilentOrbit.ProtocolBuffers
             var collection = new ProtoCollection();
 
             //Files from command line arguments, all import statements will be followed
-            var basePath = Path.Combine(Path.GetFullPath(Directory.GetCurrentDirectory()), "dummy"); 
+            var basePath = Path.Combine(Path.GetFullPath(Directory.GetCurrentDirectory()), "dummy");
             foreach (string rawPath in inputProto)
             {
                 string protoPath = GetFullPath(basePath, rawPath);
@@ -28,7 +28,9 @@ namespace SilentOrbit.ProtocolBuffers
 
                 //Include non public imports for the first level
                 foreach (var path in proto.Import)
+                {
                     toImport.Add(GetFullPath(protoPath, path));
+                }
             }
 
             //Read imported files, nested
@@ -52,8 +54,10 @@ namespace SilentOrbit.ProtocolBuffers
         ProtoCollection Import(string protoPath)
         {
             if (imported.ContainsKey(protoPath))
+            {
                 return null; //Already imported
-                
+            }
+
             var proto = new ProtoCollection();
 
             try
@@ -69,7 +73,9 @@ namespace SilentOrbit.ProtocolBuffers
             }
 
             foreach (var path in proto.ImportPublic)
+            {
                 toImport.Add(GetFullPath(protoPath, path));
+            }
 
             imported.Add(protoPath, proto);
 
@@ -79,11 +85,12 @@ namespace SilentOrbit.ProtocolBuffers
         static string GetFullPath(string baseProtoPath, string importPath)
         {
             if (Path.IsPathRooted(importPath))
+            {
                 return Path.GetFullPath(importPath);
+            }
 
             var dir = Path.GetDirectoryName(baseProtoPath);
             return Path.GetFullPath(Path.Combine(dir, importPath));
         }
     }
 }
-

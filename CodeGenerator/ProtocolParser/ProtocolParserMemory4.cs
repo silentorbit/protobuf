@@ -2,10 +2,10 @@
 using System.IO;
 using System.Collections.Generic;
 
-/// <summary>
-/// MemoryStream management.
-/// .NET 4 features not added when the --net3 flag is being used
-/// </summary>
+//
+// MemoryStream management.
+// .NET 4 features not added when the --net3 flag is being used
+//
 namespace SilentOrbit.ProtocolBuffers
 {
     using System.Collections.Concurrent;
@@ -40,4 +40,3 @@ namespace SilentOrbit.ProtocolBuffers
         }
     }
 }
-

@@ -45,9 +45,11 @@ namespace SilentOrbit.ProtocolBuffers
         {
             string t = "ProtoCollection: ";
             foreach (ProtoMessage m in Messages.Values)
+            {
                 t += "\n\t" + m;
+            }
+
             return t;
         }
     }
 }
-
