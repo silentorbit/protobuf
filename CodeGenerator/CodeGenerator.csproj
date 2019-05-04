@@ -1,14 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{108DF716-5E86-4515-836F-1AC211CA648B}</ProjectGuid>
-    <OutputType>Library</OutputType>
     <RootNamespace>SilentOrbit.ProtocolBuffers</RootNamespace>
-    <AssemblyName>CodeGenerator</AssemblyName>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,73 +17,34 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AssemblyTitle>CodeGenerator</AssemblyTitle>
+    <Description>Generates C# code from a .proto file</Description>
+    <Copyright>Peter Hultqvist 2015</Copyright>
+    <AssemblyVersion>2015.10.13</AssemblyVersion>
+    <FileVersion>2015.10.13</FileVersion>
+    <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/LocalFeatures.proto --no-generate-imported --output ../../../TestProgram/Generated/GeneratedLocal.cs --ctor --utc --skip-default</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/ImportAll.proto --ctor --utc --output ../../../TestProgram/Generated/Generated.cs</Commandlineparameters>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BuildTests|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\BuildTests\</OutputPath>
     <DefineConstants>DEBUG;BUILD_TESTS</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="ProtoParser.cs" />
-    <Compile Include="TokenReader.cs" />
-    <Compile Include="ProtoPrepare.cs" />
-    <Compile Include="Proto\Field.cs" />
-    <Compile Include="Proto\Wire.cs" />
-    <Compile Include="CodeGenerator\MessageCode.cs" />
-    <Compile Include="CodeGenerator\ProtoCode.cs" />
-    <Compile Include="Proto\FieldRule.cs" />
-    <Compile Include="Proto\ProtoFormatException.cs" />
-    <Compile Include="Proto\ProtoMessage.cs" />
-    <Compile Include="Proto\ProtoEnum.cs" />
-    <Compile Include="Proto\ProtoType.cs" />
-    <Compile Include="Proto\ProtoBuiltin.cs" />
-    <Compile Include="CodeGenerator\FieldSerializer.cs" />
-    <Compile Include="CodeGenerator\MessageSerializer.cs" />
-    <Compile Include="Proto\ProtoCollection.cs" />
-    <Compile Include="SourcePath.cs" />
-    <Compile Include="LocalParser.cs" />
-    <Compile Include="Proto\IComment.cs" />
-    <Compile Include="Proto\Search.cs" />
-    <Compile Include="Options.cs" />
-    <Compile Include="CodeGenerator\ProtocolParser.cs" />
-    <Compile Include="FileParser.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="ProtocolParser\ProtocolParser.cs">
       <LogicalName>ProtocolParser</LogicalName>
@@ -115,38 +69,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 4.5</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <ProjectReference Include="..\CodeWriter\CodeWriter.csproj" />
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <TextStylePolicy EolMarker="Windows" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
-          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="NewLine" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
-          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
-          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csrc" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
   <ItemGroup>
-    <ProjectReference Include="..\CodeWriter\CodeWriter.csproj">
-      <Project>{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}</Project>
-      <Name>CodeWriter</Name>
-    </ProjectReference>
+    <Compile Remove="ProtocolParser\ProtocolParser.cs" />
+    <Compile Remove="ProtocolParser\ProtocolParserFixed.cs" />
+    <Compile Remove="ProtocolParser\ProtocolParserKey.cs" />
+    <Compile Remove="ProtocolParser\ProtocolParserVarInt.cs" />
+    <Compile Remove="ProtocolParser\ProtocolParserMemory.cs" />
+    <Compile Remove="ProtocolParser\ProtocolParserExceptions.cs" />
+    <Compile Remove="ProtocolParser\ProtocolParserMemory4.cs" />
   </ItemGroup>
 </Project>

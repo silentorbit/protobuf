@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator", "CodeGenerator\CodeGenerator.csproj", "{108DF716-5E86-4515-836F-1AC211CA648B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWriter", "CodeWriter\CodeWriter.csproj", "{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "commandline\src\CommandLine\CommandLine.csproj", "{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,8 +14,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{108DF716-5E86-4515-836F-1AC211CA648B}.BuildTests|Any CPU.ActiveCfg = BuildTests|Any CPU
-		{108DF716-5E86-4515-836F-1AC211CA648B}.BuildTests|Any CPU.Build.0 = BuildTests|Any CPU
+		{108DF716-5E86-4515-836F-1AC211CA648B}.BuildTests|Any CPU.ActiveCfg = Release|Any CPU
+		{108DF716-5E86-4515-836F-1AC211CA648B}.BuildTests|Any CPU.Build.0 = Release|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{108DF716-5E86-4515-836F-1AC211CA648B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -28,15 +26,12 @@ Global
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.BuildTests|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.BuildTests|Any CPU.Build.0 = Debug|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EA1D77D-6573-4043-B406-A3ED0C482CA5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = CodeGenerator\CodeGenerator.csproj
