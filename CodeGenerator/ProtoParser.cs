@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Diagnostics;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -206,7 +207,7 @@ namespace SilentOrbit.ProtocolBuffers
                     ParseEnum(tr, m, m.Package + "." + m.ProtoName);
                     return true;
                 case "extensions":
-                    ParseExtensions(tr, m);
+                    ParseExtensions(tr);
                     return true;
                 default:
                     throw new ProtoFormatException("unknown rule: " + rule, tr);
@@ -398,18 +399,18 @@ namespace SilentOrbit.ProtocolBuffers
                 throw new ProtoFormatException("Expected: ; or [", tr);
             }
 
-            ParseEnumValueOptions(tr, value);
+            ParseEnumValueOptions(tr);
         }
 
-        static void ParseEnumValueOptions(TokenReader tr, ProtoEnumValue evalue)
+        static void ParseEnumValueOptions(TokenReader tr)
         {
             while (true)
             {
                 string key = tr.ReadNext();
                 tr.ReadNextOrThrow("=");
                 string val = tr.ReadNext();
+                Debug.WriteLine($"{key} = {val}");
 
-                ParseEnumValueOptions(key, val, evalue);
                 string optionSep = tr.ReadNext();
                 if (optionSep == "]")
                 {
@@ -426,12 +427,7 @@ namespace SilentOrbit.ProtocolBuffers
             tr.ReadNextOrThrow(";");
         }
 
-        static void ParseEnumValueOptions(string key, string val, ProtoEnumValue f)
-        {
-            //TODO
-        }
-
-        static void ParseExtensions(TokenReader tr, ProtoMessage m)
+        static void ParseExtensions(TokenReader tr)
         {
             //extensions 100 to max;
             tr.ReadNext(); //100

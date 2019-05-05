@@ -356,7 +356,7 @@ namespace SilentOrbit.ProtocolBuffers
                     cw.WritePragma("warning disable 612");
                 }
 
-                fieldSerializer.FieldWriter(m, f);
+                fieldSerializer.FieldWriter(f);
 
                 if (f.OptionDeprecated)
                 {

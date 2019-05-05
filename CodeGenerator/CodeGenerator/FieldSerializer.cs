@@ -229,7 +229,7 @@ namespace SilentOrbit.ProtocolBuffers
             while (true)
             {
                 byte b = (byte)(value & 0x7F);
-                value = value >> 7;
+                value >>= 7;
                 if (value == 0)
                 {
                     cw.WriteLine(stream + ".WriteByte(" + b + ");");
@@ -274,7 +274,7 @@ namespace SilentOrbit.ProtocolBuffers
         /// <summary>
         /// Generates code for writing one field
         /// </summary>
-        public void FieldWriter(ProtoMessage m, Field f)
+        public void FieldWriter(Field f)
         {
             if (f.Rule == FieldRule.Repeated)
             {
