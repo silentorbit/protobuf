@@ -22,7 +22,7 @@
     <Copyright>Peter Hultqvist 2015</Copyright>
     <AssemblyVersion>2015.10.13</AssemblyVersion>
     <FileVersion>2015.10.13</FileVersion>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug</OutputPath>
