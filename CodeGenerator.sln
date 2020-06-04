@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator", "CodeGenerator\CodeGenerator.csproj", "{108DF716-5E86-4515-836F-1AC211CA648B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGenerator", "CodeGenerator\CodeGenerator.csproj", "{108DF716-5E86-4515-836F-1AC211CA648B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWriter", "CodeWriter\CodeWriter.csproj", "{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeWriter", "CodeWriter\CodeWriter.csproj", "{FFFA67D7-6E0B-4C5C-8B3C-9DDED536AC4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
