@@ -23,6 +23,7 @@
     <AssemblyVersion>2015.10.13</AssemblyVersion>
     <FileVersion>2015.10.13</FileVersion>
     <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug</OutputPath>
@@ -39,6 +40,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BuildTests|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -79,5 +81,8 @@
     <Compile Remove="ProtocolParser\ProtocolParserMemory.cs" />
     <Compile Remove="ProtocolParser\ProtocolParserExceptions.cs" />
     <Compile Remove="ProtocolParser\ProtocolParserMemory4.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
   </ItemGroup>
 </Project>
