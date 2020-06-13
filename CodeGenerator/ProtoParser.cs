@@ -109,6 +109,9 @@ namespace SilentOrbit.ProtocolBuffers
                         case "extend":
                             ParseExtend(tr, p, package);
                             break;
+                        case "service":
+                            ParseService(tr, p, package);
+                            break;
                         default:
                             throw new ProtoFormatException("Unexpected/not implemented: " + token, tr);
                     }
@@ -260,6 +263,11 @@ namespace SilentOrbit.ProtocolBuffers
             while (true)
             {
                 string key = tr.ReadNext();
+                if (key == "(")
+                {
+                    key = tr.ReadNext();
+                    tr.ReadNextOrThrow(")");
+                }
                 tr.ReadNextOrThrow("=");
                 string val = tr.ReadNext();
 
@@ -306,16 +314,15 @@ namespace SilentOrbit.ProtocolBuffers
         {
             //Read name
             string key = tr.ReadNext();
-            if (tr.ReadNext() != "=")
+            if (key == "(")
             {
-                throw new ProtoFormatException("Expected: = got " + tr.NextCharacter, tr);
+                key = tr.ReadNext();
+                tr.ReadNextOrThrow(")");
             }
+            tr.ReadNextOrThrow("=");
             //Read value
             string value = tr.ReadNext();
-            if (tr.ReadNext() != ";")
-            {
-                throw new ProtoFormatException("Expected: ; got " + tr.NextCharacter, tr);
-            }
+            tr.ReadNextOrThrow(";");
 
             //null = ignore option
             if (m == null)
@@ -407,6 +414,11 @@ namespace SilentOrbit.ProtocolBuffers
             while (true)
             {
                 string key = tr.ReadNext();
+                if (key == "(")
+                {
+                    key = tr.ReadNext();
+                    tr.ReadNextOrThrow(")");
+                }
                 tr.ReadNextOrThrow("=");
                 string val = tr.ReadNext();
                 Debug.WriteLine($"{key} = {val}");
@@ -479,6 +491,61 @@ namespace SilentOrbit.ProtocolBuffers
             }
 
             throw new ProtoFormatException("Unknown integer format: " + text, tr);
+        }
+
+        static void ParseService(TokenReader tr, ProtoMessage parent, string package)
+        {
+            var service = new ProtoService(parent, package);
+            LocalParser.ParseComments(service, lastComment, tr);
+            service.ProtoName = tr.ReadNext();
+
+            tr.ReadNextOrThrow("{");
+
+            try
+            {
+                while (ParseRpcMethod (tr, service))
+                    continue;
+            } catch (Exception e)
+            {
+                throw new ProtoFormatException(e.Message, e, tr);
+            }
+
+            parent.Services.Add(service.ProtoName, service);
+        }
+
+        static bool ParseRpcMethod(TokenReader tr, ProtoService s)
+        {
+            var token = tr.ReadNext();
+            while (true)
+            {
+                if (ParseComment(token) == false)
+                    break;
+                token = tr.ReadNext();
+            }
+
+            if (token == "}")
+            {
+                lastComment.Clear();
+                return false;
+            }
+
+            if (token != "rpc")
+                throw new ProtoFormatException("Expected: rpc", tr);
+
+            var method = new RpcMethod(tr);
+            method.ProtoName = tr.ReadNext();
+            tr.ReadNextOrThrow("(");
+            method.RequestTypeName = tr.ReadNext();
+            tr.ReadNextOrThrow(")");
+            tr.ReadNextOrThrow("returns");
+            tr.ReadNextOrThrow("(");
+            method.ResponseTypeName = tr.ReadNext();
+            tr.ReadNextOrThrow(")");
+            tr.ReadNextOrThrow(";");
+
+            LocalParser.ParseComments(method, lastComment, tr);
+            s.Methods.Add(method.ProtoName, method);
+            return true;
         }
     }
 }

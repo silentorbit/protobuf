@@ -142,6 +142,13 @@ namespace SilentOrbit.ProtocolBuffers
             cw.WriteLine();
         }
 
+        internal static void GenerateService(ProtoService s, CodeWriter cw)
+        {
+            ServiceWriter.GenerateRpcNames(s, cw);
+            cw.WriteLine();
+            ServiceWriter.GenerateInterface(s, cw);
+        }
+
         /// <summary>
         /// Generates the properties.
         /// </summary>

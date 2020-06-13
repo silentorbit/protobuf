@@ -79,6 +79,22 @@ then write the code and the changes in a separate file.");
                     cw.WriteLine();
                 }
 
+                if (options.GenerateServices)
+                {
+                    foreach (ProtoService s in file.Services.Values)
+                    {
+                        if (ns != s.CsNamespace)
+                        {
+                            if (ns != null) //First time
+                                cw.EndBracket();
+                            cw.Bracket("namespace " + s.CsNamespace);
+                            ns = s.CsNamespace;
+                        }
+                        MessageCode.GenerateService(s, cw);
+                        cw.WriteLine();
+                    }
+                }
+
                 if (ns != null)
                 {
                     cw.EndBracket();

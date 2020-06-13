@@ -15,6 +15,7 @@ namespace SilentOrbit.ProtocolBuffers
         public Dictionary<int, Field> Fields = new Dictionary<int, Field>();
         public Dictionary<string, ProtoMessage> Messages = new Dictionary<string, ProtoMessage>();
         public Dictionary<string, ProtoEnum> Enums = new Dictionary<string, ProtoEnum>();
+        public Dictionary<string,ProtoService> Services = new Dictionary<string, ProtoService>();
 
         public string SerializerType
         {

@@ -43,6 +43,13 @@ namespace SilentOrbit.ProtocolBuffers
 
                 e.CsType = GetCamelCase(e.ProtoName);
             }
+
+            foreach (ProtoService s in file.Services.Values)
+            {
+                if (s.OptionNamespace == null)
+                    s.OptionNamespace = GetCamelCase(s.Package);
+                PrepareService(s);
+            }
         }
 
         void PrepareMessage(ProtoMessage m)
@@ -78,6 +85,22 @@ namespace SilentOrbit.ProtocolBuffers
                         throw new ProtoFormatException("Message can't have a default", f.Source);
                     }
                 }
+            }
+        }
+
+        void PrepareService(ProtoService s)
+        {
+            //Name of service
+            s.CsType = GetCamelCase(s.ProtoName);
+            if (s.CsType.EndsWith("Service") && s.CsType != "Service")
+                s.CsType = s.CsType.Substring(0, s.CsType.Length - 7);
+
+            //Prepare methods
+            foreach (RpcMethod m in s.Methods.Values)
+            {
+                m.ProtoName = GetCamelCase(m.ProtoName);
+                PrepareProtoType(s.Parent, s, m);
+                PrepareProtoType(s.Parent, s, m);
             }
         }
 
@@ -172,6 +195,35 @@ namespace SilentOrbit.ProtocolBuffers
                 {
                     throw new ProtoFormatException("Length delimited types cannot be packed", f.Source);
                 }
+            }
+        }
+
+        void PrepareProtoType(ProtoMessage m, ProtoService s, RpcMethod rpc)
+        {
+            //Change property name to C# style, CamelCase.
+            rpc.CsName = GetCSPropertyName(m, rpc.ProtoName);
+
+            // NOTE: no builtin types for request/response
+            rpc.RequestProtoType = Search.GetProtoType(m, $"{s.Package}.{rpc.RequestTypeName}")
+                                    ?? Search.GetProtoType(m, rpc.RequestTypeName);
+            if (rpc.RequestProtoType == null)
+            {
+                throw new ProtoFormatException(
+                    "Method type \"" + rpc.RequestTypeName
+                    + "\" not found for method " + rpc.ProtoName
+                    + " in service "  + s.FullProtoName,
+                    rpc.Source);
+            }
+
+            rpc.ResponseProtoType = Search.GetProtoType(m, $"{s.Package}.{rpc.ResponseTypeName}")
+                                    ?? Search.GetProtoType(m, rpc.RequestTypeName);
+            if (rpc.ResponseProtoType == null)
+            {
+                throw new ProtoFormatException(
+                    "Method type \"" + rpc.ResponseTypeName
+                    + "\" not found for method " + rpc.ProtoName
+                    + " in service " + s.FullProtoName,
+                    rpc.Source);
             }
         }
 

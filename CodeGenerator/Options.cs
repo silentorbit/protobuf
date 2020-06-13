@@ -92,6 +92,12 @@ namespace SilentOrbit.ProtocolBuffers
         [Option("no-generated-imports", HelpText = "Do not generate files for imported protos.")]
         public bool NoGenerateImported { get; set; }
 
+        /// <summary>
+        /// Don't generate code from imported .proto files.
+        /// </summary>
+        [Option("generate-services", HelpText = "Generate IServiceSupporter and ServiceRpcNames for given service definitions.")]
+        public bool GenerateServices { get; set; }
+
         public static void TryParse(string[] args, Action<Options> onSuccess)
         {
             var result = Parser.Default.ParseArguments<Options>(args)

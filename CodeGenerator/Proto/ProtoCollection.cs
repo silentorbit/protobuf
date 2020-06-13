@@ -39,6 +39,11 @@ namespace SilentOrbit.ProtocolBuffers
                 Enums.Add(e.ProtoName, e);
                 e.Parent = this;
             }
+            foreach (var s in proto.Services.Values)
+            {
+                Services.Add(s.ProtoName, s);
+                s.Parent = this;
+            }
         }
 
         public override string ToString()
