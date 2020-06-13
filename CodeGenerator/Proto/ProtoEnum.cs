@@ -27,6 +27,9 @@ namespace SilentOrbit.ProtocolBuffers
             : base(parent, package)
         {
         }
+
+        public override string ToString()
+            => "enum " + FullProtoName;
     }
 
     public class ProtoEnumValue

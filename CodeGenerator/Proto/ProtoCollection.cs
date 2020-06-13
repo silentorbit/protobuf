@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SilentOrbit.ProtocolBuffers
 {
@@ -48,13 +49,23 @@ namespace SilentOrbit.ProtocolBuffers
 
         public override string ToString()
         {
-            string t = "ProtoCollection: ";
+            var b = new StringBuilder("ProtoCollection: ");
             foreach (ProtoMessage m in Messages.Values)
             {
-                t += "\n\t" + m;
+                b.Append("\n\t").Append(m);
             }
 
-            return t;
+            foreach (ProtoEnum e in Enums.Values)
+            {
+                b.Append("\n\t").Append(e);
+            }
+
+            foreach (ProtoService s in Services.Values)
+            {
+                b.Append("\n\t").Append(s);
+            }
+
+            return b.ToString();
         }
     }
 }
