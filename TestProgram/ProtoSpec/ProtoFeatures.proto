@@ -48,7 +48,7 @@ message my_message_v2
         ETest2 = 3;
         ETest3 = 2;
     }
-    
+
     enum aliased_enum
     {
         option allow_alias = true;
@@ -61,15 +61,15 @@ message my_message_v2
 
     required my_enum field_q = 17;
     optional my_enum field_r = 18 [default = ETest2];
-    
+
     //:access = protected  //public, internal, protected or private
     optional string dummy = 19 [deprecated=true];
-    
+
     repeated fixed32 field_t = 20 [packed=true];
     repeated uint32 field_s = 21;
-    
+
     optional their_message field_u = 22;
-    
+
     repeated their_message field_v = 23;
 
     optional int32 nullable_int = 24;
@@ -103,7 +103,7 @@ message Container {
     }
 
     optional Nested myNestedMessage = 1;
-    
+
     //Name collision test
     optional Nested Nested = 2;
 }
@@ -147,4 +147,9 @@ enum MyEnum {
 
   FOO = 1 [(my_enum_value_option) = 321];
   BAR = 2;
+}
+
+service TestService
+{
+    rpc method(MyMessage) returns(MyMessage);
 }

@@ -29,7 +29,7 @@
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ConsolePause>False</ConsolePause>
-    <Commandlineparameters>--fix-nameclash ../../../TestProgram/ProtoSpec/LocalFeatures.proto --no-generate-imported --output ../../../TestProgram/Generated/GeneratedLocal.cs --ctor --utc --skip-default</Commandlineparameters>
+    <Commandlineparameters>--fix-nameclash ../../../../TestProgram/ProtoSpec/LocalFeatures.proto --no-generated-imports --generate-services --output ../../../../TestProgram/Generated/GeneratedLocal.cs --ctor --utc --skip-default</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>False</Optimize>

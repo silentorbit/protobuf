@@ -35,18 +35,18 @@ namespace Local
         public string PR { get; set; }
 
         /// <summary>Generate a c# readonly field</summary>
-        public readonly Mine.MyMessageV1 TestingReadOnly = new Mine.MyMessageV1();
+        public readonly global::Mine.MyMessageV1 TestingReadOnly = new global::Mine.MyMessageV1();
 
         /// <summary>When deserializing this one must be set to a class before</summary>
-        public LocalFeatureTest.InterfaceTest MyInterface { get; set; }
+        public global::LocalFeatureTest.InterfaceTest MyInterface { get; set; }
 
-        public LocalFeatureTest.StructTest MyStruct;
+        public global::LocalFeatureTest.StructTest MyStruct;
 
-        public TestB.ExternalStruct MyExtStruct;
+        public global::TestB.ExternalStruct MyExtStruct;
 
-        public TestB.ExternalClass MyExtClass { get; set; }
+        public global::TestB.ExternalClass MyExtClass { get; set; }
 
-        public LocalFeatureTest.TopEnum MyEnum { get; set; }
+        public global::LocalFeatureTest.TopEnum MyEnum { get; set; }
 
         // protected virtual void BeforeSerialize() {}
         // protected virtual void AfterDeserialize() {}
@@ -78,6 +78,7 @@ namespace TestB
 }
 namespace Mine
 {
+
 
 }
 namespace Yours
@@ -116,5 +117,15 @@ namespace LocalFeatureTest
 }
 namespace Proto.Test
 {
+
+    public static class TestRpcNames
+    {
+        public const string Method = "Test_Method";
+    }
+
+    public interface ITestSupporter
+    {
+        proto.test.MyMessage Method(proto.test.MyMessage request);
+    }
 
 }

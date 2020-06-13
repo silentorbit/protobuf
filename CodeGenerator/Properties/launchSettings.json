@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CodeGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "--fix-nameclash ../../../../TestProgram/ProtoSpec/LocalFeatures.proto --no-generated-imports --generate-services --output ../../../../TestProgram/Generated/GeneratedLocal.cs --ctor --utc --skip-default"
+    }
+  }
+}

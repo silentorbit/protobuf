@@ -26,15 +26,15 @@ message local_features
     //Make class field of type TimeSpan, serialized to Ticks
     //:codetype = TimeSpan
     required int64 Uptime = 1;
-    
+
     //Make class field of type DateTime, serialized to Ticks
     //:codetype = DateTime
     required int64 DueDate = 2;
-    
+
     //Do not generate class field, must be implemented in other partial class
     //:external
     required double Amount = 3;
-    
+
     //Custom field access types. Default: public
     //:access = private //public, internal, protected or private
     optional string Denial = 4;
@@ -42,19 +42,19 @@ message local_features
     optional string Secret = 5;
     //:access = internal    //public, internal, protected or private
     optional string Internal = 6;
-    
+
     optional string PR = 7;
-    
+
     //Generate a c# readonly field
     //:readonly
     optional proto.test.my_message_v1 testing_read_only = 8;
-    
+
     //When deserializing this one must be set to a class before
     required interface_test MyInterface = 9;
     optional struct_test MyStruct = 10;
     optional external_struct MyExtStruct = 11;
     optional external_class MyExtClass = 12;
-    
+
     optional top_enum MyEnum = 13;
 }
 

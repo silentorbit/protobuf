@@ -49,7 +49,7 @@ namespace Local
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        internal static Local.LocalFeatures Deserialize(byte[] buffer, Local.LocalFeatures instance)
+        internal static global::Local.LocalFeatures Deserialize(byte[] buffer, global::Local.LocalFeatures instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -57,10 +57,10 @@ namespace Local
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        internal static Local.LocalFeatures Deserialize(Stream stream, Local.LocalFeatures instance)
+        internal static global::Local.LocalFeatures Deserialize(Stream stream, global::Local.LocalFeatures instance)
         {
             var br = new BinaryReader(stream);
-            instance.MyEnum = LocalFeatureTest.TopEnum.First;
+            instance.MyEnum = global::LocalFeatureTest.TopEnum.First;
             while (true)
             {
                 int keyByte = stream.ReadByte();
@@ -99,33 +99,33 @@ namespace Local
                         continue;
                     // Field 8 LengthDelimited
                     case 66:
-                        Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
+                        global::Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
                         continue;
                     // Field 9 LengthDelimited
                     case 74:
                         if (instance.MyInterface == null)
                             throw new InvalidOperationException("Can't deserialize into a interfaces null pointer");
                         else
-                            LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
+                            global::LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
                         continue;
                     // Field 10 LengthDelimited
                     case 82:
-                        LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
+                        global::LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
-                        TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
+                        global::TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
                         continue;
                     // Field 12 LengthDelimited
                     case 98:
                         if (instance.MyExtClass == null)
-                            instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
+                            instance.MyExtClass = global::TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
                         else
-                            TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
+                            global::TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
                         continue;
                     // Field 13 Varint
                     case 104:
-                        instance.MyEnum = (LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.MyEnum = (global::LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                 }
 
@@ -147,10 +147,10 @@ namespace Local
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        internal static Local.LocalFeatures DeserializeLengthDelimited(Stream stream, Local.LocalFeatures instance)
+        internal static global::Local.LocalFeatures DeserializeLengthDelimited(Stream stream, global::Local.LocalFeatures instance)
         {
             var br = new BinaryReader(stream);
-            instance.MyEnum = LocalFeatureTest.TopEnum.First;
+            instance.MyEnum = global::LocalFeatureTest.TopEnum.First;
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
             while (true)
@@ -198,33 +198,33 @@ namespace Local
                         continue;
                     // Field 8 LengthDelimited
                     case 66:
-                        Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
+                        global::Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
                         continue;
                     // Field 9 LengthDelimited
                     case 74:
                         if (instance.MyInterface == null)
                             throw new InvalidOperationException("Can't deserialize into a interfaces null pointer");
                         else
-                            LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
+                            global::LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
                         continue;
                     // Field 10 LengthDelimited
                     case 82:
-                        LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
+                        global::LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
-                        TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
+                        global::TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
                         continue;
                     // Field 12 LengthDelimited
                     case 98:
                         if (instance.MyExtClass == null)
-                            instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
+                            instance.MyExtClass = global::TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
                         else
-                            TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
+                            global::TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
                         continue;
                     // Field 13 Varint
                     case 104:
-                        instance.MyEnum = (LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.MyEnum = (global::LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                 }
 
@@ -246,10 +246,10 @@ namespace Local
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        internal static Local.LocalFeatures DeserializeLength(Stream stream, int length, Local.LocalFeatures instance)
+        internal static global::Local.LocalFeatures DeserializeLength(Stream stream, int length, global::Local.LocalFeatures instance)
         {
             var br = new BinaryReader(stream);
-            instance.MyEnum = LocalFeatureTest.TopEnum.First;
+            instance.MyEnum = global::LocalFeatureTest.TopEnum.First;
             long limit = stream.Position + length;
             while (true)
             {
@@ -296,33 +296,33 @@ namespace Local
                         continue;
                     // Field 8 LengthDelimited
                     case 66:
-                        Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
+                        global::Mine.MyMessageV1.DeserializeLengthDelimited(stream, instance.TestingReadOnly);
                         continue;
                     // Field 9 LengthDelimited
                     case 74:
                         if (instance.MyInterface == null)
                             throw new InvalidOperationException("Can't deserialize into a interfaces null pointer");
                         else
-                            LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
+                            global::LocalFeatureTest.InterfaceTestSerializer.DeserializeLengthDelimited(stream, instance.MyInterface);
                         continue;
                     // Field 10 LengthDelimited
                     case 82:
-                        LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
+                        global::LocalFeatureTest.StructTest.DeserializeLengthDelimited(stream, ref instance.MyStruct);
                         continue;
                     // Field 11 LengthDelimited
                     case 90:
-                        TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
+                        global::TestB.ExternalStructSerializer.DeserializeLengthDelimited(stream, ref instance.MyExtStruct);
                         continue;
                     // Field 12 LengthDelimited
                     case 98:
                         if (instance.MyExtClass == null)
-                            instance.MyExtClass = TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
+                            instance.MyExtClass = global::TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream);
                         else
-                            TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
+                            global::TestB.ExternalClassSerializer.DeserializeLengthDelimited(stream, instance.MyExtClass);
                         continue;
                     // Field 13 Varint
                     case 104:
-                        instance.MyEnum = (LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
+                        instance.MyEnum = (global::LocalFeatureTest.TopEnum)global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt64(stream);
                         continue;
                 }
 
@@ -388,7 +388,7 @@ namespace Local
                 // Key for field: 8, LengthDelimited
                 stream.WriteByte(66);
                 ﻿msField.SetLength(0);
-                Mine.MyMessageV1.Serialize(msField, instance.TestingReadOnly);
+                global::Mine.MyMessageV1.Serialize(msField, instance.TestingReadOnly);
                 // Length delimited byte array
                 uint length8 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length8);
@@ -400,7 +400,7 @@ namespace Local
             // Key for field: 9, LengthDelimited
             stream.WriteByte(74);
             ﻿msField.SetLength(0);
-            LocalFeatureTest.InterfaceTestSerializer.Serialize(msField, instance.MyInterface);
+            global::LocalFeatureTest.InterfaceTestSerializer.Serialize(msField, instance.MyInterface);
             // Length delimited byte array
             uint length9 = (uint)msField.Length;
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length9);
@@ -409,7 +409,7 @@ namespace Local
             // Key for field: 10, LengthDelimited
             stream.WriteByte(82);
             ﻿msField.SetLength(0);
-            LocalFeatureTest.StructTest.Serialize(msField, instance.MyStruct);
+            global::LocalFeatureTest.StructTest.Serialize(msField, instance.MyStruct);
             // Length delimited byte array
             uint length10 = (uint)msField.Length;
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length10);
@@ -418,7 +418,7 @@ namespace Local
             // Key for field: 11, LengthDelimited
             stream.WriteByte(90);
             ﻿msField.SetLength(0);
-            TestB.ExternalStructSerializer.Serialize(msField, instance.MyExtStruct);
+            global::TestB.ExternalStructSerializer.Serialize(msField, instance.MyExtStruct);
             // Length delimited byte array
             uint length11 = (uint)msField.Length;
             global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length11);
@@ -429,7 +429,7 @@ namespace Local
                 // Key for field: 12, LengthDelimited
                 stream.WriteByte(98);
                 ﻿msField.SetLength(0);
-                TestB.ExternalClassSerializer.Serialize(msField, instance.MyExtClass);
+                global::TestB.ExternalClassSerializer.Serialize(msField, instance.MyExtClass);
                 // Length delimited byte array
                 uint length12 = (uint)msField.Length;
                 global::SilentOrbit.ProtocolBuffers.ProtocolParser.WriteUInt32(stream, length12);
@@ -466,7 +466,7 @@ namespace LocalFeatureTest
     public static class InterfaceTestSerializer
     {
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static LocalFeatureTest.InterfaceTest Deserialize(byte[] buffer, LocalFeatureTest.InterfaceTest instance)
+        public static global::LocalFeatureTest.InterfaceTest Deserialize(byte[] buffer, global::LocalFeatureTest.InterfaceTest instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -474,7 +474,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static LocalFeatureTest.InterfaceTest Deserialize(Stream stream, LocalFeatureTest.InterfaceTest instance)
+        public static global::LocalFeatureTest.InterfaceTest Deserialize(Stream stream, global::LocalFeatureTest.InterfaceTest instance)
         {
             while (true)
             {
@@ -498,7 +498,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static LocalFeatureTest.InterfaceTest DeserializeLengthDelimited(Stream stream, LocalFeatureTest.InterfaceTest instance)
+        public static global::LocalFeatureTest.InterfaceTest DeserializeLengthDelimited(Stream stream, global::LocalFeatureTest.InterfaceTest instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -531,7 +531,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static LocalFeatureTest.InterfaceTest DeserializeLength(Stream stream, int length, LocalFeatureTest.InterfaceTest instance)
+        public static global::LocalFeatureTest.InterfaceTest DeserializeLength(Stream stream, int length, global::LocalFeatureTest.InterfaceTest instance)
         {
             long limit = stream.Position + length;
             while (true)
@@ -623,7 +623,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static LocalFeatureTest.StructTest Deserialize(byte[] buffer, ref LocalFeatureTest.StructTest instance)
+        public static global::LocalFeatureTest.StructTest Deserialize(byte[] buffer, ref global::LocalFeatureTest.StructTest instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, ref instance);
@@ -631,7 +631,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static LocalFeatureTest.StructTest Deserialize(Stream stream, ref LocalFeatureTest.StructTest instance)
+        public static global::LocalFeatureTest.StructTest Deserialize(Stream stream, ref global::LocalFeatureTest.StructTest instance)
         {
             while (true)
             {
@@ -655,7 +655,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static LocalFeatureTest.StructTest DeserializeLengthDelimited(Stream stream, ref LocalFeatureTest.StructTest instance)
+        public static global::LocalFeatureTest.StructTest DeserializeLengthDelimited(Stream stream, ref global::LocalFeatureTest.StructTest instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -688,7 +688,7 @@ namespace LocalFeatureTest
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static LocalFeatureTest.StructTest DeserializeLength(Stream stream, int length, ref LocalFeatureTest.StructTest instance)
+        public static global::LocalFeatureTest.StructTest DeserializeLength(Stream stream, int length, ref global::LocalFeatureTest.StructTest instance)
         {
             long limit = stream.Position + length;
             while (true)
@@ -783,7 +783,7 @@ namespace TestB
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static TestB.ExternalStruct Deserialize(byte[] buffer, ref TestB.ExternalStruct instance)
+        public static global::TestB.ExternalStruct Deserialize(byte[] buffer, ref global::TestB.ExternalStruct instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, ref instance);
@@ -791,7 +791,7 @@ namespace TestB
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static TestB.ExternalStruct Deserialize(Stream stream, ref TestB.ExternalStruct instance)
+        public static global::TestB.ExternalStruct Deserialize(Stream stream, ref global::TestB.ExternalStruct instance)
         {
             var br = new BinaryReader(stream);
             while (true)
@@ -825,7 +825,7 @@ namespace TestB
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static TestB.ExternalStruct DeserializeLengthDelimited(Stream stream, ref TestB.ExternalStruct instance)
+        public static global::TestB.ExternalStruct DeserializeLengthDelimited(Stream stream, ref global::TestB.ExternalStruct instance)
         {
             var br = new BinaryReader(stream);
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
@@ -868,7 +868,7 @@ namespace TestB
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static TestB.ExternalStruct DeserializeLength(Stream stream, int length, ref TestB.ExternalStruct instance)
+        public static global::TestB.ExternalStruct DeserializeLength(Stream stream, int length, ref global::TestB.ExternalStruct instance)
         {
             var br = new BinaryReader(stream);
             long limit = stream.Position + length;
@@ -974,7 +974,7 @@ namespace TestB
         }
 
         /// <summary>Helper: put the buffer into a MemoryStream before deserializing</summary>
-        public static TestB.ExternalClass Deserialize(byte[] buffer, TestB.ExternalClass instance)
+        public static global::TestB.ExternalClass Deserialize(byte[] buffer, global::TestB.ExternalClass instance)
         {
             using (var ms = new MemoryStream(buffer))
                 Deserialize(ms, instance);
@@ -982,7 +982,7 @@ namespace TestB
         }
 
         /// <summary>Takes the remaining content of the stream and deserialze it into the instance.</summary>
-        public static TestB.ExternalClass Deserialize(Stream stream, TestB.ExternalClass instance)
+        public static global::TestB.ExternalClass Deserialize(Stream stream, global::TestB.ExternalClass instance)
         {
             while (true)
             {
@@ -1015,7 +1015,7 @@ namespace TestB
         }
 
         /// <summary>Read the VarInt length prefix and the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static TestB.ExternalClass DeserializeLengthDelimited(Stream stream, TestB.ExternalClass instance)
+        public static global::TestB.ExternalClass DeserializeLengthDelimited(Stream stream, global::TestB.ExternalClass instance)
         {
             long limit = global::SilentOrbit.ProtocolBuffers.ProtocolParser.ReadUInt32(stream);
             limit += stream.Position;
@@ -1057,7 +1057,7 @@ namespace TestB
         }
 
         /// <summary>Read the given number of bytes from the stream and deserialze it into the instance.</summary>
-        public static TestB.ExternalClass DeserializeLength(Stream stream, int length, TestB.ExternalClass instance)
+        public static global::TestB.ExternalClass DeserializeLength(Stream stream, int length, global::TestB.ExternalClass instance)
         {
             long limit = stream.Position + length;
             while (true)
