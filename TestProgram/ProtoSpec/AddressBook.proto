@@ -1,7 +1,4 @@
 
-//This one should not be imported when AddressBook.proto itself is being imported.
-import "AddressBook.bad-duplicate.proto";
-
 package Personal;
 
 message Person {

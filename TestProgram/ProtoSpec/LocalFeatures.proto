@@ -28,34 +28,38 @@ message local_features
     required int64 Uptime = 1;
     
     //Make class field of type DateTime, serialized to Ticks
-    //:codetype = DateTime
+    //:codetype = DateTimeUTC
     required int64 DueDate = 2;
+    
+    //Make class field of type DateTime, serialized to Ticks
+    //:codetype = DateTimeLocal
+    required int64 DueDateLocal = 3;
     
     //Do not generate class field, must be implemented in other partial class
     //:external
-    required double Amount = 3;
+    required double Amount = 4;
     
     //Custom field access types. Default: public
     //:access = private //public, internal, protected or private
-    optional string Denial = 4;
+    optional string Denial = 5;
     //:access = protected   //public, internal, protected or private
-    optional string Secret = 5;
+    optional string Secret = 6;
     //:access = internal    //public, internal, protected or private
-    optional string Internal = 6;
+    optional string Internal = 7;
     
-    optional string PR = 7;
+    optional string PR = 8;
     
     //Generate a c# readonly field
     //:readonly
-    optional proto.test.my_message_v1 testing_read_only = 8;
+    optional proto.test.my_message_v1 testing_read_only = 9;
     
     //When deserializing this one must be set to a class before
-    required interface_test MyInterface = 9;
-    optional struct_test MyStruct = 10;
-    optional external_struct MyExtStruct = 11;
-    optional external_class MyExtClass = 12;
+    required interface_test MyInterface = 10;
+    optional struct_test MyStruct = 11;
+    optional external_struct MyExtStruct = 12;
+    optional external_class MyExtClass = 13;
     
-    optional top_enum MyEnum = 13;
+    optional top_enum MyEnum = 14;
 }
 
 //Testing local struct serialization

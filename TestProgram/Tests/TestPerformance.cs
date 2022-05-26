@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using Personal;
 using System.Collections.Generic;
 using System.IO;
 using SilentOrbit.ProtocolBuffers;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Test
 {
@@ -53,52 +54,58 @@ namespace Test
             Console.Write("Generating data structures...");
             Generate(ref ab, ref nab);
             Console.WriteLine("done");
+            Console.WriteLine("");
 
-            Console.WriteLine("Starting speed tests...");
+            Console.WriteLine("Starting speed tests of "+ ab.List.Count + " posts...");
 
-            RunTestSerialize(new AllocationStack(), ab);
-            RunTestSerialize(new ThreadSafeStack(), ab);
-            RunTestSerialize(new ThreadUnsafeStack(), ab);
-            RunTestSerialize(new ConcurrentBagStack(), ab);
+            Stopwatch sw;
 
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize
-                Console.Write("Speed test ConcurrentBagStack: Serialize " + ab.List.Count + " posts in   ");
+                Console.Write("SilentOrbit.ProtocolBuffers:     Serialize   in ");
                 GCWait();
-                var start = DateTime.Now;
+                sw = Stopwatch.StartNew();
+                
                 AddressBook.Serialize(ms, ab);
-                var serialize = DateTime.Now - start;
-                Console.WriteLine(serialize.TotalSeconds + " s");
+                
+                sw.Stop();
+                Console.WriteLine(sw.Elapsed.TotalSeconds + " s");
 
+                Console.Write("SilentOrbit.ProtocolBufferstest: Deserialize in ");
                 //Deserialize
-                Console.Write("Speed test: Deserialize " + ab.List.Count + " posts in ");
                 ms.Seek(0, SeekOrigin.Begin);
                 GCWait();
-                start = DateTime.Now;
+                sw = Stopwatch.StartNew();
+                
                 AddressBook.Deserialize(new PositionStream(ms));
-                TimeSpan deserialize = DateTime.Now - start;
-                Console.WriteLine(deserialize.TotalSeconds + " s");
+
+                sw.Stop();
+                Console.WriteLine(sw.Elapsed.TotalSeconds + " s");
             }
 
             using (MemoryStream ms = new MemoryStream())
             {
                 //Serialize 
-                Console.Write("Protobuf-net: Serialize " + nab.List.Count + " posts in   ");
+                Console.Write("Protobuf-net:                    Serialize   in ");
                 GCWait();
-                DateTime start = DateTime.Now;
+                sw = Stopwatch.StartNew();
+                
                 ProtoBuf.Serializer.Serialize(ms, nab);
-                TimeSpan serialize = DateTime.Now - start;
-                Console.WriteLine(serialize.TotalSeconds + " s");
+                
+                sw.Stop();
+                Console.WriteLine(sw.Elapsed.TotalSeconds + " s");
 
                 //Deserialize
-                Console.Write("Protobuf-net: Deserialize " + nab.List.Count + " posts in ");
+                Console.Write("Protobuf-net:                    Deserialize in ");
                 ms.Seek(0, SeekOrigin.Begin);
                 GCWait();
-                start = DateTime.Now;
+                sw = Stopwatch.StartNew();
+
                 ProtoBuf.Serializer.Deserialize<NetAddressBook>(ms);
-                TimeSpan deserialize = DateTime.Now - start;
-                Console.WriteLine(deserialize.TotalSeconds + " s");
+
+                sw.Stop();
+                Console.WriteLine(sw.Elapsed.TotalSeconds + " s");
             }
         }
 
@@ -108,25 +115,6 @@ namespace Test
             Thread.Sleep(500);
         }
 
-        static void RunTestSerialize(MemoryStreamStack stack, AddressBook ab)
-        {
-            ProtocolParser.Stack.Dispose();
-            ProtocolParser.Stack = stack;
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                //Serialize
-                Console.Write("Speed test " + stack.GetType().Name + ": Serialize " + ab.List.Count + " posts in   ");
-                GCWait();
-                
-
-                var start = DateTime.Now;
-                AddressBook.Serialize(ms, ab);
-                TimeSpan serialize = DateTime.Now - start;
-
-                Console.WriteLine(serialize.TotalSeconds + " s");
-            }
-        }
     }
 }
 

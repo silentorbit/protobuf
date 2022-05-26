@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>
+      net35;net452;net48;
+      netstandard2.0;netstandard2.1;
+      net5.0;net6.0;
+    </TargetFrameworks>
+    <LangVersion>10</LangVersion>
+    <RootNamespace>SilentOrbit</RootNamespace>
+  </PropertyGroup>
+
+  <!-- NuGet -->
+  <PropertyGroup>
+    <PackageId>SilentOrbit.ProtocolBuffers.ProtocolBufferParser</PackageId>
+    <Version>0.0.1</Version>
+
+    <Authors>hultqvist</Authors>
+    <Company>SilentOrbit</Company>
+    <Title>SilentDisk - Strongly typed file paths</Title>
+    <PackageProjectUrl>https://www.silentorbit.com/protobuf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/silentorbit/protobuf</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Link="README.md" Pack="true" PackagePath="." />
+  </ItemGroup>
+
+</Project>
