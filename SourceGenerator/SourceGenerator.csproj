@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>SilentOrbit.ProtocolBuffers</RootNamespace>
+    <Description>Generates C# code from a .proto file</Description>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\ProtocolBufferParser\ProtocolBuffers\Wire.cs" Link="Proto\Wire.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
+  </ItemGroup>
+
+  <!-- NuGet -->
+  <PropertyGroup>
+    <PackageId>SilentOrbit.ProtocolBuffers.SourceGenerator</PackageId>
+    <Version>0.0.1</Version>
+
+    <Authors>hultqvist</Authors>
+    <Company>SilentOrbit</Company>
+    <Title>SourceGenerator - Generates Source code for de/serializing Protocol Buffer messages.</Title>
+    <PackageProjectUrl>https://www.silentorbit.com/protobuf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/silentorbit/protobuf</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Link="README.md" Pack="true" PackagePath="." />
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+</Project>

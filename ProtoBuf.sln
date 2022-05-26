@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolBufferParser", "ProtocolBufferParser\ProtocolBufferParser.csproj", "{669CC08D-F9A5-4596-BCF8-1C3A7AC48EA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProgram", "TestProgram\TestProgram.csproj", "{3FF5D12F-E7A1-4ED2-87A3-534EF2ECC875}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalLibrary", "ExternalLibrary\ExternalLibrary.csproj", "{4F9BC54B-D2B5-42FC-9624-108D34ECF2E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{5829BEE6-C645-49A9-BEDF-A977CA568869}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerator", "SourceGenerator\SourceGenerator.csproj", "{2EDB5FB9-D980-46EA-B7F2-B3FC3C76D3DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D4604BB-DC75-4193-B3FF-FE6C2EF0AFA8}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8F41D96E-6B14-4DF7-A74B-B9EBBBBCD8D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{669CC08D-F9A5-4596-BCF8-1C3A7AC48EA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669CC08D-F9A5-4596-BCF8-1C3A7AC48EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669CC08D-F9A5-4596-BCF8-1C3A7AC48EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669CC08D-F9A5-4596-BCF8-1C3A7AC48EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF5D12F-E7A1-4ED2-87A3-534EF2ECC875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF5D12F-E7A1-4ED2-87A3-534EF2ECC875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF5D12F-E7A1-4ED2-87A3-534EF2ECC875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF5D12F-E7A1-4ED2-87A3-534EF2ECC875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9BC54B-D2B5-42FC-9624-108D34ECF2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9BC54B-D2B5-42FC-9624-108D34ECF2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9BC54B-D2B5-42FC-9624-108D34ECF2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9BC54B-D2B5-42FC-9624-108D34ECF2E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5829BEE6-C645-49A9-BEDF-A977CA568869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5829BEE6-C645-49A9-BEDF-A977CA568869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5829BEE6-C645-49A9-BEDF-A977CA568869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5829BEE6-C645-49A9-BEDF-A977CA568869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EDB5FB9-D980-46EA-B7F2-B3FC3C76D3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EDB5FB9-D980-46EA-B7F2-B3FC3C76D3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EDB5FB9-D980-46EA-B7F2-B3FC3C76D3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EDB5FB9-D980-46EA-B7F2-B3FC3C76D3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3FF5D12F-E7A1-4ED2-87A3-534EF2ECC875} = {8F41D96E-6B14-4DF7-A74B-B9EBBBBCD8D3}
+		{4F9BC54B-D2B5-42FC-9624-108D34ECF2E6} = {8F41D96E-6B14-4DF7-A74B-B9EBBBBCD8D3}
+		{5829BEE6-C645-49A9-BEDF-A977CA568869} = {8F41D96E-6B14-4DF7-A74B-B9EBBBBCD8D3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EA1D77D-6573-4043-B406-A3ED0C482CA5}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = CodeGenerator\CodeGenerator.csproj
+		Policies = $0
+		$0.TextStylePolicy = $4
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.IndentSwitchBody = True
+		$2.AnonymousMethodBraceStyle = NextLine
+		$2.PropertyBraceStyle = NextLine
+		$2.PropertyGetBraceStyle = NextLine
+		$2.PropertySetBraceStyle = NextLine
+		$2.EventBraceStyle = NextLine
+		$2.EventAddBraceStyle = NextLine
+		$2.EventRemoveBraceStyle = NextLine
+		$2.StatementBraceStyle = NextLine
+		$2.ArrayInitializerBraceStyle = NextLine
+		$2.BeforeMethodDeclarationParentheses = False
+		$2.BeforeMethodCallParentheses = False
+		$2.BeforeConstructorDeclarationParentheses = False
+		$2.BeforeDelegateDeclarationParentheses = False
+		$2.NewParentheses = False
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$3.inheritsSet = VisualStudio
+		$3.inheritsScope = text/plain
+		$3.scope = text/plain
+		$4.inheritsSet = VisualStudio
+		$4.inheritsScope = text/plain
+		$4.scope = text/x-csrc
+	EndGlobalSection
+EndGlobal
