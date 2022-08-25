@@ -11,12 +11,13 @@ reading and writing them to the Protocol Buffers binary format.
 ## Usage
 
 Add the following to your `.csproj` file:
-
-    <ItemGroup>
-      <PackageReference Include="SilentOrbit.ProtocolBuffers.ProtocolBufferParser" Version="0.0.1" />
-      <PackageReference Include="SilentOrbit.ProtocolBuffers.SourceGenerator" Version="0.0.1" />
-      <AdditionalFiles Include="**\*.proto" />
-    </ItemGroup>
+```xml
+<ItemGroup>
+  <PackageReference Include="SilentOrbit.ProtocolBuffers.ProtocolBufferParser" Version="0.0.1" />
+  <PackageReference Include="SilentOrbit.ProtocolBuffers.SourceGenerator" Version="0.0.1" />
+  <AdditionalFiles Include="**\*.proto" />
+</ItemGroup>
+```
 
 
 ## Basic Features
@@ -55,60 +56,63 @@ Field options:
 ## Example
 
 This is a part of the Test/Example.proto:
+```proto
+package ExampleNamespace;
 
-	package ExampleNamespace;
-	
-	message Person {
-	  option namespace = "Personal";
-	  
-	  required string name = 1;
-	  required int32 id = 2;
-	  optional string email = 3;
-	
-	  enum PhoneType {
-	    MOBILE = 0;
-	    HOME = 1;
-	    WORK = 2;
-	  }
-	
-	  message PhoneNumber {
-	    required string number = 1;
-	    optional PhoneType type = 2 [default = HOME];
-	  }
-	
-	  repeated PhoneNumber phone = 4;
-	}
+message Person {
+  option namespace = "Personal";
+  
+  required string name = 1;
+  required int32 id = 2;
+  optional string email = 3;
 
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  repeated PhoneNumber phone = 4;
+}
+```
 When compiled it you will have the following class to work with.
 
-	public partial class Person
-	{
-		public enum PhoneType
-		{
-			MOBILE = 0,
-			HOME = 1,
-			WORK = 2,
-		}
-	
-		public string Name { get; set; }
-		public int Id { get; set; }
-		public string Email { get; set; }
-		public List<Personal.Person.PhoneNumber> Phone { get; set; }
-	
-	
-		public partial class PhoneNumber
-		{
-			public string Number { get; set; }
-			public Personal.Person.PhoneType Type { get; set; }
-		}
-	}
+```csharp
+public partial class Person
+{
+    public enum PhoneType
+    {
+        MOBILE = 0,
+        HOME = 1,
+        WORK = 2,
+    }
+
+    public string Name { get; set; }
+    public int Id { get; set; }
+    public string Email { get; set; }
+    public List<Personal.Person.PhoneNumber> Phone { get; set; }
+
+
+    public partial class PhoneNumber
+    {
+        public string Number { get; set; }
+        public Personal.Person.PhoneType Type { get; set; }
+    }
+}
+```
 
 Writing this to a stream:
-
-	Person person = new Person();
-	...
-	Person.Serialize(stream, person);
-
+```csharp
+Person person = new Person();
+...
+Person.Serialize(stream, person);
+```
 Reading from a stream:
-
-	Person person2 = Person.Deserialize(stream);
+```csharp
+Person person2 = Person.Deserialize(stream);
+```
